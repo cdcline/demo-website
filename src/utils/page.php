@@ -2,6 +2,8 @@
 
 namespace Utils;
 
+use Utils\Server as ServerUtils;
+
 class Page {
    private const TEMPLATE_PATH = 'src/templates';
 
@@ -10,8 +12,7 @@ class Page {
 
    public static function display(): void {
       $page = new self();
-      $page->setPageData('zoo', 'foo');
-      $page->setPageData('boo', 'bar');
+      $page->setPageData('foo', ServerUtils::onLiveSite() ? 'Live' : 'Dev');
       $page->echoHtml();
    }
 
@@ -23,9 +24,19 @@ class Page {
       $this->pageData[$index] = $value;
    }
 
+   private function getPageTitle(): string {
+      return 'Demo Page';
+   }
+
    private function echoHtml(): void {
-      $zoo = 'foo';
       require 'src/templates/page.phtml';
    }
 
+   private function getStyleSheetPath(): string {
+      return 'src/templates/css/page.css';
+   }
+
+   private function getJavascriptPath(): string {
+      return 'src/templates/js/page.js';
+   }
 }

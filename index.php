@@ -3,3 +3,4 @@
 require 'vendor/autoload.php';
 
 Utils\SiteRunner::runPage();
+die();
