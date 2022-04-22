@@ -1,7 +1,9 @@
 {
-   "require": {
-   },
    "autoload": {
-      "psr-4": {"Utils\\": "src/utils"}
-  }
+      "psr-4": {"Utils\\": "src/"}
+   },
+   "require": {
+      "google/cloud-error-reporting": "^0.19.0",
+      "php": ">=7.3"
+   }
 }

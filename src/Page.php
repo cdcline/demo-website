@@ -7,8 +7,8 @@ use Utils\Server as ServerUtils;
 class Page {
    private const TEMPLATE_PATH = 'src/templates';
 
-   private array $pageData;
-   private string $pageName;
+   private $pageData;
+   private $pageName;
 
    public static function display(): void {
       $page = new self();
@@ -20,7 +20,7 @@ class Page {
       $this->pageName = 'page.phtml';
    }
 
-   private function setPageData(string $index, mixed $value): void {
+   private function setPageData(string $index, $value): void {
       $this->pageData[$index] = $value;
    }
 

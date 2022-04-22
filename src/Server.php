@@ -4,6 +4,6 @@ namespace Utils;
 
 class Server {
    public static function onLiveSite(): bool {
-      return getenv('GOOGLE_CLOUD_PROJECT');
+      return (bool)getenv('GOOGLE_CLOUD_PROJECT');
    }
 }
