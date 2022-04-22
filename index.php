@@ -1,10 +1,5 @@
 <?php declare(strict_types=1);
 
-Index::run();
+require 'vendor/autoload.php';
 
-class Index {
-   public static function run() {
-      echo "hello world\n";
-      die();
-   }
-}
+Utils\SiteRunner::runPage();
