@@ -1,6 +1,9 @@
 {
    "autoload": {
-      "psr-4": {"Utils\\": "src/"}
+      "psr-4": {
+         "Utils\\": "src/",
+         "Pages\\": "src/Pages"
+      }
    },
    "require": {
       "google/cloud-error-reporting": "^0.19.0",

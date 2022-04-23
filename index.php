@@ -1,15 +1,19 @@
 <?php declare(strict_types=1);
 
-// 1. Autoload files so we can find the things
+// 1. Setup Autoload and define objects we'll use in the file
 require_once __DIR__ . '/vendor/autoload.php';
 
+use Google\Cloud\ErrorReporting\Bootstrap;
+use Utils\Server;
+use Utils\SiteRunner;
+
 // 2. Setup google error reporting so we can fix things
-if (Utils\Server::onLiveSite()) {
-   Google\Cloud\ErrorReporting\Bootstrap::init();
+if (Server::onLiveSite()) {
+   Bootstrap::init();
 }
 
 // 3. Figure out what page to run and do it
-Utils\SiteRunner::runPage();
+SiteRunner::runPage();
 
 // 4. Make sure we put out all the text we need want to display
 flush();

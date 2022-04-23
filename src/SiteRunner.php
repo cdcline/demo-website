@@ -2,7 +2,7 @@
 
 namespace Utils;
 
-use Utils\Page as Page;
+use Pages\AboutMePage as Page;
 
 class SiteRunner {
    public static function runPage() {
