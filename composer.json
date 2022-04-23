@@ -2,7 +2,8 @@
    "autoload": {
       "psr-4": {
          "Utils\\": "src/",
-         "Pages\\": "src/Pages"
+         "Pages\\": "src/Pages",
+         "HtmlFramework\\": "src/HtmlFramework"
       }
    },
    "require": {

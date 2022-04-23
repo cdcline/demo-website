@@ -3,6 +3,7 @@
 namespace Pages;
 
 use Pages\BasePage;
+use Utils\Server as ServerUtils;
 
 class DevPage extends BasePage {
    private const PAGE_TITLE = 'Dev Page';
@@ -14,5 +15,10 @@ class DevPage extends BasePage {
 
    protected function getPageTemplateName(): string {
       return self::PAGE_TEMPLATE;
+   }
+
+   protected function getPageHeader(): string {
+      $fName = ServerUtils::onLiveSite() ? 'Live' : 'Dev';
+      return "My {$fName} Test Site";
    }
 }

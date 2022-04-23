@@ -24,9 +24,6 @@ class SiteRunner {
             return new DevPage();
       }
       // Otherwise show our default page
-      $page = new AboutMePage();
-      // TODO: delete me - Adding this just to make sure things are assigning in the template
-      $page->setPageData('foo', ServerUtils::onLiveSite() ? 'Live' : 'Dev');
-      return $page;
+      return new AboutMePage();
    }
 }

@@ -2,27 +2,43 @@
 
 namespace Pages;
 
+use HtmlFramework\Article as HtmlArticle;
+use HtmlFramework\Body as HtmlBody;
+use HtmlFramework\Footer as HtmlFooter;
+use HtmlFramework\Head as HtmlHead;
+use HtmlFramework\Header as HtmlHeader;
+use HtmlFramework\Nav as HtmlNav;
+use HtmlFramework\Root as HtmlRoot;
+use HtmlFramework\Section as HtmlSection;
+
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
    private $pageData;
 
+   // Name of the file we'll load in the "article" section.
    abstract protected function getPageTemplateName(): string;
+   // The "Title" of the page is the meta title
    abstract protected function getPageTitle(): string;
+   // The "Page Header" is what will show up on each page
+   abstract protected function getPageHeader(): string;
 
    public function setPageData(string $index, $value): void {
       $this->pageData[$index] = $value;
    }
 
    public function printHtml(): void {
-      $templatePath = self::TEMPLATE_PATH . "/{$this->getPageTemplateName()}";
-      require $templatePath;
+      $htmlHead = new HtmlHead($this->getPageTitle());
+      $htmlHeader = new HtmlHeader($this->getPageHeader());
+      $htmlNav = new HtmlNav();
+      $htmlArticle = new HtmlArticle($this->getPageTemplatePath());
+      $htmlSection = new HtmlSection($htmlNav, $htmlArticle);
+      $htmlFooter = new HtmlFooter();
+      $htmlBody = new HtmlBody($htmlHeader, $htmlSection, $htmlFooter);
+      $htmlRoot = new HtmlRoot($htmlHead, $htmlBody);
+      $htmlRoot->printHtml();
    }
 
-   protected function getStyleSheetPath(): string {
-      return 'src/templates/css/page.css';
-   }
-
-   protected function getJavascriptPath(): string {
-      return 'src/templates/js/page.js';
+   private function getPageTemplatePath(): string {
+      return self::TEMPLATE_PATH . "/{$this->getPageTemplateName()}";
    }
 }
