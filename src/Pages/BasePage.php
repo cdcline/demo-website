@@ -2,8 +2,6 @@
 
 namespace Pages;
 
-use Utils\Server as ServerUtils;
-
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
    private $pageData;
@@ -11,11 +9,11 @@ abstract class BasePage {
    abstract protected function getPageTemplateName(): string;
    abstract protected function getPageTitle(): string;
 
-   protected function setPageData(string $index, $value): void {
+   public function setPageData(string $index, $value): void {
       $this->pageData[$index] = $value;
    }
 
-   protected function printHtml(): void {
+   public function printHtml(): void {
       $templatePath = self::TEMPLATE_PATH . "/{$this->getPageTemplateName()}";
       require $templatePath;
    }

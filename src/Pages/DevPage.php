@@ -4,9 +4,9 @@ namespace Pages;
 
 use Pages\BasePage;
 
-class AboutMePage extends BasePage {
-   private const PAGE_TITLE = 'Demo Page';
-   private const PAGE_TEMPLATE = 'page.phtml';
+class DevPage extends BasePage {
+   private const PAGE_TITLE = 'Dev Page';
+   private const PAGE_TEMPLATE = 'dev.phtml';
 
    protected function getPageTitle(): string {
       return self::PAGE_TITLE;
