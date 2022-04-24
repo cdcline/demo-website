@@ -25,3 +25,8 @@ readiness_check:
   success_threshold: 2
   app_start_timeout_sec: 600
 # [END configuration]
+
+# [START configuration]
+beta_settings:
+  cloud_sql_instances: # this is a secret and that I'll manage manually
+# [END configuration]

@@ -1,3 +1,18 @@
 <h1>Hello World</h1>
 
-<?php echo $this->getPageData('test') ?>
+<?= $this->getPageData('test') ?>
+
+<table>
+   <tr>
+      <th>Slug</th>
+      <th>Page Title</th>
+      <th>Page Header</th>
+   </tr>
+   <?php foreach($this->getPageData('pageInfo') as $pageIndexRow) : ?>
+      <tr>
+         <td><?= $pageIndexRow['slug'] ?></td>
+         <td><?= $pageIndexRow['page_title'] ?></td>
+         <td><?= $pageIndexRow['page_header'] ?></td>
+      </tr>
+   <?php endforeach ?>
+</table>

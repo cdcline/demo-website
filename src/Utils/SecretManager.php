@@ -38,9 +38,14 @@ class SecretManager {
    private const TEST_SECRET_ID = 'my-test-scret-2';
    private const LATEST_VERSION = 'latest';
 
+   private const DB_CONN_SECRET_ID = 'demo-site-alpha-db-conn';
+   private const DB_NAME_SECRET_ID = 'demo-site-alpha-db-name';
+   private const DB_USER_SECRET_ID = 'demo-site-alpha-db-user';
+   private const DB_PASS_SECRET_ID = 'demo-site-alpha-db-pass';
+
    private $client;
 
-   public static function spoilSecrets(): string {
+   public static function spoilSecret(): string {
       $payload = 'dev-site';
       if (ServerUtils::onLiveSite()) {
          $sManager = new self();
@@ -49,7 +54,21 @@ class SecretManager {
       return $payload;
    }
 
-   public function __construct() {
+   public static function fetchDBConnectionInfo(): array {
+      if (!ServerUtils::onLiveSite()) {
+         return [];
+      }
+
+      $sManager = new self();
+      return [
+         'dbConn' => $sManager->fetchSecretData(self::DB_CONN_SECRET_ID),
+         'dbName' => $sManager->fetchSecretData(self::DB_NAME_SECRET_ID),
+         'dbUser' => $sManager->fetchSecretData(self::DB_USER_SECRET_ID),
+         'dbPass' => $sManager->fetchSecretData(self::DB_PASS_SECRET_ID),
+      ];
+   }
+
+   private function __construct() {
       $this->client = new SecretManagerServiceClient();
    }
 

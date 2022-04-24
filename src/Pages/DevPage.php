@@ -3,6 +3,7 @@
 namespace Pages;
 
 use Pages\BasePage;
+use Utils\DB;
 use Utils\Server as ServerUtils;
 use Utils\SecretManager;
 
@@ -12,11 +13,12 @@ class DevPage extends BasePage {
 
    public function doStuff(): void {
       try {
-         $secret = SecretManager::spoilSecrets();
+         $secret = SecretManager::spoilSecret();
       } catch (Exception $e) {
          $secret = $e->getMessage();
       }
       $this->setPageData('test', $secret);
+      $this->setPageData('pageInfo', DB::fetchPageIndexData());
    }
 
    protected function getPageTitle(): string {
