@@ -9,6 +9,7 @@ use Utils\Server as ServerUtils;
 class SiteRunner {
    public static function runPage() {
       $page = self::getPageFromUrl();
+      $page->doStuff();
       $page->printHtml();
    }
 

@@ -14,15 +14,15 @@ use HtmlFramework\Element as HtmlElement;
 
 class Article extends HtmlElement {
    private $articlePath;
+   private $pageData;
    private const FRAMEWORK_FILE = 'article.phtml';
 
    /**
     * @param string $articlePath - Path to the phtml file we want to print
-    *
-    * NOTE: We'll probably want the page data passed in here too but there
-    *       isn't a use for it yet with just static values
+    * @param array $pageData - Should have the data we want to display
     */
-   public function __construct(string $articlePath) {
+   public function __construct(string $articlePath, array $pageData) {
+      $this->pageData = $pageData;
       $this->articlePath = $articlePath;
    }
 
@@ -32,5 +32,9 @@ class Article extends HtmlElement {
 
    protected function getPathToArticle(): string {
       return $this->articlePath;
+   }
+
+   protected function getPageData(string $index) {
+      return isset($this->pageData[$index]) ? $this->pageData[$index] : 'fail';
    }
 }

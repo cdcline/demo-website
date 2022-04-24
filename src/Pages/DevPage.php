@@ -4,10 +4,20 @@ namespace Pages;
 
 use Pages\BasePage;
 use Utils\Server as ServerUtils;
+use Utils\SecretManager;
 
 class DevPage extends BasePage {
    private const PAGE_TITLE = 'Dev Page';
    private const PAGE_TEMPLATE = 'dev.phtml';
+
+   public function doStuff(): void {
+      try {
+         $secret = SecretManager::spoilSecrets();
+      } catch (Exception $e) {
+         $secret = $e->getMessage();
+      }
+      $this->setPageData('test', $secret);
+   }
 
    protected function getPageTitle(): string {
       return self::PAGE_TITLE;

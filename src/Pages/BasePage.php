@@ -13,7 +13,7 @@ use HtmlFramework\Section as HtmlSection;
 
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
-   private $pageData;
+   private $pageData = [];
 
    // Name of the file we'll load in the "article" section.
    abstract protected function getPageTemplateName(): string;
@@ -21,6 +21,9 @@ abstract class BasePage {
    abstract protected function getPageTitle(): string;
    // The "Page Header" is what will show up on each page
    abstract protected function getPageHeader(): string;
+
+   // Before we print the page we might want to do stuff.
+   public function doStuff(): void {}
 
    public function setPageData(string $index, $value): void {
       $this->pageData[$index] = $value;
@@ -30,7 +33,7 @@ abstract class BasePage {
       $htmlHead = new HtmlHead($this->getPageTitle());
       $htmlHeader = new HtmlHeader($this->getPageHeader());
       $htmlNav = new HtmlNav();
-      $htmlArticle = new HtmlArticle($this->getPageTemplatePath());
+      $htmlArticle = new HtmlArticle($this->getPageTemplatePath(), $this->pageData);
       $htmlSection = new HtmlSection($htmlNav, $htmlArticle);
       $htmlFooter = new HtmlFooter();
       $htmlBody = new HtmlBody($htmlHeader, $htmlSection, $htmlFooter);
