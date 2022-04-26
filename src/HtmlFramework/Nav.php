@@ -3,6 +3,7 @@
 namespace HtmlFramework;
 
 use HtmlFramework\Element as HtmlElement;
+use HtmlFramework\Packet\NavPacket;
 
 /**
  * The "nav" element has a bunch of links to urls & lives in the
@@ -12,22 +13,16 @@ class Nav extends HtmlElement {
    protected $navData;
    private const FRAMEWORK_FILE = 'nav.phtml';
 
-   public function __construct(array $pageIndexRows) {
-      $this->navData = $this->extractNavDataFromPageIndexRows($pageIndexRows);
+   public static function fromPageIndexRows(array $pageIndexRows) {
+      $navPacket = new NavPacket($pageIndexRows);
+      return new self($navPacket);
+   }
+
+   public function __construct(NavPacket $packet) {
+      $this->packet = $packet;
    }
 
    protected function getFrameworkFile(): string {
       return self::FRAMEWORK_FILE;
-   }
-
-   private function extractNavDataFromPageIndexRows(array $pageIndexRows): array {
-      $navData = [];
-      foreach ($pageIndexRows as $row) {
-         $navData[] = [
-            'url' => "/{$row['slug']}",
-            'display' => $row['nav_string']
-         ];
-      }
-      return $navData;
    }
 }

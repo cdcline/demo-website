@@ -10,6 +10,7 @@ namespace HtmlFramework;
  * output the text to display to the user.
  **/
 abstract class Element {
+   protected $packet;
    /**
     * These "framework elements" should be pretty similar but there will be a
     * lot of them so we'll stash them in this folder.

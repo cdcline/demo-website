@@ -1,8 +1,7 @@
 <nav>
    <ul>
-      <?php foreach ($this->navData as $i => $navRow) :
-         $isFunLink = $i % 3 === 0; // Highlight every 3rd link starting with the first
-         $class = $isFunLink ? 'fun' : '';
+      <?php foreach ($this->packet->getData('navIndexRows') as $i => $navRow) :
+         $class = $navRow['isFun'] ? 'fun' : '';
       ?>
          <li>
             <a class="<?= $class ?>" href="<?= $navRow['url'] ?>">
