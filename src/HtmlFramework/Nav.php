@@ -13,12 +13,12 @@ class Nav extends HtmlElement {
    protected $navData;
    private const FRAMEWORK_FILE = 'nav.phtml';
 
-   public static function fromPageIndexRows(array $pageIndexRows) {
+   public static function fromValues(array $pageIndexRows) {
       $navPacket = new NavPacket($pageIndexRows);
       return new self($navPacket);
    }
 
-   public function __construct(NavPacket $packet) {
+   private function __construct(NavPacket $packet) {
       $this->packet = $packet;
    }
 

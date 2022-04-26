@@ -35,7 +35,7 @@ abstract class BasePage {
       $htmlHead = new HtmlHead($this->getPageTitle());
       $htmlHeader = new HtmlHeader($this->getPageHeader());
       $htmlNav = HtmlNav::fromPageIndexRows($this->getPageIndexRows());
-      $htmlArticle = new HtmlArticle($this->getPageTemplatePath(), $this->pageData);
+      $htmlArticle = HtmlArticle::fromValues($this->getPageTemplatePath(), $this->pageData);
       $htmlSection = new HtmlSection($htmlNav, $htmlArticle);
       $htmlFooter = new HtmlFooter();
       $htmlBody = new HtmlBody($htmlHeader, $htmlSection, $htmlFooter);

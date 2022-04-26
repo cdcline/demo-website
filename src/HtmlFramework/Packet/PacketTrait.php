@@ -6,7 +6,7 @@ trait PacketTrait {
    private $data = [];
 
    public function getData(string $index) {
-      return $this->data[$index];
+      return isset($this->data[$index]) ? $this->data[$index] : null;
    }
 
    public function setData(string $index, $value): void {

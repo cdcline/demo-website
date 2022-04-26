@@ -1,6 +1,6 @@
 <h1>Hello World</h1>
 
-<?= $this->getPageData('test') ?>
+<?= $this->getData('test') ?>
 
 <table>
    <tr>
@@ -8,7 +8,7 @@
       <th>Page Title</th>
       <th>Page Header</th>
    </tr>
-   <?php foreach($this->getPageData('pageInfo') as $pageIndexRow) : ?>
+   <?php foreach($this->getData('pageInfo') as $pageIndexRow) : ?>
       <tr>
          <td><?= $pageIndexRow['slug'] ?></td>
          <td><?= $pageIndexRow['page_title'] ?></td>
