@@ -1,7 +1,15 @@
 <nav>
    <ul>
-      <li><a class="fun" href="#">About Me</a></li>
-      <li><a href="#">My Projects</a></li>
-      <li><a href="#">My Resume</a></li>
+      <?php foreach ($this->navData as $i => $navRow) :
+         $isFunLink = $i % 3 === 0; // Highlight every 3rd link starting with the first
+         $class = $isFunLink ? 'fun' : '';
+      ?>
+         <li>
+            <a class="<?= $class ?>" href="<?= $navRow['url'] ?>">
+               <?= $navRow['display'] ?>
+            </a>
+         </li>
+      <?php endforeach ?>
+      <li><a href="#resume">My Resume</a></li>
    </ul>
 </nav>

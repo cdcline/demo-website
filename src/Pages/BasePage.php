@@ -10,10 +10,12 @@ use HtmlFramework\Header as HtmlHeader;
 use HtmlFramework\Nav as HtmlNav;
 use HtmlFramework\Root as HtmlRoot;
 use HtmlFramework\Section as HtmlSection;
+use Utils\DB;
 
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
    private $pageData = [];
+   private $pageIndexRows;
 
    // Name of the file we'll load in the "article" section.
    abstract protected function getPageTemplateName(): string;
@@ -32,13 +34,21 @@ abstract class BasePage {
    public function printHtml(): void {
       $htmlHead = new HtmlHead($this->getPageTitle());
       $htmlHeader = new HtmlHeader($this->getPageHeader());
-      $htmlNav = new HtmlNav();
+      $htmlNav = new HtmlNav($this->getPageIndexRows());
       $htmlArticle = new HtmlArticle($this->getPageTemplatePath(), $this->pageData);
       $htmlSection = new HtmlSection($htmlNav, $htmlArticle);
       $htmlFooter = new HtmlFooter();
       $htmlBody = new HtmlBody($htmlHeader, $htmlSection, $htmlFooter);
       $htmlRoot = new HtmlRoot($htmlHead, $htmlBody);
       $htmlRoot->printHtml();
+   }
+
+   private function getPageIndexRows(): array {
+      if (isset($this->pageIndexRows)) {
+         return $this->pageIndexRows;
+      }
+
+      return $this->pageIndexRows = DB::fetchPageIndexData();
    }
 
    private function getPageTemplatePath(): string {
