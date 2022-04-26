@@ -2,6 +2,7 @@
 
 namespace Pages;
 
+use Exception;
 use Pages\BasePage;
 use Utils\DB;
 use Utils\Server as ServerUtils;

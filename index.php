@@ -3,12 +3,14 @@
 // 1. Setup Autoload and define objects we'll use in the file
 require_once __DIR__ . '/vendor/autoload.php';
 
+use Google\Cloud\Debugger\Agent;
 use Google\Cloud\ErrorReporting\Bootstrap;
 use Utils\Server;
 use Utils\SiteRunner;
 
 // 2. Setup google error reporting so we can fix things
 if (Server::onLiveSite()) {
+   $agent = new Agent(['sourceRoot' => realpath('/app')]);
    Bootstrap::init();
 }
 

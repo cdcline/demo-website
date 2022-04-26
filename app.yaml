@@ -1,8 +1,11 @@
 runtime: php
 env: flex
 
+# [START configuration]
 runtime_config:
+  enable_stackdriver_integration: true,
   document_root: .
+# [END configuration]
 
 # [START configuration]
   endpoints_api_service:
@@ -28,5 +31,5 @@ readiness_check:
 
 # [START configuration]
 beta_settings:
-  cloud_sql_instances: # this is a secret and that I'll manage manually
+  cloud_sql_instances: # https://github.com/cdcline/demo-website/issues/13
 # [END configuration]

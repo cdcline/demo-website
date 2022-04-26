@@ -10,6 +10,8 @@
       "google/cloud-error-reporting": "^0.19.0",
       "php": ">=7.3",
       "google/cloud-secret-manager": "^1.8",
-      "ext-bcmath": "*"
+      "ext-bcmath": "*",
+      "google/cloud-debugger": "^1.4",
+      "ext-stackdriver_debugger": "*"
    }
 }
