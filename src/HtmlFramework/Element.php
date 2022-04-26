@@ -40,4 +40,8 @@ abstract class Element {
    private function getFrameworkFilePath(): string {
       return self::HTML_FRAMEWORK_PATH . "/{$this->getFrameworkFile()}";
    }
+
+   protected function getPacketData(string $index) {
+      return $this->packet->getData($index);
+   }
 }

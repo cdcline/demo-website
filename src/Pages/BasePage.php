@@ -34,11 +34,11 @@ abstract class BasePage {
    public function printHtml(): void {
       $htmlHead = new HtmlHead($this->getPageTitle());
       $htmlHeader = new HtmlHeader($this->getPageHeader());
-      $htmlNav = HtmlNav::fromPageIndexRows($this->getPageIndexRows());
+      $htmlNav = HtmlNav::fromValues($this->getPageIndexRows());
       $htmlArticle = HtmlArticle::fromValues($this->getPageTemplatePath(), $this->pageData);
       $htmlSection = new HtmlSection($htmlNav, $htmlArticle);
       $htmlFooter = new HtmlFooter();
-      $htmlBody = new HtmlBody($htmlHeader, $htmlSection, $htmlFooter);
+      $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
       $htmlRoot = new HtmlRoot($htmlHead, $htmlBody);
       $htmlRoot->printHtml();
    }
