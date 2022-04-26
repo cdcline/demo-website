@@ -31,5 +31,5 @@ readiness_check:
 
 # [START configuration]
 beta_settings:
-  cloud_sql_instances: # https://github.com/cdcline/demo-website/issues/13
+  cloud_sql_instances: burnished-flare-348022:us-west1:demo-db-alpha # This will be unique to the cloud project!
 # [END configuration]
