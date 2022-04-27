@@ -72,7 +72,7 @@ abstract class BasePage {
    }
 
    private function getMainArticle(): string {
-      return '###' . rand(0, 10);
+      return $this->getRowBySlug($this->getPageSlug())['main_article'];
    }
 
    private function getPageTemplatePath(): string {
