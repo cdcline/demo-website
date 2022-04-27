@@ -7,6 +7,7 @@ use Pages\BasePage;
 use Utils\DB;
 use Utils\Server as ServerUtils;
 use Utils\SecretManager;
+use Parsedown;
 
 class DevPage extends BasePage {
    private const PAGE_SLUG = 'dev';
@@ -18,6 +19,9 @@ class DevPage extends BasePage {
       } catch (Exception $e) {
          $secret = $e->getMessage();
       }
+      $secret = "_{$secret}_";
+      $parser = new Parsedown();
+      $secret = $parser->text($secret);
       $this->setPageData('test', $secret);
       $this->setPageData('pageInfo', DB::fetchPageIndexData());
    }

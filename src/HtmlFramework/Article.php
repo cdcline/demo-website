@@ -4,6 +4,7 @@ namespace HtmlFramework;
 
 use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Packet\ArticlePacket;
+use Parsedown;
 
 /**
  * The "Article" is the section of the html that changes the most
@@ -16,8 +17,8 @@ use HtmlFramework\Packet\ArticlePacket;
 class Article extends HtmlElement {
    private const FRAMEWORK_FILE = 'article.phtml';
 
-   public static function fromValues(string $articlePath, array $pageData): self {
-      $packet = new ArticlePacket($articlePath, $pageData);
+   public static function fromValues(string $articlePath, array $pageData, string $mainArticle): self {
+      $packet = new ArticlePacket($articlePath, $pageData, $mainArticle);
       return new self($packet);
    }
 
@@ -27,6 +28,13 @@ class Article extends HtmlElement {
 
    protected function getFrameworkFile(): string {
       return self::FRAMEWORK_FILE;
+   }
+
+   protected function getParsedMainArticle(): string {
+      $parser = new Parsedown();
+      // Sanatizes the output (in theory)
+      $parser->setSafeMode(true);
+      return $parser->text($this->packet->getData('mainArticle'));
    }
 
    protected function getData(string $index) {

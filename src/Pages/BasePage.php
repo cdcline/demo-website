@@ -38,7 +38,7 @@ abstract class BasePage {
       $htmlHead = HtmlHead::fromValues($this->getPageTitle());
       $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
       $htmlNav = HtmlNav::fromValues($this->getPageIndexRows());
-      $htmlArticle = HtmlArticle::fromValues($this->getPageTemplatePath(), $this->pageData);
+      $htmlArticle = HtmlArticle::fromValues($this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
       $htmlSection = HtmlSection::fromValues($htmlNav, $htmlArticle);
       $htmlFooter = HtmlFooter::fromValues();
       $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
@@ -69,6 +69,10 @@ abstract class BasePage {
 
    private function getPageHeader(): string {
       return $this->getRowBySlug($this->getPageSlug())['page_header'];
+   }
+
+   private function getMainArticle(): string {
+      return '###' . rand(0, 10);
    }
 
    private function getPageTemplatePath(): string {
