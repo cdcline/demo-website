@@ -23,12 +23,18 @@ abstract class BasePage {
    abstract protected function getPageTitle(): string;
    // The "Page Header" is what will show up on each page
    abstract protected function getPageHeader(): string;
+   // The "Page Slug" is what we match in the url
+   abstract protected function getPageSlug(): string;
 
    // Before we print the page we might want to do stuff.
    public function doStuff(): void {}
 
    public function setPageData(string $index, $value): void {
       $this->pageData[$index] = $value;
+   }
+
+   public function matchesSlug(string $slug) {
+      return strcasecmp($this->getPageSlug(), $slug) === 0;
    }
 
    public function printHtml(): void {

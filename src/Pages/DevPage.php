@@ -9,6 +9,7 @@ use Utils\Server as ServerUtils;
 use Utils\SecretManager;
 
 class DevPage extends BasePage {
+   private const PAGE_SLUG = 'dev';
    private const PAGE_TITLE = 'Dev Page';
    private const PAGE_TEMPLATE = 'dev.phtml';
 
@@ -28,6 +29,10 @@ class DevPage extends BasePage {
 
    protected function getPageTemplateName(): string {
       return self::PAGE_TEMPLATE;
+   }
+
+   protected function getPageSlug(): string {
+      return self::PAGE_SLUG;
    }
 
    protected function getPageHeader(): string {
