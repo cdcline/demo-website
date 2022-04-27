@@ -19,7 +19,7 @@ use HtmlFramework\Section as PageSection;
 class Body extends HtmlElement {
    private const FRAMEWORK_FILE = 'body.phtml';
 
-   public static function fromValues(PageHeader $header, PageSection $section, PageFooter $footer) {
+   public static function fromValues(PageHeader $header, PageSection $section, PageFooter $footer): self {
       $packet = new BodyPacket($header, $section, $footer);
       return new self($packet);
    }

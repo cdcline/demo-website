@@ -5,6 +5,7 @@ namespace HtmlFramework;
 use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Nav as PageNav;
 use HtmlFramework\Article as PageArticle;
+use HtmlFramework\Packet\SectionPacket;
 
 /**
  * The "section" houses the nav and acticle and allows the layout
@@ -13,9 +14,13 @@ use HtmlFramework\Article as PageArticle;
 class Section extends HtmlElement {
    private const FRAMEWORK_FILE = 'section.phtml';
 
-   public function __construct(PageNav $nav, PageArticle $article) {
-      $this->nav = $nav;
-      $this->article = $article;
+   public static function fromValues(PageNav $nav, PageArticle $article): self {
+      $packet = new SectionPacket($nav, $article);
+      return new self($packet);
+   }
+
+   private function __construct(SectionPacket $packet) {
+      $this->packet = $packet;
    }
 
    protected function getFrameworkFile(): string {

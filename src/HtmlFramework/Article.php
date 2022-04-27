@@ -16,7 +16,7 @@ use HtmlFramework\Packet\ArticlePacket;
 class Article extends HtmlElement {
    private const FRAMEWORK_FILE = 'article.phtml';
 
-   public static function fromValues(string $articlePath, array $pageData) {
+   public static function fromValues(string $articlePath, array $pageData): self {
       $packet = new ArticlePacket($articlePath, $pageData);
       return new self($packet);
    }

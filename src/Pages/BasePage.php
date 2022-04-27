@@ -36,10 +36,10 @@ abstract class BasePage {
       $htmlHeader = new HtmlHeader($this->getPageHeader());
       $htmlNav = HtmlNav::fromValues($this->getPageIndexRows());
       $htmlArticle = HtmlArticle::fromValues($this->getPageTemplatePath(), $this->pageData);
-      $htmlSection = new HtmlSection($htmlNav, $htmlArticle);
+      $htmlSection = HtmlSection::fromValues($htmlNav, $htmlArticle);
       $htmlFooter = new HtmlFooter();
       $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
-      $htmlRoot = new HtmlRoot($htmlHead, $htmlBody);
+      $htmlRoot = HtmlRoot::fromValues($htmlHead, $htmlBody);
       $htmlRoot->printHtml();
    }
 
