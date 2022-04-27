@@ -11,6 +11,7 @@ use HtmlFramework\Nav as HtmlNav;
 use HtmlFramework\Root as HtmlRoot;
 use HtmlFramework\Section as HtmlSection;
 use Utils\DB;
+use Utils\StringUtils;
 
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
@@ -19,10 +20,6 @@ abstract class BasePage {
 
    // Name of the file we'll load in the "article" section.
    abstract protected function getPageTemplateName(): string;
-   // The "Title" of the page is the meta title
-   abstract protected function getPageTitle(): string;
-   // The "Page Header" is what will show up on each page
-   abstract protected function getPageHeader(): string;
    // The "Page Slug" is what we match in the url
    abstract protected function getPageSlug(): string;
 
@@ -34,7 +31,7 @@ abstract class BasePage {
    }
 
    public function matchesSlug(string $slug) {
-      return strcasecmp($this->getPageSlug(), $slug) === 0;
+      return StringUtils::iMatch($this->getPageSlug(), $slug);
    }
 
    public function printHtml(): void {
@@ -55,6 +52,23 @@ abstract class BasePage {
       }
 
       return $this->pageIndexRows = DB::fetchPageIndexData();
+   }
+
+   private function getRowBySlug(string $slug): array {
+      foreach ($this->getPageIndexRows() as $row) {
+         if (StringUtils::iMatch($row['slug'], $slug)) {
+            return $row;
+         }
+      }
+      return [];
+   }
+
+   private function getPageTitle(): string {
+      return $this->getRowBySlug($this->getPageSlug())['page_title'];
+   }
+
+   private function getPageHeader(): string {
+      return $this->getRowBySlug($this->getPageSlug())['page_header'];
    }
 
    private function getPageTemplatePath(): string {
