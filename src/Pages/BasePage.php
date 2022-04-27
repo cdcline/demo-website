@@ -32,7 +32,7 @@ abstract class BasePage {
    }
 
    public function printHtml(): void {
-      $htmlHead = new HtmlHead($this->getPageTitle());
+      $htmlHead = HtmlHead::fromValues($this->getPageTitle());
       $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
       $htmlNav = HtmlNav::fromValues($this->getPageIndexRows());
       $htmlArticle = HtmlArticle::fromValues($this->getPageTemplatePath(), $this->pageData);

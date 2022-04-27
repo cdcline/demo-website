@@ -3,6 +3,7 @@
 namespace HtmlFramework;
 
 use HtmlFramework\Element as HtmlElement;
+use HtmlFramework\Packet\HeadPacket;
 
 /**
  * The "head" element is a bit confusing because it's full of things that
@@ -13,10 +14,14 @@ use HtmlFramework\Element as HtmlElement;
 class Head extends HtmlElement {
    private $pageTitle;
    private const FRAMEWORK_FILE = 'head.phtml';
-   private const HTML_STYLE_SHEET_PATH = 'src/templates/css/page.css';
 
-   public function __construct(string $pageTitle) {
-      $this->pageTitle = $pageTitle;
+   public static function fromValues(string $pageTitle): self {
+      $packet = new HeadPacket($pageTitle);
+      return new self($packet);
+   }
+
+   private function __construct(HeadPacket $packet) {
+      $this->packet = $packet;
    }
 
    protected function getFrameworkFile(): string {
@@ -27,7 +32,4 @@ class Head extends HtmlElement {
       return $this->pageTitle;
    }
 
-   protected function getStyleSheetPath(): string {
-      return self::HTML_STYLE_SHEET_PATH;
-   }
 }
