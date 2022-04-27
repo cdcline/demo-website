@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<ruleset name="CustomConfig">
+   <description>
+      I spent too much time with 3 spaces and not about to change now
+   </description>
+
+   <arg name="tab-width" value="3"/>
+
+   <rule ref="Generic.WhiteSpace.ScopeIndent">
+      <properties>
+         <property name="indent" value="3"/>
+      </properties>
+   </rule>
+</ruleset>
