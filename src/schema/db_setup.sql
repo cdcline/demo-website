@@ -32,9 +32,10 @@ I need a space that's pretty constant and one that's _kinda_ scratch paper. This
 --
 CREATE TABLE `page_nav` (
    `navid` INT NOT NULL AUTO_INCREMENT,
-   `slug` VARCHAR(255) NOT NULL COMMENT 'string we use in the url',
+   `type` ENUM('ARTICLE_PAGE', 'CUSTOM') COMMENT 'Page will load page_index data; Custom will assume a custom link',
+   `slug` VARCHAR(255) NOT NULL COMMENT 'Either the string representing the page_index.pageid or a external full url',
    `nav_string` VARCHAR(255) NOT NULL COMMENT 'string show in the sidebar nav',
-   `pageid` INT DEFAULT NULL COMMENT 'Pageid should match in pay_index table; NULL values will use slug as a full url',
+   `pageid` INT DEFAULT NULL COMMENT 'Should match a value the in page_index table. ',
    `orderby` INT NOT NULL COMMENT 'Order entries will appear on the page',
    PRIMARY KEY(`navid`),
    UNIQUE KEY(`slug`),
@@ -42,8 +43,9 @@ CREATE TABLE `page_nav` (
 );
 --
 INSERT INTO `page_nav`
-(`slug`, `nav_string`, `pageid`, `orderby`)
+(`type`, `slug`, `nav_string`, `pageid`, `orderby`)
 VALUES
-('about-me', 'About Me', 1, 1),
-('dev', 'Dev', 2, 2);
+('ARTICLE_PAGE', 'about-me', 'About Me', 1, 1),
+('CUSTOM', 'https://github.com/cdcline/demo-website', 'Resume', NULL, 3),
+('ARTICLE_PAGE', 'dev', 'Dev', 2, 2);
 --
