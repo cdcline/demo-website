@@ -17,7 +17,8 @@ class DB {
       $sql = <<<EOT
          SELECT `pageid`, `slug`, `nav_string`, `page_title`, `page_header`, `main_article`
          FROM `page_index`
-         ORDER BY `pageid`
+         LEFT JOIN `page_nav` USING (`pageid`)
+         ORDER BY `orderby` ASC
 EOT;
       $db = new self();
       $pdoQuery = $db->query($sql);
