@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace Utils;
+namespace DB;
 
 use PDO;
 use Utils\Server as ServerUtils;
 use Utils\SecretManager;
 
-class DB {
+class PDOConnection {
    private $pdo;
 
    public static function fetchPageIndexData(): array {

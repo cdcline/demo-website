@@ -10,7 +10,7 @@ use HtmlFramework\Header as HtmlHeader;
 use HtmlFramework\Nav as HtmlNav;
 use HtmlFramework\Root as HtmlRoot;
 use HtmlFramework\Section as HtmlSection;
-use Utils\DB;
+use DB\PDOConnection;
 use Utils\StringUtils;
 
 abstract class BasePage {
@@ -51,7 +51,7 @@ abstract class BasePage {
          return $this->pageIndexRows;
       }
 
-      return $this->pageIndexRows = DB::fetchPageIndexData();
+      return $this->pageIndexRows = PDOConnection::fetchPageIndexData();
    }
 
    private function getRowBySlug(string $slug): array {
