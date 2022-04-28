@@ -2,6 +2,7 @@
 
 namespace HtmlFramework;
 
+use DB\PageNav;
 use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Packet\NavPacket;
 
@@ -13,8 +14,8 @@ class Nav extends HtmlElement {
    protected $navData;
    private const FRAMEWORK_FILE = 'nav.phtml';
 
-   public static function fromValues(array $pageIndexRows): self {
-      $navPacket = new NavPacket($pageIndexRows);
+   public static function fromValues(): self {
+      $navPacket = new NavPacket(PageNav::fetchAllRows());
       return new self($navPacket);
    }
 

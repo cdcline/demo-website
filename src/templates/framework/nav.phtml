@@ -1,6 +1,6 @@
 <nav>
    <ul>
-      <?php foreach ($this->getPacketData('navIndexRows') as $i => $navRow) :
+      <?php foreach ($this->getPacketData('navRows') as $i => $navRow) :
          $class = $navRow['isFun'] ? 'fun' : '';
       ?>
          <li>
@@ -9,6 +9,5 @@
             </a>
          </li>
       <?php endforeach ?>
-      <li><a href="#resume">My Resume</a></li>
    </ul>
 </nav>

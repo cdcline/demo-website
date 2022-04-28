@@ -7,20 +7,13 @@ use PDOStatement;
 use Utils\SecretManager;
 
 class PDOConnection {
-   private static $pdoConnection;
-   private $pdo;
    private $secretInfo;
    /**
-    * There isn't really a good reason to make a lot of PDOConnections so
-    * we'll create one & just stick it in a static cache.
-    *
-    * Not the best behavior but it does the thing.
+    * It shouldn't matter much if we make a few connections so for now we'll
+    * just make a new PDO for every query.
     */
    public static function getConnection(): PDOConnection {
-      if (isset(self::$pdoConnection)) {
-         return self::$pdoConnection;
-      }
-      return self::$pdoConnection = new PDOConnection();
+      return new self();
    }
 
    public function fetchAll(string $sqlQuery): array {
@@ -49,13 +42,13 @@ class PDOConnection {
    }
 
    private function getPDO(): PDO {
-      if (isset($this->pdo)) {
-         return $this->pdo;
-      }
-      return $this->pdo = new PDO(
+      $pdo = new PDO(
          $this->generateSocketName(),
          $this->getSecret('dbUser'),
          $this->getSecret('dbPass')
       );
+      // Throw errors instead of returning false
+      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      return $pdo;
    }
 }

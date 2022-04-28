@@ -4,13 +4,13 @@
 
 <table>
    <tr>
-      <th>Slug</th>
+      <th>Pageid</th>
       <th>Page Title</th>
       <th>Page Header</th>
    </tr>
    <?php foreach($this->getData('pageInfo') as $pageIndexRow) : ?>
       <tr>
-         <td><?= $pageIndexRow['slug'] ?></td>
+         <td><?= $pageIndexRow['pageid'] ?></td>
          <td><?= $pageIndexRow['page_title'] ?></td>
          <td><?= $pageIndexRow['page_header'] ?></td>
       </tr>

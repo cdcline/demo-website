@@ -8,26 +8,22 @@ use Utils\Server as ServerUtils;
 class PageIndex {
    public static function fetchAllRows(): array {
       if (!ServerUtils::onLiveSite()) {
-         return self::staticPageIndexData();
+         return self::staticPageIndexRows();
       }
       return self::fetchAllPageIndexRows();
    }
 
    private static function fetchAllPageIndexRows(): array {
       $sql = <<<EOT
-         SELECT `pageid`, `slug`, `nav_string`, `page_title`, `page_header`, `main_article`
+         SELECT `pageid`, `page_title`, `page_header`, `main_article`
          FROM `page_index`
-         LEFT JOIN `page_nav` USING (`pageid`)
-         ORDER BY `orderby` ASC
 EOT;
       return PDOConnection::getConnection()->fetchAll($sql);
    }
 
-   private static function staticPageIndexData(): array {
+   private static function staticPageIndexRows(): array {
       return [
          ['pageid' => 1,
-          'slug' => 'about-me',
-          'nav_string' => 'About Me',
           'page_title' => 'About Me - Website Demo',
           'page_header' => 'About Me',
           'main_article' => <<<EOT
@@ -37,8 +33,6 @@ I write code and don't have _any_ coding examples. I hope this will serve both a
 EOT
          ],
          ['pageid' => 2,
-          'slug' => 'dev',
-          'nav_string' => 'Dev',
           'page_title' => 'Dev - Website Demo',
           'page_header' => 'The Dev Environment',
           'main_article' => <<<EOT
