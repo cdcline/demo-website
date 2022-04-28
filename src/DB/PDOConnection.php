@@ -3,70 +3,59 @@
 namespace DB;
 
 use PDO;
-use Utils\Server as ServerUtils;
+use PDOStatement;
 use Utils\SecretManager;
 
 class PDOConnection {
+   private static $pdoConnection;
    private $pdo;
-
-   public static function fetchPageIndexData(): array {
-      if (!ServerUtils::onLiveSite()) {
-         return self::staticPageIndexData();
+   private $secretInfo;
+   /**
+    * There isn't really a good reason to make a lot of PDOConnections so
+    * we'll create one & just stick it in a static cache.
+    *
+    * Not the best behavior but it does the thing.
+    */
+   public static function getConnection(): PDOConnection {
+      if (isset(self::$pdoConnection)) {
+         return self::$pdoConnection;
       }
-
-      $sql = <<<EOT
-         SELECT `pageid`, `slug`, `nav_string`, `page_title`, `page_header`, `main_article`
-         FROM `page_index`
-         LEFT JOIN `page_nav` USING (`pageid`)
-         ORDER BY `orderby` ASC
-EOT;
-      $db = new self();
-      $pdoQuery = $db->query($sql);
-      return $pdoQuery->fetchAll();
+      return self::$pdoConnection = new PDOConnection();
    }
 
-   private function query(string $sqlQuery) {
-      return $this->fetchPDO()->query($sqlQuery);
+   public function fetchAll(string $sqlQuery): array {
+      return $this->query($sqlQuery)->fetchAll();
    }
 
-   private function fetchPDO(): PDO {
-      if ($this->pdo) {
+   private function query(string $sqlQuery): PDOStatement {
+      return $this->getPDO()->query($sqlQuery);
+   }
+
+   private function getSecret(string $secretName): string {
+      if (!isset($this->secretInfo)) {
+         $this->secretInfo = SecretManager::fetchDBConnectionInfo();
+      }
+      return (string)$this->secretInfo[$secretName];
+   }
+
+   /**
+    * Note: I think this can be done with runtime variables: https://github.com/cdcline/demo-website/issues/16
+    * instead of secrets
+    */
+   private function generateSocketName(): string {
+      $dbConn = $this->getSecret('dbConn');
+      $dbName = $this->getSecret('dbName');
+      return "mysql:unix_socket=/cloudsql/{$dbConn};dbname={$dbName}";
+   }
+
+   private function getPDO(): PDO {
+      if (isset($this->pdo)) {
          return $this->pdo;
       }
-
-      $dbConnInfo = SecretManager::fetchDBConnectionInfo();
-      $dbConn = $dbConnInfo['dbConn'];
-      $dbName = $dbConnInfo['dbName'];
-      $dbUser = $dbConnInfo['dbUser'];
-      $dbPass = $dbConnInfo['dbPass'];
-      $dsn = "mysql:unix_socket=/cloudsql/{$dbConn};dbname={$dbName}";
-      return $this->pdo = new PDO($dsn, $dbUser, $dbPass);
-   }
-
-   private static function staticPageIndexData(): array {
-      return [
-         ['pageid' => 1,
-          'slug' => 'about-me',
-          'nav_string' => 'About Me',
-          'page_title' => 'About Me - Website Demo',
-          'page_header' => 'About Me',
-          'main_article' => <<<EOT
-## This is the About Me Article!
-
-I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!
-EOT
-         ],
-         ['pageid' => 2,
-          'slug' => 'dev',
-          'nav_string' => 'Dev',
-          'page_title' => 'Dev - Website Demo',
-          'page_header' => 'The Dev Environment',
-          'main_article' => <<<EOT
-## This is the Dev Article!
-
-I need a space that's pretty constant and one that's _kinda_ scratch paper. This one's the scratch paper!
-EOT
-         ],
-      ];
+      return $this->pdo = new PDO(
+         $this->generateSocketName(),
+         $this->getSecret('dbUser'),
+         $this->getSecret('dbPass')
+      );
    }
 }

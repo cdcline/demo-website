@@ -4,7 +4,7 @@ namespace Pages;
 
 use Exception;
 use Pages\BasePage;
-use DB\PDOConnection;
+use DB\PageIndex;
 use Utils\Server as ServerUtils;
 use Utils\SecretManager;
 use Parsedown;
@@ -23,7 +23,7 @@ class DevPage extends BasePage {
       $parser = new Parsedown();
       $secret = $parser->text($secret);
       $this->setPageData('test', $secret);
-      $this->setPageData('pageInfo', PDOConnection::fetchPageIndexData());
+      $this->setPageData('pageInfo', PageIndex::fetchAllRows());
    }
 
    protected function getPageTemplateName(): string {
