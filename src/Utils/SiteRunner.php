@@ -13,18 +13,32 @@ class SiteRunner {
       $page->printHtml();
    }
 
-   private static function getPageFromUrl() {
+   private static function getSlugFromUrl(): string {
       // Parse it just b/c we might as well
       $urlParts = parse_url($_SERVER['REQUEST_URI']);
       $path = $urlParts['path'];
       // Lop off the leading "/" from the path
-      $urlKey = substr($path, 1);
-      // Pick out one of our few extra pages
-      switch (strtolower($urlKey)) {
-         case 'dev':
-            return new DevPage();
+      return substr($path, 1);
+   }
+
+   private static function getDefaultPage(): AboutMePage {
+      $aboutMeClass = AboutMePage::class;
+      return new $aboutMeClass;
+   }
+
+   private static function getAllButDefaultPages(): array {
+      $devPageClass = DevPage::class;
+      $devPage = new $devPageClass;
+      return [$devPage];
+   }
+
+   private static function getPageFromUrl() {
+      $slug = self::getSlugFromUrl();
+      foreach (self::getAllButDefaultPages() as $page) {
+         if ($page->matchesSlug($slug)) {
+            return $page;
+         }
       }
-      // Otherwise show our default page
-      return new AboutMePage();
+      return self::getDefaultPage();
    }
 }

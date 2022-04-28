@@ -3,6 +3,8 @@
 namespace HtmlFramework;
 
 use HtmlFramework\Element as HtmlElement;
+use HtmlFramework\Packet\ArticlePacket;
+use Parsedown;
 
 /**
  * The "Article" is the section of the html that changes the most
@@ -13,28 +15,30 @@ use HtmlFramework\Element as HtmlElement;
  */
 
 class Article extends HtmlElement {
-   private $articlePath;
-   private $pageData;
    private const FRAMEWORK_FILE = 'article.phtml';
 
-   /**
-    * @param string $articlePath - Path to the phtml file we want to print
-    * @param array $pageData - Should have the data we want to display
-    */
-   public function __construct(string $articlePath, array $pageData) {
-      $this->pageData = $pageData;
-      $this->articlePath = $articlePath;
+   public static function fromValues(string $articlePath, array $pageData, string $mainArticle): self {
+      $packet = new ArticlePacket($articlePath, $pageData, $mainArticle);
+      return new self($packet);
+   }
+
+   private function __construct(ArticlePacket $packet) {
+      $this->packet = $packet;
    }
 
    protected function getFrameworkFile(): string {
       return self::FRAMEWORK_FILE;
    }
 
-   protected function getPathToArticle(): string {
-      return $this->articlePath;
+   protected function getParsedMainArticle(): string {
+      $parser = new Parsedown();
+      // Sanatizes the output (in theory)
+      $parser->setSafeMode(true);
+      return $parser->text($this->packet->getData('mainArticle'));
    }
 
-   protected function getPageData(string $index) {
-      return isset($this->pageData[$index]) ? $this->pageData[$index] : 'fail';
+   protected function getData(string $index) {
+      $articleData = $this->packet->getData('articleData');
+      return isset($articleData[$index]) ? $articleData[$index] : null;
    }
 }

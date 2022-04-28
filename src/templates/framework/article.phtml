@@ -1,3 +1,4 @@
 <article>
-   <?php require $this->getPathToArticle(); ?>
+   <?= $this->getParsedMainArticle() ?>
+   <?php require $this->getPacketData('articlePath'); ?>
 </article>

@@ -7,9 +7,10 @@ use Pages\BasePage;
 use Utils\DB;
 use Utils\Server as ServerUtils;
 use Utils\SecretManager;
+use Parsedown;
 
 class DevPage extends BasePage {
-   private const PAGE_TITLE = 'Dev Page';
+   private const PAGE_SLUG = 'dev';
    private const PAGE_TEMPLATE = 'dev.phtml';
 
    public function doStuff(): void {
@@ -18,20 +19,18 @@ class DevPage extends BasePage {
       } catch (Exception $e) {
          $secret = $e->getMessage();
       }
+      $secret = "_{$secret}_";
+      $parser = new Parsedown();
+      $secret = $parser->text($secret);
       $this->setPageData('test', $secret);
       $this->setPageData('pageInfo', DB::fetchPageIndexData());
-   }
-
-   protected function getPageTitle(): string {
-      return self::PAGE_TITLE;
    }
 
    protected function getPageTemplateName(): string {
       return self::PAGE_TEMPLATE;
    }
 
-   protected function getPageHeader(): string {
-      $fName = ServerUtils::onLiveSite() ? 'Live' : 'Dev';
-      return "My {$fName} Test Site";
+   protected function getPageSlug(): string {
+      return self::PAGE_SLUG;
    }
 }

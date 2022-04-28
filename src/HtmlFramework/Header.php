@@ -3,6 +3,7 @@
 namespace HtmlFramework;
 
 use HtmlFramework\Element as HtmlElement;
+use HtmlFramework\Packet\HeaderPacket;
 
 /**
  * Each page has a large header with text; this is the element
@@ -14,8 +15,13 @@ class Header extends HtmlElement {
    private $headerText;
    private const FRAMEWORK_FILE = 'header.phtml';
 
-   public function __construct(string $headerText) {
-      $this->headerText = $headerText;
+   public static function fromValues(string $headerText): self {
+      $packet = new HeaderPacket($headerText);
+      return new self($packet);
+   }
+
+   private function __construct(HeaderPacket $packet) {
+      $this->packet = $packet;
    }
 
    protected function getFrameworkFile(): string {

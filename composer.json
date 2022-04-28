@@ -12,6 +12,7 @@
       "google/cloud-secret-manager": "^1.8",
       "ext-bcmath": "*",
       "google/cloud-debugger": "^1.4",
-      "ext-stackdriver_debugger": "*"
+      "ext-stackdriver_debugger": "*",
+      "erusev/parsedown": "^1.7"
    }
 }

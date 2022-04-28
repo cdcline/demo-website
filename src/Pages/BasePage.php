@@ -10,17 +10,18 @@ use HtmlFramework\Header as HtmlHeader;
 use HtmlFramework\Nav as HtmlNav;
 use HtmlFramework\Root as HtmlRoot;
 use HtmlFramework\Section as HtmlSection;
+use Utils\DB;
+use Utils\StringUtils;
 
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
    private $pageData = [];
+   private $pageIndexRows;
 
    // Name of the file we'll load in the "article" section.
    abstract protected function getPageTemplateName(): string;
-   // The "Title" of the page is the meta title
-   abstract protected function getPageTitle(): string;
-   // The "Page Header" is what will show up on each page
-   abstract protected function getPageHeader(): string;
+   // The "Page Slug" is what we match in the url
+   abstract protected function getPageSlug(): string;
 
    // Before we print the page we might want to do stuff.
    public function doStuff(): void {}
@@ -29,16 +30,49 @@ abstract class BasePage {
       $this->pageData[$index] = $value;
    }
 
+   public function matchesSlug(string $slug) {
+      return StringUtils::iMatch($this->getPageSlug(), $slug);
+   }
+
    public function printHtml(): void {
-      $htmlHead = new HtmlHead($this->getPageTitle());
-      $htmlHeader = new HtmlHeader($this->getPageHeader());
-      $htmlNav = new HtmlNav();
-      $htmlArticle = new HtmlArticle($this->getPageTemplatePath(), $this->pageData);
-      $htmlSection = new HtmlSection($htmlNav, $htmlArticle);
-      $htmlFooter = new HtmlFooter();
-      $htmlBody = new HtmlBody($htmlHeader, $htmlSection, $htmlFooter);
-      $htmlRoot = new HtmlRoot($htmlHead, $htmlBody);
+      $htmlHead = HtmlHead::fromValues($this->getPageTitle());
+      $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
+      $htmlNav = HtmlNav::fromValues($this->getPageIndexRows());
+      $htmlArticle = HtmlArticle::fromValues($this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
+      $htmlSection = HtmlSection::fromValues($htmlNav, $htmlArticle);
+      $htmlFooter = HtmlFooter::fromValues();
+      $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
+      $htmlRoot = HtmlRoot::fromValues($htmlHead, $htmlBody);
       $htmlRoot->printHtml();
+   }
+
+   private function getPageIndexRows(): array {
+      if (isset($this->pageIndexRows)) {
+         return $this->pageIndexRows;
+      }
+
+      return $this->pageIndexRows = DB::fetchPageIndexData();
+   }
+
+   private function getRowBySlug(string $slug): array {
+      foreach ($this->getPageIndexRows() as $row) {
+         if (StringUtils::iMatch($row['slug'], $slug)) {
+            return $row;
+         }
+      }
+      return [];
+   }
+
+   private function getPageTitle(): string {
+      return $this->getRowBySlug($this->getPageSlug())['page_title'];
+   }
+
+   private function getPageHeader(): string {
+      return $this->getRowBySlug($this->getPageSlug())['page_header'];
+   }
+
+   private function getMainArticle(): string {
+      return $this->getRowBySlug($this->getPageSlug())['main_article'];
    }
 
    private function getPageTemplatePath(): string {
