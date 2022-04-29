@@ -117,6 +117,8 @@ CREATE TABLE `mini_article_tag` (
    FOREIGN KEY (`tagid`) REFERENCES `tag`(`tagid`) ON DELETE CASCADE -- Mini Article Tags must be attached to a Tag. If that Tag is deleted, so are the Tags
 );
 --
+-- TRUNCATE TABLE `mini_article_tag`;
+--
 INSERT INTO `mini_article_tag`
 (`mini_articleid`, `tagid`)
 VALUES
@@ -125,16 +127,20 @@ VALUES
 (1, 6),
 (2, 1),
 (2, 2),
-(3, 3),
+(3, 1),
 (3, 2),
-(3, 6),
+(3, 3),
+(3, 4),
+(3, 5),
 (4, 3),
 (4, 4),
-(5, 1),
 (5, 2),
-(5, 3),
 (5, 4),
-(5, 5);
+(5, 6);
 --
+-- List all tags by mini article title
 -- SELECT `title`, GROUP_CONCAT(`tag`.`text`) FROM `mini_article_tag` JOIN (`tag`) USING (`tagid`) JOIN `mini_article` USING (`mini_articleid`) GROUP BY `mini_articleid`;
+--
+-- Get all data required to display the mini articles
+-- SELECT `title`, `mini_article`.`text` as `mini_article_text`, `start_date`, `end_date`, GROUP_CONCAT(`tag`.`text`) as `tags` FROM `mini_article_tag` JOIN (`tag`) USING (`tagid`) JOIN `mini_article` USING (`mini_articleid`) GROUP BY `mini_articleid`;
 --

@@ -36,6 +36,30 @@ class HtmlUtils {
       return '<br /><br />';
    }
 
+   public static function makeTableElement(array $tableData) {
+      $caption = isset($tableData['caption']) ? $tableData['caption'] : '';
+      $tableRows = $tableData['rows'];
+      $headerRows = $tableData['header'];
+
+      $generateRow = function(array $rowData, bool $isHead = false): string {
+         $tCols = [];
+         foreach ($rowData as $data) {
+            $tCols[] = $isHead ? "<th>{$data}</th>" : "<td>{$data}</td>";
+         }
+         $tRowData = implode(' ', $tCols);
+         return "<tr>{$tRowData}</tr>";
+      };
+
+      $headerRow = $generateRow($headerRows, /*isHead*/true);
+      $tRows = [$headerRow];
+      foreach($tableRows as $tableRow) {
+         $tRows[] = $generateRow($tableRow);
+      }
+      $tRowsStr = implode(' ', $tRows);
+      $captionStr = $caption ? "<caption>{$caption}</caption>" : '';
+      return "<table>{$captionStr}{$tRowsStr}</table>";
+   }
+
    // Will generate a span with the class "fun"
    public static function makeFunSpan(string $text): string {
       return self::makeSpanElement($text, 'fun');
