@@ -2,6 +2,8 @@
 
 namespace Pages;
 
+use DB\PageIndex;
+use DB\PageNav;
 use HtmlFramework\Article as HtmlArticle;
 use HtmlFramework\Body as HtmlBody;
 use HtmlFramework\Footer as HtmlFooter;
@@ -10,11 +12,11 @@ use HtmlFramework\Header as HtmlHeader;
 use HtmlFramework\Nav as HtmlNav;
 use HtmlFramework\Root as HtmlRoot;
 use HtmlFramework\Section as HtmlSection;
-use Utils\DB;
 use Utils\StringUtils;
 
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
+   private $pageid;
    private $pageData = [];
    private $pageIndexRows;
 
@@ -37,7 +39,7 @@ abstract class BasePage {
    public function printHtml(): void {
       $htmlHead = HtmlHead::fromValues($this->getPageTitle());
       $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
-      $htmlNav = HtmlNav::fromValues($this->getPageIndexRows());
+      $htmlNav = HtmlNav::fromValues();
       $htmlArticle = HtmlArticle::fromValues($this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
       $htmlSection = HtmlSection::fromValues($htmlNav, $htmlArticle);
       $htmlFooter = HtmlFooter::fromValues();
@@ -51,28 +53,44 @@ abstract class BasePage {
          return $this->pageIndexRows;
       }
 
-      return $this->pageIndexRows = DB::fetchPageIndexData();
+      return $this->pageIndexRows = PageIndex::fetchAllRows();
    }
 
-   private function getRowBySlug(string $slug): array {
+   private function getRowByPageid(int $pageid): array {
       foreach ($this->getPageIndexRows() as $row) {
-         if (StringUtils::iMatch($row['slug'], $slug)) {
+         if ($pageid == $row['pageid']) {
             return $row;
          }
       }
       return [];
    }
 
+   /**
+    * We'd like to support multiple pages: https://github.com/cdcline/demo-website/issues/32
+    * but that requires more logic to abstract "templates" from "slugs" and we're
+    * not there yet.
+    *
+    * I'd still like to start using `pageid` for all the logic ASAP so we'll
+    * stick this little hack in until pages are made with an id & type.
+    */
+   private function getPageid(): int {
+      if (isset($this->pageid)) {
+         return $this->pageid;
+      }
+
+      return $this->pageid = PageNav::getPageidFromSlug($this->getPageSlug());
+   }
+
    private function getPageTitle(): string {
-      return $this->getRowBySlug($this->getPageSlug())['page_title'];
+      return $this->getRowByPageid($this->getPageid())['page_title'];
    }
 
    private function getPageHeader(): string {
-      return $this->getRowBySlug($this->getPageSlug())['page_header'];
+      return $this->getRowByPageid($this->getPageid())['page_header'];
    }
 
    private function getMainArticle(): string {
-      return $this->getRowBySlug($this->getPageSlug())['main_article'];
+      return $this->getRowByPageid($this->getPageid())['main_article'];
    }
 
    private function getPageTemplatePath(): string {
