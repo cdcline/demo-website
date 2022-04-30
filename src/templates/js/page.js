@@ -1,9 +1,9 @@
 class MathUtils {
    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random#getting_a_random_integer_between_two_values_inclusive
    static getRandomIntInclusive(min, max) {
-      let min = Math.ceil(min);
-      let max = Math.floor(max);
-      return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+      let minInt = Math.ceil(min);
+      let maxInt = Math.floor(max);
+      return Math.floor(Math.random() * (maxInt - minInt + 1) + minInt); //The maximum is inclusive and the minimum is inclusive
    }
 
    static getRandomColor() {
@@ -24,7 +24,10 @@ class ServerUtils {
    }
 
    static addClickFunctionOnId(id, func) {
-      document.getElementById(id).addEventListener("click", func);
+      let el = document.getElementById(id);
+      if (el != null) {
+         el.addEventListener("click", func);
+      }
    }
 }
 
@@ -47,3 +50,53 @@ class FunUtils {
 }
 
 FunUtils.setupFun();
+
+class MiniArticleList {
+   static activeTag;
+
+   static setupEvents() {
+      this.addTagFilteringEvent();
+   }
+
+   static addTagFilteringEvent() {
+      let tagFilterBtns = document.querySelectorAll('#mini-article-tag-list ul li');
+
+      tagFilterBtns.forEach(btn => {
+         btn.addEventListener('click', function handleClick(event) {
+            this.filterMiniArticlesByTag(event.target);
+         }.bind(this)); // We're gonna call local logic so bind "this" up in scope
+      });
+   }
+
+   static filterMiniArticlesByTag(el) {
+      // Figure out what mini article "tag" the page is filtering on
+      let newFilterTag = el.getAttribute('data-value');
+      if (this.activeTag === newFilterTag) {
+         this.activeTag = null;
+      } else {
+         this.activeTag = newFilterTag;
+      }
+
+      // Go through all the mini articles
+      let miniArticles = document.querySelectorAll('#mini-article-entries .mini-article-container');
+      miniArticles.forEach(mArticle => {
+         // Check through all the mini article's tags
+         let tags = mArticle.getElementsByClassName('mini-article-tags');
+         let hasTag = false;
+         // See if any match the "active" tag
+         for (let i = 0; i < tags.length; i++) {
+            if (tags[i].getAttribute('data-value') === this.activeTag) {
+               hasTag = true;
+            }
+         }
+         // If there's no filter or the filter matches the mini article tag, remove "hidden" class
+         if (!this.activeTag || hasTag) {
+            mArticle.classList.remove("hidden");
+         // Otherwise it's "filtered out" and we want to add the "hidden" class
+         } else {
+            mArticle.classList.add("hidden");
+         }
+      });
+   }
+}
+MiniArticleList.setupEvents();

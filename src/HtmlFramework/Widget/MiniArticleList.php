@@ -55,7 +55,7 @@ class MiniArticleList {
     * </div>
     */
    private function getListTagsHtml(): string {
-      $tags = HtmlUtils::makeUnorderList($this->getTags());
+      $tags = HtmlUtils::makeUnorderList($this->getTags(), /*addDataMeta*/true);
       return HtmlUtils::makeDivElement($tags, ['id' => 'mini-article-tag-list']);
    }
 
@@ -101,7 +101,7 @@ class MiniArticleList {
       $tagEls = [];
       $tagSpanParams = ['class' => 'mini-article-tags'];
       foreach ($tags as $tag) {
-         $tagEls[] = HtmlUtils::makeSpanElement($tag, $tagSpanParams);
+         $tagEls[] = HtmlUtils::makeSpanElement($tag, array_merge($tagSpanParams, ['data-value' => $tag]));
       }
       $tagHtml = implode(' ', $tagEls);
       $tagDivParams = ['class' => 'mini-article-tag-container'];

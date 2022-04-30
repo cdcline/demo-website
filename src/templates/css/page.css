@@ -95,6 +95,10 @@ footer {
 /**
  * Mini Article CSS
  */
+ #mini-article-list .hidden {
+    display: none;
+ }
+
  #mini-article-tag-list ul li, .mini-article-tags {
    border: 2px solid rgb(238, 142, 16);
    border-radius: 10%;

@@ -48,10 +48,15 @@ class HtmlUtils {
       return "{$startTag}{$text}{$endTag}";
    }
 
-   public static function makeUnorderList(array $listValues) {
+   // This is pretty specifically for the MiniArticle Tag List
+   public static function makeUnorderList(array $listValues, $addDataMeta = false) {
       $listElements = [];
       foreach($listValues as $lValue) {
-         $listElements[] = "<li>{$lValue}</li>";
+         $elPartStr;
+         if ($addDataMeta) {
+            $elPartStr = self::generateElementPartStr(['data-value' => $lValue]);
+         }
+         $listElements[] = "<li {$elPartStr}>{$lValue}</li>";
       }
       $lElStr = implode(' ', $listElements);
       return "<ul>{$lElStr}</ul>";
