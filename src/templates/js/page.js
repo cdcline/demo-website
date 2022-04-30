@@ -16,6 +16,25 @@ class MathUtils {
       let b = this.getRandomColor();
       return "rgb(" + r + "," + g + "," + b + ")";
    }
+
+   // SO to the rescue: https://stackoverflow.com/a/2450976
+   static shuffleArray(array) {
+      let currentIndex = array.length,  randomIndex;
+
+      // While there remain elements to shuffle.
+      while (currentIndex != 0) {
+
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex], array[currentIndex]];
+      }
+
+      return array;
+   }
 }
 
 class ServerUtils {
@@ -88,25 +107,117 @@ class AnimateUtils {
    }
 }
 
+/**
+ * It's fun to make the site interative and we can do that with JS.
+ *
+ * This is a bunch of functions that let us access random elements and change
+ * their color at different intervals.
+ */
 class FunUtils {
-   static makeFunColors() {
-      let collection = document.getElementsByClassName("fun");
-      for (let i = 0; i < collection.length; i++) {
-         collection[i].style.color = MathUtils.getRandomRGB();
+   // Number to increment to increase color change frequency
+   static funMeter = 0;
+   // Number to check against to "hide" secret
+   static funLimit = 3;
+   // We could stack loops on top but it looks better to stop one interval before you start another
+   static funLoop;
+
+   // We'd like to use some js array logic so we'll convert from HTML Collection to an array
+   static getFunArray() {
+      let funArray = [];
+      let funCollection = document.getElementsByClassName("fun");
+      for (let i = 0; i < funCollection.length; i++) {
+         funArray.push(funCollection[i]);
+      }
+      return funArray;
+   }
+
+   // Go through each "fun" element and set a random color on it
+   static randomColorFun() {
+      let funArray = this.getFunArray();
+      // If we don't shuffle, the order is the same. The rainbow effect is ok but better if randomized.
+      funArray = MathUtils.shuffleArray(funArray);
+      funArray.forEach(function(el) {
+         el.style.color = MathUtils.getRandomRGB();
+      });
+   }
+
+   // Makes all the text elements on the page change to different colors
+   // Gives a rainbow shimmery look
+   // The higher the speed, the faster all the elements will shift colors again
+   static funBoom(speed) {
+      // Select all the things that contain text
+      document.querySelectorAll("div, p, span, li, h1, h2, h3, h4, h5, h6, a, td, th, caption, code").forEach(function(el) {
+         el.classList.add("fun");
+      });
+      // Validate speed is sane
+      if (speed < 1) {
+         speed = 1;
+      }
+      // Go faster with more speed. This could be smarter but it works fine.
+      let intervalMS = 424 / speed;
+      // Clear any existing interval. Looks better when there's one loop at a consistant interval
+      if (this.funLoop) {
+         clearInterval(this.funLoop);
+      }
+      this.funLoop = setInterval(this.randomColorFun.bind(this), intervalMS);
+   }
+
+   static addFun() {
+      // If we reached our limit, start the fun boom
+      if (++this.funMeter >= this.funLimit) {
+         // Each new call will increase the speed by 1 after the limit is met
+         let speed = this.funMeter - this.funLimit + 1;
+         this.funBoom(speed);
+      // Otherwise we randomize the existing colors and hope they click a few more times
+      } else {
+         this.randomColorFun().bind(this);
       }
    }
 
    static setupFun() {
       // Change colors before we've loaded resources
-      this.makeFunColors()
-      // Change colors after we've loaded resources
-      ServerUtils.addOnLoadFunction(this.makeFunColors);
-      // Change colors when we click the 'fun-button'
-      ServerUtils.addClickFunctionOnId('fun-button', this.makeFunColors);
+      this.randomColorFun()
+      // Change colors after we've loaded resources. (lol js)
+      ServerUtils.addOnLoadFunction(this.randomColorFun.bind(this));
+      // Start building fun with the 'fun-button'
+      ServerUtils.addClickFunctionOnId('fun-button', this.addFun.bind(this));
    }
 }
 
-FunUtils.setupFun();
+FunUtils.setupFun(); // this is sorta hidden on purpose. 👍 for reading the source
+
+/**
+ * Always fun to have this. Thanks: https://gomakethings.com/how-to-create-a-konami-code-easter-egg-with-vanilla-js/
+ */
+class Konami {
+   static pattern = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+   static current = 0;
+   static count = 0;
+
+   static keyHandler(event) {
+      // If the key isn't in the pattern, or isn't the current key in the pattern, reset
+      if (this.pattern.indexOf(event.key) < 0 || event.key !== this.pattern[this.current]) {
+         this.current = 0;
+         return;
+      }
+
+      // Update how much of the pattern is complete
+      this.current++;
+
+      // If complete, alert and reset
+      if (this.pattern.length === this.current) {
+         this.current = 0;
+         FunUtils.funBoom(++this.count);
+      }
+   };
+
+   static setup() {
+      // Listen for keydown events
+      document.addEventListener('keydown', this.keyHandler.bind(this), false);
+   }
+}
+
+Konami.setup(); // Shhh no secrets here.
 
 class MiniArticleList {
    static activeTag;
@@ -174,4 +285,5 @@ class MiniArticleList {
       });
    }
 }
+
 MiniArticleList.setupEvents();
