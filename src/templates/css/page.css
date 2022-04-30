@@ -99,6 +99,15 @@ footer {
     display: none;
  }
 
+ /**
+  * Required for animations: https://css-tricks.com/using-css-transitions-auto-dimensions/#aa-technique-3-javascript
+  */
+ #mini-article-list .mini-article-container {
+   overflow:hidden;
+   transition:height 0.3s ease-out;
+   height:auto;
+ }
+
  #mini-article-tag-list ul li, .mini-article-tags {
    border: 2px solid rgb(238, 142, 16);
    border-radius: 10%;
@@ -112,6 +121,11 @@ footer {
  }
 
  #mini-article-tag-list ul li:hover {
-    border-color: rgba(72, 250, 1, 0.728);
+    border-color: red;
     cursor: pointer;
  }
+
+ #mini-article-tag-list ul li.active {
+   border-color: red;
+   background-color: red;
+}
