@@ -53,7 +53,7 @@ VALUES
 --
 CREATE TABLE `mini_article` (
    `mini_articleid` INT NOT NULL AUTO_INCREMENT,
-   `pageid` INT NOT NULL COMMENT 'The page the mini articles will display on',
+   `pageid` INT NOT NULL COMMENT 'The page the mini articles will display on', -- This & the PK really belongs in it's own table: https://github.com/cdcline/demo-website/issues/46
    `title` VARCHAR(255) NOT NULL COMMENT 'Text shown at the top of the mini article',
    `text` TEXT NOT NULL COMMENT 'Parsable text that will be displayed in the mini article',
    `start_date` INT DEFAULT NULL COMMENT 'Optional: Start date associated with the article',

@@ -91,3 +91,23 @@ footer {
    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
    cursor: crosshair;
  }
+
+/**
+ * Mini Article CSS
+ */
+ #mini-article-tag-list ul li, .mini-article-tags {
+   border: 2px solid rgb(238, 142, 16);
+   border-radius: 10%;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
+   width: 60px;
+   height: 25px;
+   margin-right: 5px;
+   margin-bottom: 5px;
+ }
+
+ #mini-article-tag-list ul li:hover {
+    border-color: rgba(72, 250, 1, 0.728);
+    cursor: pointer;
+ }

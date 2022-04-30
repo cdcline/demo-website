@@ -4,7 +4,8 @@ namespace HtmlFramework;
 
 use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Packet\ArticlePacket;
-use Parsedown;
+use HtmlFramework\Widget\MiniArticleList;
+use Utils\Parser;
 
 /**
  * The "Article" is the section of the html that changes the most
@@ -17,8 +18,8 @@ use Parsedown;
 class Article extends HtmlElement {
    private const FRAMEWORK_FILE = 'article.phtml';
 
-   public static function fromValues(string $articlePath, array $pageData, string $mainArticle): self {
-      $packet = new ArticlePacket($articlePath, $pageData, $mainArticle);
+   public static function fromValues(int $pageid, string $articlePath, array $pageData, string $mainArticle): self {
+      $packet = new ArticlePacket($pageid, $articlePath, $pageData, $mainArticle);
       return new self($packet);
    }
 
@@ -31,10 +32,11 @@ class Article extends HtmlElement {
    }
 
    protected function getParsedMainArticle(): string {
-      $parser = new Parsedown();
-      // Sanatizes the output (in theory)
-      $parser->setSafeMode(true);
-      return $parser->text($this->packet->getData('mainArticle'));
+      return Parser::parseText($this->packet->getData('mainArticle'));
+   }
+
+   protected function getMiniArticleList(): MiniArticleList {
+      return MiniArticleList::fromPageid($this->packet->getPageid());
    }
 
    protected function getData(string $index) {

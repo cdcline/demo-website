@@ -2,15 +2,15 @@
 
 namespace Pages;
 
-use Exception;
-use Pages\BasePage;
 use DB\MiniArticle;
 use DB\PageIndex;
+use Exception;
+use Pages\BasePage;
+use Utils\HtmlUtils;
+use Utils\Parser;
 use Utils\Server as ServerUtils;
 use Utils\SecretManager;
 use Utils\StringUtils;
-use Utils\HtmlUtils;
-use Parsedown;
 
 class DevPage extends BasePage {
    private const PAGE_SLUG = 'dev';
@@ -23,8 +23,7 @@ class DevPage extends BasePage {
    }
 
    private function testParsedown(string $rawText): string {
-      $parser = new Parsedown();
-      return $parser->line($rawText);
+      return Parser::parseLine($rawText);
    }
 
    private function getTestSecret(): string {

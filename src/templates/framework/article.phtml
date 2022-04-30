@@ -1,4 +1,5 @@
 <article>
    <?= $this->getParsedMainArticle() ?>
    <?php require $this->getPacketData('articlePath'); ?>
+   <?= $this->getMiniArticleList()->getHtml(); ?>
 </article>
