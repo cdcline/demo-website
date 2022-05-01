@@ -129,3 +129,12 @@ footer {
    border-color: red;
    background-color: red;
 }
+
+#mini-article-sort-container span.active {
+   color:purple;
+}
+
+#mini-article-sort-container span:hover {
+   cursor: pointer;
+   color: greenyellow;
+}

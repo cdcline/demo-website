@@ -123,12 +123,7 @@ class FunUtils {
 
    // We'd like to use some js array logic so we'll convert from HTML Collection to an array
    static getFunArray() {
-      let funArray = [];
-      let funCollection = document.getElementsByClassName("fun");
-      for (let i = 0; i < funCollection.length; i++) {
-         funArray.push(funCollection[i]);
-      }
-      return funArray;
+      return [...document.getElementsByClassName("fun")];
    }
 
    // Go through each "fun" element and set a random color on it
@@ -221,9 +216,12 @@ Konami.setup(); // Shhh no secrets here.
 
 class MiniArticleList {
    static activeTag;
+   static activeSort;
 
+   // Setup sorting and filtering click events
    static setupEvents() {
       this.addTagFilteringEvent();
+      this.setupSortEvent();
    }
 
    static addTagFilteringEvent() {
@@ -234,6 +232,53 @@ class MiniArticleList {
             this.filterMiniArticlesByTag(tag);
          }.bind(this)); // We're gonna call local logic so bind "this" up in scope
       });
+   }
+
+   static setupSortEvent() {
+      this.getAllSortOptions().forEach(span => {
+         span.addEventListener('click', function handleClick(event) {
+            let oSpan = event.target;
+            // Grab the sort order from the element
+            let order = oSpan.getAttribute('data-sort');
+            // Bail if we already sorted this way
+            if (order === this.activeSort) {
+               return;
+            }
+            this.activeSort = order;
+            // Note: This is a bit of a js hack to keep 1 element selected:
+            // 1. Remove all exiting "active" spans
+            this.getAllSortOptions().forEach(el => {el.classList.remove('active')});
+            // 2. Add it back to the one we care about
+            oSpan.classList.add('active');
+            this.orderArticles(order);
+         }.bind(this)); // We're gonna call local logic so bind "this" up in scope
+      });
+   }
+
+   static getAllSortOptions() {
+      return document.querySelectorAll('#mini-article-sort-container span[data-sort]');
+   }
+
+   // This is pure JS DOM magic...
+   static orderArticles(order) {
+      // Grab the container holding all the possible article entries.
+      let maEntryContainer = document.getElementById('mini-article-entries');
+      // Grab all the possible entries in that container.
+      let maArticles = maEntryContainer.getElementsByClassName('mini-article-container');
+      // Turn the htmlCollection into an Array
+      let maArray = [...maArticles];
+      maArray.sort(function(entryA, entryB) {
+         // Brittle but we have a specific html structure so we know this is the DOM path to data-start-date
+         let dateA = entryA.getElementsByClassName('ma-start-date')[0].getAttribute('data-start-date');
+         let dateB = entryB.getElementsByClassName('ma-start-date')[0].getAttribute('data-start-date');
+         // We can do an int sort b/c start-date is a timestamp
+         if (order === 'asc') {
+            return dateA - dateB;
+         }
+         return dateB - dateA;
+      });
+      // Now that the articles have been re-ordered, go through them all & stick them back in the container
+      maArray.forEach(el => {maEntryContainer.appendChild(el);});
    }
 
    static getAllTagBtns() {

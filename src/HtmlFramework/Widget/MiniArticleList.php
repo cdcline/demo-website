@@ -23,6 +23,10 @@ class MiniArticleList {
     *       <span>Tag 1</span>
     *       <span>Tag 2</span>
     *    </div>
+    *    <div> -- div with sort orders
+    *       <span>sortOrderA</span>
+    *       <span>sortOrderB</span>
+    *    </div>
     *    <div>
     *       <Mini Article Div> -- All the article mini info
     *    </div>
@@ -32,7 +36,7 @@ class MiniArticleList {
       if (!$this->showMiniArticleRows()) {
          return '';
       }
-      $maEls = [$this->getListHeaderHtml(), $this->getListTagsHtml(), $this->getMiniArticleHtml()];
+      $maEls = [$this->getListHeaderHtml(), $this->getListTagsHtml(), $this->getSortHtml(), $this->getMiniArticleHtml()];
       return HtmlUtils::makeDivElement(implode(' ', $maEls), ['id' => 'mini-article-list']);
    }
 
@@ -106,6 +110,20 @@ class MiniArticleList {
       $tagHtml = implode(' ', $tagEls);
       $tagDivParams = ['class' => 'mini-article-tag-container'];
       return HtmlUtils::makeDivElement($tagHtml, $tagDivParams);
+   }
+
+   /**
+    * Should generate somthing like:
+    * <div>
+    *    <span>Most Recent</span>|<span>Chronologically</span>
+    * </div>
+    */
+   private function getSortHtml() {
+      $mostRecentSpan = HtmlUtils::makeSpanElement('Most Recent', ['data-sort' => 'desc']);
+      $leastRecentSpan = HtmlUtils::makeSpanElement('Chronologically', ['data-sort' => 'asc']);
+      $sortHtml = implode(' | ', [$mostRecentSpan, $leastRecentSpan]);
+      $sortDivParams = ['id' => 'mini-article-sort-container'];
+      return HtmlUtils::makeDivElement($sortHtml, $sortDivParams);
    }
 
    /**
