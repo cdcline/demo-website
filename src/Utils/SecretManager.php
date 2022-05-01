@@ -31,7 +31,7 @@ use Google\Cloud\SecretManager\V1\Replication\Automatic;
 use Google\Cloud\SecretManager\V1\Secret;
 use Google\Cloud\SecretManager\V1\SecretManagerServiceClient;
 use Google\Cloud\SecretManager\V1\SecretPayload;
-use Utils\Server as ServerUtils;
+use Utils\ServerUtils;
 
 class SecretManager {
    private const PROJECT_ID = 'burnished-flare-348022';
@@ -47,7 +47,7 @@ class SecretManager {
 
    public static function spoilSecret(): string {
       $payload = 'dev-site';
-      if (ServerUtils::onLiveSite()) {
+      if (ServerUtils::shouldUseGoogleSecrets()) {
          $sManager = new self();
          $payload = $sManager->fetchSecretData(self::TEST_SECRET_ID);
       }
@@ -55,7 +55,7 @@ class SecretManager {
    }
 
    public static function fetchDBConnectionInfo(): array {
-      if (!ServerUtils::onLiveSite()) {
+      if (!ServerUtils::shouldUseGoogleSecrets()) {
          return [];
       }
 

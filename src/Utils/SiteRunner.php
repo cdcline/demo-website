@@ -4,7 +4,7 @@ namespace Utils;
 
 use Pages\AboutMePage as AboutMePage;
 use Pages\DevPage as DevPage;
-use Utils\Server as ServerUtils;
+use Utils\ServerUtils;
 
 class SiteRunner {
    public static function runPage() {

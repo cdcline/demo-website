@@ -3,7 +3,7 @@
 namespace DB;
 
 use DB\PDOConnection;
-use Utils\Server as ServerUtils;
+use Utils\ServerUtils;
 
 class MiniArticle {
    private const GROUP_CONCAT_INDEX = 'tags';
@@ -11,7 +11,7 @@ class MiniArticle {
 
    public static function fetchAll($breakUpGroupConcat = true): array {
       $rows = self::getStaticMiniArticleRows();
-      if (ServerUtils::onLiveSite()) {
+      if (ServerUtils::useBackendDB()) {
          $rows = self::fetchAllMiniArticleInfo();
       }
       return $breakUpGroupConcat ?

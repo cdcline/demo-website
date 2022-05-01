@@ -8,7 +8,7 @@ use Exception;
 use Pages\BasePage;
 use Utils\HtmlUtils;
 use Utils\Parser;
-use Utils\Server as ServerUtils;
+use Utils\ServerUtils;
 use Utils\SecretManager;
 use Utils\StringUtils;
 

@@ -37,7 +37,7 @@ class MathUtils {
    }
 }
 
-class ServerUtils {
+class JSServerUtils {
    static addOnLoadFunction(func) {
       window.addEventListener("load", func);
    }
@@ -173,9 +173,9 @@ class FunUtils {
       // Change colors before we've loaded resources
       this.randomColorFun()
       // Change colors after we've loaded resources. (lol js)
-      ServerUtils.addOnLoadFunction(this.randomColorFun.bind(this));
+      JSServerUtils.addOnLoadFunction(this.randomColorFun.bind(this));
       // Start building fun with the 'fun-button'
-      ServerUtils.addClickFunctionOnId('fun-button', this.addFun.bind(this));
+      JSServerUtils.addClickFunctionOnId('fun-button', this.addFun.bind(this));
    }
 }
 
