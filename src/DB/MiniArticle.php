@@ -56,35 +56,35 @@ EOT;
          ['pageid' => 2,
          'title' => 'Mini Article 1',
          'mini_article_text' => self::getStaticArticleText(1),
-         'start_date' => 1651241828,
-         'end_date' => 1651328228,
-         'tags' => 'Foo,Fizz,☃️'
+         'start_date' => 1391555735,
+         'end_date' => 1645658135,
+         'tags' => 'Foo,Buzz,☃️'
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 2',
          'mini_article_text' => self::getStaticArticleText(2),
-         'start_date' => 1651328228,
+         'start_date' => 1325546135,
          'end_date' => NULL,
          'tags' => 'Foo,Bar'
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 5',
          'mini_article_text' => self::getStaticArticleText(3),
-         'start_date' => 1682864229,
-         'end_date' => 1713968228,
+         'start_date' => 1650774278,
+         'end_date' => 1713932680,
          'tags' => 'Foo,Bar,Fizz,Buzz,🎂'
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 3',
          'mini_article_text' => self::getStaticArticleText(4),
-         'start_date' => 1651328229,
-         'end_date' => 1682864228,
+         'start_date' => 409674412,
+         'end_date' => 447179274,
          'tags' => 'Fizz,Buzz'
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 4',
          'mini_article_text' => self::getStaticArticleText(5),
-         'start_date' => 1682864228,
+         'start_date' => 930049271,
          'end_date' => NULL,
          'tags' => 'Fizz,Bar,☃️'
          ],
@@ -104,7 +104,7 @@ Felis donec et odio pellentesque diam volutpat commodo sed. Habitasse platea dic
 EOT;
          case 3: return <<<EOT
 ##### This is **the** mini _article_!
-Nisi est sit amet facilisis. Rutrum quisque non tellus orci ac. Mauris in aliquam sem fringilla ut. Venenatis lectus magna fringilla urna. Dictumst vestibulum rhoncus est pellentesque elit. Rhoncus est pellentesque elit ullamcorper dignissim cras. Eros in cursus turpis massa tincidunt dui. At augue eget arcu dictum varius duis at consectetur lorem. Dui ut ornare lectus sit amet est placerat. Semper viverra nam libero justo laoreet. At ultrices mi tempus imperdiet nulla malesuada pellentesque. Nullam non nisi est sit amet. Metus vulputate eu scelerisque felis imperdiet proin. Porttitor eget dolor morbi non arcu risus quis. Quis ipsum suspendisse ultrices gravida dictum. Tellus molestie nunc non blandit massa enim me bert hey fort ius.
+Nisi est sit amet facilisis. Rutrum quisque non tellus orci ac. Mauris in aliquam sem fringilla ut. Venenatis lectus magna fringilla urna. Dictumst vestibulum rhoncus est pellentesque elit. Rhoncus est pellentesque elit ullamcorper dignissim cras. Eros in cursus turpis massa tincidunt dui. At augue eget arcu dictum varius duis at consectetur lorem. Dui ut ornare lectus sit amet est placerat. Semper viverra nam libero justo laoreet. At ultrices mi tempus imperdiet nulla malesuada pellentesque. Nullam non nisi est sit amet. Metus vulputate eu scelerisque felis imperdiet proin. Porttitor eget dolor morbi non arcu risus quis. Quis ipsum suspendisse ultrices gravida dictum. Tellus molestie nunc ma yafort ayber die partea rox.
 EOT;
          case 4: return <<<EOT
 ##### **This** is a _mini_ article!

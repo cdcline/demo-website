@@ -190,7 +190,9 @@ class MiniArticleList {
       foreach ($this->getMiniArticleRows() as $row) {
          $tags = array_merge($tags, $row['tags']);
       }
-      return $this->tags = array_unique($tags);
+      $uTags = array_unique($tags);
+      sort($uTags, SORT_STRING);
+      return $this->tags = $uTags;
    }
 
    protected function renderWidget(): bool {
