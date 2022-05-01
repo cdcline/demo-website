@@ -264,7 +264,7 @@ class MiniArticleList {
       // Grab the container holding all the possible article entries.
       let maEntryContainer = document.getElementById('mini-article-entries');
       // Grab all the possible entries in that container.
-      let maArticles = maEntryContainer.getElementsByClassName('mini-article-container');
+      let maArticles = maEntryContainer.getElementsByClassName('ma-entry-container');
       // Turn the htmlCollection into an Array
       let maArray = [...maArticles];
       maArray.sort(function(entryA, entryB) {
@@ -282,7 +282,7 @@ class MiniArticleList {
    }
 
    static getAllTagBtns() {
-      return document.querySelectorAll('#mini-article-tag-list ul li');
+      return document.querySelectorAll('#mini-article-tag-list .ma-tag');
    }
 
    static markActiveTag(newFilterTag) {
@@ -303,10 +303,10 @@ class MiniArticleList {
    static filterMiniArticlesByTag(newFilterTag) {
       this.markActiveTag(newFilterTag);
       // Go through all the mini articles
-      let miniArticles = document.querySelectorAll('#mini-article-entries .mini-article-container');
+      let miniArticles = document.querySelectorAll('#mini-article-entries .ma-entry-container');
       miniArticles.forEach(mArticle => {
          // Check through all the mini article's tags
-         let tags = mArticle.getElementsByClassName('mini-article-tags');
+         let tags = mArticle.getElementsByClassName('ma-entry-tags');
          let hasTag = false;
          // See if any match the "active" tag
          for (let i = 0; i < tags.length; i++) {
