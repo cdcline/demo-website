@@ -48,8 +48,8 @@ class HtmlUtils {
       return "{$startTag}{$text}{$endTag}";
    }
 
-   // This is pretty specifically for the MiniArticle Tag List
-   public static function makeUnorderList(array $listValues, $addDataMeta = false) {
+   // This is unused but may be useful in the future.
+   public static function makeUnorderList(array $listValues, $addDataMeta = false): string {
       $listElements = [];
       foreach($listValues as $lValue) {
          $elPartStr;
@@ -66,7 +66,7 @@ class HtmlUtils {
       return '<br /><br />';
    }
 
-   public static function makeTableElement(array $tableData) {
+   public static function makeTableElement(array $tableData): string {
       $caption = isset($tableData['caption']) ? $tableData['caption'] : '';
       $tableRows = $tableData['rows'];
       $headerRows = $tableData['header'];
@@ -105,7 +105,7 @@ class HtmlUtils {
     *
     * <span>text1</span> <span>text2</span> <span>text3</span>
     **/
-   public static function makeFunSpanFromArray(array $textValues) {
+   public static function makeFunSpanFromArray(array $textValues): string {
       $fun = [];
       foreach ($textValues as $text) {
          $fun[] = self::makeFunSpan($text);

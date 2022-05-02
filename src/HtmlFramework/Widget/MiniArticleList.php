@@ -73,7 +73,7 @@ class MiniArticleList {
     *    <span data-sort="asc">Chronologically</span>
     * </div>
     */
-   private function getSortHtml() {
+   private function getSortHtml(): string {
       $mostRecentSpan = HtmlUtils::makeSpanElement('Most Recent', ['data-sort' => 'desc']);
       $leastRecentSpan = HtmlUtils::makeSpanElement('Chronologically', ['data-sort' => 'asc']);
       $sortHtml = implode(' | ', [$mostRecentSpan, $leastRecentSpan]);
@@ -125,7 +125,7 @@ class MiniArticleList {
     *    </span>
     * </div>
     */
-   private function makeArticleDatesDiv(int $startDate, ?int $endDate) {
+   private function makeArticleDatesDiv(int $startDate, ?int $endDate): string {
       // We want to view the dates in a reasonable format. We'll show by year
       $formatDate = function(int $timestamp): string {
          return date('m/d/y', $timestamp);
@@ -169,7 +169,7 @@ class MiniArticleList {
     *    ... - foreach tag
     * </div>
     */
-   private function makeMiniArticleTagDiv(array $tags) {
+   private function makeMiniArticleTagDiv(array $tags): string {
       $tagEls = [];
       $tagSpanParams = ['class' => 'ma-tag ma-entry-tags'];
       foreach ($tags as $tag) {
