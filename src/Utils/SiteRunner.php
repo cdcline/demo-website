@@ -2,9 +2,7 @@
 
 namespace Utils;
 
-use Pages\AboutMePage as AboutMePage;
-use Pages\DevPage as DevPage;
-use Utils\ServerUtils;
+use Pages\PageCollection;
 
 class SiteRunner {
    public static function runPage() {
@@ -21,24 +19,7 @@ class SiteRunner {
       return substr($path, 1);
    }
 
-   private static function getDefaultPage(): AboutMePage {
-      $aboutMeClass = AboutMePage::class;
-      return new $aboutMeClass;
-   }
-
-   private static function getAllButDefaultPages(): array {
-      $devPageClass = DevPage::class;
-      $devPage = new $devPageClass;
-      return [$devPage];
-   }
-
    private static function getPageFromUrl() {
-      $slug = self::getSlugFromUrl();
-      foreach (self::getAllButDefaultPages() as $page) {
-         if ($page->matchesSlug($slug)) {
-            return $page;
-         }
-      }
-      return self::getDefaultPage();
+      return PageCollection::getPageFromSlug(self::getSlugFromUrl());
    }
 }

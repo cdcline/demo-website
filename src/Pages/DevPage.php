@@ -13,7 +13,6 @@ use Utils\SecretManager;
 use Utils\StringUtils;
 
 class DevPage extends BasePage {
-   private const PAGE_SLUG = 'dev';
    private const PAGE_TEMPLATE = 'dev.phtml';
 
    public function doStuff(): void {
@@ -40,7 +39,7 @@ class DevPage extends BasePage {
       // Page Index Table
       $tPageHeader = ['Pageid', 'Page Title', 'Page Header'];
       $iPageTable = ['pageid', 'page_title', 'page_header'];
-      $tPageData = StringUtils::filterArrayByKeys(PageIndex::fetchAllRows(), $iPageTable);
+      $tPageData = StringUtils::filterArrayByKeys(PageIndex::fetchAllRowsFromStaticCache(), $iPageTable);
       return [
          'caption' => 'Page Index Rows',
          'header' => $tPageHeader,
@@ -63,7 +62,7 @@ class DevPage extends BasePage {
       return self::PAGE_TEMPLATE;
    }
 
-   protected function getPageSlug(): string {
-      return self::PAGE_SLUG;
+   protected static function getPageType(): string {
+      return PageIndex::DEV_TYPE;
    }
 }

@@ -22,18 +22,23 @@ abstract class BasePage {
 
    // Name of the file we'll load in the "article" section.
    abstract protected function getPageTemplateName(): string;
-   // The "Page Slug" is what we match in the url
-   abstract protected function getPageSlug(): string;
-
    // Before we print the page we might want to do stuff.
    public function doStuff(): void {}
+
+   public function __construct(int $pageid) {
+      $this->pageid = $pageid;
+   }
 
    public function setPageData(string $index, $value): void {
       $this->pageData[$index] = $value;
    }
 
-   public function matchesSlug(string $slug) {
-      return StringUtils::iMatch($this->getPageSlug(), $slug);
+   protected static function getPageType(): string {
+      return PageIndex::DEFAULT_TYPE;
+   }
+
+   public static function matchesType(string $type) {
+      return StringUtils::iMatch(static::getPageType(), $type);
    }
 
    public function printHtml(): void {
@@ -53,7 +58,7 @@ abstract class BasePage {
          return $this->pageIndexRows;
       }
 
-      return $this->pageIndexRows = PageIndex::fetchAllRows();
+      return $this->pageIndexRows = PageIndex::fetchAllRowsFromStaticCache();
    }
 
    private function getRowByPageid(int $pageid): array {

@@ -4,9 +4,9 @@ namespace Pages;
 
 use Exception;
 
-class InvalidPageExcaption extends Exception {
+class InvalidPageException extends Exception {
    // Doesn't really matter, just making unique & not 0
-   private EXCEPTION_CODE = 1;
+   const EXCEPTION_CODE = 1;
    private $pageid;
 
    /**
