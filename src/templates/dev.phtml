@@ -1,18 +1,6 @@
-<h1>Hello World</h1>
-
-<?= $this->getData('test') ?>
-
-<table>
-   <tr>
-      <th>Pageid</th>
-      <th>Page Title</th>
-      <th>Page Header</th>
-   </tr>
-   <?php foreach($this->getData('pageInfo') as $pageIndexRow) : ?>
-      <tr>
-         <td><?= $pageIndexRow['pageid'] ?></td>
-         <td><?= $pageIndexRow['page_title'] ?></td>
-         <td><?= $pageIndexRow['page_header'] ?></td>
-      </tr>
-   <?php endforeach ?>
-</table>
+<h3>Dev Logic Dump</h3>
+<h4>Hidden values & parsing</h4>
+<p>This is the secret: <?= $this->getData('testSecret') ?></p>
+<h4>Database values</h4>
+<?= $this->getData('pageTableHtml') ?><br><br>
+<?= $this->getData('maTableHtml') ?>

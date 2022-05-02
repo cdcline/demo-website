@@ -3,14 +3,14 @@
 namespace DB;
 
 use DB\PDOConnection;
-use Utils\Server as ServerUtils;
+use Utils\ServerUtils;
 
 class PageIndex {
    public static function fetchAllRows(): array {
-      if (!ServerUtils::onLiveSite()) {
-         return self::staticPageIndexRows();
+      if (ServerUtils::useBackendDB()) {
+         return self::fetchAllPageIndexRows();
       }
-      return self::fetchAllPageIndexRows();
+      return self::staticPageIndexRows();
    }
 
    private static function fetchAllPageIndexRows(): array {

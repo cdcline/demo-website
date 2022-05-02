@@ -3,7 +3,7 @@
 namespace Pages;
 
 use Pages\BasePage;
-use Utils\Server as ServerUtils;
+use Utils\ServerUtils;
 
 class AboutMePage extends BasePage {
    private const PAGE_SLUG = 'about-me';

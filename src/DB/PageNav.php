@@ -3,28 +3,34 @@
 namespace DB;
 
 use DB\PDOConnection;
-use Utils\Server as ServerUtils;
+use Utils\ServerUtils;
 use Utils\StringUtils;
 use Pages\InvalidPageException;
 
 class PageNav {
-   /**
-    * This is a poor way of caching but the data set should always be
-    * pretty small and there's a future issue to actually do caching
-    * correcty: https://github.com/cdcline/demo-website/issues/15
-    */
    private static $staticRowCache;
    public const ARTICLE_PAGE_TYPE = 'ARTICLE_PAGE';
    public const CUSTOM_TYPE = 'CUSTOM';
 
    public static function fetchAllRows(): array {
-      if (!ServerUtils::onLiveSite()) {
-         return self::staticPageNavRows();
+      if ($sCache = self::getStaticCache()) {
+         return $sCache;
       }
-      if (isset(self::$staticRowCache)) {
-         return self::$staticRowCache;
-      }
-      return self::$staticRowCache = self::fetchAllPageNavRows();
+      $rows = ServerUtils::useBackendDB() ? self::fetchAllPageNavRows() : self::staticPageNavRows();
+      return self::setStaticCache($rows);
+   }
+
+   /**
+    * This is a poor way of caching but the data set should always be
+    * pretty small and there's a future issue to actually do caching
+    * correcty: https://github.com/cdcline/demo-website/issues/15
+    */
+   private static function setStaticCache(array $rows): array {
+      return self::$staticRowCache = $rows;
+   }
+
+   private static function getStaticCache(): ?array {
+      return isset(self::$staticRowCache) ? self::$staticRowCache : null;
    }
 
    public static function getPageidFromSlug(string $slug): int {

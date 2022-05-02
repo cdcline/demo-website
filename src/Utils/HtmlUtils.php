@@ -9,36 +9,90 @@ class HtmlUtils {
    * cases.
    */
    public static function makeImageElement(string $class, string $src, int $width, int $height, string $alt, string $id = ''): string {
-      $elementParts = [
-         '<img',
-         "class=\"{$class}\"",
-         "src=\"{$src}\"",
-         "width=\"{$width}\"",
-         "height=\"{$height}\"",
-         "alt=\"{$alt}\""
+      $elPartParams = [
+         'class' => $class,
+         'src' => $src,
+         'width' => $width,
+         'height' => $height,
+         'alt' => $alt,
+         'id' => $id
       ];
-      if ($id) {
-         $elementParts[] = "id=\"$id\"";
-      }
-      $elementParts[] = ">";
-      return implode(' ', $elementParts);
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      return "<img {$elPartStr} />";
    }
 
-   public static function makeSpanElement(string $text, string $class): string {
-      return "<span class=\"{$class}\">{$text}</span>";
+   public static function makeDivElement(string $text, array $elPartParams = []): string {
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      return "<div {$elPartStr}>{$text}</div>";
+   }
+
+   public static function makeSpanElement(string $text, array $elPartParams): string {
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      return "<span {$elPartStr}>{$text}</span>";
    }
 
    public static function makeH1Element(string $text, string $class): string {
-      return "<h1 class=\"{$class}\">{$text}</h1>";
+      $elParts = ['class' => $class];
+      return self::makeHXElement(1, $text, $elParts);
+   }
+
+   public static function makeH3Element(string $text, string $class = null): string {
+      $elParts = $class ? ['class' => $class] : [];
+      return self::makeHXElement(3, $text, $elParts);
+   }
+
+   public static function makeHXElement(int $hx, string $text, array $elPartParams = []): string {
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      $startTag = "<h{$hx} {$elPartStr}>";
+      $endTag = "</h{$hx}>";
+      return "{$startTag}{$text}{$endTag}";
+   }
+
+   // This is unused but may be useful in the future.
+   public static function makeUnorderList(array $listValues, $addDataMeta = false): string {
+      $listElements = [];
+      foreach($listValues as $lValue) {
+         $elPartStr;
+         if ($addDataMeta) {
+            $elPartStr = self::generateElementPartStr(['data-value' => $lValue]);
+         }
+         $listElements[] = "<li {$elPartStr}>{$lValue}</li>";
+      }
+      $lElStr = implode(' ', $listElements);
+      return "<ul>{$lElStr}</ul>";
    }
 
    public static function makePageWhitespace(): string {
       return '<br /><br />';
    }
 
+   public static function makeTableElement(array $tableData): string {
+      $caption = isset($tableData['caption']) ? $tableData['caption'] : '';
+      $tableRows = $tableData['rows'];
+      $headerRows = $tableData['header'];
+
+      $generateRow = function(array $rowData, bool $isHead = false): string {
+         $tCols = [];
+         foreach ($rowData as $data) {
+            $tCols[] = $isHead ? "<th>{$data}</th>" : "<td>{$data}</td>";
+         }
+         $tRowData = implode(' ', $tCols);
+         return "<tr>{$tRowData}</tr>";
+      };
+
+      $headerRow = $generateRow($headerRows, /*isHead*/true);
+      $tRows = [$headerRow];
+      foreach($tableRows as $tableRow) {
+         $tRows[] = $generateRow($tableRow);
+      }
+      $tRowsStr = implode(' ', $tRows);
+      $captionStr = $caption ? "<caption>{$caption}</caption>" : '';
+      return "<table>{$captionStr}{$tRowsStr}</table>";
+   }
+
    // Will generate a span with the class "fun"
    public static function makeFunSpan(string $text): string {
-      return self::makeSpanElement($text, 'fun');
+      return self::makeSpanElement($text, ['class' => 'fun']);
    }
 
    // A random public image library
@@ -51,7 +105,7 @@ class HtmlUtils {
     *
     * <span>text1</span> <span>text2</span> <span>text3</span>
     **/
-   public static function makeFunSpanFromArray(array $textValues) {
+   public static function makeFunSpanFromArray(array $textValues): string {
       $fun = [];
       foreach ($textValues as $text) {
          $fun[] = self::makeFunSpan($text);
@@ -74,5 +128,15 @@ class HtmlUtils {
          $newText[] = $newWord;
       }
       return implode(' ', $newText);
+   }
+
+   private static function generateElementPartStr(array $elParams): string {
+      $elParts = [];
+      foreach($elParams as $name => $value) {
+         if ($value) {
+            $elParts[] = "{$name}=\"{$value}\"";
+         }
+      }
+      return implode(' ', $elParts);
    }
 }
