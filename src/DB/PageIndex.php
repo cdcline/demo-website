@@ -6,11 +6,11 @@ use DB\DBTrait;
 use Pages\InvalidPageException;
 
 class PageIndex {
+   use DBTrait;
+
    const DEFAULT_TYPE = 'default';
    const ABOUT_ME_TYPE = 'about-me';
    const DEV_TYPE = 'dev';
-
-   use DBTrait;
 
    public static function getTypeFromPageid(int $pageid): string {
       foreach (self::fetchAllRowsFromStaticCache() as $row) {

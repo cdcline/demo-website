@@ -8,6 +8,7 @@ use Pages\InvalidPageException;
 
 class PageNav {
    use DBTrait;
+
    public const ARTICLE_PAGE_TYPE = 'ARTICLE_PAGE';
    public const CUSTOM_TYPE = 'CUSTOM';
 

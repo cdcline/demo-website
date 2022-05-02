@@ -2,18 +2,16 @@
 
 namespace DB;
 
-use DB\PDOConnection;
-use Utils\ServerUtils;
+use DB\DBTrait;
 
 class MiniArticle {
+   use DBTrait;
+
    private const GROUP_CONCAT_INDEX = 'tags';
    private const GROUP_CONCAT_TOKEN = ',';
 
    public static function fetchAll($breakUpGroupConcat = true): array {
-      $rows = self::getStaticMiniArticleRows();
-      if (ServerUtils::useBackendDB()) {
-         $rows = self::fetchAllMiniArticleInfo();
-      }
+      $rows = self::fetchAllRowsFromStaticCache();
       return $breakUpGroupConcat ?
        self::breakUpGroupConcat($rows, self::GROUP_CONCAT_INDEX) :
        $rows;
@@ -21,10 +19,9 @@ class MiniArticle {
 
    // We'd rather work with arrays and might as well do it early
    // This is def a KISS implementation
-   private static function breakUpGroupConcat(array &$rows, string $index): array {
-      foreach ($rows as &$row) {
-         $groupStr = $row[$index];
-         $row[$index] = explode(self::GROUP_CONCAT_TOKEN, $groupStr);
+   private static function breakUpGroupConcat(array $rows, string $bIndex): array {
+      foreach ($rows as $rIndex => $row) {
+         $rows[$rIndex][$bIndex] = explode(self::GROUP_CONCAT_TOKEN, $row[$bIndex]);
       }
       return $rows;
    }
@@ -39,7 +36,7 @@ class MiniArticle {
     * NOTE: We'll probably update this to not grab ALL the things at some point
     * but the data set is so low it really shouldn't matter.
     */
-   private static function fetchAllMiniArticleInfo(): array {
+   private static function fetchAllRows(): array {
       $sql = <<<EOT
       SELECT `pageid`, `title`, `mini_article`.`text` as `mini_article_text`,
              `start_date`, `end_date`, GROUP_CONCAT(`tag`.`text`) as `tags`
@@ -48,10 +45,10 @@ class MiniArticle {
       JOIN `mini_article` USING (`mini_articleid`)
       GROUP BY `mini_articleid`
 EOT;
-      return PDOConnection::getConnection()->fetchAll($sql);
+      return $this->db()->fetchAll($sql);
    }
 
-   private static function getStaticMiniArticleRows(): array {
+   private static function getStaticRows(): array {
       return [
          ['pageid' => 2,
          'title' => 'Mini Article 1',
