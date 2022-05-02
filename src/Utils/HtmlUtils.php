@@ -8,22 +8,19 @@ class HtmlUtils {
    * what you can do. There are better libraries that handle much more complicated
    * cases.
    */
-   public static function makeImageElement(string $class, string $src, int $width, int $height, string $alt, string $id = ''): string {
-      $elPartParams = [
-         'class' => $class,
-         'src' => $src,
-         'width' => $width,
-         'height' => $height,
-         'alt' => $alt,
-         'id' => $id
-      ];
-      $elPartStr = self::generateElementPartStr($elPartParams);
+   public static function makeImageElement($imgAttributes): string {
+      $elPartStr = self::generateElementPartStr($imgAttributes);
       return "<img {$elPartStr} />";
    }
 
    public static function makeDivElement(string $text, array $elPartParams = []): string {
       $elPartStr = self::generateElementPartStr($elPartParams);
       return "<div {$elPartStr}>{$text}</div>";
+   }
+
+   public static function makePElement(string $text, array $elPartParams = []): string {
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      return "<p {$elPartStr}>{$text}</p>";
    }
 
    public static function makeSpanElement(string $text, array $elPartParams): string {
@@ -117,7 +114,10 @@ class HtmlUtils {
       $words = explode(' ', $text);
       $newText = [];
       $isFun = function() use ($randomizeAmount) {
-         return rand(0, $randomizeAmount) % $randomizeAmount === 0;
+         if ($randomizeAmount < 1) {
+            $randomizeAmount = 25; // arbitrary value but :shrug:
+         }
+         return rand(1, $randomizeAmount) % $randomizeAmount === 0;
       };
 
       foreach ($words as $word) {
