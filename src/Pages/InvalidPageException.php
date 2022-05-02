@@ -3,22 +3,32 @@
 namespace Pages;
 
 use Exception;
+use Utils\StringUtils;
 
 class InvalidPageException extends Exception {
    // Doesn't really matter, just making unique & not 0
    const EXCEPTION_CODE = 1;
-   private $pageid;
+   private $eString;
+   private $pageFindError;
 
    /**
-    * NOTE: This should be just the $pageid but we'll be supporting the $slug for a bit
-    * while we don't really support many pages.
+    * @param string|int $input - We can try to find a page by slug or pageid.
     */
-   public function __construct(string $pageid) {
-      $this->pageid = $pageid;
+   public static function throwPageNotFound($input): void {
+      throw new InvalidPageException((string)$input, /*pageFindError*/true);
+   }
+
+   public static function throwInvalidPageOperation(string $eString): void {
+      throw new InvalidPageException((string)$eString);
+   }
+
+   private function __construct(string $eString, bool $pageFindError = false) {
+      $this->eString = $eString ?: 'Warning: Blank input.';
+      $this->pageFindError = $pageFindError;
       parent::__construct($this->getCustomMessage(), self::EXCEPTION_CODE);
    }
 
    private function getCustomMessage(): string {
-      return "Invalid pageid: {$this->pageid}";
+      return $this->pageFindError ? "Unkown page: {$this->eString}" : $this->eString;
    }
 }

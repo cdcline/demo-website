@@ -17,7 +17,7 @@ class PageNav {
             return (int)$row['pageid'];
          }
       }
-      throw new InvalidPageException($slug);
+      InvalidPageException::throwPageNotFound($slug);
    }
 
    private static function fetchAllRows(): array {

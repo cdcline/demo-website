@@ -7,6 +7,7 @@ use DB\PageIndex;
 use Utils\StringUtils;
 use Pages\BasePage;
 use Pages\AboutMePage;
+use Pages\DefaultPage;
 use Pages\DevPage;
 
 class PageCollection {
@@ -36,6 +37,6 @@ class PageCollection {
    }
 
    private function getPageTypes(): array {
-      return [AboutMePage::class, DevPage::class];
+      return [DefaultPage::class, AboutMePage::class, DevPage::class];
    }
 }

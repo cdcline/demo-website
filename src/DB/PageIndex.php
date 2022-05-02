@@ -3,20 +3,22 @@
 namespace DB;
 
 use DB\DBTrait;
+use Pages\InvalidPageException;
 
 class PageIndex {
    const DEFAULT_TYPE = 'default';
+   const ABOUT_ME_TYPE = 'about_me';
    const DEV_TYPE = 'dev';
 
    use DBTrait;
 
-   public static function getTypeFromPageid(int $pageid): ?string {
+   public static function getTypeFromPageid(int $pageid): string {
       foreach (self::fetchAllRowsFromStaticCache() as $row) {
          if ($row['pageid'] == $pageid) {
             return $row['type'];
          }
       }
-      return null;
+      InvalidPageException::throwPageNotFound($pageid);
    }
 
    private static function fetchAllRows(): array {
@@ -32,7 +34,7 @@ EOT;
          ['pageid' => 1,
           'page_title' => 'About Me - Website Demo',
           'page_header' => 'About Me',
-          'type' => self::DEFAULT_TYPE,
+          'type' => self::ABOUT_ME_TYPE,
           'main_article' => <<<EOT
 ## This is the About Me Article!
 

@@ -13,9 +13,20 @@ use HtmlFramework\Nav as HtmlNav;
 use HtmlFramework\Root as HtmlRoot;
 use HtmlFramework\Section as HtmlSection;
 use Utils\StringUtils;
+use Pages\InvalidPageException;
 
+/**
+ * This object associates `page_index.type` with:
+ *  - Some arbitrary set of display logic: doStuff()
+ *  - Some arbitrary set of display structure: printHtml()
+ *  - Some arbitrary set of data: $pageData
+ *
+ * If you ever want one Page to do something different than another or you
+ * want all the Pages to do the thing, this is the place to start.
+ */
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
+   private $ranHTMLPrint = false;
    private $pageid;
    private $pageData = [];
    private $pageIndexRows;
@@ -30,11 +41,10 @@ abstract class BasePage {
    }
 
    public function setPageData(string $index, $value): void {
+      if ($this->ranHTMLPrint) {
+         InvalidPageException::throwInvalidPageOperation("Please don't set page data after printing it. Logic will become a crazy mess!");
+      }
       $this->pageData[$index] = $value;
-   }
-
-   protected static function getPageType(): string {
-      return PageIndex::DEFAULT_TYPE;
    }
 
    public static function matchesType(string $type) {
@@ -42,6 +52,7 @@ abstract class BasePage {
    }
 
    public function printHtml(): void {
+      $this->ranHTMLPrint = true;
       $htmlHead = HtmlHead::fromValues($this->getPageTitle());
       $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
       $htmlNav = HtmlNav::fromValues();
@@ -51,6 +62,10 @@ abstract class BasePage {
       $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
       $htmlRoot = HtmlRoot::fromValues($htmlHead, $htmlBody);
       $htmlRoot->printHtml();
+   }
+
+   protected static function getPageType(): string {
+      return PageIndex::DEFAULT_TYPE;
    }
 
    private function getPageIndexRows(): array {

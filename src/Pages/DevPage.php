@@ -12,7 +12,7 @@ use Utils\ServerUtils;
 use Utils\SecretManager;
 use Utils\StringUtils;
 
-class DevPage extends BasePage {
+final class DevPage extends BasePage {
    private const PAGE_TEMPLATE = 'dev.phtml';
 
    public function doStuff(): void {

@@ -3,11 +3,16 @@
 namespace Pages;
 
 use Pages\BasePage;
+use DB\PageIndex;
 
-class AboutMePage extends BasePage {
+final class AboutMePage extends BasePage {
    private const PAGE_TEMPLATE = 'about_me.phtml';
 
    protected function getPageTemplateName(): string {
       return self::PAGE_TEMPLATE;
+   }
+
+   protected static function getPageType(): string {
+      return PageIndex::ABOUT_ME_TYPE;
    }
 }
