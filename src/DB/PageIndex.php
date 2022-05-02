@@ -7,7 +7,7 @@ use Pages\InvalidPageException;
 
 class PageIndex {
    const DEFAULT_TYPE = 'default';
-   const ABOUT_ME_TYPE = 'about_me';
+   const ABOUT_ME_TYPE = 'about-me';
    const DEV_TYPE = 'dev';
 
    use DBTrait;

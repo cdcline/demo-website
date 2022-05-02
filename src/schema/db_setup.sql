@@ -12,6 +12,7 @@ USE `demo-db`;
 --
 CREATE TABLE `page_index` (
    `pageid` INT NOT NULL AUTO_INCREMENT COMMENT 'id used across tables',
+   `type` VARCHAR(255) COMMENT 'determines what page logic will run.' -- should probably be an enum but we'd like to keep the db modifications low
    `page_title` VARCHAR(255) NOT NULL COMMENT 'string use in the meta title field',
    `page_header` VARCHAR(255) NOT NULL COMMENT 'string the user sees in the header',
    `main_article` TEXT NOT NULL COMMENT 'parsable text rendered and displayed at the top of the page',
@@ -19,14 +20,20 @@ CREATE TABLE `page_index` (
 );
 --
 INSERT INTO `page_index`
-(`page_title`, `page_header`, `main_article`)
+(`page_title`, `type`, `page_header`, `main_article`)
 VALUES
-('About Me - Website Demo', 'About Me', "## This is the About Me Article!
+('About Me - Website Demo', 'about-me', 'About Me', "## This is the About Me Article!
 
 I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!"),
-('Dev - Website Demo', 'The Dev Environment', "## This is the Dev Article!
+('Dev - Website Demo', 'dev', 'The Dev Environment', "## This is the Dev Article!
 
-I need a space that's pretty constant and one that's _kinda_ scratch paper. This one's the scratch paper!");
+I need a space that's pretty constant and one that's _kinda_ scratch paper. This one's the scratch paper!"),
+('Test 3 - Website Demo', 'default', 'Test Page 3', '## This is **Test Page 3**
+
+Egestas sed tempus urna et pharetra pharetra massa massa ultricies. Neque sodales ut etiam sit amet nisl. Dictum sit amet justo donec enim diam vulputate. Morbi tincidunt augue interdum velit euismod in pellentesque massa placerat. Vulputate enim nulla aliquet porttitor. Aenean et tortor at risus viverra adipiscing. Pharetra sit amet aliquam id diam. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim. Adipiscing at in tellus integer feugiat. Nulla facilisi cras fermentum odio eu feugiat pretium nibh. Pharetra massa massa ultricies mi quis hendrerit dolor. Purus ut faucibus pulvinar elementum integer enim neque volutpat ac.'),
+('Test 4 - Website Demo', 'default', 'Test Page 4', '## This is _Test Page 4_
+
+Vulputate dignissim suspendisse in est. Amet risus nullam eget felis eget nunc lobortis. Pellentesque diam volutpat commodo sed egestas. Id leo in vitae turpis massa sed elementum tempus egestas. Nam libero justo laoreet sit amet cursus sit. Consectetur purus ut faucibus pulvinar. Laoreet suspendisse interdum consectetur libero id faucibus nisl. Laoreet non curabitur gravida arcu ac tortor dignissim convallis aenean. Viverra mauris in aliquam sem fringilla. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque. Ut placerat orci nulla pellentesque. Bibendum at varius vel pharetra vel turpis nunc eget lorem. Euismod quis viverra nibh cras pulvinar mattis nunc sed.');
 --
 -- DROP TABLE `page_nav`;
 --
