@@ -3,9 +3,10 @@
 namespace HtmlFramework\Widget;
 
 use DB\MiniArticle;
+use HtmlFramework\Packet\ArticlePacket;
+use HtmlFramework\Widget\WidgetTrait;
 use Utils\HtmlUtils;
 use Utils\Parser;
-use HtmlFramework\Widget\WidgetTrait;
 
 class MiniArticleList {
    use WidgetTrait;
@@ -14,8 +15,8 @@ class MiniArticleList {
    private $tags;
    private $miniArticleRows;
 
-   public static function fromPageid(int $pageid): self {
-      return new self($pageid);
+   public static function getHtmlFromArticlePacket(ArticlePacket $aPacket): string {
+      return (new self($aPacket->getPageid()))->getHtml();
    }
 
    /**

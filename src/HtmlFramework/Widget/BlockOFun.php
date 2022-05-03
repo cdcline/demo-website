@@ -3,6 +3,7 @@
 namespace HtmlFramework\Widget;
 
 use Utils\HtmlUtils;
+use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Widget\WidgetTrait;
 
 class BlockOFun {
@@ -11,6 +12,10 @@ class BlockOFun {
    const FUN_IMAGE_WIDTH = 140;
    const FUN_IMAGE_HEIGHT = 140;
    const FUN_CLASS = 'block-o-fun';
+
+   public static function getHtmlFromArticlePacket(ArticlePacket $aPacket): string {
+      return (new self())->getHtml();
+   }
 
    public function getHtml(): string {
       $funElements = [];

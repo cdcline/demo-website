@@ -5,6 +5,7 @@ namespace HtmlFramework;
 use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Widget\MiniArticleList;
+use HtmlFramework\Widget\WidgetCollection;
 use Utils\Parser;
 
 /**
@@ -18,8 +19,8 @@ use Utils\Parser;
 class Article extends HtmlElement {
    private const FRAMEWORK_FILE = 'article.phtml';
 
-   public static function fromValues(int $pageid, string $articlePath, array $pageData, string $mainArticle): self {
-      $packet = new ArticlePacket($pageid, $articlePath, $pageData, $mainArticle);
+   public static function fromValues(string $pageType, int $pageid, string $articlePath, array $pageData, string $mainArticle): self {
+      $packet = new ArticlePacket($pageType, $pageid, $articlePath, $pageData, $mainArticle);
       return new self($packet);
    }
 
@@ -35,8 +36,8 @@ class Article extends HtmlElement {
       return Parser::parseText($this->packet->getData('mainArticle'));
    }
 
-   protected function getMiniArticleList(): MiniArticleList {
-      return MiniArticleList::fromPageid($this->packet->getPageid());
+   protected function getWidgetCollectionHtml(): string {
+      return WidgetCollection::getHtml($this->packet);
    }
 
    protected function getData(string $index) {

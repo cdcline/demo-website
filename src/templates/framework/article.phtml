@@ -1,5 +1,9 @@
 <article>
+   <?php /* Note: We could play with ordering more but this basic layout should handle a lot of common configurations */ ?>
+   <!-- First we display any "parsed" `page_index.main_article` html -->
    <?= $this->getParsedMainArticle() ?>
+   <!-- Second we display any "page_index.page_type" html -->
    <?php require $this->getPacketData('articlePath'); ?>
-   <?= $this->getMiniArticleList()->getHtml(); ?>
+   <!-- Finally we display any "Widgets" we want on all the "page_index.page_type" pages -->
+   <?= $this->getWidgetCollectionHtml(); ?>
 </article>

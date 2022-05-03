@@ -5,6 +5,7 @@ namespace HtmlFramework\Packet;
 use HtmlFramework\Packet\PacketTrait;
 
 class ArticlePacket {
+   private $pageType;
    private $pageid;
    use PacketTrait;
 
@@ -13,11 +14,16 @@ class ArticlePacket {
     * @param array $pageData - Should only have the data we want to display in the article
     * @param array $mainArticle - The main text that will be parsed into html and displayed on the page
     */
-   public function __construct(int $pageid, string $articlePath, array $articleData, string $mainArticle) {
+   public function __construct(string $pageType, int $pageid, string $articlePath, array $articleData, string $mainArticle) {
+      $this->pageType = $pageType;
       $this->pageid = $pageid;
       $this->setData('articlePath', $articlePath);
       $this->setData('articleData', $articleData);
       $this->setData('mainArticle', $mainArticle);
+   }
+
+   public function getPageType(): string {
+      return $this->pageType;
    }
 
    public function getPageid(): int {

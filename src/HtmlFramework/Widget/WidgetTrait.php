@@ -2,6 +2,8 @@
 
 namespace HtmlFramework\Widget;
 
+use HtmlFramework\Packet\ArticlePacket;
+
 /**
  * This file is most here to talk about what a "Widget" is for this code base.
  *
@@ -20,6 +22,10 @@ namespace HtmlFramework\Widget;
  * that's what the `page_index.main_article` is for.
  */
 trait WidgetTrait {
+   // This adds some odd complexity but it's an interesting direction. It could
+   // be annoying to keep `getHtml` public in the future but for now it allows
+   // a lot of variation
+   abstract public static function getHtmlFromArticlePacket(ArticlePacket $aPacket): string;
    // It's gonna output some crazy html thing that the JS and CSS are tightly coupled with
    abstract public function getHtml(): string;
    // We're often gonna want skip all the render logic so we'll make a common name for it while we're here
