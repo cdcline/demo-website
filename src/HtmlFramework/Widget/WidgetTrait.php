@@ -28,6 +28,8 @@ trait WidgetTrait {
    abstract public static function getHtmlFromArticlePacket(ArticlePacket $aPacket): string;
    // It's gonna output some crazy html thing that the JS and CSS are tightly coupled with
    abstract public function getHtml(): string;
-   // We're often gonna want skip all the render logic so we'll make a common name for it while we're here
-   abstract protected function renderWidget(): bool;
+   // Sometimes we're gonna wanna skip all the render logic so we'll make a common option for that here.
+   protected function renderWidget(): bool {
+      return true;
+   };
 }

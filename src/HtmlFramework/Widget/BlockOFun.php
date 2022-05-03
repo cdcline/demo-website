@@ -6,12 +6,30 @@ use Utils\HtmlUtils;
 use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Widget\WidgetTrait;
 
+/**
+ * Your basic block'o'fun to play with
+ *
+ * Creates something like
+ * <div class="block-o-fun">
+ *    <p>
+ *       <h1 class="fun">
+ *       <img class="fun-button">
+ *       {repeat}
+ *          {$block of text with random fun}
+ *          <br><br>
+ *       {/repeat}
+ *    </p>
+ * </div>
+ */
 class BlockOFun {
    use WidgetTrait;
 
    const FUN_IMAGE_WIDTH = 140;
    const FUN_IMAGE_HEIGHT = 140;
-   const FUN_CLASS = 'block-o-fun';
+   const FUN_CLASS = 'fun';
+   const FUN_IMG_CLASS = 'fun-btn';
+   const FUN_BLOCK_CLASS = 'block-o-fun';
+   const FUN_HEADER = 'This is your basic block of Fun!';
 
    public static function getHtmlFromArticlePacket(ArticlePacket $aPacket): string {
       return (new self())->getHtml();
@@ -19,24 +37,20 @@ class BlockOFun {
 
    public function getHtml(): string {
       $funElements = [];
-      $funElements[] = HtmlUtils::makeH1Element('This is your basic block of Fun!', 'fun');
+      $funElements[] = HtmlUtils::makeH1Element(self::FUN_HEADER, self::FUN_CLASS);
       $funElements[] = $this->makeImageElement();
       for ($i = 1; $i <= 4; $i++) {
          $funElements[] = HtmlUtils::addRandomFun($this->getText($i), rand(0, 100));
          $funElements[] = HtmlUtils::makePageWhitespace();
       }
       $fpHtml = HtmlUtils::makePElement(implode(' ', $funElements));
-      return HtmlUtils::makeDivElement($fpHtml, ['class' => 'block-o-fun']);
-   }
-
-   protected function renderWidget(): bool {
-      return true;
+      return HtmlUtils::makeDivElement($fpHtml, ['class' => self::FUN_BLOCK_CLASS]);
    }
 
    private function makeImageElement(): string {
       $picsumPhoto = HtmlUtils::getPicsumPhoto(self::FUN_IMAGE_WIDTH, self::FUN_IMAGE_HEIGHT);
       $imgAttributes = [
-         'id' => 'fun-button',
+         'class' => self::FUN_IMG_CLASS,
          'src' => $picsumPhoto,
          'width' => self::FUN_IMAGE_WIDTH,
          'height' => self::FUN_IMAGE_HEIGHT,

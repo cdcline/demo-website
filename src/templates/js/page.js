@@ -48,6 +48,12 @@ class JSServerUtils {
          el.addEventListener("click", func);
       }
    }
+
+    static addClickFunctionOnClasses(className, func) {
+      [...document.getElementsByClassName(className)].forEach(function(el) {
+         el.addEventListener('click', func);
+      });
+   }
 }
 
 /**
@@ -165,7 +171,7 @@ class FunUtils {
          this.funBoom(speed);
       // Otherwise we randomize the existing colors and hope they click a few more times
       } else {
-         this.randomColorFun().bind(this);
+         this.randomColorFun();
       }
    }
 
@@ -175,7 +181,7 @@ class FunUtils {
       // Change colors after we've loaded resources. (lol js)
       JSServerUtils.addOnLoadFunction(this.randomColorFun.bind(this));
       // Start building fun with the 'fun-button'
-      JSServerUtils.addClickFunctionOnId('fun-button', this.addFun.bind(this));
+      JSServerUtils.addClickFunctionOnClasses('fun-btn', this.addFun.bind(this));
    }
 }
 
