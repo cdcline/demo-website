@@ -10,10 +10,20 @@ use Pages\AboutMePage;
 use Pages\DefaultPage;
 use Pages\DevPage;
 
+/**
+ * Basic object to setup and return a Page off of a "$slug"
+ *  - Keeps track of all "Page Types"
+ *  - Returns a Page of the correct Type for a given $pageid
+ */
 class PageCollection {
    private $pageid;
 
+   /**
+    * We call the shortened url a "slug" and here we figure out the pageid off
+    * of the slug.
+    */
    public static function getPageFromSlug(string $slug): BasePage {
+      // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
       $pageid = StringUtils::isInt($slug) ? (int)$slug : PageNav::getPageidFromSlug($slug);
       return (new self($pageid))->getPage();
    }
@@ -28,7 +38,7 @@ class PageCollection {
       return new $pClass($this->pageid);
    }
 
-   private function getClassFromPageType() {
+   private function getClassFromPageType(): string {
       foreach ($this->getPageTypes() as $pageType) {
          if ($pageType::matchesType($this->pageType)) {
             return $pageType;
