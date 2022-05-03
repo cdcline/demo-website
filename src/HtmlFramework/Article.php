@@ -20,9 +20,9 @@ use Utils\Parser;
 class Article extends HtmlElement {
    private const FRAMEWORK_FILE = 'article.phtml';
 
-   public static function fromValues(string $pageType, int $pageid, string $articlePath, array $pageData, string $mainArticle): self {
+   public static function fromValues(string $pageType, int $pageid, string $templateForPageType, array $dataForTypeTemplate, string $mainArticle): self {
       $wcPacket = WidgetCollectionPacket::fromValues($pageType, $pageid);
-      $packet = new ArticlePacket($wcPacket, $articlePath, $pageData, $mainArticle);
+      $packet = new ArticlePacket($wcPacket, $templateForPageType, $dataForTypeTemplate, $mainArticle);
       return new self($packet);
    }
 
@@ -42,12 +42,26 @@ class Article extends HtmlElement {
       return Parser::parseText($this->packet->getData('mainArticle'));
    }
 
+   protected function getHtmlForPageType(): string {
+      // Probably a better way of doing this; basically we render the template between the ob calls
+      ob_start();
+      require $this->packet->getData('templateForPageType');
+      return ob_get_clean();
+   }
+
    protected function getWidgetCollectionHtml(): string {
       return WidgetCollection::getHtmlFromArticlePacket($this->packet);
    }
 
+   /**
+    * We're gonna try to isolate the data we actually use in the "type template"
+    * through this abstraction.
+    *
+    * It's useful to know what data is specifically needed and also useful to have
+    * it in a single spot.
+    */
    protected function getData(string $index) {
-      $articleData = $this->packet->getData('articleData');
+      $articleData = $this->packet->getData('dataForTypeTemplate');
       return isset($articleData[$index]) ? $articleData[$index] : null;
    }
 }

@@ -3,7 +3,7 @@
    <!-- First we display any "parsed" `page_index.main_article` html -->
    <?= $this->getParsedMainArticle() ?>
    <!-- Second we display any "page_index.page_type" html -->
-   <?php require $this->getPacketData('articlePath'); ?>
+   <?= $this->getHtmlForPageType() ?>
    <!-- Finally we display any "Widgets" we want on all the "page_index.page_type" pages -->
    <?= $this->getWidgetCollectionHtml(); ?>
 </article>
