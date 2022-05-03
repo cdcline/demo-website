@@ -30,6 +30,7 @@ EOT;
       return self::db()->fetchAll($sql);
    }
 
+   // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
       return [
          ['navid' => 1,

@@ -48,6 +48,7 @@ EOT;
       return $this->db()->fetchAll($sql);
    }
 
+   // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
       return [
          ['pageid' => 2,

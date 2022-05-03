@@ -37,8 +37,8 @@ final class DevPage extends BasePage {
 
    private function getPageIndexTableData(): array {
       // Page Index Table
-      $tPageHeader = ['Pageid', 'Page Title', 'Page Header'];
-      $iPageTable = ['pageid', 'page_title', 'page_header'];
+      $tPageHeader = ['Type', 'Pageid', 'Page Title', 'Page Header'];
+      $iPageTable = ['type', 'pageid', 'page_title', 'page_header'];
       $tPageData = StringUtils::filterArrayByKeys(PageIndex::fetchAllRowsFromStaticCache(), $iPageTable);
       return [
          'caption' => 'Page Index Rows',

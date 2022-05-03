@@ -23,48 +23,49 @@ class PageIndex {
 
    private static function fetchAllRows(): array {
       $sql = <<<EOT
-         SELECT `pageid`, `page_title`, `page_header`, `main_article`
+         SELECT `type`, `pageid`, `page_title`, `page_header`, `main_article`
          FROM `page_index`
 EOT;
       return self::db()->fetchAll($sql);
    }
 
+   // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
       return [
-         ['pageid' => 1,
+         ['type' => self::ABOUT_ME_TYPE,
+          'pageid' => 1,
           'page_title' => 'About Me - Website Demo',
           'page_header' => 'About Me',
-          'type' => self::ABOUT_ME_TYPE,
           'main_article' => <<<EOT
 ## This is the About Me Article!
 
 I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!
 EOT
          ],
-         ['pageid' => 2,
+         ['type' => self::DEV_TYPE,
+          'pageid' => 2,
           'page_title' => 'Dev - Website Demo',
           'page_header' => 'The Dev Environment',
-          'type' => self::DEV_TYPE,
           'main_article' => <<<EOT
 ## This is the Dev Article!
 
 I need a space that's pretty constant and one that's _kinda_ scratch paper. This one's the scratch paper!
 EOT
          ],
-         ['pageid' => 3,
+         ['type' => self::DEV_TYPE,
+          'pageid' => 3,
           'page_title' => 'Test 3 - Website Demo',
           'page_header' => 'Test Page 3',
-          'type' => self::DEV_TYPE,
           'main_article' => <<<EOT
 ## This is **Test Page 3**
 
 Egestas sed tempus urna et pharetra pharetra massa massa ultricies. Neque sodales ut etiam sit amet nisl. Dictum sit amet justo donec enim diam vulputate. Morbi tincidunt augue interdum velit euismod in pellentesque massa placerat. Vulputate enim nulla aliquet porttitor. Aenean et tortor at risus viverra adipiscing. Pharetra sit amet aliquam id diam. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim. Adipiscing at in tellus integer feugiat. Nulla facilisi cras fermentum odio eu feugiat pretium nibh. Pharetra massa massa ultricies mi quis hendrerit dolor. Purus ut faucibus pulvinar elementum integer enim neque volutpat ac.
 EOT
          ],
-         ['pageid' => 4,
+         ['type' => self::DEFAULT_TYPE,
+          'pageid' => 4,
           'page_title' => 'Test 4 - Website Demo',
           'page_header' => 'Test Page 4',
-          'type' => self::DEFAULT_TYPE,
           'main_article' => <<<EOT
 ## This is _Test Page 4_
 

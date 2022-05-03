@@ -12,7 +12,7 @@ USE `demo-db`;
 --
 CREATE TABLE `page_index` (
    `pageid` INT NOT NULL AUTO_INCREMENT COMMENT 'id used across tables',
-   `type` VARCHAR(255) COMMENT 'determines what page logic will run.' -- should probably be an enum but we'd like to keep the db modifications low
+   `type` VARCHAR(255) COMMENT 'determines what page logic will run.', -- should probably be an enum but we'd like to keep the db modifications low
    `page_title` VARCHAR(255) NOT NULL COMMENT 'string use in the meta title field',
    `page_header` VARCHAR(255) NOT NULL COMMENT 'string the user sees in the header',
    `main_article` TEXT NOT NULL COMMENT 'parsable text rendered and displayed at the top of the page',
