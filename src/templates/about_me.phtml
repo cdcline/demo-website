@@ -17,4 +17,4 @@ $h1Text = 'This is where we can add ' . HtmlUtils::makeFunSpan('specific page el
 <p>The parsable text is <?= HtmlUtils::makeFunSpan('cool') ?> but has <?= HtmlUtils::makeFunSpan('limitations') ?></p>
 <p>This is the template where we can just <?= HtmlUtils::makeFunSpanFromArray(['do', 'random', 'things']) ?></p>
 
-<?= (new BlockOFun())->getHtml(); ?>
+<?= BlockOFun::getHtmlFromWidgetCollectionPacket($this->getWidgetCollectionPacket()) ?>

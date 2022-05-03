@@ -2,7 +2,7 @@
 
 namespace HtmlFramework\Widget;
 
-use HtmlFramework\Packet\ArticlePacket;
+use HtmlFramework\Packet\WidgetCollectionPacket;
 
 /**
  * This file is most here to talk about what a "Widget" is for this code base.
@@ -22,14 +22,24 @@ use HtmlFramework\Packet\ArticlePacket;
  * that's what the `page_index.main_article` is for.
  */
 trait WidgetTrait {
-   // This adds some odd complexity but it's an interesting direction. It could
-   // be annoying to keep `getHtml` public in the future but for now it allows
-   // a lot of variation
-   abstract public static function getHtmlFromArticlePacket(ArticlePacket $aPacket): string;
+   protected $wcPacket;
+
    // It's gonna output some crazy html thing that the JS and CSS are tightly coupled with
-   abstract public function getHtml(): string;
+   abstract protected function getHtml(): string;
+
+   // This adds some odd complexity but it's a fun direction.
+   public static function getHtmlFromWidgetCollectionPacket(WidgetCollectionPacket $wcPacket): string {
+      return (new self($wcPacket))->getHtml();
+   }
+
+   // We're gonna keep this private to lock down ways of adding "new" widget data
+   // Hopefully people will use the Packet instead of adding new parameters to the function
+   private function __construct(WidgetCollectionPacket $wcPacket) {
+      $this->wcPacket = $wcPacket;
+   }
+
    // Sometimes we're gonna wanna skip all the render logic so we'll make a common option for that here.
    protected function renderWidget(): bool {
       return true;
-   };
+   }
 }

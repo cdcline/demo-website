@@ -31,11 +31,11 @@ class BlockOFun {
    const FUN_BLOCK_CLASS = 'block-o-fun';
    const FUN_HEADER = 'This is your basic block of Fun!';
 
-   public static function getHtmlFromArticlePacket(ArticlePacket $aPacket): string {
-      return (new self())->getHtml();
+   public static function getHtmlForTemplate(): string {
+      throw new Exception('Widget not supported in template');
    }
 
-   public function getHtml(): string {
+   protected function getHtml(): string {
       $funElements = [];
       $funElements[] = HtmlUtils::makeH1Element(self::FUN_HEADER, self::FUN_CLASS);
       $funElements[] = $this->makeImageElement();

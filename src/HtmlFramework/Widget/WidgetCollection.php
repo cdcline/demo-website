@@ -3,6 +3,7 @@
 namespace HtmlFramework\Widget;
 
 use HtmlFramework\Packet\ArticlePacket;
+use HtmlFramework\Packet\WidgetCollectionPacket;
 use HtmlFramework\Widget\BlockOFun;
 use HtmlFramework\Widget\MiniArticleList;
 use Pages\AboutMePage;
@@ -19,22 +20,23 @@ use DB\PageIndex;
  *  - Returns all the aggregated widget HTML
  */
 class WidgetCollection {
-   private $aPacket;
+   private $wcPacket;
    // By "default" we'll add all the widgets.
    private $defaultWidgets = [MiniArticleList::class, BlockOFun::class];
 
-   public static function getHtml(ArticlePacket $aPacket) {
-      return (new self($aPacket))->getAllWidgetHtml();
+   public static function getHtmlFromArticlePacket(ArticlePacket $aPacket) {
+      $wcPacket = WidgetCollectionPacket::fromValues($aPacket->getPageType(), $aPacket->getPageid());
+      return (new self($wcPacket))->getAllWidgetHtml();
    }
 
-   private function __construct(ArticlePacket $aPacket) {
-      $this->aPacket = $aPacket;
+   private function __construct(WidgetCollectionPacket $wcPacket) {
+      $this->wcPacket = $wcPacket;
    }
 
    private function getAllWidgetHtml(): string {
       $wHtml = [];
       foreach ($this->getWidgetClasses() as $wClassStr) {
-         $wHtml[] = $wClassStr::getHtmlFromArticlePacket($this->aPacket);
+         $wHtml[] = $wClassStr::getHtmlFromWidgetCollectionPacket($this->wcPacket);
       }
       return implode(' ', $wHtml);
    }
@@ -56,7 +58,7 @@ class WidgetCollection {
          return $defaultWidgets;
       };
 
-      switch ($this->aPacket->getPageType()) {
+      switch ($this->wcPacket->getPageType()) {
          case PageIndex::DEV_TYPE:
             // There's enough with the Mini Article List data on the dev page
             return $getClassesFromDefault([BlockOFun::class]);
