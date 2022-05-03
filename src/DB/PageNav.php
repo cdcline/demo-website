@@ -30,7 +30,7 @@ EOT;
       return self::db()->fetchAll($sql);
    }
 
-   private static function getStaticRows(): array {
+   private static function getHardcodedRows(): array {
       return [
          ['navid' => 1,
           'type' => self::ARTICLE_PAGE_TYPE,

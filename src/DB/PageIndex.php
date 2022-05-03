@@ -29,7 +29,7 @@ EOT;
       return self::db()->fetchAll($sql);
    }
 
-   private static function getStaticRows(): array {
+   private static function getHardcodedRows(): array {
       return [
          ['pageid' => 1,
           'page_title' => 'About Me - Website Demo',
