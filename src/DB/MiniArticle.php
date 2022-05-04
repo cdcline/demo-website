@@ -45,7 +45,7 @@ class MiniArticle {
       JOIN `mini_article` USING (`mini_articleid`)
       GROUP BY `mini_articleid`
 EOT;
-      return $this->db()->fetchAll($sql);
+      return self::db()->fetchAll($sql);
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`

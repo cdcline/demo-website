@@ -21,12 +21,14 @@ trait DBTrait {
     * This should return a set of values matching the structure we'd get out of `fetchAllRows`.
     * Used for Dev when we don't want to worry about fetching data from elsewhere.
     */
-   abstract private static function getHardcodedRows();
+   // Boo, App deploys on 7.3 and we can't do this. Pretend like this is here.
+   // abstract private static function getHardcodedRows();
 
    /**
     * The actual query we'd like to stick in the "static cache"
     */
-   abstract private static function fetchAllRows();
+   // Boo, App deploys on 7.3 and we can't do this. Pretend like this is here.
+   // abstract private static function fetchAllRows();
 
    /**
     * This is a poor way of caching but the data set should always be
