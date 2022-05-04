@@ -3,17 +3,16 @@
 namespace Pages;
 
 use Pages\BasePage;
-use Utils\ServerUtils;
+use DB\PageIndex;
 
-class AboutMePage extends BasePage {
-   private const PAGE_SLUG = 'about-me';
+final class AboutMePage extends BasePage {
    private const PAGE_TEMPLATE = 'about_me.phtml';
-
-   protected function getPageSlug(): string {
-      return self::PAGE_SLUG;
-   }
 
    protected function getPageTemplateName(): string {
       return self::PAGE_TEMPLATE;
+   }
+
+   protected static function getPageType(): string {
+      return PageIndex::ABOUT_ME_TYPE;
    }
 }

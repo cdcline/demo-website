@@ -3,20 +3,16 @@
 namespace HtmlFramework\Widget;
 
 use DB\MiniArticle;
+use HtmlFramework\Packet\WidgetCollectionPacket;
+use HtmlFramework\Widget\WidgetTrait;
 use Utils\HtmlUtils;
 use Utils\Parser;
-use HtmlFramework\Widget\WidgetTrait;
 
 class MiniArticleList {
    use WidgetTrait;
 
-   private $pageid;
    private $tags;
    private $miniArticleRows;
-
-   public static function fromPageid(int $pageid): self {
-      return new self($pageid);
-   }
 
    /**
     * Generates something like
@@ -28,16 +24,12 @@ class MiniArticleList {
     *    </div>
     * </div>
     */
-   public function getHtml(): string {
+   protected function getHtml(): string {
       if (!$this->renderWidget()) {
          return '';
       }
       $maEls = [$this->getListHeaderHtml(), $this->getListTagsHtml(), $this->getSortHtml(), $this->getMiniArticleHtml()];
       return HtmlUtils::makeDivElement(implode(' ', $maEls), ['id' => 'mini-article-list']);
-   }
-
-   private function __construct(int $pageid) {
-      $this->pageid = $pageid;
    }
 
    // I don't think I really want this in the end (the article text should suffice) but it's useful to see in dev
@@ -206,7 +198,7 @@ class MiniArticleList {
 
       // For now we'll just grab all the data and filter on pageid here.
       return $this->miniArticleRows = array_filter(MiniArticle::fetchAll(), function ($row) {
-         return $row['pageid'] == $this->pageid;
+         return $row['pageid'] == $this->wcPacket->getPageid();
       });
    }
 }

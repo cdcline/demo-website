@@ -4,7 +4,9 @@ namespace HtmlFramework;
 
 use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Packet\ArticlePacket;
+use HtmlFramework\Packet\WidgetCollectionPacket;
 use HtmlFramework\Widget\MiniArticleList;
+use HtmlFramework\Widget\WidgetCollection;
 use Utils\Parser;
 
 /**
@@ -18,9 +20,14 @@ use Utils\Parser;
 class Article extends HtmlElement {
    private const FRAMEWORK_FILE = 'article.phtml';
 
-   public static function fromValues(int $pageid, string $articlePath, array $pageData, string $mainArticle): self {
-      $packet = new ArticlePacket($pageid, $articlePath, $pageData, $mainArticle);
+   public static function fromValues(string $pageType, int $pageid, string $templateForPageType, array $dataForTypeTemplate, string $mainArticle): self {
+      $wcPacket = WidgetCollectionPacket::fromValues($pageType, $pageid);
+      $packet = new ArticlePacket($wcPacket, $templateForPageType, $dataForTypeTemplate, $mainArticle);
       return new self($packet);
+   }
+
+   public function getWidgetCollectionPacket(): WidgetCollectionPacket {
+      return $this->packet->getWidgetCollectionPacket();
    }
 
    private function __construct(ArticlePacket $packet) {
@@ -35,12 +42,26 @@ class Article extends HtmlElement {
       return Parser::parseText($this->packet->getData('mainArticle'));
    }
 
-   protected function getMiniArticleList(): MiniArticleList {
-      return MiniArticleList::fromPageid($this->packet->getPageid());
+   protected function getHtmlForPageType(): string {
+      // Probably a better way of doing this; basically we render the template between the ob calls
+      ob_start();
+      require $this->packet->getData('templateForPageType');
+      return ob_get_clean();
    }
 
+   protected function getWidgetCollectionHtml(): string {
+      return WidgetCollection::getHtmlFromArticlePacket($this->packet);
+   }
+
+   /**
+    * We're gonna try to isolate the data we actually use in the "type template"
+    * through this abstraction.
+    *
+    * It's useful to know what data is specifically needed and also useful to have
+    * it in a single spot.
+    */
    protected function getData(string $index) {
-      $articleData = $this->packet->getData('articleData');
+      $articleData = $this->packet->getData('dataForTypeTemplate');
       return isset($articleData[$index]) ? $articleData[$index] : null;
    }
 }

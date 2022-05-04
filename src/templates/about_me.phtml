@@ -1,40 +1,20 @@
 <?php
+use Utils\HtmlUtils;
+// There's no particular reason you can't just plop a widget here
+// This does require widgets logic to be more rigid but also pretty handy imo
+use HtmlFramework\Widget\BlockOFun;
+?>
+
+
+<?php
 /**
  * Using PHP to generate HTML in templates is good practice. Just don't be modifying
  * data in a Packet.
  */
-use Utils\HtmlUtils;
-
-$iWidth = $iHeight = 140;
-$randomImageElement = HtmlUtils::makeImageElement('custom-about-me-class', HtmlUtils::getPicsumPhoto($iWidth, $iHeight), $iWidth, $iHeight, 'random image', 'fun-button');
-$h1Text = 'This is where we can add ' . HtmlUtils::makeFunSpan('random widgets');
-
-$ipsumA = <<<EOT
-Fermentum dui faucibus in ornare quam. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam. Ut lectus arcu bibendum at. Posuere lorem ipsum dolor sit. Ultrices mi tempus imperdiet nulla malesuada. In aliquam sem fringilla ut morbi tincidunt augue interdum. Consequat semper viverra nam libero justo laoreet.
-EOT;
-$ipsumB = <<<EOT
-Vitae tempus quam pellentesque nec nam aliquam sem et. A erat nam at lectus urna duis convallis convallis tellus. Nullam non nisi est sit amet. Augue lacus viverra vitae congue eu. Id diam vel quam elementum pulvinar etiam non quam. Sed viverra ipsum nunc aliquet bibendum enim facilisis gravida. In iaculis nunc sed augue lacus viverra vitae. A erat nam at lectus urna duis convallis convallis tellus.
-EOT;
-$ipsumC = <<<EOT
-Curabitur pulvinar, nisl non scelerisque varius, lectus orci faucibus ante, quis condimentum quam elit vitae purus. Etiam vitae purus lacinia, convallis leo at, commodo justo. Duis sed aliquet est. Vestibulum semper justo porttitor metus ullamcorper, eu bibendum enim convallis. Nunc hendrerit venenatis libero fringilla facilisis. Duis vitae enim tristique, gravida risus at, consequat ipsum. Suspendisse vitae ipsum vel justo euismod blandit. Praesent at mollis eros, vel finibus augue. Cras lacus turpis, porttitor sed purus quis, vulputate iaculis metus. In efficitur, est ac dapibus consectetur, metus neque viverra nibh, nec aliquam nunc eros non urna. Vivamus venenatis dapibus tempor. Cras sollicitudin ante enim, sit amet pharetra ligula facilisis id. Sed tristique hendrerit mauris, at tempus lacus iaculis in. Mauris viverra vel arcu vel pellentesque.
-EOT;
-$ipsumD = <<<EOT
-Donec lobortis enim quis dui auctor, et interdum purus tincidunt. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed quam massa, fringilla vitae lorem aliquet, vestibulum elementum ante. Vivamus sodales metus in porta hendrerit. Phasellus id cursus orci, eu dictum eros. Nulla vitae sem nec libero placerat gravida. Pellentesque scelerisque suscipit velit et convallis. Curabitur vulputate tincidunt enim, eu consectetur ipsum pretium ac.
-EOT;
-
-
+$h1Text = 'This is where we can add ' . HtmlUtils::makeFunSpan('specific page elements');
 ?>
-
 <?= HtmlUtils::makeH1Element($h1Text, 'fun') ?>
 <p>The parsable text is <?= HtmlUtils::makeFunSpan('cool') ?> but has <?= HtmlUtils::makeFunSpan('limitations') ?></p>
 <p>This is the template where we can just <?= HtmlUtils::makeFunSpanFromArray(['do', 'random', 'things']) ?></p>
-<p>
-   <?= $randomImageElement ?>
-   <?= HtmlUtils::addRandomFun($ipsumA, 100) ?>
-   <?= HtmlUtils::makePageWhitespace() ?>
-   <?= HtmlUtils::addRandomFun($ipsumB, 40) ?>
-   <?= HtmlUtils::makePageWhitespace() ?>
-   <?= HtmlUtils::addRandomFun($ipsumC, 30) ?>
-   <?= HtmlUtils::makePageWhitespace() ?>
-   <?= HtmlUtils::addRandomFun($ipsumD, 15) ?>
-</p>
+
+<?= BlockOFun::getHtmlFromWidgetCollectionPacket($this->getWidgetCollectionPacket()) ?>

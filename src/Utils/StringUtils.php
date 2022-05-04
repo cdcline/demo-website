@@ -22,4 +22,8 @@ class StringUtils {
       }
       return $result;
    }
+
+   public static function isInt(string $str): bool {
+      return ctype_digit($str) && is_numeric($str);
+   }
 }
