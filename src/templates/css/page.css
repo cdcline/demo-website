@@ -8,7 +8,7 @@ body {
 
 /* Style the header */
 header {
-  background-color: #666;
+  background-color: #A600A6;
   padding: 30px;
   text-align: center;
   font-size: 35px;
@@ -26,7 +26,8 @@ nav {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  background: #ccc;
+  background: #FF8858;
+  color: white;
   padding: 20px;
 }
 
@@ -36,21 +37,33 @@ nav ul {
   padding: 0;
 }
 
+nav ul a:visited {
+   color: #530E53;
+}
+
 /* Style the content */
 article {
   -webkit-flex: 3;
   -ms-flex: 3;
   flex: 3;
-  background-color: #f1f1f1;
+  background-color: #C5FC98;
   padding: 10px;
 }
 
 /* Style the footer */
 footer {
-  background-color: #777;
+  background-color: #A600A6;
   padding: 10px;
   text-align: center;
   color: white;
+}
+
+footer a {
+   color: #5FD101;
+}
+
+footer a:visited {
+   color: #193700;
 }
 
 /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
