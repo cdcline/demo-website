@@ -11,8 +11,12 @@ class PageNav {
 
    public const ARTICLE_PAGE_TYPE = 'ARTICLE_PAGE';
    public const CUSTOM_TYPE = 'CUSTOM';
+   private const HOMEPAGE_PAGEID = 1;
 
    public static function getPageidFromSlug(string $slug): int {
+      if (!$slug) {
+         return self::HOMEPAGE_PAGEID;
+      }
       foreach (self::fetchAllRowsFromStaticCache() as $row) {
          if (StringUtils::iMatch($slug, $row['slug'])) {
             return (int)$row['pageid'];
@@ -35,8 +39,8 @@ EOT;
       return [
          ['navid' => 1,
           'type' => self::ARTICLE_PAGE_TYPE,
-          'slug' => 'about-me',
-          'nav_string' => 'About Me',
+          'slug' => 'homepage',
+          'nav_string' => 'Homepage',
           'pageid' => 1,
           'orderby' => 1
          ],

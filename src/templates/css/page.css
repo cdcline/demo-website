@@ -71,6 +71,33 @@ footer {
  */
 
 /**
+ * PAGE CSS
+ */
+
+/**
+ * General
+ */
+#article-container {
+   display: flex;
+   flex-direction: column;
+}
+
+#article-container .hidden {
+   display: none;
+}
+
+/**
+ * Home Page
+ */
+#raw-text-main-article-container code {
+   white-space: break-spaces;
+}
+
+#view-parse-toggle-btn {
+   margin: 10px 5px;
+}
+
+/**
  * WIDGET CSS
  */
 
@@ -102,11 +129,6 @@ footer {
     margin-top: 30px;
     display: flex;
     flex-direction: column;
- }
-
- /* Mini Article Animations */
- #mini-article-list .hidden {
-    display: none;
  }
 
  /**

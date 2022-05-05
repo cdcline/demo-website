@@ -102,12 +102,12 @@ class HtmlUtils {
     *
     * <span>text1</span> <span>text2</span> <span>text3</span>
     **/
-   public static function makeFunSpanFromArray(array $textValues): string {
+   public static function makeFunSpanFromArray(array $textValues, string $iStr = ' '): string {
       $fun = [];
       foreach ($textValues as $text) {
          $fun[] = self::makeFunSpan($text);
       }
-      return implode(' ', $fun);
+      return implode($iStr, $fun);
    }
 
    public static function addRandomFun(string $text, int $randomizeAmount): string {

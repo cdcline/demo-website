@@ -21,8 +21,8 @@ class NavPacket {
 
       // I want some elements to mess with on the site, we'll designate them "fun"
       $isFunRow = function($i): bool {
-         // Every 3rd nav row is fun starting with the first
-         return $i % 3 === 0;
+         // Every 3rd nav row is fun starting with the second (/dev)
+         return $i % 3 === 1;
       };
 
       foreach ($pageNavRows as $i => $row) {

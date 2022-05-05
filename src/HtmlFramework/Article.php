@@ -38,6 +38,10 @@ class Article extends HtmlElement {
       return self::FRAMEWORK_FILE;
    }
 
+   protected function getPageType(): string {
+      return $this->packet->getPageType();
+   }
+
    protected function getParsedMainArticle(): string {
       return Parser::parseText($this->packet->getData('mainArticle'));
    }

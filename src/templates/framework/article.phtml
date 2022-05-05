@@ -1,9 +1,15 @@
-<article>
+<article id="article-container" data-page-type="<?= $this->getPageType() ?>">
    <?php /* Note: We could play with ordering more but this basic layout should handle a lot of common configurations */ ?>
    <!-- First we display any "parsed" `page_index.main_article` html -->
-   <?= $this->getParsedMainArticle() ?>
+   <div id="parsed-main-article-container">
+      <?= $this->getParsedMainArticle() ?>
+   </div>
    <!-- Second we display any "page_index.page_type" html -->
-   <?= $this->getHtmlForPageType() ?>
+   <div id="page-type-template-container">
+      <?= $this->getHtmlForPageType() ?>
+   </div>
    <!-- Finally we display any "Widgets" we want on all the "page_index.page_type" pages -->
-   <?= $this->getWidgetCollectionHtml(); ?>
+   <div id="widget-collection-container">
+      <?= $this->getWidgetCollectionHtml(); ?>
+   </div>
 </article>
