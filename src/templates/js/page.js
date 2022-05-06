@@ -133,7 +133,13 @@ class FunUtils {
 
    // We'd like to use some js array logic so we'll convert from HTML Collection to an array
    static getFunArray() {
-      return [...document.getElementsByClassName("fun")];
+      return [...document.getElementsByClassName('fun')];
+   }
+
+   static getAllTheThings() {
+      // Basically grab all the text elements.
+      // NOTE: Div isn't included b/c it makes going back to og colors difficult
+      return [...document.querySelectorAll('p, span, li, h1, h2, h3, h4, h5, h6, a, td, th, caption, code')];
    }
 
    // Go through each "fun" element and set a random color on it
@@ -141,8 +147,36 @@ class FunUtils {
       let funArray = this.getFunArray();
       // If we don't shuffle, the order is the same. The rainbow effect is ok but better if randomized.
       funArray = MathUtils.shuffleArray(funArray);
+      // If we do a delay, we can really randomize when colors change
+      function delay(time) {
+         return new Promise(resolve => setTimeout(resolve, time));
+      };
+      // We'd like most things to appear quickly but a few to appear late.
+      // This is kinda an arbitary way of getting most to change color under
+      // < 500ms but a few above
+      function randomMaxTime() {
+         let randomProb = MathUtils.getRandomIntInclusive(1, 10);
+         let maxRandomTime = 1000;
+         if (randomProb < 5) {
+            maxRandomTime = 500;
+         } else if (randomProb < 7) {
+            maxRandomTime = 700;
+         } else if (randomProb < 9) {
+            maxRandomTime = 900;
+         }
+         return maxRandomTime;
+      };
+      // Go through all our fun elements
       funArray.forEach(function(el) {
-         el.style.color = MathUtils.getRandomRGB();
+         // Grab a random delay time
+         let randomTime = MathUtils.getRandomIntInclusive(1, randomMaxTime());
+         delay(randomTime).then(() => {
+            // We might have removed fun since the delay so make sure we still
+            // want to change colors
+            if (el.classList.contains('fun')) {
+               el.style.color = MathUtils.getRandomRGB()
+            }
+         });
       });
    }
 
@@ -151,8 +185,11 @@ class FunUtils {
    // The higher the speed, the faster all the elements will shift colors again
    static funBoom(speed) {
       // Select all the things that contain text
-      document.querySelectorAll("div, p, span, li, h1, h2, h3, h4, h5, h6, a, td, th, caption, code").forEach(function(el) {
-         el.classList.add("fun");
+      this.getAllTheThings().forEach(function(el) {
+         if (!el.classList.contains('fun')) {
+            el.classList.add('fun');
+            FunUtils.setupNoFunEvents(el);
+         }
       });
       // Validate speed is sane
       if (speed < 1) {
@@ -179,9 +216,52 @@ class FunUtils {
       }
    }
 
+   static setupNoFunEvents(el) {
+      // If we've already setup the no-fun-events, bail
+      if (el.getAttribute('data-no-fun-event') === 'set') {
+         return;
+      }
+      // Anytime the element gets a mouseover
+      el.addEventListener('mouseenter', e => {
+         // Stop any color changing
+         el.classList.remove('fun');
+         // Store the current color
+         el.setAttribute('data-fun-color', el.style.color);
+         // Set it to the original color
+         el.style.color = el.getAttribute('data-og-color');
+      });
+      // When the mouse leaves
+      el.addEventListener('mouseleave', e => {
+         // Set back the original color
+         el.style.color = el.getAttribute('data-fun-color');
+         let addFun = function(el) {
+            el.classList.add('fun');
+         };
+         // Add back in color changing
+         setInterval(addFun(el), 500);
+      });
+      // Mark that we setup the events
+      el.setAttribute('data-no-fun-event', 'set');
+   }
+
+   static setupNoFun() {
+      this.getFunArray().forEach(this.setupNoFunEvents);
+   }
+
+   // It gets weird with timings if we try to do this while also changing all
+   // the colors in the interval so we'll just do it early.
+   //
+   // It's kinda a waste but also there really aren't that many properties to
+   // worry about.
+   static setupOGColors() {
+      this.getFunArray().forEach(el => {
+         el.setAttribute('data-og-color', window.getComputedStyle(el).getPropertyValue('color'));
+      });
+   }
+
    static setupFun() {
-      // Change colors before we've loaded resources
-      this.randomColorFun()
+      this.setupOGColors();
+      this.setupNoFun();
       // Change colors after we've loaded resources. (lol js)
       JSServerUtils.addOnLoadFunction(this.randomColorFun.bind(this));
       // Start building fun with the 'fun-button'

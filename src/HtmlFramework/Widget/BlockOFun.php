@@ -42,11 +42,10 @@ class BlockOFun {
       $funElements[] = HtmlUtils::makeH1Element(self::FUN_HEADER, self::FUN_CLASS);
       $funElements[] = $this->makeImageElement();
       for ($i = 1; $i <= self::FUN_BLOCKS; $i++) {
-         $funElements[] = HtmlUtils::addRandomFun($this->getText(), rand(0, 100));
-         $funElements[] = HtmlUtils::makePageWhitespace();
+         $randomSpanText = HtmlUtils::addRandomFun($this->getText(), rand(0, 100));
+         $funElements[] = HtmlUtils::makePElement($randomSpanText);
       }
-      $fpHtml = HtmlUtils::makePElement(implode(' ', $funElements));
-      return HtmlUtils::makeDivElement($fpHtml, ['class' => self::FUN_BLOCK_CLASS]);
+      return HtmlUtils::makeDivElement(implode(' ', $funElements), ['class' => self::FUN_BLOCK_CLASS]);
    }
 
    private function makeImageElement(): string {
