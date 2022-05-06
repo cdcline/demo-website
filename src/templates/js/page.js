@@ -130,6 +130,10 @@ class FunUtils {
    static funLimit = 3;
    // We could stack loops on top but it looks better to stop one interval before you start another
    static funLoop;
+   static minSpeed = 1;
+   static maxSpeed = 10;
+   static maxInterval = 2000;
+   static minInterval = 300;
 
    // We'd like to use some js array logic so we'll convert from HTML Collection to an array
    static getFunArray() {
@@ -143,33 +147,20 @@ class FunUtils {
    }
 
    // Go through each "fun" element and set a random color on it
-   static randomColorFun() {
+   static randomColorFun(colorIntervalMS) {
       let funArray = this.getFunArray();
       // If we don't shuffle, the order is the same. The rainbow effect is ok but better if randomized.
       funArray = MathUtils.shuffleArray(funArray);
       // If we do a delay, we can really randomize when colors change
+      let maxColorChangeInterval = colorIntervalMS ? colorIntervalMS : this.maxInterval;
       function delay(time) {
          return new Promise(resolve => setTimeout(resolve, time));
       };
-      // We'd like most things to appear quickly but a few to appear late.
-      // This is kinda an arbitary way of getting most to change color under
-      // < 500ms but a few above
-      function randomMaxTime() {
-         let randomProb = MathUtils.getRandomIntInclusive(1, 10);
-         let maxRandomTime = 1000;
-         if (randomProb < 5) {
-            maxRandomTime = 500;
-         } else if (randomProb < 7) {
-            maxRandomTime = 700;
-         } else if (randomProb < 9) {
-            maxRandomTime = 900;
-         }
-         return maxRandomTime;
-      };
+
       // Go through all our fun elements
       funArray.forEach(function(el) {
          // Grab a random delay time
-         let randomTime = MathUtils.getRandomIntInclusive(1, randomMaxTime());
+         let randomTime = MathUtils.getRandomIntInclusive(1, maxColorChangeInterval);
          delay(randomTime).then(() => {
             // We might have removed fun since the delay so make sure we still
             // want to change colors
@@ -180,10 +171,22 @@ class FunUtils {
       });
    }
 
+   static getMaxIntervalFromSpeed(speed) {
+      if (speed < this.minSpeed) {
+         speed = this.minSpeed;
+      } else if (speed > this.maxSpeed) {
+         speed = this.maxSpeed;
+      }
+      // Should go as speed increases, the "Max interval between things" reduces
+      let fractionSpeed = (speed/this.maxSpeed);
+      let speedInterval = this.maxInterval - (this.maxInterval * fractionSpeed);
+      return speedInterval < this.minInterval ? this.minInterval : speedInterval;
+   }
+
    // Makes all the text elements on the page change to different colors
    // Gives a rainbow shimmery look
    // The higher the speed, the faster all the elements will shift colors again
-   static funBoom(speed) {
+   static funBoom(speedIn) {
       // Select all the things that contain text
       this.getAllTheThings().forEach(function(el) {
          if (!el.classList.contains('fun')) {
@@ -191,25 +194,25 @@ class FunUtils {
             FunUtils.setupNoFunEvents(el);
          }
       });
-      // Validate speed is sane
-      if (speed < 1) {
-         speed = 1;
-      }
-      // Go faster with more speed. This could be smarter but it works fine.
-      let intervalMS = 424 / speed;
+
       // Clear any existing interval. Looks better when there's one loop at a consistant interval
       if (this.funLoop) {
          clearInterval(this.funLoop);
       }
-      this.funLoop = setInterval(this.randomColorFun.bind(this), intervalMS);
+      let maxIntervalMS = this.getMaxIntervalFromSpeed(speedIn);
+      let randomlyChangeAllColors = function(maxIntervalMS) {
+         this.randomColorFun(maxIntervalMS);
+      }.bind(this);
+      // Change all the colors now
+      randomlyChangeAllColors();
+      // Setup the loop to change colors in maxIntervalMS
+      this.funLoop = setInterval(randomlyChangeAllColors, maxIntervalMS);
    }
 
    static addFun() {
       // If we reached our limit, start the fun boom
       if (++this.funMeter >= this.funLimit) {
-         // Each new call will increase the speed by 1 after the limit is met
-         let speed = this.funMeter - this.funLimit + 1;
-         this.funBoom(speed);
+         this.funBoom(this.funMeter);
       // Otherwise we randomize the existing colors and hope they click a few more times
       } else {
          this.randomColorFun();
@@ -262,8 +265,10 @@ class FunUtils {
    static setupFun() {
       this.setupOGColors();
       this.setupNoFun();
+      // Change some colors
+      this.randomColorFun(10)
       // Change colors after we've loaded resources. (lol js)
-      JSServerUtils.addOnLoadFunction(this.randomColorFun.bind(this));
+      JSServerUtils.addOnLoadFunction(e => this.randomColorFun(3));
       // Start building fun with the 'fun-button'
       JSServerUtils.addClickFunctionOnClasses('fun-btn', this.addFun.bind(this));
    }
