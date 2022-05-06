@@ -11,7 +11,6 @@ use HtmlFramework\Packet\NavPacket;
  * "body" element.
  */
 class Nav extends HtmlElement {
-   protected $navData;
    private const FRAMEWORK_FILE = 'nav.phtml';
 
    public static function fromValues(): self {

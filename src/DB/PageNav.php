@@ -11,9 +11,9 @@ class PageNav {
 
    public const ARTICLE_PAGE_TYPE = 'ARTICLE_PAGE';
    public const CUSTOM_TYPE = 'CUSTOM';
-   private const HOMEPAGE_PAGEID = 1;
+   public const HOMEPAGE_PAGEID = 1;
 
-   public static function getPageidFromSlug(string $slug): int {
+   public static function getPageidFromSlug(string $slug = ''): int {
       if (!$slug) {
          return self::HOMEPAGE_PAGEID;
       }
@@ -23,6 +23,16 @@ class PageNav {
          }
       }
       InvalidPageException::throwPageNotFound($slug);
+   }
+
+   public static function getDefaultSlug(): string {
+      $dPageid = self::getPageidFromSlug();
+      foreach (self::fetchAllRowsFromStaticCache() as $row) {
+         if ($row['pageid'] === $dPageid) {
+            return $row['slug'];
+         }
+      }
+      throw new Exception('Default page not configured correctly. Unkown HOMEPAGE_PAGEID.');
    }
 
    private static function fetchAllRows(): array {

@@ -343,6 +343,19 @@ class MiniArticleList {
 
 MiniArticleList.setupEvents();
 
+class Nav {
+   static setupEvents() {
+      [...document.querySelectorAll('nav div')].forEach(function(el) {
+         el.addEventListener('click', function handleClick(event) {
+            let aEl = el.getElementsByTagName('a')[0];
+            aEl.click();
+         }, this);
+      });
+   }
+}
+
+Nav.setupEvents();
+
 class HomePage {
    static setupEvents() {
       [...document.querySelectorAll('a[href="#toggleParser"]')].forEach(function(el) {
