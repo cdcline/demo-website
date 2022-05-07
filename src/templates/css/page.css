@@ -126,8 +126,14 @@ footer a:visited {
    display: none;
 }
 
-#parsed-main-article-container h2:first-child {
+#parsed-main-article-container h2:first-child, #parsed-main-article-container p:first-child,
+#parsed-main-article-container .ma-entry-text-container h2:first-child, #parsed-main-article-container .ma-entry-text-container p:first-child {
    margin-top: 0px;
+}
+
+#parsed-main-article-container h2:last-child, #parsed-main-article-container p:last-child,
+#parsed-main-article-container .ma-entry-text-container h2:last-child, #parsed-main-article-container .ma-entry-text-container p:last-child {
+   margin-bottom: 0px;
 }
 
 /**
@@ -170,37 +176,84 @@ footer a:visited {
  * Mini Article CSS
  */
  #mini-article-list {
-    margin-top: 30px;
+    margin: 0px 6px;
     display: flex;
     flex-direction: column;
  }
 
- /**
-  * Required for animations: https://css-tricks.com/using-css-transitions-auto-dimensions/#aa-technique-3-javascript
-  */
- #mini-article-list .ma-entry-container {
-   overflow:hidden;
-   transition:height 0.3s ease-out;
-   height:auto;
- }
+/**
+ * Required for animations: https://css-tricks.com/using-css-transitions-auto-dimensions/#aa-technique-3-javascript
+ */
+#mini-article-list .ma-entry-container {
+   overflow: hidden;
+   transition: height 0.3s ease-out;
+   height: auto;
+}
+
+/* Mini Article Head */
+#ma-head-container {
+   margin: 8px 0;
+}
+
+/* Mini Article Header and Sort */
+#ma-header-and-sort-container {
+   display: flex;
+   justify-content: space-between;
+   margin: 10px 0;
+   align-items: stretch;
+   gap: 4px;
+   flex-wrap: wrap;
+}
 
  /* Mini Article Header */
  #mini-article-list h3 {
     font-size: 25px;
-    margin: 0 0 16px 0;
+    margin: 0;
  }
 
+/* Mini Article Sort */
+#mini-article-sort-container {
+   display: flex;
+   flex-direction: row;
+   gap: 5px;
+   font-size: 18px;
+   flex-wrap: wrap;
+   align-self: center;
+}
+
+#mini-article-sort-container span {
+   min-width: fit-content;
+}
+
+/* Hover state of sort options */
+/* Active state of sort options */
+#mini-article-sort-container span:hover, #mini-article-sort-container span.active {
+   cursor: pointer;
+   color: #74FF00;
+   text-shadow: -1px  1px 2px #6C006C,
+                 1px  1px 2px #6C006C,
+                 1px -1px 0   #6C006C,
+                -1px -1px 0   #6C006C;
+}
  /* Mini Article Tags & Entry Tags */
- /* General css */
+
+/* Main tag css */
+#mini-article-tag-list {
+   margin: 0 8px ;
+   justify-content: center;
+   display: flex;
+}
+
+ /* General tag css */
 #mini-article-list .ma-tag {
    display: inline-flex;
    align-items: center;
    justify-content: center;
-   border: 2px solid rgb(238, 142, 16);
+   border: 2px solid #FF4900;
    border-radius: 10%;
    font-size: 16px;
-   width: 60px;
-   height: 25px;
+   min-width: 60px;
+   padding: 2px 4px;
 }
 
 /* Flex stuff so they all have common spacing & wrapping */
@@ -212,59 +265,57 @@ footer a:visited {
    padding-left: 4px;
 }
 
-/* Main tag css */
-#mini-article-tag-list {
-   padding-bottom: 8px;
+
+@keyframes slidebg {
+   to {
+     background-position:20vw;
+   }
+ }
+
+ /* Active state of filter tag */
+#mini-article-tag-list .ma-tag.active {
+   color: #74FF00;
+   border-color: #D93E00;
+   background-color: #FF00FF;
 }
 
 /* Hover state of filter tag */
 #mini-article-tag-list .ma-tag:hover {
-   border-color: red;
+   background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
+   animation:slidebg 5s linear infinite;
+   color: black;
    cursor: pointer;
-}
-
- /* Active state of filter tag */
-#mini-article-tag-list .ma-tag.active {
-   border-color: red;
-   background-color: red;
-}
-
-/* Mini Article Sort */
-#mini-article-sort-container {
-   display: flex;
-   flex-direction: row;
-   gap: 5px;
-   font-size: 15px;
-   padding: 4px 16px;
-}
-
-/* Hover state of sort options */
-#mini-article-sort-container span:hover {
-   cursor: pointer;
-   color: greenyellow;
-}
-
-/* Active state of sort options */
-#mini-article-sort-container span.active {
-   color:purple;
 }
 
 /* Mini Article Entry */
-#mini-article-entry-container {
-   display: inline-flex;
-   flex-direction: column;
-}
-
 #mini-article-entries {
    display: inline-flex;
    flex-direction: column;
    gap: 15px;
-   margin-top: 4px;
+   margin: 4px;
 }
+
+/* Entry Title */
+#mini-article-entries .ma-entry-title-container {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 8px;
+   align-items: baseline;
+   gap: 4px;
+   flex-wrap: wrap;
+}
+
 /* Entry Header*/
-#mini-article-entries h5 {
+#mini-article-entries .ma-entry-title-container h5 {
    font-size: 16px;
-   margin: 8px 0 2px 0;
+   margin: 0;
+}
+
+/* Entry Dates*/
+#mini-article-entries .ma-entry-date-container {
+   align-items: center;
+   gap: 8px;
+   font-size: 14px;
 }
 
 /* Entry Tags */
@@ -274,24 +325,10 @@ footer a:visited {
 
 /* Make them smaller b/c they're kinda different */
 #mini-article-list .ma-entry-tag-container .ma-tag {
-   font-size: 12px;
-   width: 40px;
-   height: 18px;
+   color: #74FF00;
+   border-color: #D93E00;
+   background-color: #FF00FF;
+   font-size: 10px;
+   min-width: 40px;
+   padding: 1px 3px;
 }
-
-/* Entry Dates */
-#mini-article-entries .ma-entry-date-container {
-   display: inline-flex;
-   gap: 8px;
-   padding: 4px;
-   font-size: 14px;
- }
-
- /* Entry text css */
- #mini-article-entries .mini-article-text h5 {
-    padding: 4px 0;
- }
-
- #mini-article-entries .mini-article-text p {
-    margin: 3px 0;
- }
