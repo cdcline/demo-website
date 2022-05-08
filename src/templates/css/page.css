@@ -90,7 +90,7 @@ footer a {
 }
 
 footer a:visited {
-   color: #193700;
+   color: #449500;
 }
 
 /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
@@ -190,6 +190,48 @@ footer a:visited {
    height: auto;
 }
 
+/**
+ * Because of how we're hacking height for animations, we have to jump through
+ * a couple css hoops to get margins between all the entries to collapse right
+ * when we filter things.
+ */
+#mini-article-list .ma-entry-container .ma-entry-text-container {
+   /* This is how we set #mini-article-entries {gap:18px} */
+   margin-bottom: 18px;
+   /* We might as well make the parsed article flex too */
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+   /* Sets the cool border around the parsed text */
+   padding: 8px 10px;
+   border: 1px solid #FF00FF;
+   border-radius: 15px;
+}
+
+/* Should really clear out more margins but this makes the demo text look good so ok for now */
+/* Vanilla css makes targeting all the elements annoying; we'll get a css library to manage things eventually */
+#mini-article-list .ma-entry-container .ma-entry-text-container p {
+   margin: 0px;
+}
+
+/**
+ * We'd like the last entry to not push down the footer so we have to set the
+ * last last entry margin to 0.
+ *
+ * If we were using "gap" we woudn't need this but b/c of animations we're jumping
+ * through some css hoops.
+ */
+#mini-article-list .ma-entry-container:last-of-type .ma-entry-text-container {
+   margin-bottom: 0px;
+}
+
+/**
+ * Other last elements might mess with low margins but this at least works for the demo data
+ */
+.ma-entry-text-container p:last-of-type {
+   margin-bottom: 0px;
+}
+
 /* Mini Article Head */
 #ma-head-container {
    margin: 8px 0;
@@ -230,10 +272,10 @@ footer a:visited {
 #mini-article-sort-container span:hover, #mini-article-sort-container span.active {
    cursor: pointer;
    color: #74FF00;
-   text-shadow: -1px  1px 2px #6C006C,
-                 1px  1px 2px #6C006C,
-                 1px -1px 0   #6C006C,
-                -1px -1px 0   #6C006C;
+   text-shadow: -.04em  .04em .08em #6c006c,
+                 .04em  .04em .08em #6c006c,
+                 .04em -.04em   0   #6c006c,
+                -.04em -.04em   0   #6c006c;
 }
  /* Mini Article Tags & Entry Tags */
 
@@ -262,13 +304,11 @@ footer a:visited {
    flex-direction: row;
    flex-wrap: wrap;
    gap: 10px;
-   padding-left: 4px;
 }
-
 
 @keyframes slidebg {
    to {
-     background-position:20vw;
+     background-position:25vw;
    }
  }
 
@@ -281,9 +321,17 @@ footer a:visited {
 
 /* Hover state of filter tag */
 #mini-article-tag-list .ma-tag:hover {
-   background-image: linear-gradient(90deg, #00C0FF 0%, #FFCF00 49%, #FC4F4F 80%, #00C0FF 100%);
-   animation:slidebg 5s linear infinite;
-   color: black;
+   background-image: linear-gradient(90deg,
+      #FFA4FF 3%,
+      #FF70FF 15%,
+      #FF00FF 50%,
+      #FF70FF 85%,
+      #FFA4FF 97%
+   );
+   animation: slidebg 5s linear infinite;
+   color: #74FF00;
+   -webkit-text-stroke-width: .015em;
+   -webkit-text-stroke-color: black;
    cursor: pointer;
 }
 
@@ -291,15 +339,18 @@ footer a:visited {
 #mini-article-entries {
    display: inline-flex;
    flex-direction: column;
-   gap: 15px;
    margin: 4px;
+}
+
+#mini-article-entries .ma-entry-head-container {
+   margin-bottom: 12px;
 }
 
 /* Entry Title */
 #mini-article-entries .ma-entry-title-container {
    display: flex;
    justify-content: space-between;
-   margin-bottom: 8px;
+   margin-bottom: 10px;
    align-items: baseline;
    gap: 4px;
    flex-wrap: wrap;
@@ -307,8 +358,15 @@ footer a:visited {
 
 /* Entry Header*/
 #mini-article-entries .ma-entry-title-container h5 {
-   font-size: 16px;
+   font-size: 30px;
    margin: 0;
+   color: #FFA4FF;
+   text-shadow: -.04em  .04em .08em #449500,
+                 .04em  .04em .08em #449500,
+                 .04em -.04em   0   #449500,
+                -.04em -.04em   0   #449500;
+   -webkit-text-stroke-width: .02em;
+   -webkit-text-stroke-color: #6C006C
 }
 
 /* Entry Dates*/
@@ -316,11 +374,16 @@ footer a:visited {
    align-items: center;
    gap: 8px;
    font-size: 14px;
+   color: #74FF00;
+   text-shadow: -.04em  .04em .08em #6c006c,
+                 .04em  .04em .08em #6c006c,
+                 .04em -.04em   0   #6c006c,
+                -.04em -.04em   0   #6c006c;
 }
 
 /* Entry Tags */
 #mini-article-list .ma-entry-tag-container {
-   padding-left: 6px;
+   margin: 0 14px 6px;
 }
 
 /* Make them smaller b/c they're kinda different */
@@ -328,7 +391,7 @@ footer a:visited {
    color: #74FF00;
    border-color: #D93E00;
    background-color: #FF00FF;
-   font-size: 10px;
+   font-size: 8px;
    min-width: 40px;
-   padding: 1px 3px;
+   padding: 2px 3px;
 }

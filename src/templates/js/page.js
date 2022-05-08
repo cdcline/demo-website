@@ -363,14 +363,32 @@ class MiniArticleList {
       // Turn the htmlCollection into an Array
       let maArray = [...maArticles];
       maArray.sort(function(entryA, entryB) {
+         // We'll assume only ascending and descending order
+         let ascOrder = order === 'asc';
+         function pullEndDateFromEntry(entryEl, startDate) {
+            let endDateEl = entryEl.getElementsByClassName('ma-end-date')[0];
+            if (!endDateEl) {
+               return startDate;
+            }
+            return endDateEl.getAttribute('data-end-date');
+         };
          // Brittle but we have a specific html structure so we know this is the DOM path to data-start-date
-         let dateA = entryA.getElementsByClassName('ma-start-date')[0].getAttribute('data-start-date');
-         let dateB = entryB.getElementsByClassName('ma-start-date')[0].getAttribute('data-start-date');
+         let sDateA = entryA.getElementsByClassName('ma-start-date')[0].getAttribute('data-start-date');
+         let eDateA = pullEndDateFromEntry(entryA, sDateA);
+
+         let sDateB = entryB.getElementsByClassName('ma-start-date')[0].getAttribute('data-start-date');
+         let eDateB = pullEndDateFromEntry(entryB, sDateB);
+
+         // If we don't have an end date, use the start date.
+         eDateA = eDateA ? eDateA : sDateA;
+         eDateB = eDateB ? eDateB : sDateB;
+
+         // If we're ascending, use the start dates, otherwise use the end dates.
+         let dateA = ascOrder ? sDateA : eDateA;
+         let dateB = ascOrder ? sDateB : eDateB;
+
          // We can do an int sort b/c start-date is a timestamp
-         if (order === 'asc') {
-            return dateA - dateB;
-         }
-         return dateB - dateA;
+         return ascOrder ? (dateA - dateB) : (dateB - dateA);
       });
       // Now that the articles have been re-ordered, go through them all & stick them back in the container
       maArray.forEach(el => {maEntryContainer.appendChild(el);});
