@@ -15,6 +15,11 @@ header {
   color: white;
 }
 
+header div {
+   max-width: 928px;
+   margin: 30px;
+}
+
 /* Container for flexboxes */
 section {
   display: -webkit-flex;
@@ -23,26 +28,27 @@ section {
 
 /* Style the navigation menu */
 nav {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  background: #FF8858;
-  color: white;
-  padding: 18px;
-  display: -webkit-flex;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  font-size: 18px;
-  flex-wrap: wrap;
+   flex: 1;
+   background: #FF8858;
+   color: white;
+   padding: 18px;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   font-size: 18px;
+   flex-wrap: wrap;
+   max-width: 190px;
 }
 
-
-@media (max-width: 530px) {
+@media (max-width: 600px) {
    nav {
-       flex-direction: row;
-       align-items: stretch;
-       align-content: center;
+      flex-direction: row;
+      align-items: stretch;
+      align-content: center;
+      justify-content: space-evenly;
+      text-align: center;
+      gap: 0;
+      max-width: 100%;
    }
 }
 
@@ -79,10 +85,14 @@ article {
 
 /* Style the footer */
 footer {
-  background-color: #A600A6;
-  padding: 10px;
-  text-align: center;
-  color: white;
+   background-color: #A600A6;
+   padding: 10px;
+   text-align: center;
+   color: white;
+}
+
+footer p {
+   max-width: 928px;
 }
 
 footer a {
@@ -120,6 +130,11 @@ footer a:visited {
 #article-container {
    display: flex;
    flex-direction: column;
+}
+
+#article-container > div {
+   max-width: 777px;
+   margin-right: auto;
 }
 
 #article-container .hidden {
