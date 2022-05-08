@@ -1,18 +1,20 @@
- * {
-  box-sizing: border-box;
+* {
+   box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+   font-family: Arial, Helvetica, sans-serif;
+   background-color: #A600A6;
+   display: flex;
+   flex-direction: column;
+   margin: 0;
 }
 
 /* Style the header */
 header {
-  background-color: #A600A6;
-  padding: 10px;
-  text-align: center;
-  font-size: 35px;
-  color: white;
+   margin: 0 auto;
+   font-size: 35px;
+   color: white;
 }
 
 header div {
@@ -22,8 +24,9 @@ header div {
 
 /* Container for flexboxes */
 section {
-  display: -webkit-flex;
-  display: flex;
+   display: -webkit-flex;
+   display: flex;
+   margin: 0 auto;
 }
 
 /* Style the navigation menu */
@@ -76,27 +79,58 @@ nav div a:visited {
 
 /* Style the content */
 article {
-  -webkit-flex: 5;
-  -ms-flex: 5;
-  flex: 5;
-  background-color: #C5FC98;
-  padding: 20px;
+   -webkit-flex: 5;
+   -ms-flex: 5;
+   flex: 5;
+   background-color: #C5FC98;
+   padding: 20px;
 }
 
 /* Style the footer */
 footer {
-   background-color: #A600A6;
-   padding: 10px;
-   text-align: center;
+   display:flex;
+   flex-direction: column;
+   justify-content: center;
    color: white;
+   margin: 0 auto;
 }
 
-footer p {
-   max-width: 928px;
+footer div {
+   display: flex;
+   flex-direction: row;
+   max-width: 954px;
+   margin: 20px;
+   justify-content: center;
+   gap: 8px;
+   align-items: stretch;
+   flex-wrap: wrap;
 }
 
 footer a {
    color: #5FD101;
+   min-width: 122px;
+}
+
+footer a:first-child {
+   text-align: right;
+}
+
+footer a:last-child {
+   text-align: left;
+}
+
+@media (max-width: 305px) {
+   footer a:first-child {
+      text-align: center;
+   }
+
+   footer span {
+      display: none;
+   }
+
+   footer a:last-child {
+      text-align: center;
+   }
 }
 
 footer a:visited {
@@ -130,11 +164,11 @@ footer a:visited {
 #article-container {
    display: flex;
    flex-direction: column;
+   max-width: 820px;
 }
 
 #article-container > div {
    max-width: 777px;
-   margin-right: auto;
 }
 
 #article-container .hidden {
@@ -185,16 +219,16 @@ footer a:visited {
 .block-o-fun img:hover {
    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
    cursor: crosshair;
- }
+}
 
 /**
  * Mini Article CSS
  */
- #mini-article-list {
-    margin: 0px 6px;
-    display: flex;
-    flex-direction: column;
- }
+#mini-article-list {
+   margin: 0px 6px;
+   display: flex;
+   flex-direction: column;
+}
 
 /**
  * Required for animations: https://css-tricks.com/using-css-transitions-auto-dimensions/#aa-technique-3-javascript
@@ -262,11 +296,11 @@ footer a:visited {
    flex-wrap: wrap;
 }
 
- /* Mini Article Header */
- #mini-article-list h3 {
-    font-size: 25px;
-    margin: 0;
- }
+/* Mini Article Header */
+#mini-article-list h3 {
+   font-size: 25px;
+   margin: 0;
+}
 
 /* Mini Article Sort */
 #mini-article-sort-container {
@@ -323,9 +357,9 @@ footer a:visited {
 
 @keyframes slidebg {
    to {
-     background-position:25vw;
+      background-position:25vw;
    }
- }
+}
 
  /* Active state of filter tag */
 #mini-article-tag-list .ma-tag.active {
