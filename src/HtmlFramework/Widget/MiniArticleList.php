@@ -81,10 +81,6 @@ class MiniArticleList {
       return HtmlUtils::makeDivElement($sortHtml, $sortDivParams);
    }
 
-   private function getHeaderAndSortHtml(): string {
-
-   }
-
    /**
     * Should return a list of each articles: {$maEntriesDiv}
     * <div id="mini-article-entries>
