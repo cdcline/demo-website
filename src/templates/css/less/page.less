@@ -1,0 +1,133 @@
+/** Global **/
+* {
+   box-sizing: border-box;
+}
+
+body {
+   font-family: Arial, Helvetica, sans-serif;
+   background-color: @bodyBackgroundColor;
+   display: flex;
+   flex-direction: column;
+   margin: 0;
+}
+
+/** Major Sections */
+/** Header */
+header {
+   margin: 0 auto;
+   font-size: 35px;
+   color: @headerTextColor;
+
+   div {
+      max-width: 928px;
+      margin: 30px;
+   }
+}
+
+/* Container for flexboxes */
+section {
+   display: -webkit-flex;
+   display: flex;
+   margin: 0 auto;
+
+   /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+   @media (max-width: 600px) {
+      -webkit-flex-direction: column;
+      flex-direction: column;
+   }
+}
+
+/* Style the navigation menu */
+nav {
+   flex: 1;
+   background: @navBackgroundColor;
+   color: @navTextColor;
+   padding: 18px;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   font-size: 18px;
+   flex-wrap: wrap;
+   max-width: 190px;
+
+   @media (max-width: 600px) {
+      flex-direction: row;
+      align-items: stretch;
+      align-content: center;
+      justify-content: space-evenly;
+      text-align: center;
+      gap: 0;
+      max-width: 100%;
+   }
+
+   div {
+      padding: 4px;
+      gap: 8px;
+      min-width: 150px;
+      overflow-wrap: anywhere;
+
+      &:hover {
+         font-weight: bold;
+         cursor: pointer;
+      }
+
+      a, a:visited {
+         color: @navTextColor;
+         text-decoration: none;
+      }
+   }
+}
+
+/* Style the content */
+article {
+   -webkit-flex: 5;
+   -ms-flex: 5;
+   flex: 5;
+   background-color: @interestingArticle;
+   padding: 20px;
+}
+
+/* Footer */
+footer {
+   display:flex;
+   flex-direction: column;
+   justify-content: center;
+   color: @footerSpacerColor;
+   margin: 0 auto;
+   div {
+      display: flex;
+      flex-direction: row;
+      max-width: 954px;
+      margin: 20px;
+      justify-content: center;
+      gap: 8px;
+      align-items: stretch;
+      flex-wrap: wrap;
+   }
+   a {
+      color: @footerLinkColor;
+      min-width: 122px;
+
+      &:visited {
+         color: @footerLinkVisitedColor;
+      }
+
+      &:first-child {
+         text-align: right;
+      }
+
+      &:last-child {
+         text-align: left;
+      }
+
+      @media (max-width: 305px) {
+         &:first-child, &:last-child {
+            text-align: center;
+         }
+
+         span {
+            display: none;
+         }
+      }
+   }
+}

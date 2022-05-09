@@ -1,0 +1,31 @@
+ #article-container {
+   display: flex;
+   flex-direction: column;
+   max-width: 820px;
+
+   > div {
+      max-width: 777px;
+   }
+
+   .hidden {
+      display: none;
+   }
+}
+
+#parsed-main-article-container {
+   h2:first-child, p:first-child {
+      margin-top: 0px;
+   }
+   h2:last-child, p:last-child {
+      margin-bottom: 0px;
+   }
+
+   .ma-entry-text-container {
+      h2:first-child,p:first-child {
+         margin-top: 0px;
+      }
+      h2:last-child,p:last-child {
+         margin-bottom: 0px;
+      }
+   }
+}
