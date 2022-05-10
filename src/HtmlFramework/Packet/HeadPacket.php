@@ -8,6 +8,7 @@ class HeadPacket {
    use PacketTrait;
 
    private const HTML_STYLE_SHEET_PATH = 'src/templates/css/page.css';
+   private const JS_LOADER_PATH = 'src/templates/js/page.js';
 
    /**
     * @param $pageTitle - Text put in the meta "title" filed in the Head
@@ -18,5 +19,9 @@ class HeadPacket {
 
    public function getStyleSheetPath(): string {
       return self::HTML_STYLE_SHEET_PATH;
+   }
+
+   public function getJavascriptPath(): string {
+      return self::JS_LOADER_PATH;
    }
 }

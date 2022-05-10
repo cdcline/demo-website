@@ -22,7 +22,7 @@ CREATE TABLE `page_index` (
 INSERT INTO `page_index`
 (`page_title`, `type`, `page_header`, `main_article`)
 VALUES
-('About Me - Website Demo', 'about-me', 'About Me', "## This is the About Me Article!
+('About Me - Website Demo', 'homepage', 'About Me', "## This is the About Me Article!
 
 I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!"),
 ('Dev - Website Demo', 'dev', 'The Dev Environment', "## This is the Dev Article!
@@ -52,7 +52,7 @@ CREATE TABLE `page_nav` (
 INSERT INTO `page_nav`
 (`type`, `slug`, `nav_string`, `pageid`, `orderby`)
 VALUES
-('ARTICLE_PAGE', 'about-me', 'About Me', 1, 1),
+('ARTICLE_PAGE', 'homepage', 'About Me', 1, 1),
 ('CUSTOM', 'https://github.com/cdcline/demo-website', 'Resume', NULL, 3),
 ('ARTICLE_PAGE', 'dev', 'Dev', 2, 2);
 --

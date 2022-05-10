@@ -1,0 +1,199 @@
+.tagContainer {
+   display: flex;
+   flex-direction: row;
+   flex-wrap: wrap;
+   gap: 10px;
+}
+
+@keyframes slidebg {
+   to {
+     background-position: 25vw;
+   }
+}
+
+#mini-article-list {
+   margin: 0px 6px;
+   display: flex;
+   flex-direction: column;
+
+   .ma-entry-container {
+      /**
+      * Required for animations: https://css-tricks.com/using-css-transitions-auto-dimensions/#aa-technique-3-javascript
+      */
+      overflow: hidden;
+      transition: height 0.3s ease-out;
+      height: auto;
+      /**
+      * Because of how we're hacking height for animations, we have to jump through
+      * a couple css hoops to get margins between all the entries to collapse right
+      * when we filter things.
+      */
+      .ma-entry-text-container {
+         /* This is how we set #mini-article-entries {gap:18px} */
+         margin-bottom: 18px;
+         /* We might as well make the parsed article flex too */
+         display: flex;
+         flex-direction: column;
+         gap: 8px;
+         /* Sets the cool border around the parsed text */
+         padding: 8px 10px;
+         border: 1px solid @maEntryTextBorder;
+         border-radius: 15px;
+
+         // Remove a bunch of too large margins in the text container
+         p, h1, h2, h3, h4, h5, h6 {
+            margin: 0px;
+         }
+      }
+   }
+   /**
+   * We'd like the last entry to not push down the footer so we have to set the
+   * last last entry margin to 0.
+   *
+   * If we were using "gap" we woudn't need this but b/c of animations we're jumping
+   * through some css hoops.
+   */
+   &:last-of-type .ma-entry-container {
+      margin-bottom: 0px;
+   }
+
+   .ma-entry-tag-container {
+      .tagContainer();
+   }
+
+   /* General tag css */
+   .ma-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid @maTagBorder;
+      border-radius: 10%;
+      font-size: 16px;
+      min-width: 60px;
+      padding: 2px 4px;
+   }
+}
+
+ /* Head - Header / Sort / Tags */
+#ma-head-container {
+   margin: 8px 0;
+
+   /* Mini Article Header and Sort */
+   #ma-header-and-sort-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      align-items: stretch;
+      gap: 4px;
+      flex-wrap: wrap;
+
+      /* Header */
+      h3 {
+         font-size: 25px;
+         margin: 0;
+      }
+
+      /* Mini Article Sort */
+      #mini-article-sort-container {
+         display: flex;
+         flex-direction: row;
+         gap: 5px;
+         font-size: 18px;
+         flex-wrap: wrap;
+         align-self: center;
+
+         span {
+            min-width: fit-content;
+
+            &:hover, &.active {
+               cursor: pointer;
+               color: @maSortHoverHighlight;
+               text-shadow: -0.04em  0.04em 0.08em @maSortHoverShardow,
+                             0.04em  0.04em 0.08em @maSortHoverShardow,
+                             0.04em -0.04em 0      @maSortHoverShardow,
+                            -0.04em -0.04em 0      @maSortHoverShardow;
+            }
+         }
+      }
+   }
+
+   /* Mini Article Tags & Entry Tags */
+   #mini-article-tag-list {
+      margin: 0 8px ;
+      justify-content: center;
+      .tagContainer();
+
+      .ma-tag.active {
+         color: @maFilterTagActiveText;
+         border-color: @maFilterTagActiveBorder;
+         background-color: @maFilterTagActiveBackground;
+      }
+
+      .ma-tag:hover {
+         background-image: linear-gradient(90deg, @fx1 3%, @fx2 15%, @fx3 50%, @fx2 85%, @fx1 97%);
+         animation: slidebg 5s linear infinite;
+         color: @maFilterTagHoverText;
+         -webkit-text-stroke-width: 0.015em;
+         -webkit-text-stroke-color: @maFilterTagHoverStroke;
+         cursor: pointer;
+      }
+   }
+}
+
+
+/* Mini Article Entry */
+#mini-article-entries {
+   display: inline-flex;
+   flex-direction: column;
+   margin: 4px;
+
+   .ma-entry-head-container {
+      margin-bottom: 12px;
+   }
+
+   .ma-entry-title-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      align-items: baseline;
+      gap: 4px;
+      flex-wrap: wrap;
+
+      h5 {
+         font-size: 30px;
+         margin: 0;
+         color: @maEntryHeader;
+         text-shadow: -0.04em  0.04em 0.08em @maEntryHeaderShadow,
+                     0.04em  0.04em 0.08em @maEntryHeaderShadow,
+                     0.04em -0.04em 0      @maEntryHeaderShadow,
+                     -0.04em -0.04em 0      @maEntryHeaderShadow;
+         -webkit-text-stroke-width: 0.02em;
+         -webkit-text-stroke-color: @maEntryHeaderStroke;
+      }
+   }
+
+   .ma-entry-date-container {
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: @maEntryDateText;
+      text-shadow: -0.04em  0.04em 0.08em @maEntryDateShadow,
+                  0.04em  0.04em 0.08em @maEntryDateShadow,
+                  0.04em -0.04em 0      @maEntryDateShadow,
+                  -0.04em -0.04em 0      @maEntryDateShadow;
+   }
+
+   .ma-entry-tag-container {
+      margin: 0 14px 6px;
+
+      /* Make them smaller b/c they're kinda different */
+      .ma-tag {
+         color: @maEntryTagText;
+         border-color: @maEntryTagBorder;
+         background-color: @maEntryTagBackground;
+         font-size: 8px;
+         min-width: 40px;
+         padding: 2px 3px;
+      }
+   }
+}

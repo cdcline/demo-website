@@ -1,13 +1,11 @@
 <nav>
-   <ul>
-      <?php foreach ($this->getPacketData('navRows') as $i => $navRow) :
-         $class = $navRow['isFun'] ? 'fun' : '';
-      ?>
-         <li>
-            <a class="<?= $class ?>" href="<?= $navRow['url'] ?>">
-               <?= $navRow['display'] ?>
-            </a>
-         </li>
-      <?php endforeach ?>
-   </ul>
+   <?php foreach ($this->getPacketData('navRows') as $i => $navRow) :
+      $class = $navRow['isFun'] ? 'fun' : '';
+   ?>
+      <div>
+         <a class="<?= $class ?>" href="<?= $navRow['url'] ?>">
+            <?= $navRow['display'] ?>
+         </a>
+      </div>
+   <?php endforeach ?>
 </nav>

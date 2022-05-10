@@ -2,8 +2,6 @@
 
 namespace Utils;
 
-use strcasecmp;
-
 class StringUtils {
    /**
     * Insensitive string match. Here b/c the strcasecmp logic is silly.

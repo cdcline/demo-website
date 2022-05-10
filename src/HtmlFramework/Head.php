@@ -31,5 +31,4 @@ class Head extends HtmlElement {
    protected function getPageTitle(): string {
       return $this->pageTitle;
    }
-
 }

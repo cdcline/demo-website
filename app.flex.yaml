@@ -1,0 +1,35 @@
+runtime: php
+env: flex
+
+# [START configuration]
+runtime_config:
+  enable_stackdriver_integration: true,
+  document_root: .
+# [END configuration]
+
+# [START configuration]
+  endpoints_api_service:
+  # The following values are to be replaced by information from the output of
+  # 'gcloud endpoints services deploy openapi-appengine.yaml' command. If you have
+  # previously run the deploy command, you can list your existing configuration
+  # ids using the 'configs list' command as follows:
+  #
+  #     gcloud endpoints configs list --service=YOUR-PROJECT-ID.appspot.com
+  #
+  name: ENDPOINTS-SERVICE-NAME
+  rollout_strategy: managed
+# [END configuration]
+
+# [START configuration]
+readiness_check:
+  check_interval_sec: 5
+  timeout_sec: 4
+  failure_threshold: 2
+  success_threshold: 2
+  app_start_timeout_sec: 600
+# [END configuration]
+
+# [START configuration]
+beta_settings:
+  cloud_sql_instances: burnished-flare-348022:us-west1:demo-db-alpha # This will be unique to the cloud project!
+# [END configuration]

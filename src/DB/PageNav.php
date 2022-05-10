@@ -3,6 +3,7 @@
 namespace DB;
 
 use DB\DBTrait;
+use Exception;
 use Utils\StringUtils;
 use Pages\InvalidPageException;
 
@@ -11,14 +12,28 @@ class PageNav {
 
    public const ARTICLE_PAGE_TYPE = 'ARTICLE_PAGE';
    public const CUSTOM_TYPE = 'CUSTOM';
+   public const HOMEPAGE_PAGEID = 1;
 
-   public static function getPageidFromSlug(string $slug): int {
+   public static function getPageidFromSlug(string $slug = ''): int {
+      if (!$slug) {
+         return self::HOMEPAGE_PAGEID;
+      }
       foreach (self::fetchAllRowsFromStaticCache() as $row) {
          if (StringUtils::iMatch($slug, $row['slug'])) {
             return (int)$row['pageid'];
          }
       }
       InvalidPageException::throwPageNotFound($slug);
+   }
+
+   public static function getDefaultSlug(): string {
+      $dPageid = self::getPageidFromSlug();
+      foreach (self::fetchAllRowsFromStaticCache() as $row) {
+         if ($row['pageid'] === $dPageid) {
+            return $row['slug'];
+         }
+      }
+      throw new Exception('Default page not configured correctly. Unkown HOMEPAGE_PAGEID.');
    }
 
    private static function fetchAllRows(): array {
@@ -35,8 +50,8 @@ EOT;
       return [
          ['navid' => 1,
           'type' => self::ARTICLE_PAGE_TYPE,
-          'slug' => 'about-me',
-          'nav_string' => 'About Me',
+          'slug' => 'homepage',
+          'nav_string' => 'Homepage',
           'pageid' => 1,
           'orderby' => 1
          ],

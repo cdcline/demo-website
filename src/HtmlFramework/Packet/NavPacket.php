@@ -5,12 +5,13 @@ namespace HtmlFramework\Packet;
 use DB\PageNav;
 use HtmlFramework\Packet\PacketTrait;
 use Utils\StringUtils;
+use Utils\SiteRunner;
 
 class NavPacket {
    use PacketTrait;
 
    public function __construct(array $pageNavRows) {
-      return $this->setData('navRows', $this->extractNavDataFromPageNavRows($pageNavRows));
+      $this->setData('navRows', $this->extractNavDataFromPageNavRows($pageNavRows));
    }
 
    private function extractNavDataFromPageNavRows(array $pageNavRows): array {
@@ -19,17 +20,16 @@ class NavPacket {
       // Can be done in MySQL too but this helps with the static data
       array_multisort(array_column($pageNavRows, 'orderby'), SORT_ASC, $pageNavRows);
 
-      // I want some elements to mess with on the site, we'll designate them "fun"
-      $isFunRow = function($i): bool {
-         // Every 3rd nav row is fun starting with the first
-         return $i % 3 === 0;
+      $slug = SiteRunner::getSlugFromUrl();
+      $isFunRow = function($rSlug) use ($slug): bool {
+         return $rSlug === $slug;
       };
 
       foreach ($pageNavRows as $i => $row) {
          $navData[] = [
             'url' => $this->getUrlFromPageNavRow($row),
             'display' => $row['nav_string'],
-            'isFun' => $isFunRow($i)
+            'isFun' => $isFunRow($row['slug'])
          ];
       }
 
@@ -37,6 +37,10 @@ class NavPacket {
    }
 
    private function getUrlFromPageNavRow(array $navRow): string {
+      // Don't have any url for the "homepage" link.
+      if ($navRow['pageid'] === PageNav::HOMEPAGE_PAGEID) {
+         return '/';
+      }
       $customUrl = StringUtils::iMatch($navRow['type'], PageNav::CUSTOM_TYPE);
       $slugOrUrl = $navRow['slug'];
       // If it's a "custom url" just use whatever is in the field

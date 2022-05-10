@@ -43,8 +43,4 @@ class Body extends HtmlElement {
    protected function getFrameworkFile(): string {
       return self::FRAMEWORK_FILE;
    }
-
-   protected function getJavascriptPath(): string {
-      return 'src/templates/js/page.js';
-   }
 }

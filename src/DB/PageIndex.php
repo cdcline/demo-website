@@ -9,13 +9,21 @@ class PageIndex {
    use DBTrait;
 
    const DEFAULT_TYPE = 'default';
-   const ABOUT_ME_TYPE = 'about-me';
+   const HOMEPAGE_TYPE = 'homepage';
    const DEV_TYPE = 'dev';
 
    public static function getTypeFromPageid(int $pageid): string {
+      return self::getRowFromPageid($pageid)['type'];
+   }
+
+   public static function getMainArticleTextFromPageid(int $pageid): string {
+      return self::getRowFromPageid($pageid)['main_article'];
+   }
+
+   private static function getRowFromPageid(int $pageid): array {
       foreach (self::fetchAllRowsFromStaticCache() as $row) {
          if ($row['pageid'] == $pageid) {
-            return $row['type'];
+            return $row;
          }
       }
       InvalidPageException::throwPageNotFound($pageid);
@@ -32,14 +40,33 @@ EOT;
    // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
       return [
-         ['type' => self::ABOUT_ME_TYPE,
+         ['type' => self::HOMEPAGE_TYPE,
           'pageid' => 1,
-          'page_title' => 'About Me - Website Demo',
-          'page_header' => 'About Me',
+          'page_title' => 'Welcome - My Demo Website',
+          'page_header' => 'Welcome',
           'main_article' => <<<EOT
-## This is the About Me Article!
+## Welcome to My Personal Website!
 
-I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!
+I've been [writing code](#link) since [elementry school](https://en.wikipedia.org/wiki/Logo_(programming_language))!
+
+I write code and didn't have _any_ coding examples or even a server to run my site on! I hope to solve this with My Personal Website. It will be both as my personal coding playground and an example of how I write code!
+
+#### This page is an example of "My Demo Website" capabilities!
+
+All the text you've read so far is **[parsable](#toggleParser)** _text_ and should be easy for anyone to ~~etid~~ edit.
+
+This is great for:
+* Speed
+ * You can just write text and not worry about html
+* Frequent updating
+ * Easy to find the text to change
+* Non-Coders
+ * Don't have to know anything about CSS or HTML
+* Readability
+ * It's a block of text with kinda random punctuation.
+ * No `<code>` elements to worry about.
+
+However, it has it's limits. You can't really do fancy **frontend** _things_.
 EOT
          ],
          ['type' => self::DEV_TYPE,

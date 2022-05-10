@@ -6,9 +6,6 @@ use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Packet\WidgetCollectionPacket;
 use HtmlFramework\Widget\BlockOFun;
 use HtmlFramework\Widget\MiniArticleList;
-use Pages\AboutMePage;
-use Pages\DefaultPage;
-use Pages\DevPage;
 use DB\PageIndex;
 
 /**
@@ -62,7 +59,7 @@ class WidgetCollection {
          case PageIndex::DEV_TYPE:
             // There's enough with the Mini Article List data on the dev page
             return $getClassesFromDefault([BlockOFun::class]);
-         case PageIndex::ABOUT_ME_TYPE:
+         case PageIndex::HOMEPAGE_TYPE:
             // We add the Block-O-Fun back into the template to show that you can do that
             return $getClassesFromDefault([BlockOFun::class]);
          default:

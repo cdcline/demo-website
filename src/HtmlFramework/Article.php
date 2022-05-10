@@ -5,7 +5,6 @@ namespace HtmlFramework;
 use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Packet\WidgetCollectionPacket;
-use HtmlFramework\Widget\MiniArticleList;
 use HtmlFramework\Widget\WidgetCollection;
 use Utils\Parser;
 
@@ -36,6 +35,10 @@ class Article extends HtmlElement {
 
    protected function getFrameworkFile(): string {
       return self::FRAMEWORK_FILE;
+   }
+
+   protected function getPageType(): string {
+      return $this->packet->getPageType();
    }
 
    protected function getParsedMainArticle(): string {

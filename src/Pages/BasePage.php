@@ -3,7 +3,6 @@
 namespace Pages;
 
 use DB\PageIndex;
-use DB\PageNav;
 use HtmlFramework\Article as HtmlArticle;
 use HtmlFramework\Body as HtmlBody;
 use HtmlFramework\Footer as HtmlFooter;
@@ -85,20 +84,8 @@ abstract class BasePage {
       return [];
    }
 
-   /**
-    * We'd like to support multiple pages: https://github.com/cdcline/demo-website/issues/32
-    * but that requires more logic to abstract "templates" from "slugs" and we're
-    * not there yet.
-    *
-    * I'd still like to start using `pageid` for all the logic ASAP so we'll
-    * stick this little hack in until pages are made with an id & type.
-    */
-   private function getPageid(): int {
-      if (isset($this->pageid)) {
-         return $this->pageid;
-      }
-
-      return $this->pageid = PageNav::getPageidFromSlug($this->getPageSlug());
+   protected function getPageid(): int {
+      return $this->pageid;
    }
 
    private function getPageTitle(): string {

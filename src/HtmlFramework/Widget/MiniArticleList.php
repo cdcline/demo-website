@@ -3,7 +3,6 @@
 namespace HtmlFramework\Widget;
 
 use DB\MiniArticle;
-use HtmlFramework\Packet\WidgetCollectionPacket;
 use HtmlFramework\Widget\WidgetTrait;
 use Utils\HtmlUtils;
 use Utils\Parser;
@@ -17,10 +16,13 @@ class MiniArticleList {
    /**
     * Generates something like
     * <div id="mini-article-list">
-    *    <H3>Random Title<H3> --  https://github.com/cdcline/demo-website/issues/46
-    *    {$maTagsDiv} -- div with all possible tags
-    *    {$maSortDiv} -- div with sort orders
-    *    {$maEntriesDiv} -- div the mini article entries
+    *    <div id="ma-head-container">
+    *      <div id="ma-header-and-sort-container">
+    *        <H3>Random Title<H3> --  https://github.com/cdcline/demo-website/issues/46
+    *        {$maSortDiv} -- div with sort orders
+    *      </div>
+    *      {$maTagsDiv} -- div with all possible tags
+    *      {$maEntriesDiv} -- div the mini article entries
     *    </div>
     * </div>
     */
@@ -28,7 +30,12 @@ class MiniArticleList {
       if (!$this->renderWidget()) {
          return '';
       }
-      $maEls = [$this->getListHeaderHtml(), $this->getListTagsHtml(), $this->getSortHtml(), $this->getMiniArticleHtml()];
+
+      $maHeaderAndSort = [$this->getListHeaderHtml(), $this->getSortHtml()];
+      $maHSContainer = HtmlUtils::makeDivElement(implode(' ', $maHeaderAndSort), ['id' => 'ma-header-and-sort-container']);
+      $maHeadEls = [$maHSContainer, $this->getListTagsHtml()];
+      $maHeadContainer = HtmlUtils::makeDivElement(implode(' ', $maHeadEls), ['id' => 'ma-head-container']);
+      $maEls = [$maHeadContainer, $this->getMiniArticleHtml()];
       return HtmlUtils::makeDivElement(implode(' ', $maEls), ['id' => 'mini-article-list']);
    }
 
@@ -76,31 +83,44 @@ class MiniArticleList {
    /**
     * Should return a list of each articles: {$maEntriesDiv}
     * <div id="mini-article-entries>
-    *    {$articleEntryDiv}
-    *    {$articleEntryDiv}
+    *    {$articleEntryDiv1}
+    *    {$articleEntryDiv2}
+    *    ...
     * </div>
 
     * Each {$articleEntryDiv} should generate something like
     * <div class="ma-entry-container">
-    *    <h5>{$miniArticleTitle}</h5>
-    *    {$entryTimeDiv}
-    *    {$entryTagDiv}
-    *    <div class="mini-article-text">{$parsedArticle}</div>
+    *    <div class="ma-entry-head-container">
+    *      <div class="ma-entry-title-container">
+    *          <h5>{$miniArticleTitle}</h5>
+    *          {$entryTimeDiv}
+    *      </div>
+    *      {$entryTagDiv}
+    *    </div>
+    *    <div class="ma-entry-text-container">{$parsedArticle}</div>
     * <div>
     */
    private function getMiniArticleHtml(): string {
       $articleEls = [];
-      $mArticleTextDivParams = ['class' => 'mini-article-text'];
-      $mArticleContainerParams = ['class' => 'ma-entry-container'];
       $mArticleListParams = ['id' => 'mini-article-entries'];
+      $maEntryContainerParams = ['class' => 'ma-entry-container'];
+      $maEntryHeadContainerParams = ['class' => 'ma-entry-head-container'];
+      $maEntryTitleContainerParams = ['class' => 'ma-entry-title-container'];
+      $maEntryArticleTextContainerParams = ['class' => 'ma-entry-text-container'];
+
+      $makeTitleContainer = function(string $title, int $startDate, int $endDate) use ($maEntryTitleContainerParams): string {
+         $header = "<div>". HtmlUtils::makeHXElement(5, $title).'</div>';
+         $timeSpanDiv = $this->makeArticleDatesDiv($startDate, $endDate);
+         return HtmlUtils::makeDivElement(implode(' ', [$header, $timeSpanDiv]), $maEntryTitleContainerParams);
+      };
+
       foreach ($this->getMiniArticleRows() as $row) {
-         $header = HtmlUtils::makeHXElement(5, $row['title']);
-         $timeSpanDiv = $this->makeArticleDatesDiv((int)$row['start_date'], (int)$row['end_date']);
-         $miniArticleDiv = HtmlUtils::makeDivElement(Parser::parseText($row['mini_article_text']), $mArticleTextDivParams);
-         $miniArticleTagDiv = $this->makeMiniArticleTagDiv($row['tags']);
-         $miniArticleInnerHtml = implode(' ', [$header, $timeSpanDiv, $miniArticleTagDiv, $miniArticleDiv]);
-         $articleEls[] = HtmlUtils::makeDivElement($miniArticleInnerHtml, $mArticleContainerParams);
+         $titleContainer = $makeTitleContainer($row['title'], (int)$row['start_date'], (int)$row['end_date']);
+         $headContainer = HtmlUtils::makeDivElement(implode(' ', [$titleContainer, $this->makeMiniArticleTagDiv($row['tags'])]), $maEntryHeadContainerParams);
+         $maTextContainer = HtmlUtils::makeDivElement(Parser::parseText($row['mini_article_text']), $maEntryArticleTextContainerParams);
+         $articleEls[] = HtmlUtils::makeDivElement("{$headContainer} {$maTextContainer}", $maEntryContainerParams);
       }
+
       return HtmlUtils::makeDivElement(implode(' ', $articleEls), $mArticleListParams);
    }
 
@@ -120,7 +140,7 @@ class MiniArticleList {
    private function makeArticleDatesDiv(int $startDate, ?int $endDate): string {
       // We want to view the dates in a reasonable format. We'll show by year
       $formatDate = function(int $timestamp): string {
-         return date('m/d/y', $timestamp);
+         return date('n/Y', $timestamp);
       };
       // We need a common class to hook css on
       $entryDateTxtClass = ['ma-text-date-container'];
@@ -128,7 +148,7 @@ class MiniArticleList {
       $sDateParams = ['class' => 'ma-start-date', 'data-start-date' => $startDate];
       $sDateSpan = HtmlUtils::makeSpanElement($formatDate($startDate), $sDateParams);
       // Add "start date" text
-      $sTextInnerHtml = "Start Date: {$sDateSpan}";
+      $sTextInnerHtml = "{$sDateSpan}";
       // Add the common class to the specific class
       $sTextClasses = implode(' ', array_merge($entryDateTxtClass, ['ma-start-date-container']));
       $sTextParams = ['class' => $sTextClasses];
@@ -137,13 +157,11 @@ class MiniArticleList {
       $eTextSpan = '';
       if ($endDate) {
          $eDateParams = ['class' => 'ma-end-date', 'data-end-date' => $endDate];
-         $eDateSpan = HtmlUtils::makeSpanElement($formatDate($endDate), $eDateParams);
-         // Add start date text
-         $eTextInnerHtml = "End Date: {$eDateSpan}";
+         $eDateSpan = ' - ' . HtmlUtils::makeSpanElement("{$formatDate($endDate)}", $eDateParams);
          // Add the common class to the specific clas
          $eTextClasses = implode(' ', array_merge($entryDateTxtClass, ['ma-end-date-container']));
          $eTextParams = ['class' => $eTextClasses];
-         $eTextSpan = HtmlUtils::makeSpanElement($eTextInnerHtml, $eTextParams);
+         $eTextSpan = HtmlUtils::makeSpanElement($eDateSpan, $eTextParams);
       }
       // Stick the spans in a div
       $timeDivParams = ['class' => 'ma-entry-date-container'];
@@ -176,7 +194,7 @@ class MiniArticleList {
     */
    private function getTags(): array {
       if (isset($this->tags)) {
-         return $tags;
+         return $this->tags;
       }
       $tags = [];
       foreach ($this->getMiniArticleRows() as $row) {
