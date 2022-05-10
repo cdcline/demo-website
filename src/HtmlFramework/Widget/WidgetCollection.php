@@ -6,9 +6,6 @@ use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Packet\WidgetCollectionPacket;
 use HtmlFramework\Widget\BlockOFun;
 use HtmlFramework\Widget\MiniArticleList;
-use Pages\HomePage;
-use Pages\DefaultPage;
-use Pages\DevPage;
 use DB\PageIndex;
 
 /**

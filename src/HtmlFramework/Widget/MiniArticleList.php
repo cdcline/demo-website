@@ -3,7 +3,6 @@
 namespace HtmlFramework\Widget;
 
 use DB\MiniArticle;
-use HtmlFramework\Packet\WidgetCollectionPacket;
 use HtmlFramework\Widget\WidgetTrait;
 use Utils\HtmlUtils;
 use Utils\Parser;
@@ -195,7 +194,7 @@ class MiniArticleList {
     */
    private function getTags(): array {
       if (isset($this->tags)) {
-         return $tags;
+         return $this->tags;
       }
       $tags = [];
       foreach ($this->getMiniArticleRows() as $row) {

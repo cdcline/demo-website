@@ -2,9 +2,6 @@
 
 namespace HtmlFramework\Packet;
 
-use HtmlFramework\Nav as PageNav;
-use HtmlFramework\Article as PageArticle;
-use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Packet\PacketTrait;
 
 class WidgetCollectionPacket {

@@ -2,10 +2,10 @@
 
 namespace HtmlFramework\Widget;
 
+use Exception;
+use HtmlFramework\Widget\WidgetTrait;
 use Utils\HtmlUtils;
 use Utils\LoremIpsumUtils;
-use HtmlFramework\Packet\ArticlePacket;
-use HtmlFramework\Widget\WidgetTrait;
 
 /**
  * Your basic block'o'fun to play with

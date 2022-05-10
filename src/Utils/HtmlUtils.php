@@ -49,7 +49,7 @@ class HtmlUtils {
    public static function makeUnorderList(array $listValues, $addDataMeta = false): string {
       $listElements = [];
       foreach($listValues as $lValue) {
-         $elPartStr;
+         $elPartStr = '';
          if ($addDataMeta) {
             $elPartStr = self::generateElementPartStr(['data-value' => $lValue]);
          }

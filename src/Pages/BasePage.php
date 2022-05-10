@@ -3,7 +3,6 @@
 namespace Pages;
 
 use DB\PageIndex;
-use DB\PageNav;
 use HtmlFramework\Article as HtmlArticle;
 use HtmlFramework\Body as HtmlBody;
 use HtmlFramework\Footer as HtmlFooter;

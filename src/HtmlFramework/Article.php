@@ -5,7 +5,6 @@ namespace HtmlFramework;
 use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Packet\WidgetCollectionPacket;
-use HtmlFramework\Widget\MiniArticleList;
 use HtmlFramework\Widget\WidgetCollection;
 use Utils\Parser;
 

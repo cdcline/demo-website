@@ -3,7 +3,6 @@
 namespace Pages;
 
 use Exception;
-use Utils\StringUtils;
 
 class InvalidPageException extends Exception {
    // Doesn't really matter, just making unique & not 0

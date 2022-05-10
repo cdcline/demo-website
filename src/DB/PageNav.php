@@ -3,6 +3,7 @@
 namespace DB;
 
 use DB\DBTrait;
+use Exception;
 use Utils\StringUtils;
 use Pages\InvalidPageException;
 
