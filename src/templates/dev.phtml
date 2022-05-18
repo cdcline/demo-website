@@ -4,26 +4,3 @@
 <h4>Database values</h4>
 <?= $this->getData('pageTableHtml') ?><br><br>
 <?= $this->getData('maTableHtml') ?>
-
-<?php
-use Google\Cloud\Firestore\FirestoreClient;
-use Utils\ServerUtils;
-
-if (ServerUtils::onGoogleCloudProject())  {
-   $db = new FirestoreClient();
-   $pageIndex = $db->collection('page_index');
-   $pages = $pageIndex->documents();
-   $indexes = ['main_article', 'page_header', 'page_title'];
-   foreach ($pages as $page) {
-      printf('Id: %s' . PHP_EOL, $page->id());
-      foreach ($indexes as $i) {
-         if (!empty($page[$i])) {
-            printf("{$i}: %s" . PHP_EOL, $page[$i]);
-         }
-         $typeSnap = $page['type']->snapshot();
-         printf('Type: %s' . PHP_EOL, $typeSnap->data()['name']);
-      }
-   }
-}
-
-?>

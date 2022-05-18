@@ -2,7 +2,7 @@
 
 namespace DB;
 
-use DB\PDOConnection;
+use Google\Cloud\Firestore\FirestoreClient;
 use Utils\ServerUtils;
 
 /**
@@ -43,10 +43,17 @@ trait DBTrait {
       return self::setStaticCache($rows);
    }
 
-   private static function db(): PDOConnection {
-      return PDOConnection::getConnection();
+   private static function db(): FirestoreClient {
+      return new FirestoreClient();
    }
 
+   private static function getCollection($collectionName) {
+      return self::db()->collection($collectionName);
+   }
+
+   private static function getDocuments($collectionName) {
+      return self::getCollection($collectionName)->documents();
+   }
 
    private static function setStaticCache(array $rows): array {
       return self::$staticRowCache = $rows;

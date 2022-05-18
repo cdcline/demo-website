@@ -8,7 +8,6 @@ use Exception;
 use Pages\BasePage;
 use Utils\HtmlUtils;
 use Utils\Parser;
-use Utils\ServerUtils;
 use Utils\SecretManager;
 use Utils\StringUtils;
 
@@ -39,7 +38,7 @@ final class DevPage extends BasePage {
       // Page Index Table
       $tPageHeader = ['Type', 'Pageid', 'Page Title', 'Page Header'];
       $iPageTable = ['type', 'pageid', 'page_title', 'page_header'];
-      $tPageData = StringUtils::filterArrayByKeys(PageIndex::fetchAllRowsFromStaticCache(), $iPageTable);
+      $tPageData = StringUtils::filterArrayByKeys(PageIndex::testFirestore(), $iPageTable);
       return [
          'caption' => 'Page Index Rows',
          'header' => $tPageHeader,
