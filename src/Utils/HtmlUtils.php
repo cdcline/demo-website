@@ -18,6 +18,25 @@ class HtmlUtils {
       return "<div {$elPartStr}>{$text}</div>";
    }
 
+   public static function makeLinkElement(array $elPartParams): string {
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      return "<link {$elPartStr}>";
+   }
+
+   public static function makeScriptElement(array $elPartParams): string {
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      return "<script {$elPartStr}></script>";
+   }
+
+   public static function makeMetaElement(array $elPartParams): string {
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      return "<meta {$elPartStr}>";
+   }
+
+   public static function makeTitleElement(string $title): string {
+      return "<title>{$title}</title>";
+   }
+
    public static function makePElement(string $text, array $elPartParams = []): string {
       $elPartStr = self::generateElementPartStr($elPartParams);
       return "<p {$elPartStr}>{$text}</p>";
