@@ -2,8 +2,8 @@
 
 namespace DB;
 
-use Google\Cloud\Firestore\FirestoreClient;
 use Utils\ServerUtils;
+use DB\Firestore;
 
 /**
  * This is a very basic trait that does a couple simple things
@@ -15,6 +15,7 @@ use Utils\ServerUtils;
  *    - It's annoying to type big words when you just want a db connection.
  */
 trait DBTrait {
+   private static $db;
    private static $staticRowCache;
 
    /**
@@ -43,16 +44,8 @@ trait DBTrait {
       return self::setStaticCache($rows);
    }
 
-   private static function db(): FirestoreClient {
-      return new FirestoreClient();
-   }
-
-   private static function getCollection($collectionName) {
-      return self::db()->collection($collectionName);
-   }
-
-   private static function getDocuments($collectionName) {
-      return self::getCollection($collectionName)->documents();
+   public static function testFirestore(): array {
+      return ServerUtils::onGoogleCloudProject() ? self::fetchAllRows() : self::getHardcodedRows();
    }
 
    private static function setStaticCache(array $rows): array {
@@ -61,5 +54,16 @@ trait DBTrait {
 
    private static function getStaticCache(): ?array {
       return isset(self::$staticRowCache) ? self::$staticRowCache : null;
+   }
+
+   private static function fetchFireRows($collectionName, $fParams): array {
+      return self::db()->fakeOldDB($collectionName, $fParams);
+   }
+
+   private static function db(): Firestore {
+      if (!isset(self::$db)) {
+         self::$db = Firestore::fetchNewConnection();
+      }
+      return self::$db;
    }
 }

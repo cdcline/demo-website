@@ -4,7 +4,6 @@ namespace DB;
 
 use DB\DBTrait;
 use Pages\InvalidPageException;
-use Utils\ServerUtils;
 
 class PageIndex {
    use DBTrait;
@@ -30,32 +29,12 @@ class PageIndex {
       InvalidPageException::throwPageNotFound($pageid);
    }
 
-   public static function testFirestore(): array {
-      return ServerUtils::onGoogleCloudProject() ? self::fetchAllRows() : self::getHardcodedRows();
-   }
-
    private static function fetchAllRows(): array {
-      $strIndexes = ['main_article', 'page_header', 'page_title'];
-      $snapIndexes = [['strIndex' => 'type', 'snapIndex' => 'name']];
-      $rows = [];
-      foreach (self::getDocuments('page_index') as $page) {
-         $row['pageid'] = $page->id();
-         foreach ($strIndexes as $i) {
-            if (!empty($page[$i])) {
-               $row[$i] = $page[$i];
-            }
-         }
-         foreach ($snapIndexes as $sData) {
-            $i = $sData['strIndex'];
-            $iSnap = $sData['snapIndex'];
-            if (!empty($page[$i])) {
-               $snapData = $page[$i]->snapshot()->data();
-               $row[$i] = $snapData[$iSnap];
-            }
-         }
-         $rows[] = $row;
-      }
-      return $rows;
+      $fParams = [
+      'strIndexes' => ['pageid', 'main_article', 'page_header', 'page_title'],
+      'snapIndexes' => [['strIndex' => 'type', 'snapIndex' => 'name']]
+      ];
+      return self::fetchFireRows('page_index', $fParams);
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`

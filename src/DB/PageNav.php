@@ -4,8 +4,8 @@ namespace DB;
 
 use DB\DBTrait;
 use Exception;
-use Utils\StringUtils;
 use Pages\InvalidPageException;
+use Utils\StringUtils;
 
 class PageNav {
    use DBTrait;
@@ -18,7 +18,7 @@ class PageNav {
       if (!$slug) {
          return self::HOMEPAGE_PAGEID;
       }
-      foreach (self::fetchAllRowsFromStaticCache() as $row) {
+      foreach (self::testFirestore() as $row) {
          if (StringUtils::iMatch($slug, $row['slug'])) {
             return (int)$row['pageid'];
          }
@@ -28,7 +28,7 @@ class PageNav {
 
    public static function getDefaultSlug(): string {
       $dPageid = self::getPageidFromSlug();
-      foreach (self::fetchAllRowsFromStaticCache() as $row) {
+      foreach (self::testFirestore() as $row) {
          if ($row['pageid'] === $dPageid) {
             return $row['slug'];
          }
@@ -37,12 +37,11 @@ class PageNav {
    }
 
    private static function fetchAllRows(): array {
-      $sql = <<<EOT
-         SELECT `navid`, `type`, `slug`, `nav_string`, `pageid`, `orderby`
-         FROM `page_nav`
-         ORDER BY `orderby` ASC
-EOT;
-      return self::db()->fetchAll($sql);
+      $fParams = [
+         'strIndexes' => ['type', 'slug', 'nav_string', 'orderby'],
+         'snapIndexes' => [['strIndex' => 'page', 'snapIndex' => 'pageid', 'newIndex' => 'pageid']]
+      ];
+      return self::fetchFireRows('page_nav', $fParams);
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`
