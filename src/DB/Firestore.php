@@ -36,14 +36,13 @@ class Firestore {
       foreach ($this->getDocuments($collectionName) as $page) {
          $row['firestoreId'] = $page->id();
          foreach ($strIndexes as $i) {
-            if (!empty($page[$i])) {
-               $row[$i] = $page[$i];
-            }
+            $row[$i] = $page[$i] ?? null;
          }
          foreach ($snapIndexes as $sData) {
             $iRef = $sData['strIndex'];
             $iSnap = $sData['snapIndex'];
             $iNew = $sData['newIndex'] ?? $iRef;
+            $row[$iNew] = null;
             if (!empty($page[$iRef])) {
                $snapData = $page[$iRef]->snapshot()->data();
                $row[$iNew] = $snapData[$iSnap];

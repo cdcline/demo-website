@@ -26,26 +26,22 @@ class MiniArticle {
       return $rows;
    }
 
-   /**
-    * On one hand we're smashing 3 tables into a single query, none of queries
-    * are really useable elsewhere & we're creating many rows when we only need
-    * one for a single mini article page.
-    *
-    * On the other KISS!
-    *
-    * NOTE: We'll probably update this to not grab ALL the things at some point
-    * but the data set is so low it really shouldn't matter.
-    */
+
    private static function fetchAllRows(): array {
-      $sql = <<<EOT
-      SELECT `pageid`, `title`, `mini_article`.`text` as `mini_article_text`,
-             `start_date`, `end_date`, GROUP_CONCAT(`tag`.`text`) as `tags`
-      FROM `mini_article_tag`
-      JOIN (`tag`) USING (`tagid`)
-      JOIN `mini_article` USING (`mini_articleid`)
-      GROUP BY `mini_articleid`
-EOT;
-      return self::db()->fetchAll($sql);
+      $fParams = [
+         'strIndexes' => ['title', 'text', 'start_date', 'end_date'],
+         'snapIndexes' => [['strIndex' => 'page', 'snapIndex' => 'pageid', 'newIndex' => 'pageid']]
+      ];
+      $rows = self::fetchFireRows('mini_article', $fParams);
+      $convertTimestamp = function($fTimestamp): ?int {
+         return $fTimestamp ? $fTimestamp->get()->getTimestamp() : null;
+      };
+      foreach ($rows as &$row) {
+         $row['start_date'] = $convertTimestamp($row['start_date']);
+         $row['end_date'] = $convertTimestamp($row['end_date']);
+         $row['tag'] = [];
+      }
+      return $rows;
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`
