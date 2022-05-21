@@ -117,7 +117,7 @@ class MiniArticleList {
       foreach ($this->getMiniArticleRows() as $row) {
          $titleContainer = $makeTitleContainer($row['title'], (int)$row['start_date'], (int)$row['end_date']);
          $headContainer = HtmlUtils::makeDivElement(implode(' ', [$titleContainer, $this->makeMiniArticleTagDiv($row['tags'])]), $maEntryHeadContainerParams);
-         $maTextContainer = HtmlUtils::makeDivElement(Parser::parseText($row['mini_article_text']), $maEntryArticleTextContainerParams);
+         $maTextContainer = HtmlUtils::makeDivElement(Parser::parseText($row['text']), $maEntryArticleTextContainerParams);
          $articleEls[] = HtmlUtils::makeDivElement("{$headContainer} {$maTextContainer}", $maEntryContainerParams);
       }
 
@@ -215,7 +215,7 @@ class MiniArticleList {
       }
 
       // For now we'll just grab all the data and filter on pageid here.
-      return $this->miniArticleRows = array_filter(MiniArticle::fetchAll(), function ($row) {
+      return $this->miniArticleRows = array_filter(MiniArticle::testFirestore(), function ($row) {
          return $row['pageid'] == $this->wcPacket->getPageid();
       });
    }

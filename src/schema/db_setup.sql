@@ -149,5 +149,5 @@ VALUES
 -- SELECT `title`, GROUP_CONCAT(`tag`.`text`) FROM `mini_article_tag` JOIN (`tag`) USING (`tagid`) JOIN `mini_article` USING (`mini_articleid`) GROUP BY `mini_articleid`;
 --
 -- Get all data required to display the mini articles
--- SELECT `title`, `mini_article`.`text` as `mini_article_text`, `start_date`, `end_date`, GROUP_CONCAT(`tag`.`text`) as `tags` FROM `mini_article_tag` JOIN (`tag`) USING (`tagid`) JOIN `mini_article` USING (`mini_articleid`) GROUP BY `mini_articleid`;
+-- SELECT `title`, `mini_article`.`text`, `start_date`, `end_date`, GROUP_CONCAT(`tag`.`text`) as `tags` FROM `mini_article_tag` JOIN (`tag`) USING (`tagid`) JOIN `mini_article` USING (`mini_articleid`) GROUP BY `mini_articleid`;
 --

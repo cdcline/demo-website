@@ -50,6 +50,9 @@ final class DevPage extends BasePage {
       $maHeader = ['Title', 'Start Date', 'End Date', 'Tags'];
       $iMiniArticleTable = ['title', 'start_date', 'end_date', 'tags'];
       $maData = StringUtils::filterArrayByKeys(MiniArticle::testFirestore(), $iMiniArticleTable);
+      foreach ($maData as &$data) {
+         $data['tags'] = implode(',', $data['tags']);
+      }
       return [
          'caption' => 'Mini Article Rows',
          'header' => $maHeader,

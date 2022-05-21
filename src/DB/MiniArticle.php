@@ -7,6 +7,8 @@ use DB\DBTrait;
 class MiniArticle {
    use DBTrait;
 
+   private static $allTags;
+
    private const GROUP_CONCAT_INDEX = 'tags';
    private const GROUP_CONCAT_TOKEN = ',';
 
@@ -39,9 +41,32 @@ class MiniArticle {
       foreach ($rows as &$row) {
          $row['start_date'] = $convertTimestamp($row['start_date']);
          $row['end_date'] = $convertTimestamp($row['end_date']);
-         $row['tag'] = [];
+         $row['tags'] = self::getTagsForArticle($row['firestoreId']);
+         // Stupid hack b/c firestore GUI doesn't let me input newlines?!?
+         $row['text'] = implode("\n\n", explode('[newline]', $row['text']));
       }
       return $rows;
+   }
+
+   private static function getTagsForArticle(string $maDocumentId) {
+      $aTags = [];
+      foreach (self::getAllTags() as $tag) {
+         if ($tag['mini_article']->id() === $maDocumentId) {
+            $aTags[] = $tag['text'];
+         }
+      }
+      return $aTags;
+   }
+
+   private static function getAllTags() {
+      if (isset(self::$allTags)) {
+         return self::$allTags;
+      }
+      $fParams = [
+         'strIndexes' => ['mini_article'],
+         'snapIndexes' => [['strIndex' => 'tag', 'snapIndex' => 'text', 'newIndex' => 'text']]
+      ];
+      return self::$allTags = self::fetchFireRows('mini_article_tag', $fParams);
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`
@@ -49,35 +74,35 @@ class MiniArticle {
       return [
          ['pageid' => 2,
          'title' => 'Mini Article 1',
-         'mini_article_text' => self::getStaticArticleText(1),
+         'text' => self::getStaticArticleText(1),
          'start_date' => 1391555735,
          'end_date' => 1645658135,
          'tags' => 'Foo,Buzz,☃️'
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 2',
-         'mini_article_text' => self::getStaticArticleText(2),
+         'text' => self::getStaticArticleText(2),
          'start_date' => 1325546135,
          'end_date' => NULL,
          'tags' => 'Foo,Bar'
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 5',
-         'mini_article_text' => self::getStaticArticleText(3),
+         'text' => self::getStaticArticleText(3),
          'start_date' => 1650774278,
          'end_date' => 1713932680,
          'tags' => 'Foo,Bar,Fizz,Buzz,🎂'
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 3',
-         'mini_article_text' => self::getStaticArticleText(4),
+         'text' => self::getStaticArticleText(4),
          'start_date' => 409674412,
          'end_date' => 447179274,
          'tags' => 'Fizz,Buzz'
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 4',
-         'mini_article_text' => self::getStaticArticleText(5),
+         'text' => self::getStaticArticleText(5),
          'start_date' => 930049271,
          'end_date' => NULL,
          'tags' => 'Fizz,Bar,☃️'
