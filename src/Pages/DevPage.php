@@ -2,7 +2,7 @@
 
 namespace Pages;
 
-use DB\MiniArticle;
+use DB\MiniArticleList\PageLists;
 use DB\PageIndex;
 use Exception;
 use Pages\BasePage;
@@ -48,13 +48,18 @@ final class DevPage extends BasePage {
 
    private function getMiniArticleTableData(): array {
       $maHeader = ['Title', 'Start Date', 'End Date', 'Tags'];
+      $maTitle = 'Mini Article Rows';
+      $maData = [];
       $iMiniArticleTable = ['title', 'start_date', 'end_date', 'tags'];
-      $maData = StringUtils::filterArrayByKeys(MiniArticle::fetchAllRowsFromStaticCache(), $iMiniArticleTable);
-      foreach ($maData as &$data) {
-         $data['tags'] = implode(',', $data['tags']);
+      $pageLists = PageLists::fetchAll(/*tagsAsOneStr*/true);
+      if ($pageLists) {
+         $pageList = current($pageLists);
+         $maTitle = $pageList['title'];
+         $pageArticles = $pageList['articles'];
+         $maData = StringUtils::filterArrayByKeys($pageArticles, $iMiniArticleTable);
       }
       return [
-         'caption' => 'Mini Article Rows',
+         'caption' => $maTitle,
          'header' => $maHeader,
          'rows' => $maData
       ];
