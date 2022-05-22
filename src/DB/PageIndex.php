@@ -21,7 +21,7 @@ class PageIndex {
    }
 
    private static function getRowFromPageid(int $pageid): array {
-      foreach (self::fetchAllRowsFromStaticCache() as $row) {
+      foreach (self::getHardcodedRows() as $row) {
          if ($row['pageid'] == $pageid) {
             return $row;
          }

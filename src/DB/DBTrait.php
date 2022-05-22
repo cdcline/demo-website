@@ -3,7 +3,8 @@
 namespace DB;
 
 use Utils\ServerUtils;
-use DB\Firestore;
+use DB\Firestore\Client as FirestoreClient;
+use Google\Cloud\Firestore\CollectionReference;
 
 /**
  * This is a very basic trait that does a couple simple things
@@ -11,8 +12,6 @@ use DB\Firestore;
  *    - Allows us to query data from a source (MySQL or on file) then stick it
  *      in the running processes memory so if we ask for the data again, we have
  *      the values in the running process and don't have to go to the source again.
- *  - Creates a small `db` function name for something larger `PDOConnection`
- *    - It's annoying to type big words when you just want a db connection.
  */
 trait DBTrait {
    private static $db;
@@ -44,10 +43,6 @@ trait DBTrait {
       return self::setStaticCache($rows);
    }
 
-   public static function testFirestore(): array {
-      return ServerUtils::onGoogleCloudProject() ? self::fetchAllRows() : self::getHardcodedRows();
-   }
-
    private static function setStaticCache(array $rows): array {
       return self::$staticRowCache = $rows;
    }
@@ -56,13 +51,17 @@ trait DBTrait {
       return isset(self::$staticRowCache) ? self::$staticRowCache : null;
    }
 
+   private static function fetchCollection($collectionPath): CollectionReference {
+      return self::db()->getCollection($collectionPath);
+   }
+
    private static function fetchFireRows($collectionName, $fParams): array {
       return self::db()->fakeOldDB($collectionName, $fParams);
    }
 
-   private static function db(): Firestore {
+   private static function db(): FirestoreClient {
       if (!isset(self::$db)) {
-         self::$db = Firestore::fetchNewConnection();
+         self::$db = FirestoreClient::fetchNewConnection();
       }
       return self::$db;
    }

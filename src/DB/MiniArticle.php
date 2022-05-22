@@ -77,35 +77,35 @@ class MiniArticle {
          'text' => self::getStaticArticleText(1),
          'start_date' => 1391555735,
          'end_date' => 1645658135,
-         'tags' => 'Foo,Buzz,☃️'
+         'tags' => ['Foo','Buzz','☃️']
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 2',
          'text' => self::getStaticArticleText(2),
          'start_date' => 1325546135,
          'end_date' => NULL,
-         'tags' => 'Foo,Bar'
+         'tags' => ['Foo','Bar']
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 5',
          'text' => self::getStaticArticleText(3),
          'start_date' => 1650774278,
          'end_date' => 1713932680,
-         'tags' => 'Foo,Bar,Fizz,Buzz,🎂'
+         'tags' => ['Foo','Bar','Fizz','Buzz','🎂']
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 3',
          'text' => self::getStaticArticleText(4),
          'start_date' => 409674412,
          'end_date' => 447179274,
-         'tags' => 'Fizz,Buzz'
+         'tags' => ['Fizz'],['Buzz']
          ],
          ['pageid' => 2,
          'title' => 'Mini Article 4',
          'text' => self::getStaticArticleText(5),
          'start_date' => 930049271,
          'end_date' => NULL,
-         'tags' => 'Fizz,Bar,☃️'
+         'tags' => ['Fizz'],['Bar'],['☃️']
          ],
       ];
    }

@@ -38,7 +38,7 @@ final class DevPage extends BasePage {
       // Page Index Table
       $tPageHeader = ['Type', 'Pageid', 'Page Title', 'Page Header'];
       $iPageTable = ['type', 'pageid', 'page_title', 'page_header'];
-      $tPageData = StringUtils::filterArrayByKeys(PageIndex::testFirestore(), $iPageTable);
+      $tPageData = StringUtils::filterArrayByKeys(PageIndex::fetchAllRowsFromStaticCache(), $iPageTable);
       return [
          'caption' => 'Page Index Rows',
          'header' => $tPageHeader,
@@ -49,7 +49,7 @@ final class DevPage extends BasePage {
    private function getMiniArticleTableData(): array {
       $maHeader = ['Title', 'Start Date', 'End Date', 'Tags'];
       $iMiniArticleTable = ['title', 'start_date', 'end_date', 'tags'];
-      $maData = StringUtils::filterArrayByKeys(MiniArticle::testFirestore(), $iMiniArticleTable);
+      $maData = StringUtils::filterArrayByKeys(MiniArticle::fetchAllRowsFromStaticCache(), $iMiniArticleTable);
       foreach ($maData as &$data) {
          $data['tags'] = implode(',', $data['tags']);
       }

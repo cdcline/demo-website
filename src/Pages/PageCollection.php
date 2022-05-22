@@ -23,8 +23,11 @@ class PageCollection {
     * of the slug.
     */
    public static function getPageFromSlug(string $slug): BasePage {
-      // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
-      $pageid = StringUtils::isInt($slug) ? (int)$slug : PageNav::getPageidFromSlug($slug);
+      $pageid = PageNav::DEFAULT_PAGEID;
+      if ($slug) {
+         // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
+         $pageid = StringUtils::isInt($slug) ? (int)$slug : PageNav::getPageidFromSlug($slug);
+      }
       return (new self($pageid))->getPage();
    }
 

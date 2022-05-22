@@ -10,7 +10,8 @@ use Utils\SiteRunner;
 class NavPacket {
    use PacketTrait;
 
-   public function __construct(array $pageNavRows) {
+   public function __construct(array $pageNavs) {
+      $pageNavRows = array_map(fn($pNav) => $pNav->toArray(), $pageNavs);
       $this->setData('navRows', $this->extractNavDataFromPageNavRows($pageNavRows));
    }
 
@@ -38,7 +39,7 @@ class NavPacket {
 
    private function getUrlFromPageNavRow(array $navRow): string {
       // Don't have any url for the "homepage" link.
-      if ($navRow['pageid'] === PageNav::HOMEPAGE_PAGEID) {
+      if ($navRow['pageid'] === PageNav::DEFAULT_PAGEID) {
          return '/';
       }
       $customUrl = StringUtils::iMatch($navRow['type'], PageNav::CUSTOM_TYPE);

@@ -9,14 +9,8 @@ namespace Utils;
  * or server values.
  */
 class ServerUtils {
-   // DBs are expensive; we'll use static data when we can: https://github.com/cdcline/demo-website/issues/50
    public static function useBackendDB(): bool {
-      // Each db fetchAll call should have some static data representing it.
-      // This is the switch to flip for static (hardcoded) data vs actual backend calls.
-      // Can easily flip on or off before deploy if we just need to test the site display logic.
-      return false;
-      // What we would prefer to do after https://github.com/cdcline/demo-website/issues/51
-      // > return self::onGoogleCloudProject():
+      return self::onGoogleCloudProject();
    }
 
    // We want to load the google tools if we're on the google cloud.

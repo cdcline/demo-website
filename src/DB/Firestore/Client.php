@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace DB;
+namespace DB\Firestore;
 
 use Google\Cloud\Firestore\FirestoreClient;
 
-class Firestore {
+class Client {
    private $fClient;
 
    public static function fetchNewConnection(): self {
@@ -53,7 +53,7 @@ class Firestore {
       return $rows;
    }
 
-   private function getCollection($collectionName) {
+   public function getCollection($collectionName) {
       return $this->fClient->collection($collectionName);
    }
 

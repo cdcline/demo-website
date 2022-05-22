@@ -215,7 +215,7 @@ class MiniArticleList {
       }
 
       // For now we'll just grab all the data and filter on pageid here.
-      return $this->miniArticleRows = array_filter(MiniArticle::testFirestore(), function ($row) {
+      return $this->miniArticleRows = array_filter(MiniArticle::fetchAllRowsFromStaticCache(), function ($row) {
          return $row['pageid'] == $this->wcPacket->getPageid();
       });
    }
