@@ -5,6 +5,7 @@ namespace Utils;
 use DB\Firestore\Collection;
 use Google\Cloud\Firestore\DocumentSnapshot;
 use Google\Cloud\Firestore\QuerySnapshot;
+use InvalidArgumentException;
 
 class FirestoreConverter {
    const DOC_INDEX = 'docIndex';
@@ -90,7 +91,12 @@ class SnapConverter extends IndexConverter {
    }
 
    protected function getDocumentValue(DocumentSnapshot $doc) {
-      return $doc[$this->docIndex]->snapshot()->data()[$this->snapIndex];
+      $docValue = $doc[$this->docIndex];
+      if ($docValue && is_object($docValue)) {
+         $snapData = $docValue->snapshot()->data();
+         $docValue = $snapData[$this->snapIndex] ?? null;
+      }
+      return $docValue;
    }
 
    private function __construct(string $docIndex, string $snapIndex, string $newIndex = null) {
@@ -108,7 +114,11 @@ class DocConverter extends IndexConverter {
    }
 
    protected function getDocumentValue(DocumentSnapshot $doc) {
-      return $doc->get($this->docIndex);
+      $docValue = null;
+      try {
+         $docValue = $doc->get($this->docIndex);
+      } catch (InvalidArgumentException $e) {}
+      return $docValue;
    }
 
    private function __construct(string $docIndex, ?string $newIndex) {
@@ -121,6 +131,7 @@ abstract class IndexConverter {
    protected $docIndex;
    protected $newIndex;
 
+   // We'll allow missing fields and just return "null" if they're requested
    abstract protected function getDocumentValue(DocumentSnapshot $doc);
 
    public function convert(DocumentSnapshot $doc): array {

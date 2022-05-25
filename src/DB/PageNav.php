@@ -5,8 +5,8 @@ namespace DB;
 use DB\DBTrait;
 use Pages\InvalidPageException;
 use Utils\StringUtils;
-use DB\Firestore\Collection;
 use Pages\BasePage;
+use Utils\FirestoreUtils;
 
 class PageNav {
    use DBTrait;
@@ -73,14 +73,14 @@ class PageNav {
 
    private static function fetchAllRows(): array {
       $path = 'page_nav';
-      $dValues = ['slug', 'nav_string', 'orderby'];
-      $sValues =[
-         ['docIndex' => 'page', 'snapIndex' => 'pageid', 'newIndex' => 'pageid'],
-         ['docIndex' => 'n_type', 'snapIndex' => 'enum', 'newIndex' => 'type'],
+      $iDocs = ['slug', 'nav_string', 'orderby'];
+      $iSnaps = [
+         FirestoreUtils::buildSnap('page', 'pageid', 'pageid'),
+         FirestoreUtils::buildSnap('type', 'enum'),
       ];
       return array_map(
          fn($aValues) => self::fromArray($aValues),
-         Collection::getValuesFromPath($path, $dValues, $sValues)
+         self::fetchRows($path, $iDocs, $iSnaps)
       );
    }
 

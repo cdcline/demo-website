@@ -3,10 +3,9 @@
 namespace DB\MiniArticleList;
 
 use DB\DBTrait;
-use DB\Firestore\Collection;
 use DB\MiniArticleList\ArticleCollection;
 use Exception;
-use Utils\FirestoreUtils as FireUtils;
+use Utils\FirestoreUtils;
 
 class PageLists {
    private $miniArticleLists;
@@ -55,66 +54,71 @@ class PageLists {
    }
 
    private static function getMiniArticles(): array {
-      $maCollections = self::getMiniArticleCollections();
-      $maLists = [];
-      $aValues = ['title', 'text', 'start_date', 'end_date'];
-      $convertFromFirestore = function(string $articleListPath, int $pageid, array $fArticleData) {
-         $gStartDate = $fArticleData['start_date'] ?? null;
-         $gEndDate = $fArticleData['end_date'] ?? null;
-         $tPath = FireUtils::tagPath($articleListPath, $fArticleData['firestoreId']);
-         return [
-            'title' => $fArticleData['title'] ?? 'Default Title',
-            'text' => FireUtils::hackNewlines($fArticleData['text'] ?? ''),
-            'start_date' => $gStartDate ? $gStartDate->get()->getTimestamp() : 0,
-            'end_date' => $gEndDate ? $gEndDate->get()->getTimestamp() : 0,
-            'tags' =>  self::getTags($tPath),
-            'pageid' =>  $pageid,
-         ];
-      };
-      foreach ($maCollections as $maList) {
+      // We're gonna pull these values from each `articles` collection
+      $aDocValues = ['title', 'text', 'start_date', 'end_date'];
+      // There might be several "mini article lists" to iterate over
+      foreach (self::getMiniArticleCollections() as $maList) {
          $pageid = $maList['pageid'];
-         $parentPath = $maList['parentPath'];
-         $articleListPath = FireUtils::articlesPath($parentPath, $maList['firestoreId']);
-         $articles = Collection::getValuesFromPath($articleListPath, $aValues);
-         $cArticles = [];
-         foreach ($articles as $article) {
-            $cArticles[] = $convertFromFirestore($articleListPath, $pageid, $article);
-         }
+         $articlesPath = $maList['articlesPath'];
+         // We have to do a lot of things after we fetch the `articles` collection
+         $handleRow = function($article) use ($articlesPath, $pageid) {
+            return self::convertFromFirestore($articlesPath, $pageid, $article);
+         };
+         $cArticles = array_map($handleRow, self::fetchRows($articlesPath, $aDocValues));
          $maLists[] = [
             'title' => $maList['title'],
             'articles' => $cArticles
          ];
       }
-      return $maLists;
+      return $maLists ?: [];
    }
 
-   private static function getTags($tPath): array {
-      $sValues = [
-         ['docIndex' => 'tag', 'snapIndex' => 'enum', 'newIndex' => 'tag'],
+   private static function convertFromFirestore(string $articlesPath, int $pageid, array $article) {
+      $fromGoogleTime = function($index) use ($article): int {
+         $gDate = $article[$index] ?? null;
+         return $gDate ? $gDate->get()->getTimestamp() : 0;
+      };
+      return [
+         'firestoreId' => $article['firestoreId'],
+         'title' => $article['title'] ?? 'Default Title',
+         'text' => FirestoreUtils::hackNewlines($article['text'] ?? ''),
+         'start_date' => $fromGoogleTime('start_date'),
+         'end_date' => $fromGoogleTime('end_date'),
+         'tags' =>  self::getTags($articlesPath, $article['firestoreId']),
+         'pageid' =>  $pageid,
       ];
-      $tags = Collection::getValuesFromPath($tPath, [], $sValues) ?: [];
-      $aTags = [];
-      foreach($tags as $i => $tDoc) {
-         $aTags[] = $tDoc['tag'];
-      }
-      return $aTags;
    }
 
+   private static function getTags($articleListPath, $firestoreId): array {
+      // Generate the tag collection path for the given article_list
+      $tPath = FirestoreUtils::tagPath($articleListPath, $firestoreId);
+      // We want the "enum" value but assign it to the "tag" index
+      $sValues = [FirestoreUtils::buildSnap('tag', 'enum')];
+      // We want to return a single array with the "enum" values
+      return array_column(self::fetchRows($tPath, [], $sValues), 'tag');
+   }
+
+   // We want to find all the mini_article_list collections, with the pageid from
+   // the page_index table also merged in
    private static function getMiniArticleCollections(): array {
       $maCollections = [];
-      // Go through and grab all our page index pages
-      $pageDocs = Collection::getValuesFromPath('page_index', ['pageid']);
-      foreach ($pageDocs as $page) {
-         // Generate the mini article collection path
-         $path =  FireUtils::maPath($page['firestoreId']);
+      // We're gonna pull the "title" field from each mini_article_list collection
+      $maCollectionsDocValues = ['title'];
+      // Go through all our index pages and grab the firestoreid and the "pageid"
+      $iPagesPath = FirestoreUtils::indexPagesPath();
+      $iDocs = ['pageid'];
+      foreach (self::fetchRows($iPagesPath, $iDocs) as $iPage) {
+         $fId = $iPage['firestoreId'];
+         $pageid = $iPage['pageid'];
+         $maCollectionsPath =  FirestoreUtils::maPath($fId);
+         // All collections want the page_index `pageid` for now
+         $gData = ['pageid' => $pageid];
          try {
-            // Grab all the mini article list collections.
-            // Also grab the list title values
-            $cLists = Collection::getValuesFromPath($path, ['title']);
-            $cListsGeneralData = ['pageid' => $page['pageid'], 'parentPath' => $path];
-            // Merge generic list data with the specific list data
-            foreach ($cLists as $cListData) {
-               $maCollections[] = array_merge($cListsGeneralData, $cListData);
+            // Grab Mini Article List collections & add some data to it
+            foreach ( self::fetchRows($maCollectionsPath, $maCollectionsDocValues) as $cListData) {
+               // We'll generate the articles path here b/c it's convienient
+               $articlesPath = FirestoreUtils::articlesPath($maCollectionsPath, $cListData['firestoreId']);
+               $maCollections[] = array_merge($cListData, $gData, ['articlesPath' => $articlesPath]);
             }
          } catch (Exception $e) {}
       }

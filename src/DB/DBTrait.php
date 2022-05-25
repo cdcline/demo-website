@@ -50,7 +50,7 @@ trait DBTrait {
       return isset(self::$staticRowCache) ? self::$staticRowCache : null;
    }
 
-   private static function fetchRows(string $path, array $docVaules, array $snapValues, $convertFunc = null): array {
+   private static function fetchRows(string $path, array $docVaules, array $snapValues = [], $convertFunc = null): array {
       return FirestoreConverter::fromValues($path, $docVaules, $snapValues, $convertFunc);
    }
 }
