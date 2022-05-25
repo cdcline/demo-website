@@ -2,7 +2,6 @@
 
 namespace Utils;
 
-use Pages\PageCollection;
 use Pages\BasePage;
 use DB\PageNav;
 
@@ -27,6 +26,6 @@ class SiteRunner {
    }
 
    private static function getPageFromUrl(): BasePage {
-      return PageCollection::getPageFromSlug(self::getSlugFromUrl());
+      return PageNav::getPageFromSlug(self::getSlugFromUrl());
    }
 }

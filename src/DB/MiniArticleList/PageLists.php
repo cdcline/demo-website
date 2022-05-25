@@ -12,9 +12,9 @@ class PageLists {
    private $miniArticleLists;
    use DBTrait;
 
-   public static function fetchAll($tagsAsOneString = false): array {
+   public static function fetchAll(): array {
       $lists = self::fromValues(self::fetchAllRowsFromStaticCache());
-      return $lists->toArray($tagsAsOneString);
+      return $lists->toArray();
    }
 
    public static function forPageid(int $pageid) {
@@ -34,9 +34,9 @@ class PageLists {
       $this->miniArticleLists = $miniArticleLists;
    }
 
-   private function toArray(bool $tagsAsOneString): array {
-      $tagToArray = function($maList) use ($tagsAsOneString) {
-         return $maList->toArray($tagsAsOneString);
+   private function toArray(): array {
+      $tagToArray = function($maList) {
+         return $maList->toArray();
       };
       return array_map($tagToArray, $this->miniArticleLists);
    }

@@ -3,12 +3,21 @@
 namespace Utils;
 
 use InvalidArgumentException;
+use Utils\FirestoreConverter as Converter;
 
 class FirestoreUtils {
    private const PAGE_INDEX = 'page_index';
    private const ARTICLE_LISTS = 'mini_article_list';
    private const ARTICLES = 'articles';
    private const TAGS = 'tags';
+
+   public static function buildSnap(string $docIndex, string $snapIndex, string $newIndex = null) {
+      return [Converter::DOC_INDEX => $docIndex, Converter::SNAP_INDEX => $snapIndex, Converter::NEW_INDEX => $newIndex];
+   }
+
+   public static function indexPagesPath(): string {
+      return self::getPath('pages');
+   }
 
    public static function maPath(string $firestoreId): string {
       return self::getPath('page_article_lists', ['id' => $firestoreId]);

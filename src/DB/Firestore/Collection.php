@@ -2,9 +2,11 @@
 
 namespace DB\Firestore;
 
-use DB\Firestore\Client as FirestoreClient;
-use Google\Cloud\Firestore\CollectionReference;
+use DB\Firestore\Document as FirestoreDocument;
+use Google\Cloud\Firestore\Query;
+use Google\Cloud\Firestore\QuerySnapshot;
 use InvalidArgumentException;
+use Utils\FirestoreConverter as FirestoreConverter;
 
 class Collection {
    private $collection;
@@ -27,9 +29,14 @@ class Collection {
       return $vals;
    }
 
+   public static function convertToLegacyArray(FirestoreConverter $fConverter): array {
+      $fCollection = self::fromPath($fConverter->getPath());
+      return $fConverter->toLegacyArray($fCollection->getDocuments());
+   }
+
    private static function fromPath(string $path): self {
-      $fClient = FirestoreClient::fetchNewConnection()->getCollection($path);
-      return new self($fClient);
+      $fCollection = FirestoreDocument::fetchNewConnection()->getCollection($path);
+      return new self($fCollection);
    }
 
    private function getDocumentValues(array $dValues): array {
@@ -69,11 +76,11 @@ class Collection {
       return $sDocs;
    }
 
-   private function getDocuments() {
+   private function getDocuments(): QuerySnapshot {
       return $this->documents ?? ($this->documents = $this->collection->documents());
    }
 
-   private function __construct(CollectionReference $collection) {
-      $this->collection = $collection;
+   private function __construct(Query $cQuery) {
+      $this->collection = $cQuery;
    }
 }

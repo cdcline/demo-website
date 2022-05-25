@@ -2,9 +2,8 @@
 
 namespace DB;
 
+use Utils\FirestoreConverter;
 use Utils\ServerUtils;
-use DB\Firestore\Client as FirestoreClient;
-use Google\Cloud\Firestore\CollectionReference;
 
 /**
  * This is a very basic trait that does a couple simple things
@@ -51,18 +50,7 @@ trait DBTrait {
       return isset(self::$staticRowCache) ? self::$staticRowCache : null;
    }
 
-   private static function fetchCollection($collectionPath): CollectionReference {
-      return self::db()->getCollection($collectionPath);
-   }
-
-   private static function fetchFireRows($collectionName, $fParams): array {
-      return self::db()->fakeOldDB($collectionName, $fParams);
-   }
-
-   private static function db(): FirestoreClient {
-      if (!isset(self::$db)) {
-         self::$db = FirestoreClient::fetchNewConnection();
-      }
-      return self::$db;
+   private static function fetchRows(string $path, array $docVaules, array $snapValues, $convertFunc = null): array {
+      return FirestoreConverter::fromValues($path, $docVaules, $snapValues, $convertFunc);
    }
 }

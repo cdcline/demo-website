@@ -15,8 +15,4 @@ final class HomePage extends BasePage {
    protected function getPageTemplateName(): string {
       return self::PAGE_TEMPLATE;
    }
-
-   protected static function getPageType(): string {
-      return PageIndex::HOMEPAGE_TYPE;
-   }
 }

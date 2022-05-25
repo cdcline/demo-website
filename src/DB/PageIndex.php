@@ -3,7 +3,9 @@
 namespace DB;
 
 use DB\DBTrait;
+use Pages\BasePage;
 use Pages\InvalidPageException;
+use Utils\FirestoreUtils;
 
 class PageIndex {
    use DBTrait;
@@ -12,33 +14,112 @@ class PageIndex {
    const HOMEPAGE_TYPE = 'homepage';
    const DEV_TYPE = 'dev';
 
+   private $pageid;
+   private $pageTitle;
+   private $pageHeader;
+   private $pageType;
+   private $mainArticle;
+
    public static function getTypeFromPageid(int $pageid): string {
-      return self::getRowFromPageid($pageid)['type'];
+      return self::getPageIndexFromPageid($pageid)->getPageType();
    }
 
    public static function getMainArticleTextFromPageid(int $pageid): string {
-      return self::getRowFromPageid($pageid)['main_article'];
+      return self::getPageIndexFromPageid($pageid)->getMainArticle();
    }
 
-   private static function getRowFromPageid(int $pageid): array {
-      foreach (self::getHardcodedRows() as $row) {
-         if ($row['pageid'] == $pageid) {
-            return $row;
+   public static function getPageFromPageid(int $pageid): BasePage {
+      return self::getPageIndexFromPageid($pageid)->getPage();
+   }
+
+   public function getPageTitle(): string {
+      return $this->pageTitle;
+   }
+
+   public function getPageHeader(): string {
+      return $this->pageHeader;
+   }
+
+   public function getPageType(): string {
+      return $this->pageType;
+   }
+
+   public function getMainArticle(): string {
+      return $this->mainArticle;
+   }
+
+   public function getPageid(): int {
+      return $this->pageid;
+   }
+
+   public function getPage(): BasePage {
+      $pageClass = BasePage::getClassNameFromPageType($this->getPageType());
+      return new $pageClass($this);
+   }
+
+   private static function getPageIndexFromPageid(int $pageid): self {
+      foreach (self::fetchAllRowsFromStaticCache() as $iPage) {
+         if ($iPage->matchesPageid($pageid)) {
+            return $iPage;
          }
       }
       InvalidPageException::throwPageNotFound($pageid);
    }
 
-   private static function fetchAllRows(): array {
-      $fParams = [
-      'strIndexes' => ['pageid', 'main_article', 'page_header', 'page_title'],
-      'snapIndexes' => [['strIndex' => 'type', 'snapIndex' => 'name']]
+   public function toArray(): array {
+      return [
+         'type' => $this->getPageType(),
+         'pageid' => $this->getPageid(),
+         'page_title' => $this->getPageTitle(),
+         'page_header' => $this->getPageHeader(),
+         'main_article' => $this->getMainArticle()
       ];
-      return self::fetchFireRows('page_index', $fParams);
    }
 
-   // NOTE: Order of the data matters, should match `fetchAllRows`
+   private static function fromArray(array $iPageValues) {
+      return new self(
+         (int)$iPageValues['pageid'],
+         $iPageValues['page_title'] ?? 'Unknown Title',
+         $iPageValues['page_header'] ?? 'Unknown Header',
+         $iPageValues['type'] ?? self::DEFAULT_TYPE,
+         $iPageValues['main_article'] ?? ''
+      );
+   }
+
+   private function __construct(int $pageid, string $pageTitle, string $pageHeader, string $pageType, string $mainArticle) {
+      $this->pageid = $pageid;
+      $this->pageTitle = $pageTitle;
+      $this->pageHeader = $pageHeader;
+      $this->pageType = $pageType;
+      $this->mainArticle = $mainArticle;
+   }
+
+   private function matchesPageid(int $pageid): bool {
+      return $this->getPageid() === $pageid;
+   }
+
+   private static function fetchAllRows(): array {
+      $path = FirestoreUtils::indexPagesPath();
+      $iDocs = ['pageid', 'main_article', 'page_header', 'page_title'];
+      $iSnaps = [FirestoreUtils::buildSnap('type', 'enum')];
+      $fromFirestoreFnc = function($iPageValues): array {
+         $iPageValues['main_article'] = FirestoreUtils::hackNewlines($iPageValues['main_article']);
+         return $iPageValues;
+      };
+      return array_map(
+         fn($iPageValues) => self::fromArray($iPageValues),
+         self::fetchRows($path, $iDocs, $iSnaps, $fromFirestoreFnc)
+      );
+   }
+
    private static function getHardcodedRows(): array {
+      return array_map(
+         fn($iPageValues) => self::fromArray($iPageValues),
+         self::getStaticRows()
+      );
+   }
+
+   private static function getStaticRows(): array {
       return [
          ['type' => self::HOMEPAGE_TYPE,
           'pageid' => 1,

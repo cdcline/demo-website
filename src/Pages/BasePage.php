@@ -11,7 +11,6 @@ use HtmlFramework\Header as HtmlHeader;
 use HtmlFramework\Nav as HtmlNav;
 use HtmlFramework\Root as HtmlRoot;
 use HtmlFramework\Section as HtmlSection;
-use Utils\StringUtils;
 use Pages\InvalidPageException;
 
 /**
@@ -26,17 +25,20 @@ use Pages\InvalidPageException;
 abstract class BasePage {
    private const TEMPLATE_PATH = 'src/templates';
    private $ranHTMLPrint = false;
-   private $pageid;
    private $pageData = [];
-   private $pageIndexRows;
+   private $pageIndex;
 
    // Name of the file we'll load in the "article" section.
    abstract protected function getPageTemplateName(): string;
    // Before we print the page we might want to do stuff.
    public function doStuff(): void {}
 
-   public function __construct(int $pageid) {
-      $this->pageid = $pageid;
+   public function __construct(PageIndex $pageIndex) {
+      $this->pageIndex = $pageIndex;
+   }
+
+   public function getPageid(): int {
+      return $this->getPageIndex()->getPageid();
    }
 
    public function setPageData(string $index, $value): void {
@@ -46,16 +48,12 @@ abstract class BasePage {
       $this->pageData[$index] = $value;
    }
 
-   public static function matchesType(string $type) {
-      return StringUtils::iMatch(static::getPageType(), $type);
-   }
-
    public function printHtml(): void {
       $this->ranHTMLPrint = true;
       $htmlHead = HtmlHead::fromValues($this->getPageTitle());
       $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
       $htmlNav = HtmlNav::fromValues();
-      $htmlArticle = HtmlArticle::fromValues(static::getPageType(), $this->getPageid(), $this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
+      $htmlArticle = HtmlArticle::fromValues($this->getPageType(), $this->getPageid(), $this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
       $htmlSection = HtmlSection::fromValues($htmlNav, $htmlArticle);
       $htmlFooter = HtmlFooter::fromValues();
       $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
@@ -63,41 +61,36 @@ abstract class BasePage {
       $htmlRoot->printHtml();
    }
 
-   protected static function getPageType(): string {
-      return PageIndex::DEFAULT_TYPE;
-   }
-
-   private function getPageIndexRows(): array {
-      if (isset($this->pageIndexRows)) {
-         return $this->pageIndexRows;
+   public static function getClassNameFromPageType(string $pageType): string {
+      switch ($pageType) {
+         case PageIndex::DEV_TYPE:
+            return DevPage::class;
+         case PageIndex::HOMEPAGE_TYPE:
+            return HomePage::class;
+         case PageIndex::DEFAULT_TYPE:
+            return DefaultPage::class;
       }
-
-      return $this->pageIndexRows = PageIndex::fetchAllRowsFromStaticCache();
+      throw new InvalidPageException("Unable to find Page Type: {$pageType}");
    }
 
-   private function getRowByPageid(int $pageid): array {
-      foreach ($this->getPageIndexRows() as $row) {
-         if ($pageid == $row['pageid']) {
-            return $row;
-         }
-      }
-      return [];
+   private function getPageIndex(): PageIndex {
+      return $this->pageIndex;
    }
 
-   protected function getPageid(): int {
-      return $this->pageid;
+   private function getPageType(): string {
+      return $this->getPageIndex()->getPageType();
    }
 
    private function getPageTitle(): string {
-      return $this->getRowByPageid($this->getPageid())['page_title'];
+      return $this->getPageIndex()->getPageTitle();
    }
 
    private function getPageHeader(): string {
-      return $this->getRowByPageid($this->getPageid())['page_header'];
+      return $this->getPageIndex()->getPageHeader();
    }
 
    private function getMainArticle(): string {
-      return $this->getRowByPageid($this->getPageid())['main_article'];
+      return $this->getPageIndex()->getMainArticle();
    }
 
    private function getPageTemplatePath(): string {

@@ -3,10 +3,10 @@
 namespace DB;
 
 use DB\DBTrait;
-use Exception;
 use Pages\InvalidPageException;
 use Utils\StringUtils;
 use DB\Firestore\Collection;
+use Pages\BasePage;
 
 class PageNav {
    use DBTrait;
@@ -24,22 +24,37 @@ class PageNav {
    private $pageid;
    private $type;
 
-   public static function getPageidFromSlug(string $slug): int {
+   public static function getPageFromSlug(string $slug): BasePage {
+      // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
+      $pageNav = StringUtils::isInt($slug) ? PageIndex::getPageFromPageid((int)$slug) : self::getPageNavFromSlug($slug);
+      return PageIndex::getPageFromPageid($pageNav->getPageid());
+
+   }
+
+   private static function getPageNavFromSlug(string $slug): self {
       foreach (self::fetchAllRowsFromStaticCache() as $pNav) {
          if ($pNav->matchesSlug($slug)) {
-            return $pNav->getPageid();
+            return $pNav;
          }
       }
       InvalidPageException::throwPageNotFound($slug);
    }
 
-   public static function getDefaultSlug(): string {
+   private static function getPageNavFromPageid(int $pageid): self {
       foreach (self::fetchAllRowsFromStaticCache() as $pNav) {
-         if ($pNav->matchesPageid(self::DEFAULT_PAGEID)) {
-            return $pNav->getSlug();
+         if ($pNav->matchesPageid($pageid)) {
+            return $pNav;
          }
       }
-      throw new Exception('Default page not configured correctly. Unkown HOMEPAGE_PAGEID.');
+      InvalidPageException::throwPageNotFound($pageid);
+   }
+
+   public static function getDefaultNav(): self {
+      return self::getPageNavFromPageid(self::DEFAULT_PAGEID);
+   }
+
+   public static function getDefaultSlug(): string {
+      return self::getDefaultNav()->getSlug();
    }
 
    public static function fromArray(array $aData) {
@@ -81,7 +96,7 @@ class PageNav {
       return $this->slug;
    }
 
-   private function getPageid(): int {
+   public function getPageid(): int {
       return $this->pageid;
    }
 

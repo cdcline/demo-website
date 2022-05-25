@@ -3,8 +3,6 @@
 namespace DB\MiniArticleList;
 
 class MiniArticle {
-   private const GROUP_CONCAT_TOKEN = ',';
-
    private $pageid;
    private $title;
    private $text;
@@ -36,15 +34,14 @@ class MiniArticle {
       return $this->pageid == $pageid;
    }
 
-   public function toArray(bool $tagsAsOneString = false) {
-      $tags = $tagsAsOneString ? implode(self::GROUP_CONCAT_TOKEN, $this->tags) : $this->tags;
+   public function toArray() {
       return [
          'pageid' => $this->pageid,
          'title' => $this->title,
          'text' => $this->text,
          'start_date' => $this->startDate,
          'end_date' => $this->endDate,
-         'tags' => $tags
+         'tags' => $this->tags
       ];
    }
 }
