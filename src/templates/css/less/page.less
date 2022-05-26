@@ -52,11 +52,11 @@ nav {
    text-align: center;
    flex-wrap: wrap;
 
-   div {
+   .nav-link-container {
       padding: 4px;
       gap: 8px;
-      min-width: 150px;
-      overflow-wrap: anywhere;
+      display: flex;
+      flex-direction: column;
 
       &:hover {
          font-weight: bold;
@@ -66,6 +66,23 @@ nav {
       a, a:visited {
          color: @navTextColor;
          text-decoration: none;
+      }
+
+      .color-block {
+         align-self: center;
+         width: 120px;
+         height: 120px;
+         background-color: @black;
+         border: 2px solid @white;
+         &.homepage {
+            background-color: @orange;
+         }
+         &.dev {
+            background-color: @lightGreen;
+         }
+         &.default {
+            background-color: @purple;
+         }
       }
    }
 }

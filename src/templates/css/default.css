@@ -36,7 +36,7 @@ section {
 }
 /* Style the navigation menu */
 nav {
-  background: #FF8858;
+  background: green;
   color: #530E53;
   padding: 18px;
   display: flex;
@@ -48,20 +48,36 @@ nav {
   text-align: center;
   flex-wrap: wrap;
 }
-nav div {
+nav .nav-link-container {
   padding: 4px;
   gap: 8px;
-  min-width: 150px;
-  overflow-wrap: anywhere;
+  display: flex;
+  flex-direction: column;
 }
-nav div:hover {
+nav .nav-link-container:hover {
   font-weight: bold;
   cursor: pointer;
 }
-nav div a,
-nav div a:visited {
+nav .nav-link-container a,
+nav .nav-link-container a:visited {
   color: #530E53;
   text-decoration: none;
+}
+nav .nav-link-container .color-block {
+  align-self: center;
+  width: 120px;
+  height: 120px;
+  background-color: black;
+  border: 2px solid white;
+}
+nav .nav-link-container .color-block.homepage {
+  background-color: orange;
+}
+nav .nav-link-container .color-block.dev {
+  background-color: lightgreen;
+}
+nav .nav-link-container .color-block.default {
+  background-color: purple;
 }
 /* Style the content */
 article {

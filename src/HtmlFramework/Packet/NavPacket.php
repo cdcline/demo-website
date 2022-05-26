@@ -30,6 +30,7 @@ class NavPacket {
          $navData[] = [
             'url' => $this->getUrlFromPageNavRow($row),
             'display' => $row['nav_string'],
+            'theme' => $row['theme'],
             'isFun' => $isFunRow($row['slug'])
          ];
       }

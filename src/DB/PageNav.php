@@ -64,6 +64,7 @@ class PageNav {
    public function toArray(): array {
       return [
          'type' => $this->type,
+         'theme' => $this->getTheme(),
          'slug' => $this->slug,
          'nav_string' => $this->navString,
          'pageid' => $this->pageid,
@@ -106,6 +107,10 @@ class PageNav {
 
    private function matchesSlug(string $slug): bool {
       return StringUtils::iMatch($this->slug, $slug);
+   }
+
+   private function getTheme(): string {
+      return $this->getPageid() ? PageIndex::getTypeFromPageid($this->getPageid()) : PageIndex::DEFAULT_TYPE;
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`
