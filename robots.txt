@@ -1,0 +1,3 @@
+# Plz don't index me, I don't want bots
+User-agent: *
+Disallow: /

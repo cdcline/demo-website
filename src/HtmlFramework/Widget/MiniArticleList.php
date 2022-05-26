@@ -2,7 +2,8 @@
 
 namespace HtmlFramework\Widget;
 
-use DB\MiniArticle;
+use DB\MiniArticleList\ArticleCollection;
+use DB\MiniArticleList\PageLists;
 use HtmlFramework\Widget\WidgetTrait;
 use Utils\HtmlUtils;
 use Utils\Parser;
@@ -12,6 +13,8 @@ class MiniArticleList {
 
    private $tags;
    private $miniArticleRows;
+   private $miniArticleList;
+   private $pageLists;
 
    /**
     * Generates something like
@@ -41,7 +44,7 @@ class MiniArticleList {
 
    // I don't think I really want this in the end (the article text should suffice) but it's useful to see in dev
    private function getListHeaderHtml(): string {
-      return HtmlUtils::makeH3Element('Mini Article List', 'fun');
+      return HtmlUtils::makeH3Element($this->getMiniArticleList()->getTitle(), 'fun');
    }
 
    /**
@@ -117,7 +120,7 @@ class MiniArticleList {
       foreach ($this->getMiniArticleRows() as $row) {
          $titleContainer = $makeTitleContainer($row['title'], (int)$row['start_date'], (int)$row['end_date']);
          $headContainer = HtmlUtils::makeDivElement(implode(' ', [$titleContainer, $this->makeMiniArticleTagDiv($row['tags'])]), $maEntryHeadContainerParams);
-         $maTextContainer = HtmlUtils::makeDivElement(Parser::parseText($row['mini_article_text']), $maEntryArticleTextContainerParams);
+         $maTextContainer = HtmlUtils::makeDivElement(Parser::parseText($row['text']), $maEntryArticleTextContainerParams);
          $articleEls[] = HtmlUtils::makeDivElement("{$headContainer} {$maTextContainer}", $maEntryContainerParams);
       }
 
@@ -210,13 +213,28 @@ class MiniArticleList {
    }
 
    private function getMiniArticleRows(): array {
-      if ($this->miniArticleRows) {
+      if (isset($this->miniArticleRows)) {
          return $this->miniArticleRows;
       }
 
-      // For now we'll just grab all the data and filter on pageid here.
-      return $this->miniArticleRows = array_filter(MiniArticle::fetchAll(), function ($row) {
-         return $row['pageid'] == $this->wcPacket->getPageid();
-      });
+      $articleList = $this->getMiniArticleList();
+      $articleValues = [];
+      if ($articleList) {
+         $articleValues = $articleList->getArticles();
+      }
+      return $this->miniArticleRows = $articleValues;
+   }
+
+   // Only gonna support 1 list per page for now...
+   private function getMiniArticleList(): ?ArticleCollection {
+      return current($this->getPageLists()) ?: null;
+   }
+
+   private function getPageLists(): array {
+      if ($this->pageLists) {
+         return $this->pageLists;
+      }
+
+      return $this->pageLists = PageLists::forPageid($this->wcPacket->getPageid());
    }
 }

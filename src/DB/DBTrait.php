@@ -2,7 +2,7 @@
 
 namespace DB;
 
-use DB\PDOConnection;
+use Utils\FirestoreConverter;
 use Utils\ServerUtils;
 
 /**
@@ -11,10 +11,9 @@ use Utils\ServerUtils;
  *    - Allows us to query data from a source (MySQL or on file) then stick it
  *      in the running processes memory so if we ask for the data again, we have
  *      the values in the running process and don't have to go to the source again.
- *  - Creates a small `db` function name for something larger `PDOConnection`
- *    - It's annoying to type big words when you just want a db connection.
  */
 trait DBTrait {
+   private static $db;
    private static $staticRowCache;
 
    /**
@@ -43,16 +42,15 @@ trait DBTrait {
       return self::setStaticCache($rows);
    }
 
-   private static function db(): PDOConnection {
-      return PDOConnection::getConnection();
-   }
-
-
    private static function setStaticCache(array $rows): array {
       return self::$staticRowCache = $rows;
    }
 
    private static function getStaticCache(): ?array {
       return isset(self::$staticRowCache) ? self::$staticRowCache : null;
+   }
+
+   private static function fetchRows(string $path, array $docVaules, array $snapValues = [], $convertFunc = null): array {
+      return FirestoreConverter::fromValues($path, $docVaules, $snapValues, $convertFunc);
    }
 }

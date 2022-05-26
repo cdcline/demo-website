@@ -9,19 +9,28 @@ runtime: php81 # Replace with php74 to use PHP 7.4
 
 # [START configuration]
 handlers:
-  # Serve a directory as a static resource.
+  # Setup the static resource directories.
   - url: /src/templates/css
     static_dir: src/templates/css
 
   - url: /src/templates/js
     static_dir: src/templates/js
 
-# Serve images as static resources.
-# - url: /(.+\.(gif|png|jpg))$
-#   static_files: \1
-#   upload: .+\.(gif|png|jpg)$
+  - url: /src/images/fav
+    static_dir: src/images/fav
 
-# Serve your app through a front controller at index.php or public/index.php.
+  # Handle any favicon requests
+  # NOTE: It's wild b/c google debugger is weird. Probably pointless but kinda fun.
+  - url: /(.*)\.?favicon.ico$
+    static_files: src/images/fav/favicon.ico
+    upload: (.*)\.?favicon.ico$
+
+  # Serve images as static resources.
+  - url: /(.+\.(gif|png|jpg))$
+    static_files: \1
+    upload: .+\.(gif|png|jpg)$
+
+# Serve the app through a front controller at index.php or public/index.php.
   - url: .*
     script: auto
 # [END configuration]
@@ -39,9 +48,4 @@ readiness_check:
   failure_threshold: 2
   success_threshold: 2
   app_start_timeout_sec: 600
-# [END configuration]
-
-# [START configuration]
-beta_settings:
-  cloud_sql_instances: burnished-flare-348022:us-west1:demo-db-alpha # This will be unique to the cloud project!
 # [END configuration]

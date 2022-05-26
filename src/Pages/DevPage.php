@@ -2,13 +2,12 @@
 
 namespace Pages;
 
-use DB\MiniArticle;
+use DB\MiniArticleList\PageLists;
 use DB\PageIndex;
 use Exception;
 use Pages\BasePage;
 use Utils\HtmlUtils;
 use Utils\Parser;
-use Utils\ServerUtils;
 use Utils\SecretManager;
 use Utils\StringUtils;
 
@@ -39,7 +38,8 @@ final class DevPage extends BasePage {
       // Page Index Table
       $tPageHeader = ['Type', 'Pageid', 'Page Title', 'Page Header'];
       $iPageTable = ['type', 'pageid', 'page_title', 'page_header'];
-      $tPageData = StringUtils::filterArrayByKeys(PageIndex::fetchAllRowsFromStaticCache(), $iPageTable);
+      $iPageValues = array_map(fn($iPage) => $iPage->toArray(), PageIndex::fetchAllRowsFromStaticCache());
+      $tPageData = StringUtils::filterArrayByKeys($iPageValues, $iPageTable);
       return [
          'caption' => 'Page Index Rows',
          'header' => $tPageHeader,
@@ -49,10 +49,23 @@ final class DevPage extends BasePage {
 
    private function getMiniArticleTableData(): array {
       $maHeader = ['Title', 'Start Date', 'End Date', 'Tags'];
+      $maTitle = 'Mini Article Rows';
+      $maData = [];
       $iMiniArticleTable = ['title', 'start_date', 'end_date', 'tags'];
-      $maData = StringUtils::filterArrayByKeys(MiniArticle::fetchAll(/*breakUpConcat*/false), $iMiniArticleTable);
+      $pageLists = PageLists::fetchAll();
+      if ($pageLists) {
+         $pageList = current($pageLists);
+         $maTitle = $pageList['title'];
+         $pageArticles = $pageList['articles'];
+         $convertArticles = function(&$article) {
+            $article['tags'] = implode(',', $article['tags']);
+            return $article;
+         };
+         $pageArticles = array_map($convertArticles, $pageArticles);
+         $maData = StringUtils::filterArrayByKeys($pageArticles, $iMiniArticleTable);
+      }
       return [
-         'caption' => 'Mini Article Rows',
+         'caption' => $maTitle,
          'header' => $maHeader,
          'rows' => $maData
       ];
@@ -60,9 +73,5 @@ final class DevPage extends BasePage {
 
    protected function getPageTemplateName(): string {
       return self::PAGE_TEMPLATE;
-   }
-
-   protected static function getPageType(): string {
-      return PageIndex::DEV_TYPE;
    }
 }

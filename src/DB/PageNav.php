@@ -3,51 +3,114 @@
 namespace DB;
 
 use DB\DBTrait;
-use Exception;
-use Utils\StringUtils;
 use Pages\InvalidPageException;
+use Utils\StringUtils;
+use Pages\BasePage;
+use Utils\FirestoreUtils;
 
 class PageNav {
    use DBTrait;
 
    public const ARTICLE_PAGE_TYPE = 'ARTICLE_PAGE';
    public const CUSTOM_TYPE = 'CUSTOM';
-   public const HOMEPAGE_PAGEID = 1;
+   public const DEFAULT_PAGEID = 1;
 
-   public static function getPageidFromSlug(string $slug = ''): int {
-      if (!$slug) {
-         return self::HOMEPAGE_PAGEID;
-      }
-      foreach (self::fetchAllRowsFromStaticCache() as $row) {
-         if (StringUtils::iMatch($slug, $row['slug'])) {
-            return (int)$row['pageid'];
+   private const COLLECTION_NAME = 'page_nav';
+
+   private $slug;
+   private $nav_string;
+   private $orderby;
+   // Odd to need a pageid here but we use it to generate the link URLs
+   private $pageid;
+   private $type;
+
+   public static function getPageFromSlug(string $slug): BasePage {
+      // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
+      $pageNav = StringUtils::isInt($slug) ? PageIndex::getPageFromPageid((int)$slug) : self::getPageNavFromSlug($slug);
+      return PageIndex::getPageFromPageid($pageNav->getPageid());
+
+   }
+
+   private static function getPageNavFromSlug(string $slug): self {
+      foreach (self::fetchAllRowsFromStaticCache() as $pNav) {
+         if ($pNav->matchesSlug($slug)) {
+            return $pNav;
          }
       }
       InvalidPageException::throwPageNotFound($slug);
    }
 
-   public static function getDefaultSlug(): string {
-      $dPageid = self::getPageidFromSlug();
-      foreach (self::fetchAllRowsFromStaticCache() as $row) {
-         if ($row['pageid'] === $dPageid) {
-            return $row['slug'];
+   private static function getPageNavFromPageid(int $pageid): self {
+      foreach (self::fetchAllRowsFromStaticCache() as $pNav) {
+         if ($pNav->matchesPageid($pageid)) {
+            return $pNav;
          }
       }
-      throw new Exception('Default page not configured correctly. Unkown HOMEPAGE_PAGEID.');
+      InvalidPageException::throwPageNotFound($pageid);
+   }
+
+   public static function getDefaultNav(): self {
+      return self::getPageNavFromPageid(self::DEFAULT_PAGEID);
+   }
+
+   public static function getDefaultSlug(): string {
+      return self::getDefaultNav()->getSlug();
+   }
+
+   public static function fromArray(array $aData) {
+      return new self($aData['slug'], $aData['nav_string'], $aData['type'], (int)$aData['orderby'], (int)$aData['pageid']);
+   }
+
+   public function toArray(): array {
+      return [
+         'type' => $this->type,
+         'slug' => $this->slug,
+         'nav_string' => $this->navString,
+         'pageid' => $this->pageid,
+         'orderby' => $this->orderby
+      ];
    }
 
    private static function fetchAllRows(): array {
-      $sql = <<<EOT
-         SELECT `navid`, `type`, `slug`, `nav_string`, `pageid`, `orderby`
-         FROM `page_nav`
-         ORDER BY `orderby` ASC
-EOT;
-      return self::db()->fetchAll($sql);
+      $path = 'page_nav';
+      $iDocs = ['slug', 'nav_string', 'orderby'];
+      $iSnaps = [
+         FirestoreUtils::buildSnap('page', 'pageid', 'pageid'),
+         FirestoreUtils::buildSnap('type', 'enum'),
+      ];
+      return array_map(
+         fn($aValues) => self::fromArray($aValues),
+         self::fetchRows($path, $iDocs, $iSnaps)
+      );
+   }
+
+   private function __construct(string $slug, string $navString, string $type, int $orderby, int $pageid) {
+      $this->slug = $slug;
+      $this->navString = $navString;
+      $this->type = $type;
+      $this->orderby = $orderby;
+      $this->pageid = $pageid;
+   }
+
+   private function getSlug() {
+      return $this->slug;
+   }
+
+   public function getPageid(): int {
+      return $this->pageid;
+   }
+
+   private function matchesPageid(int $pageid): bool {
+      return $this->pageid === $pageid;
+   }
+
+   private function matchesSlug(string $slug): bool {
+      return StringUtils::iMatch($this->slug, $slug);
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
-      return [
+      $values = [
          ['navid' => 1,
           'type' => self::ARTICLE_PAGE_TYPE,
           'slug' => 'homepage',
@@ -70,5 +133,6 @@ EOT;
           'orderby' => 2
          ]
       ];
+      return array_map(fn($vals) => self::fromArray($vals), $values);
    }
 }
