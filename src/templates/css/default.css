@@ -25,6 +25,7 @@ section {
   display: -webkit-flex;
   display: flex;
   margin: 0 auto;
+  flex-direction: column;
   /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 }
 @media (max-width: 600px) {
@@ -35,27 +36,17 @@ section {
 }
 /* Style the navigation menu */
 nav {
-  flex: 1;
   background: #FF8858;
   color: #530E53;
   padding: 18px;
   display: flex;
-  flex-direction: column;
   gap: 10px;
   font-size: 18px;
+  align-items: stretch;
+  align-content: center;
+  justify-content: space-evenly;
+  text-align: center;
   flex-wrap: wrap;
-  max-width: 190px;
-}
-@media (max-width: 600px) {
-  nav {
-    flex-direction: row;
-    align-items: stretch;
-    align-content: center;
-    justify-content: space-evenly;
-    text-align: center;
-    gap: 0;
-    max-width: 100%;
-  }
 }
 nav div {
   padding: 4px;
