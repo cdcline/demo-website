@@ -66,6 +66,21 @@ nav .nav-links-container .nav-link-container:hover {
   font-weight: bold;
   cursor: pointer;
 }
+nav .nav-links-container .nav-link-container .display-text-bold-hack {
+  content: attr(data-text);
+  content: attr(data-text) / "";
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  font-weight: bold;
+}
+@media speech {
+  nav .nav-links-container .nav-link-container .display-text-bold-hack {
+    display: none;
+  }
+}
 nav .nav-links-container .nav-link-container a,
 nav .nav-links-container .nav-link-container a:visited {
   color: #530E53;

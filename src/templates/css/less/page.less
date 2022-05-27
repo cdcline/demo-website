@@ -72,6 +72,24 @@ nav {
             cursor: pointer;
          }
 
+         // Silly hack to make bolding on hover not shift content
+         // Basically render a bold element but "hide" it
+         // Thx: https://css-tricks.com/bold-on-hover-without-the-layout-shift/
+         .display-text-bold-hack {
+            content: attr(data-text);
+            content: attr(data-text) / "";
+            height: 0;
+            visibility: hidden;
+            overflow: hidden;
+            user-select: none;
+            pointer-events: none;
+            font-weight: bold;
+
+            @media speech {
+              display: none;
+            }
+         }
+
          a, a:visited {
             color: @navTextColor;
             text-decoration: none;

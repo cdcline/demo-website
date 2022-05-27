@@ -7,15 +7,14 @@ use Pages\InvalidPageException;
 use Utils\StringUtils;
 use Pages\BasePage;
 use Utils\FirestoreUtils;
+use Utils\SiteRunner;
 
 class PageNav {
    use DBTrait;
 
-   public const ARTICLE_PAGE_TYPE = 'ARTICLE_PAGE';
-   public const CUSTOM_TYPE = 'CUSTOM';
+   public const ARTICLE_TYPE = 'ARTICLE';
+   public const FOOTER_TYPE = 'FOOTER';
    public const DEFAULT_PAGEID = 1;
-
-   private const COLLECTION_NAME = 'page_nav';
 
    private $slug;
    private $nav_string;
@@ -28,7 +27,30 @@ class PageNav {
       // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
       $pageNav = StringUtils::isInt($slug) ? PageIndex::getPageFromPageid((int)$slug) : self::getPageNavFromSlug($slug);
       return PageIndex::getPageFromPageid($pageNav->getPageid());
+   }
 
+   public static function getDefaultNav(): self {
+      return self::getPageNavFromPageid(self::DEFAULT_PAGEID);
+   }
+
+   public static function getDefaultSlug(): string {
+      return self::getDefaultNav()->getSlug();
+   }
+
+   public function toArray(): array {
+      return [
+         'type' => $this->type,
+         'theme' => $this->getTheme(),
+         'slug' => $this->slug,
+         'url' => $this->getUrl(),
+         'nav_string' => $this->navString,
+         'pageid' => $this->pageid,
+         'orderby' => $this->orderby
+      ];
+   }
+
+   public function displayInNav(): bool {
+      return $this->isArticleLink() && !$this->isDisplayedPage();
    }
 
    private static function getPageNavFromSlug(string $slug): self {
@@ -40,36 +62,14 @@ class PageNav {
       InvalidPageException::throwPageNotFound($slug);
    }
 
-   private static function getPageNavFromPageid(int $pageid): self {
-      foreach (self::fetchAllRowsFromStaticCache() as $pNav) {
-         if ($pNav->matchesPageid($pageid)) {
-            return $pNav;
-         }
-      }
-      InvalidPageException::throwPageNotFound($pageid);
-   }
-
-   public static function getDefaultNav(): self {
-      return self::getPageNavFromPageid(self::DEFAULT_PAGEID);
-   }
-
-   public static function getDefaultSlug(): string {
-      return self::getDefaultNav()->getSlug();
-   }
-
-   public static function fromArray(array $aData) {
-      return new self($aData['slug'], $aData['nav_string'], $aData['type'], (int)$aData['orderby'], (int)$aData['pageid']);
-   }
-
-   public function toArray(): array {
-      return [
-         'type' => $this->type,
-         'theme' => $this->getTheme(),
-         'slug' => $this->slug,
-         'nav_string' => $this->navString,
-         'pageid' => $this->pageid,
-         'orderby' => $this->orderby
-      ];
+   private static function fromArray(array $aData) {
+      return new self(
+         $aData['slug'],
+         $aData['nav_string'],
+         $aData['type'],
+         (int)$aData['orderby'],
+         (int)$aData['pageid']
+      );
    }
 
    private static function fetchAllRows(): array {
@@ -85,6 +85,15 @@ class PageNav {
       );
    }
 
+   private static function getPageNavFromPageid(int $pageid): self {
+      foreach (self::fetchAllRowsFromStaticCache() as $pNav) {
+         if ($pNav->matchesPageid($pageid)) {
+            return $pNav;
+         }
+      }
+      InvalidPageException::throwPageNotFound($pageid);
+   }
+
    private function __construct(string $slug, string $navString, string $type, int $orderby, int $pageid) {
       $this->slug = $slug;
       $this->navString = $navString;
@@ -93,7 +102,50 @@ class PageNav {
       $this->pageid = $pageid;
    }
 
-   private function getSlug() {
+   private function isArticleLink(): bool {
+      return StringUtils::iMatch($this->type, self::ARTICLE_TYPE);
+   }
+
+   private function isDisplayedPage(): bool {
+      $slug = SiteRunner::getSlugFromUrl();
+      return StringUtils::iMatch($slug, $this->slug);
+   }
+
+   private function getUrl(): string {
+      // We'll assume the slug is a full URL in the footer
+      if ($this->isFooterLink()) {
+         return $this->slug;
+      }
+
+      // Don't have any url for the "homepage" link.
+      if ($this->isDefaultArticle()) {
+         return $this->getHomepageLink();
+      }
+
+      return $this->getArticleLink();
+   }
+
+   private function getHomepageLink(): string {
+      return '/';
+   }
+
+   // We'll assume all article links are relative
+   private function getArticleLink(): string {
+      // Pages can be loaded on a slug or pageid.
+      // Slugs look pretty so we'll prefer those.
+      $linkText = $this->slug ?: $this->pageid;
+      return "/{$linkText}";
+   }
+
+   private function isDefaultArticle(): bool {
+      return $this->pageid === PageNav::DEFAULT_PAGEID;
+   }
+
+   private function isFooterLink(): bool {
+      return $this->type === self::FOOTER_TYPE;
+   }
+
+   private function getSlug(): string {
       return $this->slug;
    }
 
@@ -117,25 +169,53 @@ class PageNav {
    private static function getHardcodedRows(): array {
       $values = [
          ['navid' => 1,
-          'type' => self::ARTICLE_PAGE_TYPE,
+          'type' => self::ARTICLE_TYPE,
           'slug' => 'homepage',
           'nav_string' => 'Homepage',
           'pageid' => 1,
           'orderby' => 1
          ],
          ['navid' => 2,
-          'type' => self::CUSTOM_TYPE,
+          'type' => self::FOOTER_TYPE,
           'slug' => 'https://github.com/cdcline/demo-website',
           'nav_string' => 'Resume',
           'pageid' => NULL,
-          'orderby' => 3
+          'orderby' => 2
          ],
          ['navid' => 3,
-          'type' => self::ARTICLE_PAGE_TYPE,
+          'type' => self::ARTICLE_TYPE,
           'slug' => 'dev',
           'nav_string' => 'Dev',
           'pageid' => 2,
           'orderby' => 2
+         ],
+         ['navid' => 4,
+          'type' => self::FOOTER_TYPE,
+          'slug' => 'https://www.linkedin.com/in/cdcline/',
+          'nav_string' => 'LinkedIn',
+          'pageid' => NULL,
+          'orderby' => 1
+         ],
+         ['navid' => 5,
+          'type' => self::FOOTER_TYPE,
+          'slug' => 'mailto:1248182+cdcline@users.noreply.github.com',
+          'nav_string' => 'Contact Me',
+          'pageid' => NULL,
+          'orderby' => 3
+         ],
+         ['navid' => 6,
+          'type' => self::ARTICLE_TYPE,
+          'slug' => 'test-page-1',
+          'nav_string' => 'Test Page 1',
+          'pageid' => 3,
+          'orderby' => 3
+         ],
+         ['navid' => 7,
+          'type' => self::ARTICLE_TYPE,
+          'slug' => 'test-page-2',
+          'nav_string' => 'Test Page 2',
+          'pageid' => 4,
+          'orderby' => 4
          ]
       ];
       return array_map(fn($vals) => self::fromArray($vals), $values);
