@@ -66,7 +66,7 @@ nav .nav-links-container .nav-link-container:hover {
   font-weight: bold;
   cursor: pointer;
 }
-nav .nav-links-container .nav-link-container .display-text-bold-hack {
+nav .nav-links-container .nav-link-container .display-text-bold-hack-container {
   content: attr(data-text);
   content: attr(data-text) / "";
   height: 0;
@@ -77,7 +77,7 @@ nav .nav-links-container .nav-link-container .display-text-bold-hack {
   font-weight: bold;
 }
 @media speech {
-  nav .nav-links-container .nav-link-container .display-text-bold-hack {
+  nav .nav-links-container .nav-link-container .display-text-bold-hack-container {
     display: none;
   }
 }
@@ -116,41 +116,42 @@ article {
 }
 /* Footer */
 footer {
+  font-size: 1.5em;
+}
+footer div.links-container {
+  border: 2px black solid;
+  background-color: white;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  text-align: center;
+}
+footer div.links-container .link-container {
+  margin: 18px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  color: white;
-  margin: 0 auto;
 }
-footer div {
-  display: flex;
-  flex-direction: row;
-  max-width: 954px;
-  margin: 20px;
-  justify-content: center;
-  gap: 8px;
-  align-items: stretch;
-  flex-wrap: wrap;
+footer div.links-container .link-container span {
+  color: black;
 }
-footer a {
-  color: #5FD101;
-  min-width: 122px;
+footer div.links-container .link-container span a:visited {
+  color: black;
 }
-footer a:visited {
-  color: #449500;
+footer div.links-container .link-container span:hover {
+  font-weight: bold;
 }
-footer a:first-child {
-  text-align: right;
+footer div.links-container .link-container .display-text-bold-hack-container {
+  content: attr(data-text);
+  content: attr(data-text) / "";
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  font-weight: bold;
 }
-footer a:last-child {
-  text-align: left;
-}
-@media (max-width: 305px) {
-  footer a:first-child,
-  footer a:last-child {
-    text-align: center;
-  }
-  footer a span {
+@media speech {
+  footer div.links-container .link-container .display-text-bold-hack-container {
     display: none;
   }
 }

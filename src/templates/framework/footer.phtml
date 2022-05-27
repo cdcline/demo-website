@@ -1,7 +1,10 @@
 <footer>
-   <div>
-      <a href="<?= $this->getPacketData('contactEmail') ?>">Contact Me</a>
-      <span>|</span>
-      <a href="https://github.com/cdcline/demo-website">View Site Source</a>
+   <div class="links-container">
+      <?php foreach ($this->getPacketData('footerRows') as $navRow) : ?>
+         <div class="link-container">
+            <a href="<?= $navRow['url'] ?>"><span><?= $navRow['nav_string'] ?></span></a>
+            <span class="display-text-bold-hack-container"><?= $navRow['nav_string'] ?></span>
+         </div>
+      <?php endforeach ?>
    </div>
 </footer>

@@ -53,6 +53,10 @@ class PageNav {
       return $this->isArticleLink() && !$this->isDisplayedPage();
    }
 
+   public function displayInFooter(): bool {
+      return $this->isFooterLink();
+   }
+
    private static function getPageNavFromSlug(string $slug): self {
       foreach (self::fetchAllRowsFromStaticCache() as $pNav) {
          if ($pNav->matchesSlug($slug)) {
@@ -142,7 +146,7 @@ class PageNav {
    }
 
    private function isFooterLink(): bool {
-      return $this->type === self::FOOTER_TYPE;
+      return StringUtils::iMatch($this->type, self::FOOTER_TYPE);
    }
 
    private function getSlug(): string {

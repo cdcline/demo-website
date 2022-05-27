@@ -38,6 +38,24 @@ section {
    }
 }
 
+// Silly hack to make bolding on hover not shift content
+// Basically render a bold element but "hide" it
+// Thx: https://css-tricks.com/bold-on-hover-without-the-layout-shift/
+.display-text-bold-hack() {
+   content: attr(data-text);
+   content: attr(data-text) / "";
+   height: 0;
+   visibility: hidden;
+   overflow: hidden;
+   user-select: none;
+   pointer-events: none;
+   font-weight: bold;
+
+   @media speech {
+      display: none;
+   }
+}
+
 /* Style the navigation menu */
 nav {
    background: @navBackgroundColor;
@@ -72,22 +90,8 @@ nav {
             cursor: pointer;
          }
 
-         // Silly hack to make bolding on hover not shift content
-         // Basically render a bold element but "hide" it
-         // Thx: https://css-tricks.com/bold-on-hover-without-the-layout-shift/
-         .display-text-bold-hack {
-            content: attr(data-text);
-            content: attr(data-text) / "";
-            height: 0;
-            visibility: hidden;
-            overflow: hidden;
-            user-select: none;
-            pointer-events: none;
-            font-weight: bold;
-
-            @media speech {
-              display: none;
-            }
+         .display-text-bold-hack-container {
+            .display-text-bold-hack();
          }
 
          a, a:visited {
@@ -130,44 +134,34 @@ article {
 
 /* Footer */
 footer {
-   display:flex;
-   flex-direction: column;
-   justify-content: center;
-   color: @footerSpacerColor;
-   margin: 0 auto;
-   div {
+   font-size: 1.5em;
+
+   div.links-container {
+      border: 2px black solid;
+      background-color: white;
       display: flex;
-      flex-direction: row;
-      max-width: 954px;
-      margin: 20px;
-      justify-content: center;
-      gap: 8px;
-      align-items: stretch;
+      justify-content: space-evenly;
       flex-wrap: wrap;
-   }
-   a {
-      color: @footerLinkColor;
-      min-width: 122px;
+      text-align: center;
 
-      &:visited {
-         color: @footerLinkVisitedColor;
-      }
+      .link-container {
+         margin: 18px;
+         display: flex;
+         flex-direction: column;
+         span {
+            color: @footerLinkColor;
 
-      &:first-child {
-         text-align: right;
-      }
+            a:visited {
+               color: @footerLinkVisitedColor;
+            }
 
-      &:last-child {
-         text-align: left;
-      }
-
-      @media (max-width: 305px) {
-         &:first-child, &:last-child {
-            text-align: center;
+            &:hover {
+               font-weight: bold;
+            }
          }
 
-         span {
-            display: none;
+         .display-text-bold-hack-container {
+            .display-text-bold-hack();
          }
       }
    }
