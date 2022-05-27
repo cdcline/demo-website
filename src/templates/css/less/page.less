@@ -42,46 +42,56 @@ section {
 nav {
    background: @navBackgroundColor;
    color: @navTextColor;
-   padding: 18px;
    display: flex;
-   gap: 10px;
-   font-size: 18px;
-   align-items: stretch;
-   align-content: center;
-   justify-content: space-evenly;
-   text-align: center;
-   flex-wrap: wrap;
+   flex-direction: column;
+   font-size: 1.5em;
 
-   .nav-link-container {
-      padding: 4px;
-      gap: 8px;
+   h3 {
+      margin: 18px 10px;
+      color: @whiteText;
+   }
+
+   .nav-links-container {
+      padding: 18px;
       display: flex;
-      flex-direction: column;
+      gap: 10px;
+      align-items: stretch;
+      align-content: center;
+      justify-content: space-evenly;
+      text-align: center;
+      flex-wrap: wrap;
 
-      &:hover {
-         font-weight: bold;
-         cursor: pointer;
-      }
+      .nav-link-container {
+         padding: 4px;
+         gap: 8px;
+         display: flex;
+         flex-direction: column;
 
-      a, a:visited {
-         color: @navTextColor;
-         text-decoration: none;
-      }
-
-      .color-block {
-         align-self: center;
-         width: 120px;
-         height: 120px;
-         background-color: @black;
-         border: 2px solid @white;
-         &.homepage {
-            background-color: @orange;
+         &:hover {
+            font-weight: bold;
+            cursor: pointer;
          }
-         &.dev {
-            background-color: @lightGreen;
+
+         a, a:visited {
+            color: @navTextColor;
+            text-decoration: none;
          }
-         &.default {
-            background-color: @purple;
+
+         .color-block {
+            align-self: center;
+            width: 120px;
+            height: 120px;
+            background-color: @black;
+            border: 2px solid @white;
+            &.homepage {
+               background-color: @orange;
+            }
+            &.dev {
+               background-color: @lightGreen;
+            }
+            &.default {
+               background-color: @purple;
+            }
          }
       }
    }

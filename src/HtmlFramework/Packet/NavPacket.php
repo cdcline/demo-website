@@ -10,8 +10,9 @@ use Utils\SiteRunner;
 class NavPacket {
    use PacketTrait;
 
-   public function __construct(array $pageNavs) {
+   public function __construct(string $navText, array $pageNavs) {
       $pageNavRows = array_map(fn($pNav) => $pNav->toArray(), $pageNavs);
+      $this->setData('navText', $navText);
       $this->setData('navRows', $this->extractNavDataFromPageNavRows($pageNavRows));
    }
 

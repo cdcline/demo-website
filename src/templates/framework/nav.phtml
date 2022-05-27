@@ -1,12 +1,15 @@
 <nav>
-   <?php foreach ($this->getPacketData('navRows') as $i => $navRow) :
-      $fClass = $navRow['isFun'] ? ' fun' : '';
-   ?>
-      <a href="<?= $navRow['url'] ?>">
-         <div class="nav-link-container <?= $navRow['theme'] ?>">
-               <div class="color-block <?= $navRow['theme'] ?>"></div>
-               <span class="display-text<?= $fClass ?>"><?= $navRow['display'] ?></span>
-         </div>
-      </a>
-   <?php endforeach ?>
+   <?= $this->getNavTextHtml() ?>
+   <div class="nav-links-container">
+      <?php foreach ($this->getPacketData('navRows') as $i => $navRow) :
+         $fClass = $navRow['isFun'] ? ' fun' : '';
+      ?>
+         <a href="<?= $navRow['url'] ?>">
+            <div class="nav-link-container <?= $navRow['theme'] ?>">
+                  <div class="color-block <?= $navRow['theme'] ?>"></div>
+                  <span class="display-text<?= $fClass ?>"><?= $navRow['display'] ?></span>
+            </div>
+         </a>
+      <?php endforeach ?>
+   </div>
 </nav>

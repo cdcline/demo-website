@@ -38,45 +38,53 @@ section {
 nav {
   background: green;
   color: #530E53;
+  display: flex;
+  flex-direction: column;
+  font-size: 1.5em;
+}
+nav h3 {
+  margin: 18px 10px;
+  color: white;
+}
+nav .nav-links-container {
   padding: 18px;
   display: flex;
   gap: 10px;
-  font-size: 18px;
   align-items: stretch;
   align-content: center;
   justify-content: space-evenly;
   text-align: center;
   flex-wrap: wrap;
 }
-nav .nav-link-container {
+nav .nav-links-container .nav-link-container {
   padding: 4px;
   gap: 8px;
   display: flex;
   flex-direction: column;
 }
-nav .nav-link-container:hover {
+nav .nav-links-container .nav-link-container:hover {
   font-weight: bold;
   cursor: pointer;
 }
-nav .nav-link-container a,
-nav .nav-link-container a:visited {
+nav .nav-links-container .nav-link-container a,
+nav .nav-links-container .nav-link-container a:visited {
   color: #530E53;
   text-decoration: none;
 }
-nav .nav-link-container .color-block {
+nav .nav-links-container .nav-link-container .color-block {
   align-self: center;
   width: 120px;
   height: 120px;
   background-color: black;
   border: 2px solid white;
 }
-nav .nav-link-container .color-block.homepage {
+nav .nav-links-container .nav-link-container .color-block.homepage {
   background-color: orange;
 }
-nav .nav-link-container .color-block.dev {
+nav .nav-links-container .nav-link-container .color-block.dev {
   background-color: lightgreen;
 }
-nav .nav-link-container .color-block.default {
+nav .nav-links-container .nav-link-container .color-block.default {
   background-color: purple;
 }
 /* Style the content */
