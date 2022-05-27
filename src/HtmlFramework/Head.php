@@ -15,8 +15,8 @@ use Utils\HtmlUtils;
 class Head extends HtmlElement {
    private const FRAMEWORK_FILE = 'head.phtml';
 
-   public static function fromValues(string $pageType, string $pageTitle): self {
-      $packet = new HeadPacket($pageType, $pageTitle);
+   public static function fromValues(string $pageTheme, string $pageTitle): self {
+      $packet = new HeadPacket($pageTheme, $pageTitle);
       return new self($packet);
    }
 

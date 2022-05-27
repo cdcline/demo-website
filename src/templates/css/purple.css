@@ -78,13 +78,16 @@ nav .nav-links-container .nav-link-container .color-block {
   background-color: black;
   border: 2px solid white;
 }
-nav .nav-links-container .nav-link-container .color-block.homepage {
+nav .nav-links-container .nav-link-container .color-block.orange {
   background-color: orange;
 }
-nav .nav-links-container .nav-link-container .color-block.dev {
+nav .nav-links-container .nav-link-container .color-block.grey {
+  background-color: grey;
+}
+nav .nav-links-container .nav-link-container .color-block.green {
   background-color: lightgreen;
 }
-nav .nav-links-container .nav-link-container .color-block.default {
+nav .nav-links-container .nav-link-container .color-block.purple {
   background-color: purple;
 }
 /* Style the content */
@@ -94,6 +97,7 @@ article {
   flex: 5;
   background-color: #C5FC98;
   padding: 20px;
+  color: black;
 }
 /* Footer */
 footer {
@@ -135,6 +139,12 @@ footer a:last-child {
     display: none;
   }
 }
+#raw-text-main-article-container code {
+  white-space: break-spaces;
+}
+#view-parse-toggle-btn {
+  margin: 10px 5px;
+}
 #article-container {
   display: flex;
   flex-direction: column;
@@ -161,12 +171,6 @@ footer a:last-child {
 #parsed-main-article-container .ma-entry-text-container h2:last-child,
 #parsed-main-article-container .ma-entry-text-container p:last-child {
   margin-bottom: 0px;
-}
-#raw-text-main-article-container code {
-  white-space: break-spaces;
-}
-#view-parse-toggle-btn {
-  margin: 10px 5px;
 }
 /**
  * Block'O'Fun CSS

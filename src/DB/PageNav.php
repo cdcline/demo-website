@@ -110,7 +110,7 @@ class PageNav {
    }
 
    private function getTheme(): string {
-      return $this->getPageid() ? PageIndex::getTypeFromPageid($this->getPageid()) : PageIndex::DEFAULT_TYPE;
+      return $this->getPageid() ? PageIndex::getThemeFromPageid($this->getPageid()) : PageIndex::PURPLE_THEME;
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`

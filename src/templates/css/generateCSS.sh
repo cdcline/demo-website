@@ -1,7 +1,7 @@
 #!/bin/bash
-themes=("default" "dev")
+themes=("orange" "purple" "grey" "green")
 for theme in ${themes[@]}; do
-  echo "Generating css for $theme"
-  lessc less/$theme.less $theme.css
+  echo "Generating css for theme: $theme"
+  lessc less/$theme-theme.less $theme.css
 done
 
