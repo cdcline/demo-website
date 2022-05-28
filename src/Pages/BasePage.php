@@ -50,12 +50,12 @@ abstract class BasePage {
 
    public function printHtml(): void {
       $this->ranHTMLPrint = true;
-      $htmlHead = HtmlHead::fromValues($this->getPageTitle());
+      $htmlHead = HtmlHead::fromValues($this->getTheme(), $this->getPageTitle());
       $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
-      $htmlNav = HtmlNav::fromValues();
+      $htmlNav = HtmlNav::fromValues($this->getNavText());
       $htmlArticle = HtmlArticle::fromValues($this->getPageType(), $this->getPageid(), $this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
-      $htmlSection = HtmlSection::fromValues($htmlNav, $htmlArticle);
       $htmlFooter = HtmlFooter::fromValues();
+      $htmlSection = HtmlSection::fromValues($htmlArticle, $htmlNav, $htmlFooter);
       $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
       $htmlRoot = HtmlRoot::fromValues($htmlHead, $htmlBody);
       $htmlRoot->printHtml();
@@ -73,8 +73,17 @@ abstract class BasePage {
       throw new InvalidPageException("Unable to find Page Type: {$pageType}");
    }
 
+   protected function getMainArticle(): string {
+      return $this->getPageIndex()->getMainArticle();
+   }
+
    private function getPageIndex(): PageIndex {
       return $this->pageIndex;
+   }
+
+   private function getTheme(): string {
+      return $this->getPageIndex()->getTheme();
+
    }
 
    private function getPageType(): string {
@@ -89,8 +98,8 @@ abstract class BasePage {
       return $this->getPageIndex()->getPageHeader();
    }
 
-   private function getMainArticle(): string {
-      return $this->getPageIndex()->getMainArticle();
+   private function getNavText(): string {
+      return $this->getPageIndex()->getNavText();
    }
 
    private function getPageTemplatePath(): string {

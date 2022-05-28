@@ -10,46 +10,20 @@ use Utils\SiteRunner;
 class NavPacket {
    use PacketTrait;
 
-   public function __construct(array $pageNavs) {
-      $pageNavRows = array_map(fn($pNav) => $pNav->toArray(), $pageNavs);
-      $this->setData('navRows', $this->extractNavDataFromPageNavRows($pageNavRows));
+   public function __construct(string $navText, array $pageNavs) {
+      $this->setData('navText', $navText);
+      $this->setData('navRows', $this->extractNavDataFromPageNavs($pageNavs));
    }
 
-   private function extractNavDataFromPageNavRows(array $pageNavRows): array {
-      $navData = [];
-
-      // Can be done in MySQL too but this helps with the static data
-      array_multisort(array_column($pageNavRows, 'orderby'), SORT_ASC, $pageNavRows);
-
-      $slug = SiteRunner::getSlugFromUrl();
-      $isFunRow = function($rSlug) use ($slug): bool {
-         return $rSlug === $slug;
-      };
-
-      foreach ($pageNavRows as $i => $row) {
-         $navData[] = [
-            'url' => $this->getUrlFromPageNavRow($row),
-            'display' => $row['nav_string'],
-            'isFun' => $isFunRow($row['slug'])
-         ];
-      }
-
-      return $navData;
-   }
-
-   private function getUrlFromPageNavRow(array $navRow): string {
-      // Don't have any url for the "homepage" link.
-      if ($navRow['pageid'] === PageNav::DEFAULT_PAGEID) {
-         return '/';
-      }
-      $customUrl = StringUtils::iMatch($navRow['type'], PageNav::CUSTOM_TYPE);
-      $slugOrUrl = $navRow['slug'];
-      // If it's a "custom url" just use whatever is in the field
-      return $customUrl ? $slugOrUrl : $this->generateUrlFromSlug($slugOrUrl);
-   }
-
-   // We'll assume all the "slug" urls are relative
-   private function generateUrlFromSlug(string $slug) {
-      return "/{$slug}";
+   private function extractNavDataFromPageNavs(array $pageNavs): array {
+      // Filter to the page navs we care about
+      $fPageNavs = array_filter($pageNavs, fn($pNav) => $pNav->displayInNav());
+      // Turn the objects into arrays so we can do array magic
+      $navRows = array_map(fn($pNav) => $pNav->toArray(), $fPageNavs);
+      // We'll want to pull these values from the array
+      $iNavPacket = ['url', 'theme', 'nav_string', 'orderby'];
+      $navPacketData = StringUtils::array_column_multi($navRows, $iNavPacket);
+      array_multisort(array_column($navPacketData, 'orderby'), SORT_ASC, $navPacketData);
+      return $navPacketData;
    }
 }

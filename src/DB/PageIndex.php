@@ -14,18 +14,21 @@ class PageIndex {
    const HOMEPAGE_TYPE = 'homepage';
    const DEV_TYPE = 'dev';
 
+   const ORANGE_THEME = 'orange';
+   const GREY_THEME = 'grey';
+   const GREEN_THEME = 'green';
+   const PURPLE_THEME = 'purple';
+
    private $pageid;
    private $pageTitle;
    private $pageHeader;
    private $pageType;
    private $mainArticle;
+   private $navText;
+   private $theme;
 
-   public static function getTypeFromPageid(int $pageid): string {
-      return self::getPageIndexFromPageid($pageid)->getPageType();
-   }
-
-   public static function getMainArticleTextFromPageid(int $pageid): string {
-      return self::getPageIndexFromPageid($pageid)->getMainArticle();
+   public static function getThemeFromPageid(int $pageid): string {
+      return self::getPageIndexFromPageid($pageid)->getTheme();
    }
 
    public static function getPageFromPageid(int $pageid): BasePage {
@@ -48,8 +51,16 @@ class PageIndex {
       return $this->mainArticle;
    }
 
+   public function getTheme(): string {
+      return $this->theme;
+   }
+
    public function getPageid(): int {
       return $this->pageid;
+   }
+
+   public function getNavText(): string{
+      return (string)$this->navText;
    }
 
    public function getPage(): BasePage {
@@ -72,7 +83,9 @@ class PageIndex {
          'pageid' => $this->getPageid(),
          'page_title' => $this->getPageTitle(),
          'page_header' => $this->getPageHeader(),
-         'main_article' => $this->getMainArticle()
+         'main_article' => $this->getMainArticle(),
+         'nav_text' => $this->getNavText(),
+         'theme' => $this->getTheme()
       ];
    }
 
@@ -82,16 +95,20 @@ class PageIndex {
          $iPageValues['page_title'] ?? 'Unknown Title',
          $iPageValues['page_header'] ?? 'Unknown Header',
          $iPageValues['type'] ?? self::DEFAULT_TYPE,
-         $iPageValues['main_article'] ?? ''
+         $iPageValues['main_article'] ?? '',
+         $iPageValues['nav_text'] ?? '',
+         $iPageValues['theme'] ?? self::PURPLE_THEME,
       );
    }
 
-   private function __construct(int $pageid, string $pageTitle, string $pageHeader, string $pageType, string $mainArticle) {
+   private function __construct(int $pageid, string $pageTitle, string $pageHeader, string $pageType, string $mainArticle, string $navText, string $theme) {
       $this->pageid = $pageid;
       $this->pageTitle = $pageTitle;
       $this->pageHeader = $pageHeader;
       $this->pageType = $pageType;
       $this->mainArticle = $mainArticle;
+      $this->navText = $navText;
+      $this->theme = $theme;
    }
 
    private function matchesPageid(int $pageid): bool {
@@ -100,7 +117,7 @@ class PageIndex {
 
    private static function fetchAllRows(): array {
       $path = FirestoreUtils::indexPagesPath();
-      $iDocs = ['pageid', 'main_article', 'page_header', 'page_title'];
+      $iDocs = ['pageid', 'main_article', 'page_header', 'page_title', 'nav_text', 'theme'];
       $iSnaps = [FirestoreUtils::buildSnap('type', 'enum')];
       $fromFirestoreFnc = function($iPageValues): array {
          $iPageValues['main_article'] = FirestoreUtils::hackNewlines($iPageValues['main_article']);
@@ -122,9 +139,11 @@ class PageIndex {
    private static function getStaticRows(): array {
       return [
          ['type' => self::HOMEPAGE_TYPE,
+          'theme' => self::ORANGE_THEME,
           'pageid' => 1,
           'page_title' => 'Welcome - My Demo Website',
           'page_header' => 'Welcome',
+          'nav_text' => 'You might also enjoy...',
           'main_article' => <<<EOT
 ## Welcome to My Personal Website!
 
@@ -151,9 +170,11 @@ However, it has it's limits. You can't really do fancy **frontend** _things_.
 EOT
          ],
          ['type' => self::DEV_TYPE,
+          'theme' => self::GREY_THEME,
           'pageid' => 2,
           'page_title' => 'Dev - Website Demo',
           'page_header' => 'The Dev Environment',
+          'nav_text' => null,
           'main_article' => <<<EOT
 ## This is the Dev Article!
 
@@ -161,6 +182,7 @@ I need a space that's pretty constant and one that's _kinda_ scratch paper. This
 EOT
          ],
          ['type' => self::DEV_TYPE,
+          'theme' => self::GREEN_THEME,
           'pageid' => 3,
           'page_title' => 'Test 3 - Website Demo',
           'page_header' => 'Test Page 3',
@@ -171,9 +193,11 @@ Egestas sed tempus urna et pharetra pharetra massa massa ultricies. Neque sodale
 EOT
          ],
          ['type' => self::DEFAULT_TYPE,
+          'theme' => self::PURPLE_THEME,
           'pageid' => 4,
           'page_title' => 'Test 4 - Website Demo',
           'page_header' => 'Test Page 4',
+          'nav_text' => null,
           'main_article' => <<<EOT
 ## This is _Test Page 4_
 

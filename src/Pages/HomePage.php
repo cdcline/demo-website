@@ -9,7 +9,7 @@ final class HomePage extends BasePage {
    private const PAGE_TEMPLATE = 'homepage.phtml';
 
    public function doStuff(): void {
-      $this->setPageData('escapedMainArticleTxt', htmlentities(PageIndex::getMainArticleTextFromPageid($this->getPageid())));
+      $this->setPageData('escapedMainArticleTxt', htmlentities($this->getMainArticle()));
    }
 
    protected function getPageTemplateName(): string {

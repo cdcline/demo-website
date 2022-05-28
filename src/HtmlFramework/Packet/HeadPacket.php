@@ -2,12 +2,16 @@
 
 namespace HtmlFramework\Packet;
 
+use DB\PageIndex;
 use HtmlFramework\Packet\PacketTrait;
 
 class HeadPacket {
    use PacketTrait;
 
-   private const HTML_STYLE_SHEET_PATH = 'src/templates/css/page.css';
+   private const ORANGE_THEME_STYLE_SHEET_PATH = 'src/templates/css/orange.css';
+   private const GREY_THEME_STYLE_SHEET_PATH = 'src/templates/css/grey.css';
+   private const GREEN_THEME_STYLE_SHEET_PATH = 'src/templates/css/green.css';
+   private const PURPLE_THEME_SHEET_PATH = 'src/templates/css/purple.css';
    private const JS_LOADER_PATH = 'src/templates/js/page.js';
    private const FAVICON_PATH = '/src/images/fav/favicon.ico';
    private const FAVICON_PATH_16 = '/src/images/fav/favicon-16x16.png';
@@ -17,15 +21,26 @@ class HeadPacket {
    private const APPLE_TOUCH = '/src/images/fav/apple-touch-icon.png';
    private const MANIFEST_PATH = '/src/images/fav/site.webmanifest';
 
+   private $pageTheme;
+
    /**
     * @param $pageTitle - Text put in the meta "title" filed in the Head
     */
-   public function __construct(string $pageTitle) {
+   public function __construct(string $pageTheme, string $pageTitle) {
+      $this->pageTheme = $pageTheme;
       $this->setData('pageTitle', $pageTitle);
    }
 
    public function getStyleSheetPath(): string {
-      return self::HTML_STYLE_SHEET_PATH;
+      switch ($this->pageTheme) {
+         case PageIndex::ORANGE_THEME:
+            return self::ORANGE_THEME_STYLE_SHEET_PATH;
+         case PageIndex::GREY_THEME:
+            return self::GREY_THEME_STYLE_SHEET_PATH;
+         case PageIndex::GREEN_THEME:
+            return self::GREEN_THEME_STYLE_SHEET_PATH;
+      }
+      return self::PURPLE_THEME_SHEET_PATH;
    }
 
    public function getJavascriptPath(): string {

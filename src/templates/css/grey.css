@@ -4,7 +4,7 @@
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: #A600A6;
+  background-color: grey;
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -25,6 +25,7 @@ section {
   display: -webkit-flex;
   display: flex;
   margin: 0 auto;
+  flex-direction: column;
   /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 }
 @media (max-width: 600px) {
@@ -35,90 +36,130 @@ section {
 }
 /* Style the navigation menu */
 nav {
-  flex: 1;
-  background: #FF8858;
+  background: green;
   color: #530E53;
-  padding: 18px;
   display: flex;
   flex-direction: column;
+  font-size: 1.5em;
+}
+nav h3 {
+  margin: 18px 10px;
+  color: white;
+}
+nav .nav-links-container {
+  padding: 18px;
+  display: flex;
   gap: 10px;
-  font-size: 18px;
+  align-items: stretch;
+  align-content: center;
+  justify-content: space-evenly;
+  text-align: center;
   flex-wrap: wrap;
-  max-width: 190px;
 }
-@media (max-width: 600px) {
-  nav {
-    flex-direction: row;
-    align-items: stretch;
-    align-content: center;
-    justify-content: space-evenly;
-    text-align: center;
-    gap: 0;
-    max-width: 100%;
-  }
-}
-nav div {
+nav .nav-links-container .nav-link-container {
   padding: 4px;
   gap: 8px;
-  min-width: 150px;
-  overflow-wrap: anywhere;
+  display: flex;
+  flex-direction: column;
 }
-nav div:hover {
+nav .nav-links-container .nav-link-container:hover {
   font-weight: bold;
   cursor: pointer;
 }
-nav div a,
-nav div a:visited {
+nav .nav-links-container .nav-link-container .display-text-bold-hack-container {
+  content: attr(data-text);
+  content: attr(data-text) / "";
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  font-weight: bold;
+}
+@media speech {
+  nav .nav-links-container .nav-link-container .display-text-bold-hack-container {
+    display: none;
+  }
+}
+nav .nav-links-container .nav-link-container a,
+nav .nav-links-container .nav-link-container a:visited {
   color: #530E53;
   text-decoration: none;
+}
+nav .nav-links-container .nav-link-container .color-block {
+  align-self: center;
+  width: 120px;
+  height: 120px;
+  background-color: black;
+  border: 2px solid white;
+}
+nav .nav-links-container .nav-link-container .color-block.orange {
+  background-color: orange;
+}
+nav .nav-links-container .nav-link-container .color-block.grey {
+  background-color: grey;
+}
+nav .nav-links-container .nav-link-container .color-block.green {
+  background-color: lightgreen;
+}
+nav .nav-links-container .nav-link-container .color-block.purple {
+  background-color: purple;
 }
 /* Style the content */
 article {
   -webkit-flex: 5;
   -ms-flex: 5;
   flex: 5;
-  background-color: #C5FC98;
+  background-color: black;
   padding: 20px;
+  color: white;
 }
 /* Footer */
 footer {
+  font-size: 1.5em;
+}
+footer div.links-container {
+  border: 2px black solid;
+  background-color: white;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  text-align: center;
+}
+footer div.links-container .link-container {
+  margin: 18px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  color: white;
-  margin: 0 auto;
 }
-footer div {
-  display: flex;
-  flex-direction: row;
-  max-width: 954px;
-  margin: 20px;
-  justify-content: center;
-  gap: 8px;
-  align-items: stretch;
-  flex-wrap: wrap;
+footer div.links-container .link-container span {
+  color: black;
 }
-footer a {
-  color: #5FD101;
-  min-width: 122px;
+footer div.links-container .link-container span a:visited {
+  color: black;
 }
-footer a:visited {
-  color: #449500;
+footer div.links-container .link-container span:hover {
+  font-weight: bold;
 }
-footer a:first-child {
-  text-align: right;
+footer div.links-container .link-container .display-text-bold-hack-container {
+  content: attr(data-text);
+  content: attr(data-text) / "";
+  height: 0;
+  visibility: hidden;
+  overflow: hidden;
+  user-select: none;
+  pointer-events: none;
+  font-weight: bold;
 }
-footer a:last-child {
-  text-align: left;
-}
-@media (max-width: 305px) {
-  footer a:first-child,
-  footer a:last-child {
-    text-align: center;
-  }
-  footer a span {
+@media speech {
+  footer div.links-container .link-container .display-text-bold-hack-container {
     display: none;
   }
+}
+#raw-text-main-article-container code {
+  white-space: break-spaces;
+}
+#view-parse-toggle-btn {
+  margin: 10px 5px;
 }
 #article-container {
   display: flex;
@@ -146,12 +187,6 @@ footer a:last-child {
 #parsed-main-article-container .ma-entry-text-container h2:last-child,
 #parsed-main-article-container .ma-entry-text-container p:last-child {
   margin-bottom: 0px;
-}
-#raw-text-main-article-container code {
-  white-space: break-spaces;
-}
-#view-parse-toggle-btn {
-  margin: 10px 5px;
 }
 /**
  * Block'O'Fun CSS

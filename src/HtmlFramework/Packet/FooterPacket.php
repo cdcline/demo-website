@@ -2,17 +2,27 @@
 
 namespace HtmlFramework\Packet;
 
-use HtmlFramework\Head as HtmlHead;
-use HtmlFramework\Body as HtmlBody;
-
+use DB\PageNav;
 use HtmlFramework\Packet\PacketTrait;
+use Utils\StringUtils;
 
 class FooterPacket {
-   private const CONTACT_EMAIL = 'mailto:1248182+cdcline@users.noreply.github.com';
-
    use PacketTrait;
 
    public function __construct() {
-      $this->setData('contactEmail', self::CONTACT_EMAIL);
+      $this->setData('footerRows', $this->extractNavDataFromPageNavs());
+   }
+
+   private function extractNavDataFromPageNavs(): array {
+      $pageNavs = PageNav::fetchAllRowsFromStaticCache();
+      // Filter to the page navs we care about
+      $fPageNavs = array_filter($pageNavs, fn($pNav) => $pNav->displayInFooter());
+      // Turn the objects into arrays so we can do array magic
+      $footerRows = array_map(fn($pNav) => $pNav->toArray(), $fPageNavs);
+      // We'll want to pull these values from the array
+      $iFooterPacket = ['url', 'nav_string', 'orderby'];
+      $footerPacketData = StringUtils::array_column_multi($footerRows, $iFooterPacket);
+      array_multisort(array_column($footerPacketData, 'orderby'), SORT_ASC, $footerPacketData);
+      return $footerPacketData;
    }
 }
