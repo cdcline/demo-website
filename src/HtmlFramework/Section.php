@@ -2,10 +2,9 @@
 
 namespace HtmlFramework;
 
-use HtmlFramework\Element as HtmlElement;
-use HtmlFramework\Footer as PageFooter;
-use HtmlFramework\Nav as PageNav;
 use HtmlFramework\Article as PageArticle;
+use HtmlFramework\Element as HtmlElement;
+use HtmlFramework\Nav as PageNav;
 use HtmlFramework\Packet\SectionPacket;
 
 /**
@@ -15,8 +14,8 @@ use HtmlFramework\Packet\SectionPacket;
 class Section extends HtmlElement {
    private const FRAMEWORK_FILE = 'section.phtml';
 
-   public static function fromValues(PageArticle $article, PageNav $nav,  PageFooter $footer): self {
-      $packet = new SectionPacket($article, $nav, $footer);
+   public static function fromValues(PageArticle $article, PageNav $nav): self {
+      $packet = new SectionPacket($article, $nav);
       return new self($packet);
    }
 
@@ -26,5 +25,13 @@ class Section extends HtmlElement {
 
    protected function getFrameworkFile(): string {
       return self::FRAMEWORK_FILE;
+   }
+
+   protected function printArticle(): void {
+      $this->packet->printArticleHtml();
+   }
+
+   protected function printNav(): void {
+      $this->packet->printNavHtml();
    }
 }

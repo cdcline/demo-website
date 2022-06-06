@@ -29,15 +29,15 @@ class Body extends HtmlElement {
    }
 
    protected function printHeader(): void {
-      $this->getPacketData('header')->printHtml();
+      $this->packet->printHeaderHtml();
    }
 
    protected function printSection(): void {
-      $this->getPacketData('section')->printHtml();
+      $this->packet->printSectionHtml();
    }
 
    protected function printFooter(): void {
-      $this->getPacketData('footer')->printHtml();
+      $this->packet->printFooterHtml();
    }
 
    protected function getFrameworkFile(): string {
