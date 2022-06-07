@@ -1,10 +1,25 @@
+<?php
+use Utils\HtmlUtils;
+
+$buildContainer = function($url, $navString) {
+   $linkSpan = HtmlUtils::makeSpanElement($navString, []);
+   $boldSpanHack = HtmlUtils::makeSpanElement($navString, ['class' => 'display-text-bold-hack-container']);
+   $link = "<a href=\"{$url}\">{$linkSpan}</a>";
+   return HtmlUtils::makeDivElement($link . $boldSpanHack, ['class' => 'link-container']);
+};
+
+$linksHTML = '';
+foreach ($this->getPacketData('footerRows') as $navRow) {
+   $linksHTML .= $buildContainer($navRow['url'], $navRow['nav_string']);
+}
+
+$linksContainerHTML = "<div class=\"links-container\">{$linksHTML}</div>";
+?>
+
+<footer class="fixed-footer">
+   <?= $linksContainerHTML ?>
+</footer>
+
 <footer>
-   <div class="links-container">
-      <?php foreach ($this->getPacketData('footerRows') as $navRow) : ?>
-         <div class="link-container">
-            <a href="<?= $navRow['url'] ?>"><span><?= $navRow['nav_string'] ?></span></a>
-            <span class="display-text-bold-hack-container"><?= $navRow['nav_string'] ?></span>
-         </div>
-      <?php endforeach ?>
-   </div>
+   <?= $linksContainerHTML ?>
 </footer>

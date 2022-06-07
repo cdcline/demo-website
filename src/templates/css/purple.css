@@ -1,3 +1,4 @@
+/** Vars **/
 /** Global **/
 * {
   box-sizing: border-box;
@@ -8,9 +9,12 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0;
+  padding: 0;
 }
 body .body-content-container {
-  max-width: 928px;
+  min-width: 320px;
+  max-width: 1920px;
+  padding: 0 14px;
   margin: 0px auto;
   display: flex;
   flex-direction: column;
@@ -135,7 +139,21 @@ article {
 }
 /* Footer */
 footer {
+  width: 100%;
   font-size: 1.5em;
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+footer.fixed-footer {
+  display: none;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+@media only screen and (max-width: 480px) {
+  footer.fixed-footer {
+    display: block;
+  }
 }
 footer div.links-container {
   border: 2px black solid;
@@ -144,6 +162,9 @@ footer div.links-container {
   justify-content: space-evenly;
   flex-wrap: wrap;
   text-align: center;
+  min-width: 320px;
+  margin: 0;
+  padding: 0;
 }
 footer div.links-container .link-container {
   margin: 18px;

@@ -1,3 +1,10 @@
+/** Vars **/
+@sectionGap: 10px;
+@minWidth: 320px;
+@minBreakpoint: 480px;
+@maxWidth: 1920px;
+@contentSidePadding: 14px;
+
 /** Global **/
 * {
    box-sizing: border-box;
@@ -9,13 +16,16 @@ body {
    display: flex;
    flex-direction: column;
    margin: 0;
+   padding: 0;
 
    .body-content-container {
-      max-width: 928px;
+      min-width: @minWidth;
+      max-width: @maxWidth;
+      padding: 0 @contentSidePadding;
       margin: 0px auto;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: @sectionGap;
    }
 }
 
@@ -155,12 +165,25 @@ article {
    -webkit-flex: 5;
    -ms-flex: 5;
    flex: 5;
-
 }
 
 /* Footer */
 footer {
+   &.fixed-footer {
+      display: none;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+
+      @media only screen and (max-width: @minBreakpoint)  {
+         display: block;
+      }
+   }
+
+   width: 100%;
    font-size: 1.5em;
+   margin: @sectionGap 0 0 0 ;
+   padding: 0;
 
    div.links-container {
       border: 2px black solid;
@@ -169,6 +192,9 @@ footer {
       justify-content: space-evenly;
       flex-wrap: wrap;
       text-align: center;
+      min-width: @minWidth;
+      margin: 0;
+      padding: 0;
 
       .link-container {
          margin: 18px;
