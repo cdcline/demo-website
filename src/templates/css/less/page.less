@@ -135,11 +135,31 @@ nav {
             width: 100%;
          }
 
+         .image-link-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+            gap: 10px;
+
+            img {
+               width: 76px;
+               height: auto;
+            }
+         }
+
          ul {
             width: 100%;
             list-style-type: none;
             margin: 0px;
             padding: 0px;
+
+            &.rowLayout {
+               li {
+                  display: inline;
+               }
+            }
+
             a {
                color: white;
                &:visited {

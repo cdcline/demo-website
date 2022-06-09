@@ -24,6 +24,7 @@ class PageNav {
    // Odd to need a pageid here but we use it to generate the link URLs
    private $pageid;
    private $type;
+   private $imgSrc;
 
    public static function getPageFromSlug(string $slug): BasePage {
       // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
@@ -42,6 +43,8 @@ class PageNav {
    public function toArray(): array {
       return [
          'is_viewed' => $this->isDisplayedPage(),
+         'is_image' => $this->isImageLink(),
+         'imgSrc' => $this->imgSrc,
          'type' => $this->type,
          'section' => $this->section,
          'slug' => $this->slug,
@@ -76,13 +79,14 @@ class PageNav {
          $aData['type'],
          $aData['section'] ?? null,
          (int)$aData['orderby'],
-         (int)$aData['pageid']
+         (int)$aData['pageid'],
+         $aData['imgSrc'] ?? null
       );
    }
 
    private static function fetchAllRows(): array {
       $path = 'page_nav';
-      $iDocs = ['section', 'slug', 'nav_string', 'orderby'];
+      $iDocs = ['section', 'imgSrc', 'slug', 'nav_string', 'orderby'];
       $iSnaps = [
          FirestoreUtils::buildSnap('page', 'pageid', 'pageid'),
          FirestoreUtils::buildSnap('type', 'enum'),
@@ -102,17 +106,22 @@ class PageNav {
       InvalidPageException::throwPageNotFound($pageid);
    }
 
-   private function __construct(string $slug, string $navString, string $type, ?string $section, int $orderby, int $pageid) {
+   private function __construct(string $slug, string $navString, string $type, ?string $section, int $orderby, int $pageid, ?string $imgSrc) {
       $this->section = $section;
       $this->slug = $slug;
       $this->navString = $navString;
       $this->type = $type;
       $this->orderby = $orderby;
       $this->pageid = $pageid;
+      $this->imgSrc = $imgSrc;
    }
 
    private function isArticleLink(): bool {
       return StringUtils::iMatch($this->type, self::MAIN_TYPE);
+   }
+
+   private function isImagelink(): bool {
+      return (bool)$this->imgSrc;
    }
 
    private function isDisplayedPage(): bool {
@@ -209,6 +218,7 @@ class PageNav {
           'type' => self::MAIN_TYPE,
           'section' => 'Contact',
           'slug' => 'https://www.linkedin.com/in/cdcline/',
+          'imgSrc' => 'src/images/site/linkedin_logo.png',
           'nav_string' => 'LinkedIn',
           'pageid' => NULL,
           'orderby' => 1
@@ -217,6 +227,7 @@ class PageNav {
           'type' => self::MAIN_TYPE,
           'section' => 'Contact',
           'slug' => 'https://github.com/cdcline/demo-website',
+          'imgSrc' => 'src/images/site/github_logo.png',
           'nav_string' => 'Resume',
           'pageid' => NULL,
           'orderby' => 2
@@ -232,8 +243,8 @@ class PageNav {
          ['navid' => 8,
           'type' => self::MAIN_TYPE,
           'section' => 'Code Features',
-          'slug' => 'accessability',
-          'nav_string' => 'Accessability',
+          'slug' => 'accessibility',
+          'nav_string' => 'Accessibility',
           'pageid' => 3,
           'orderby' => 2
          ],

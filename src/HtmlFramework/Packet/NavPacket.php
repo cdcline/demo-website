@@ -38,7 +38,7 @@ class NavPacket {
       // Turn the objects into arrays so we can do array magic
       $navRows = array_map(fn($pNav) => $pNav->toArray(), $fPageNavs);
       // We'll want to pull these values from the array
-      $iNavPacket = ['section', 'url', 'is_viewed', 'nav_string', 'orderby'];
+      $iNavPacket = ['section', 'url', 'is_image', 'imgSrc', 'is_viewed', 'nav_string', 'orderby'];
       $navPacketData = StringUtils::array_column_multi($navRows, $iNavPacket);
       array_multisort(array_column($navPacketData, 'orderby'), SORT_ASC, $navPacketData);
       return $navPacketData;

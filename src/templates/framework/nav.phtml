@@ -1,15 +1,25 @@
 <nav>
    <div class="nav-links-container">
       <?php foreach ($this->packet->getNavSections() as $navSection) : ?>
+         <?php $isImageLayout = $navSection['title'] === 'Contact' ?>
          <div class="nav-section">
             <h5><?= $navSection['title'] ?></h5>
-            <ul>
-               <?php foreach ($navSection['entries'] as $navEntry) : ?>
-                  <a <?php if ($navEntry['is_viewed']) : ?> class="active" <?php endif ?> href="<?= $navEntry['url'] ?>">
-                     <li><?= $navEntry['nav_string'] ?></li>
-                  </a>
-               <?php endforeach ?>
-            </ul>
+            <?php if ($isImageLayout) : ?>
+               <div class="image-link-container">
+                  <?php foreach ($navSection['entries'] as $navEntry) : ?>
+                     <a href="<?= $navEntry['url'] ?>"><img src="<?= $navEntry['imgSrc'] ?>" /></a>
+                  <?php endforeach ?>
+               </div>
+            <?php else : ?>
+               <ul>
+                  <?php foreach ($navSection['entries'] as $navEntry) : ?>
+                     <?php $classStr = $navEntry['is_viewed'] ? 'class="active"' : '' ?>
+                     <a <?=$classStr ?> href="<?= $navEntry['url'] ?>">
+                        <li><?= $navEntry['nav_string'] ?></li>
+                     </a>
+                  <?php endforeach ?>
+               </ul>
+            <?php endif ?>
          </div>
       <?php endforeach ?>
    </div>

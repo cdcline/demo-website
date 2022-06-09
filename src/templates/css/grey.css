@@ -119,11 +119,25 @@ nav .nav-links-container .nav-section h5 {
   color: white;
   width: 100%;
 }
+nav .nav-links-container .nav-section .image-link-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 10px;
+}
+nav .nav-links-container .nav-section .image-link-container img {
+  width: 76px;
+  height: auto;
+}
 nav .nav-links-container .nav-section ul {
   width: 100%;
   list-style-type: none;
   margin: 0px;
   padding: 0px;
+}
+nav .nav-links-container .nav-section ul.rowLayout li {
+  display: inline;
 }
 nav .nav-links-container .nav-section ul a {
   color: white;
