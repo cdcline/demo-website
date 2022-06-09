@@ -12,9 +12,10 @@ use Utils\SiteRunner;
 class PageNav {
    use DBTrait;
 
-   public const ARTICLE_TYPE = 'ARTICLE';
-   public const FOOTER_TYPE = 'FOOTER';
    public const DEFAULT_PAGEID = 1;
+
+   private const MAIN_TYPE = 'MAIN';
+   private const FOOTER_TYPE = 'FOOTER';
 
    private $slug;
    private $nav_string;
@@ -107,7 +108,7 @@ class PageNav {
    }
 
    private function isArticleLink(): bool {
-      return StringUtils::iMatch($this->type, self::ARTICLE_TYPE);
+      return StringUtils::iMatch($this->type, self::MAIN_TYPE);
    }
 
    private function isDisplayedPage(): bool {
@@ -173,7 +174,7 @@ class PageNav {
    private static function getHardcodedRows(): array {
       $values = [
          ['navid' => 1,
-          'type' => self::ARTICLE_TYPE,
+          'type' => self::MAIN_TYPE,
           'slug' => 'homepage',
           'nav_string' => 'Homepage',
           'pageid' => 1,
@@ -187,7 +188,7 @@ class PageNav {
           'orderby' => 2
          ],
          ['navid' => 3,
-          'type' => self::ARTICLE_TYPE,
+          'type' => self::MAIN_TYPE,
           'slug' => 'dev',
           'nav_string' => 'Dev',
           'pageid' => 2,
@@ -208,14 +209,14 @@ class PageNav {
           'orderby' => 3
          ],
          ['navid' => 6,
-          'type' => self::ARTICLE_TYPE,
+          'type' => self::MAIN_TYPE,
           'slug' => 'test-page-1',
           'nav_string' => 'Test Page 1',
           'pageid' => 3,
           'orderby' => 3
          ],
          ['navid' => 7,
-          'type' => self::ARTICLE_TYPE,
+          'type' => self::MAIN_TYPE,
           'slug' => 'test-page-2',
           'nav_string' => 'Test Page 2',
           'pageid' => 4,
