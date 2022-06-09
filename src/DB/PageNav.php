@@ -17,6 +17,7 @@ class PageNav {
    private const MAIN_TYPE = 'MAIN';
    private const FOOTER_TYPE = 'FOOTER';
 
+   private $section;
    private $slug;
    private $nav_string;
    private $orderby;
@@ -40,8 +41,9 @@ class PageNav {
 
    public function toArray(): array {
       return [
+         'is_viewed' => $this->isDisplayedPage(),
          'type' => $this->type,
-         'theme' => $this->getTheme(),
+         'section' => $this->section,
          'slug' => $this->slug,
          'url' => $this->getUrl(),
          'nav_string' => $this->navString,
@@ -51,7 +53,7 @@ class PageNav {
    }
 
    public function displayInNav(): bool {
-      return $this->isArticleLink() && !$this->isDisplayedPage();
+      return $this->isArticleLink();
    }
 
    public function displayInFooter(): bool {
@@ -72,6 +74,7 @@ class PageNav {
          $aData['slug'],
          $aData['nav_string'],
          $aData['type'],
+         $aData['section'] ?? null,
          (int)$aData['orderby'],
          (int)$aData['pageid']
       );
@@ -79,7 +82,7 @@ class PageNav {
 
    private static function fetchAllRows(): array {
       $path = 'page_nav';
-      $iDocs = ['slug', 'nav_string', 'orderby'];
+      $iDocs = ['section', 'slug', 'nav_string', 'orderby'];
       $iSnaps = [
          FirestoreUtils::buildSnap('page', 'pageid', 'pageid'),
          FirestoreUtils::buildSnap('type', 'enum'),
@@ -99,7 +102,8 @@ class PageNav {
       InvalidPageException::throwPageNotFound($pageid);
    }
 
-   private function __construct(string $slug, string $navString, string $type, int $orderby, int $pageid) {
+   private function __construct(string $slug, string $navString, string $type, ?string $section, int $orderby, int $pageid) {
+      $this->section = $section;
       $this->slug = $slug;
       $this->navString = $navString;
       $this->type = $type;
@@ -118,7 +122,7 @@ class PageNav {
 
    private function getUrl(): string {
       // We'll assume the slug is a full URL in the footer
-      if ($this->isFooterLink()) {
+      if ($this->isFooterLink() || !$this->pageid) {
          return $this->slug;
       }
 
@@ -166,61 +170,101 @@ class PageNav {
       return StringUtils::iMatch($this->slug, $slug);
    }
 
-   private function getTheme(): string {
-      return $this->getPageid() ? PageIndex::getThemeFromPageid($this->getPageid()) : PageIndex::PURPLE_THEME;
-   }
-
    // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
       $values = [
          ['navid' => 1,
           'type' => self::MAIN_TYPE,
-          'slug' => 'homepage',
-          'nav_string' => 'Homepage',
+          'section' => 'About',
+          'slug' => 'welcome',
+          'nav_string' => 'Welcome',
           'pageid' => 1,
           'orderby' => 1
          ],
          ['navid' => 2,
+          'type' => self::MAIN_TYPE,
+          'section' => 'About',
+          'slug' => 'robots',
+          'nav_string' => 'Robots',
+          'pageid' => 3,
+          'orderby' => 2
+         ],
+         ['navid' => 3,
+          'type' => self::MAIN_TYPE,
+          'section' => 'About',
+          'slug' => 'work',
+          'nav_string' => 'Work',
+          'pageid' => 2,
+          'orderby' => 3
+         ],
+         ['navid' => 4,
+          'type' => self::MAIN_TYPE,
+          'section' => 'About',
+          'slug' => 'life',
+          'nav_string' => 'Life',
+          'pageid' => 4,
+          'orderby' => 4
+         ],
+         ['navid' => 5,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Contact',
+          'slug' => 'https://www.linkedin.com/in/cdcline/',
+          'nav_string' => 'LinkedIn',
+          'pageid' => NULL,
+          'orderby' => 1
+         ],
+         ['navid' => 6,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Contact',
+          'slug' => 'https://github.com/cdcline/demo-website',
+          'nav_string' => 'Resume',
+          'pageid' => NULL,
+          'orderby' => 2
+         ],
+         ['navid' => 7,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Code Features',
+          'slug' => 'versatility',
+          'nav_string' => 'Versatility',
+          'pageid' => 2,
+          'orderby' => 1
+         ],
+         ['navid' => 8,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Code Features',
+          'slug' => 'accessability',
+          'nav_string' => 'Accessability',
+          'pageid' => 3,
+          'orderby' => 2
+         ],
+         ['navid' => 9,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Code Features',
+          'slug' => 'scalability',
+          'nav_string' => 'Scalability',
+          'pageid' => 4,
+          'orderby' => 3
+         ],
+         ['navid' => 5,
           'type' => self::FOOTER_TYPE,
           'slug' => 'https://github.com/cdcline/demo-website',
           'nav_string' => 'Resume',
           'pageid' => NULL,
           'orderby' => 2
          ],
-         ['navid' => 3,
-          'type' => self::MAIN_TYPE,
-          'slug' => 'dev',
-          'nav_string' => 'Dev',
-          'pageid' => 2,
-          'orderby' => 2
-         ],
-         ['navid' => 4,
+         ['navid' => 7,
           'type' => self::FOOTER_TYPE,
           'slug' => 'https://www.linkedin.com/in/cdcline/',
           'nav_string' => 'LinkedIn',
           'pageid' => NULL,
           'orderby' => 1
          ],
-         ['navid' => 5,
+         ['navid' => 8,
           'type' => self::FOOTER_TYPE,
           'slug' => 'mailto:1248182+cdcline@users.noreply.github.com',
           'nav_string' => 'Contact Me',
           'pageid' => NULL,
           'orderby' => 3
-         ],
-         ['navid' => 6,
-          'type' => self::MAIN_TYPE,
-          'slug' => 'test-page-1',
-          'nav_string' => 'Test Page 1',
-          'pageid' => 3,
-          'orderby' => 3
-         ],
-         ['navid' => 7,
-          'type' => self::MAIN_TYPE,
-          'slug' => 'test-page-2',
-          'nav_string' => 'Test Page 2',
-          'pageid' => 4,
-          'orderby' => 4
          ]
       ];
       return array_map(fn($vals) => self::fromArray($vals), $values);

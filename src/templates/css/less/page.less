@@ -2,6 +2,7 @@
 @sectionGap: 10px;
 @minWidth: 320px;
 @minBreakpoint: 480px;
+@pageBreakpoint: 745px;
 @maxWidth: 1920px;
 @contentSidePadding: 14px;
 
@@ -67,96 +68,9 @@ section {
    border-radius: 22px;
 
    /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
-   @media (max-width: 600px) {
+   @media (max-width: @pageBreakpoint) {
       -webkit-flex-direction: column;
       flex-direction: column;
-   }
-}
-
-// Silly hack to make bolding on hover not shift content
-// Basically render a bold element but "hide" it
-// Thx: https://css-tricks.com/bold-on-hover-without-the-layout-shift/
-.display-text-bold-hack() {
-   content: attr(data-text);
-   content: attr(data-text) / "";
-   height: 0;
-   visibility: hidden;
-   overflow: hidden;
-   user-select: none;
-   pointer-events: none;
-   font-weight: bold;
-
-   @media speech {
-      display: none;
-   }
-}
-
-/* Style the navigation menu */
-nav {
-   background: @navBackgroundColor;
-   color: @navTextColor;
-   display: flex;
-   flex-direction: column;
-   font-size: 1.5em;
-   -webkit-flex: 2;
-   -ms-flex: 2;
-   flex: 2;
-
-   h3 {
-      margin: 18px 10px;
-      color: @whiteText;
-   }
-
-   .nav-links-container {
-      padding: 18px;
-      display: flex;
-      gap: 10px;
-      align-items: stretch;
-      align-content: center;
-      justify-content: space-evenly;
-      text-align: center;
-      flex-wrap: wrap;
-
-      .nav-link-container {
-         padding: 4px;
-         gap: 8px;
-         display: flex;
-         flex-direction: column;
-
-         &:hover {
-            font-weight: bold;
-            cursor: pointer;
-         }
-
-         .display-text-bold-hack-container {
-            .display-text-bold-hack();
-         }
-
-         a, a:visited {
-            color: @navTextColor;
-            text-decoration: none;
-         }
-
-         .color-block {
-            align-self: center;
-            width: 120px;
-            height: 120px;
-            background-color: @black;
-            border: 2px solid @white;
-            &.orange {
-               background-color: @orange;
-            }
-            &.grey {
-               background-color: @grey;
-            }
-            &.green {
-               background-color: @lightGreen;
-            }
-            &.purple {
-               background-color: @purple;
-            }
-         }
-      }
    }
 }
 
@@ -165,6 +79,83 @@ article {
    -webkit-flex: 5;
    -ms-flex: 5;
    flex: 5;
+   @media (max-width: @pageBreakpoint) {
+      -webkit-flex: 0;
+      -ms-flex: 0;
+      flex: 0;
+   }
+}
+
+
+/* Style the navigation menu */
+nav {
+   background: @navBackgroundColor;
+   color: @navTextColor;
+   -webkit-flex: 2;
+   -ms-flex: 2;
+   flex: 2;
+
+   @media (max-width: @pageBreakpoint) {
+      -webkit-flex: 0;
+      -ms-flex: 0;
+      flex: 0;
+   }
+
+   text-align: left;
+   font-family: "Helvetica Neue, Regular";
+   font-size: 20px;
+
+   .nav-links-container {
+      padding: 18px;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 55px 30px;
+      justify-content: left;
+      flex-direction: column;
+
+      @media (max-width: @pageBreakpoint) {
+         flex-direction: row;
+         justify-content: space-around;
+      }
+
+      @media (max-width: @minBreakpoint) {
+         flex-direction: column;
+         justify-content: left;
+      }
+
+      .nav-section {
+         flex: 1;
+
+         h5 {
+            margin: 0 0 6px 0;
+            padding: 0px;
+            font-family: "Helvetica Neue, Bold";
+            font-size: 24px;
+            color: @whiteText;
+            width: 100%;
+         }
+
+         ul {
+            width: 100%;
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+            a {
+               color: white;
+               &:visited {
+                  color: white;
+               }
+               &.active {
+                  color: orange;
+                  font-weight: bold;
+               }
+               &:hover {
+                  color: orange;
+               }
+            }
+         }
+      }
+   }
 }
 
 /* Footer */
@@ -216,5 +207,23 @@ footer {
             .display-text-bold-hack();
          }
       }
+   }
+}
+
+// Silly hack to make bolding on hover not shift content
+// Basically render a bold element but "hide" it
+// Thx: https://css-tricks.com/bold-on-hover-without-the-layout-shift/
+.display-text-bold-hack() {
+   content: attr(data-text);
+   content: attr(data-text) / "";
+   height: 0;
+   visibility: hidden;
+   overflow: hidden;
+   user-select: none;
+   pointer-events: none;
+   font-weight: bold;
+
+   @media speech {
+      display: none;
    }
 }

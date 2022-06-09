@@ -1,15 +1,16 @@
 <nav>
-   <?= $this->getNavTextHtml() ?>
    <div class="nav-links-container">
-      <?php foreach ($this->getPacketData('navRows') as $i => $navRow) :
-      ?>
-         <a href="<?= $navRow['url'] ?>">
-            <div class="nav-link-container <?= $navRow['theme'] ?>">
-                  <div class="color-block <?= $navRow['theme'] ?>"></div>
-                  <span class="display-text"><?= $navRow['nav_string'] ?></span>
-                  <span class="display-text-bold-hack-container"><?= $navRow['nav_string'] ?></span>
-            </div>
-         </a>
+      <?php foreach ($this->packet->getNavSections() as $navSection) : ?>
+         <div class="nav-section">
+            <h5><?= $navSection['title'] ?></h5>
+            <ul>
+               <?php foreach ($navSection['entries'] as $navEntry) : ?>
+                  <a <?php if ($navEntry['is_viewed']) : ?> class="active" <?php endif ?> href="<?= $navEntry['url'] ?>">
+                     <li><?= $navEntry['nav_string'] ?></li>
+                  </a>
+               <?php endforeach ?>
+            </ul>
+         </div>
       <?php endforeach ?>
    </div>
 </nav>

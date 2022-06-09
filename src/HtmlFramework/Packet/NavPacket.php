@@ -2,17 +2,34 @@
 
 namespace HtmlFramework\Packet;
 
-use DB\PageNav;
 use HtmlFramework\Packet\PacketTrait;
 use Utils\StringUtils;
-use Utils\SiteRunner;
 
 class NavPacket {
    use PacketTrait;
 
+   private $navRows;
+
    public function __construct(string $navText, array $pageNavs) {
       $this->setData('navText', $navText);
-      $this->setData('navRows', $this->extractNavDataFromPageNavs($pageNavs));
+      $this->navRows = $this->extractNavDataFromPageNavs($pageNavs);
+   }
+
+   public function getNavSections(): array {
+      // Hack b/c I don't want to add ordering to sections but I care about the order
+      $sections = ['About' => [], 'Contact' => [], 'Code Features' => []];
+      foreach ($this->navRows as $navRow) {
+         $navSection = $navRow['section'] ?? 'UNKNOWN';
+         $isNewSection = !isset($sections[$navSection]) || !isset($sections[$navSection]['title']);
+         if ($isNewSection) {
+            $sections[$navSection] = [
+               'title' => $navSection,
+               'entries' => []
+            ];
+         }
+         $sections[$navSection]['entries'][] = $navRow;
+      }
+      return $sections;
    }
 
    private function extractNavDataFromPageNavs(array $pageNavs): array {
@@ -21,7 +38,7 @@ class NavPacket {
       // Turn the objects into arrays so we can do array magic
       $navRows = array_map(fn($pNav) => $pNav->toArray(), $fPageNavs);
       // We'll want to pull these values from the array
-      $iNavPacket = ['url', 'theme', 'nav_string', 'orderby'];
+      $iNavPacket = ['section', 'url', 'is_viewed', 'nav_string', 'orderby'];
       $navPacketData = StringUtils::array_column_multi($navRows, $iNavPacket);
       array_multisort(array_column($navPacketData, 'orderby'), SORT_ASC, $navPacketData);
       return $navPacketData;
