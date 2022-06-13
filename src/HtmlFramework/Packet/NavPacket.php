@@ -10,8 +10,7 @@ class NavPacket {
 
    private $navRows;
 
-   public function __construct(string $navText, array $pageNavs) {
-      $this->setData('navText', $navText);
+   public function __construct(array $pageNavs) {
       $this->navRows = $this->extractNavDataFromPageNavs($pageNavs);
    }
 

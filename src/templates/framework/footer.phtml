@@ -9,7 +9,7 @@ $buildContainer = function($url, $navString) {
 };
 
 $linksHTML = '';
-foreach ($this->getPacketData('footerRows') as $navRow) {
+foreach ($this->packet->getFooterRows() as $navRow) {
    $linksHTML .= $buildContainer($navRow['url'], $navRow['nav_string']);
 }
 

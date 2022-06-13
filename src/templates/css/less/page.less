@@ -27,9 +27,16 @@ body {
       display: flex;
       flex-direction: column;
       gap: @sectionGap;
+      margin-bottom: @sectionGap;
    }
 }
 
+ .flex-break {
+   flex-basis: 100%;
+   height: 0;
+   margin: 0;
+   padding: 0;
+ }
 
 
 /** Major Sections */
@@ -59,19 +66,24 @@ header {
 /* Container for flexboxes */
 section {
    display: -webkit-flex;
-   display: flex;
    margin: 0 auto;
-   flex-direction: row;
    background-color: @interestingArticle;
    padding: 20px;
    color: @articleTextColor;
    border-radius: 22px;
 
-   /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
-   @media (max-width: @pageBreakpoint) {
-      -webkit-flex-direction: column;
-      flex-direction: column;
+   .article-nav-container {
+      display: flex;
+      flex-direction: row;
+
+      /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+      @media (max-width: @pageBreakpoint) {
+         -webkit-flex-direction: column;
+         flex-direction: column;
+      }
    }
+
+
 }
 
 /* Style the content */
@@ -132,7 +144,6 @@ nav {
             font-family: "Helvetica Neue, Bold";
             font-size: 24px;
             color: @whiteText;
-            width: 100%;
          }
 
          .image-link-container {
@@ -149,7 +160,6 @@ nav {
          }
 
          ul {
-            width: 100%;
             list-style-type: none;
             margin: 0px;
             padding: 0px;
@@ -178,8 +188,71 @@ nav {
    }
 }
 
+
 /* Footer */
+.page-footer-container {
+   width: 100%;
+   flex: 0;
+   -webkit-flex: 0;
+   -ms-flex: 0;
+   font-family: "Helvetica Neue, Bold";
+   font-size: 24px;
+   color: @whiteText;
+   background-color: black;
+   padding: 60px 20px;
+
+   @media (max-width: @minBreakpoint) {
+      display: none;
+   }
+
+   .page-footer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      gap: 20px;
+
+      .page-footer-entry-container {
+         width: 200px;
+         height: 200px;
+
+         &.page-footer-text-entry {
+            text-align: left;
+            width: 270px;
+         }
+
+         a {
+            display: block;
+            position: relative;
+            text-align: center;
+
+            img {
+               width: 200px;
+               height: 200px;
+               border-radius: 50%;
+               filter: brightness(50%);
+            }
+
+            span {
+               z-index: 1;
+               width: 100%;
+               display: block;
+               position: absolute;
+               top: 50%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+            }
+         }
+      }
+   }
+
+}
 footer {
+   display: none;
+   @media only screen and (max-width: @minBreakpoint)  {
+      display: block;
+   }
+
    &.fixed-footer {
       display: none;
       position: fixed;

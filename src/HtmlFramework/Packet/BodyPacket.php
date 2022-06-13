@@ -28,7 +28,11 @@ class BodyPacket {
       $this->pSection->printHtml();
    }
 
-   public function printFooterHtml(): void {
-      $this->pFooter->printHtml();
+   public function printPageFooter(): void {
+      $this->pFooter->printPageFooter();
+   }
+
+   public function printMobileFooter(): void {
+      $this->pFooter->printMobileFooter();
    }
 }

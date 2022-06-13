@@ -7,10 +7,14 @@ use HtmlFramework\Packet\PacketTrait;
 use Utils\StringUtils;
 
 class FooterPacket {
+   private $footerRows;
+   private $navText;
+
    use PacketTrait;
 
-   public function __construct() {
-      $this->setData('footerRows', $this->extractNavDataFromPageNavs());
+   public function __construct(string $navText) {
+      $this->navText = $navText;
+      $this->footerRows = $this->extractNavDataFromPageNavs();
    }
 
    private function extractNavDataFromPageNavs(): array {
@@ -24,5 +28,13 @@ class FooterPacket {
       $footerPacketData = StringUtils::array_column_multi($footerRows, $iFooterPacket);
       array_multisort(array_column($footerPacketData, 'orderby'), SORT_ASC, $footerPacketData);
       return $footerPacketData;
+   }
+
+   public function getNavText(): string {
+      return $this->navText ?: 'You might also enjoy checking out these other pages';
+   }
+
+   public function getFooterRows(): array {
+      return $this->footerRows;
    }
 }

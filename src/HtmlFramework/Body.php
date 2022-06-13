@@ -36,8 +36,12 @@ class Body extends HtmlElement {
       $this->packet->printSectionHtml();
    }
 
-   protected function printFooter(): void {
-      $this->packet->printFooterHtml();
+   protected function printPageFooter(): void {
+      $this->packet->printPageFooter();
+   }
+
+   protected function printMobileFooter(): void {
+      $this->packet->printMobileFooter();
    }
 
    protected function getFrameworkFile(): string {

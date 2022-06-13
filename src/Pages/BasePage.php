@@ -52,10 +52,10 @@ abstract class BasePage {
       $this->ranHTMLPrint = true;
       $htmlHead = HtmlHead::fromValues($this->getTheme(), $this->getPageTitle());
       $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
-      $htmlNav = HtmlNav::fromValues($this->getNavText());
+      $htmlNav = HtmlNav::fromValues();
       $htmlArticle = HtmlArticle::fromValues($this->getPageType(), $this->getPageid(), $this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
-      $htmlFooter = HtmlFooter::fromValues();
-      $htmlSection = HtmlSection::fromValues($htmlArticle, $htmlNav);
+      $htmlFooter = HtmlFooter::fromValues($this->getNavText());
+      $htmlSection = HtmlSection::fromValues($htmlArticle, $htmlNav, $htmlFooter);
       $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
       $htmlRoot = HtmlRoot::fromValues($htmlHead, $htmlBody);
       $htmlRoot->printHtml();
