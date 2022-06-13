@@ -41,9 +41,6 @@ class Footer extends HtmlElement {
     * <div>
     */
    public function printPageFooter(): void {
-      $imgSrc = HtmlUtils::getPicsumPhoto(200, 200);
-      $imgHtml = HtmlUtils::makeImageElement(['src' => $imgSrc]);
-
       $navTextHtml = HtmlUtils::makeH3Element($this->packet->getNavText());
       $entryContainerClass = 'page-footer-entry-container';
       $navTextEntry = HtmlUtils::makeDivElement($navTextHtml, ['class' => "$entryContainerClass page-footer-text-entry"]);
@@ -51,6 +48,7 @@ class Footer extends HtmlElement {
 
       $linkEntries = [];
       foreach ($this->packet->getFooterRows() as $fRow) {
+         $imgSrc = $fRow['img_src'] ?: HtmlUtils::getPicsumPhoto(200, 200);
          $imgHtml = HtmlUtils::makeImageElement(['src' => $imgSrc]);
          $txtSpan = HtmlUtils::makeSpanElement($fRow['nav_string'], []);
          $aHtml = HtmlUtils::makeWebLinkElement($fRow['url'], $txtSpan . $imgHtml);

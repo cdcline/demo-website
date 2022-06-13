@@ -168,7 +168,7 @@ nav .nav-links-container .nav-section ul a:hover {
   font-family: "Helvetica Neue, Bold";
   font-size: 24px;
   color: white;
-  background-color: black;
+  background-color: #003C02;
   padding: 60px 20px;
 }
 @media (max-width: 480px) {
@@ -183,24 +183,27 @@ nav .nav-links-container .nav-section ul a:hover {
   justify-content: space-evenly;
   gap: 20px;
 }
-.page-footer-container .page-footer .page-footer-entry-container {
-  width: 200px;
-  height: 200px;
-}
 .page-footer-container .page-footer .page-footer-entry-container.page-footer-text-entry {
   text-align: left;
   width: 270px;
 }
 .page-footer-container .page-footer .page-footer-entry-container a {
+  color: white;
   display: block;
   position: relative;
   text-align: center;
+  width: 200px;
+  height: 200px;
 }
 .page-footer-container .page-footer .page-footer-entry-container a img {
   width: 200px;
-  height: 200px;
+  height: auto;
   border-radius: 50%;
   filter: brightness(50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .page-footer-container .page-footer .page-footer-entry-container a span {
   z-index: 1;

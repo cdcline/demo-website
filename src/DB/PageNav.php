@@ -44,7 +44,7 @@ class PageNav {
       return [
          'is_viewed' => $this->isDisplayedPage(),
          'is_image' => $this->isImageLink(),
-         'imgSrc' => $this->imgSrc,
+         'img_src' => $this->imgSrc,
          'type' => $this->type,
          'section' => $this->section,
          'slug' => $this->slug,
@@ -80,13 +80,13 @@ class PageNav {
          $aData['section'] ?? null,
          (int)$aData['orderby'],
          (int)$aData['pageid'],
-         $aData['imgSrc'] ?? null
+         $aData['img_src'] ?? null
       );
    }
 
    private static function fetchAllRows(): array {
       $path = 'page_nav';
-      $iDocs = ['section', 'imgSrc', 'slug', 'nav_string', 'orderby'];
+      $iDocs = ['section', 'img_src', 'slug', 'nav_string', 'orderby'];
       $iSnaps = [
          FirestoreUtils::buildSnap('page', 'pageid', 'pageid'),
          FirestoreUtils::buildSnap('type', 'enum'),
@@ -218,7 +218,7 @@ class PageNav {
           'type' => self::MAIN_TYPE,
           'section' => 'Contact',
           'slug' => 'https://www.linkedin.com/in/cdcline/',
-          'imgSrc' => 'src/images/site/linkedin_logo.png',
+          'img_src' => 'src/images/site/linkedin_logo.png',
           'nav_string' => 'LinkedIn',
           'pageid' => NULL,
           'orderby' => 1
@@ -227,7 +227,7 @@ class PageNav {
           'type' => self::MAIN_TYPE,
           'section' => 'Contact',
           'slug' => 'https://github.com/cdcline/demo-website',
-          'imgSrc' => 'src/images/site/github_logo.png',
+          'img_src' => 'src/images/site/github_logo.png',
           'nav_string' => 'Resume',
           'pageid' => NULL,
           'orderby' => 2
@@ -259,6 +259,7 @@ class PageNav {
          ['navid' => 5,
           'type' => self::FOOTER_TYPE,
           'slug' => 'https://github.com/cdcline/demo-website',
+          'img_src' => 'src/images/site/github_logo.png',
           'nav_string' => 'Resume',
           'pageid' => NULL,
           'orderby' => 2
@@ -266,6 +267,7 @@ class PageNav {
          ['navid' => 7,
           'type' => self::FOOTER_TYPE,
           'slug' => 'https://www.linkedin.com/in/cdcline/',
+          'img_src' => 'src/images/site/linkedin_logo.png',
           'nav_string' => 'LinkedIn',
           'pageid' => NULL,
           'orderby' => 1
