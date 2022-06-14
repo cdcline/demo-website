@@ -258,26 +258,33 @@ class PageNav {
          ],
          ['navid' => 5,
           'type' => self::FOOTER_TYPE,
-          'slug' => 'https://github.com/cdcline/demo-website',
+          'slug' => 'welcome',
           'img_src' => 'src/images/site/github_logo.png',
-          'nav_string' => 'Resume',
-          'pageid' => NULL,
+          'nav_string' => 'Home',
+          'pageid' => 1,
           'orderby' => 2
          ],
          ['navid' => 7,
           'type' => self::FOOTER_TYPE,
-          'slug' => 'https://www.linkedin.com/in/cdcline/',
+          'slug' => 'work',
           'img_src' => 'src/images/site/linkedin_logo.png',
-          'nav_string' => 'LinkedIn',
-          'pageid' => NULL,
+          'nav_string' => 'Work',
+          'pageid' => 2,
           'orderby' => 1
          ],
          ['navid' => 8,
           'type' => self::FOOTER_TYPE,
-          'slug' => 'mailto:1248182+cdcline@users.noreply.github.com',
-          'nav_string' => 'Contact Me',
-          'pageid' => NULL,
+          'slug' => 'robots',
+          'nav_string' => 'Robots',
+          'pageid' => 3,
           'orderby' => 3
+         ],
+         ['navid' => 9,
+          'type' => self::FOOTER_TYPE,
+          'slug' => 'life',
+          'nav_string' => 'Life',
+          'pageid' => 4,
+          'orderby' => 4
          ]
       ];
       return array_map(fn($vals) => self::fromArray($vals), $values);

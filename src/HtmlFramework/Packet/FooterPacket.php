@@ -24,7 +24,7 @@ class FooterPacket {
       // Turn the objects into arrays so we can do array magic
       $footerRows = array_map(fn($pNav) => $pNav->toArray(), $fPageNavs);
       // We'll want to pull these values from the array
-      $iFooterPacket = ['url', 'nav_string', 'img_src', 'orderby'];
+      $iFooterPacket = ['url', 'nav_string', 'img_src', 'is_viewed', 'orderby'];
       $footerPacketData = StringUtils::array_column_multi($footerRows, $iFooterPacket);
       array_multisort(array_column($footerPacketData, 'orderby'), SORT_ASC, $footerPacketData);
       return $footerPacketData;

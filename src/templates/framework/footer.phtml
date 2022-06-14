@@ -2,15 +2,22 @@
 use Utils\HtmlUtils;
 
 $numColors = 4;
-$buildContainer = function($url, $i) use ($numColors) {
+$buildContainer = function($navRow, $i) use ($numColors) {
+   $url = $navRow['url'];
+   $viewed = $navRow['is_viewed'];
    $colorIndex = ($i % $numColors) + 1;
-   return "<a class=\"circle-container\" href=\"{$url}\"><div class=\"circle color-{$colorIndex}\">&nbsp;</div></a>";
+   $cClasses = ['circle', "color-{$colorIndex}"];
+   if ($viewed) {
+      $cClasses[] = "viewing";
+   }
+   $cStr = implode(' ', $cClasses);
+   return "<a class=\"circle-container\" href=\"{$url}\"><div class=\"{$cStr}\">&nbsp;</div></a>";
 };
 
 $linksHTML = '';
 $count = 0;
 foreach ($this->packet->getFooterRows() as $navRow) {
-   $linksHTML .= $buildContainer($navRow['url'], $count++);
+   $linksHTML .= $buildContainer($navRow, $count++);
 }
 
 $linksContainerHTML = "<div class=\"links-container\">{$linksHTML}</div>";

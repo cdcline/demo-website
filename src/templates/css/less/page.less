@@ -5,6 +5,8 @@
 @pageBreakpoint: 745px;
 @maxWidth: 1920px;
 @contentSidePadding: 14px;
+@footerCircleSize: 84px;
+@footerCircleVisitingSize: 50px;
 
 /** Global **/
 * {
@@ -280,20 +282,31 @@ footer {
       justify-content: space-evenly;
       flex-wrap: wrap;
       text-align: center;
-      min-width: @minWidth;
       margin: 0;
-      padding: 0;
+      padding: 13px;
+      min-width: @minWidth;
 
       .circle-container {
+         position: relative;
          display: block;
-         width: 64px;
-         height: 64px;
+         width: @footerCircleSize;
+         height: @footerCircleSize;
          text-decoration: none;
 
          .circle {
-            width: 64px;
-            height: 64px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: @footerCircleSize;
+            height: @footerCircleSize;
             border-radius: 50%;
+
+            &.viewing {
+               width: @footerCircleVisitingSize;
+               height: @footerCircleVisitingSize;
+            }
          }
 
          .color-1 {
