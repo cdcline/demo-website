@@ -239,7 +239,7 @@ footer.fixed-footer {
 }
 footer div.links-container {
   border: 2px black solid;
-  background-color: white;
+  background-color: #ff0000;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -248,34 +248,28 @@ footer div.links-container {
   margin: 0;
   padding: 0;
 }
-footer div.links-container .link-container {
-  margin: 18px;
-  display: flex;
-  flex-direction: column;
+footer div.links-container .circle-container {
+  display: block;
+  width: 64px;
+  height: 64px;
+  text-decoration: none;
 }
-footer div.links-container .link-container span {
-  color: black;
+footer div.links-container .circle-container .circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
 }
-footer div.links-container .link-container span a:visited {
-  color: black;
+footer div.links-container .circle-container .color-1 {
+  background-color: #860000;
 }
-footer div.links-container .link-container span:hover {
-  font-weight: bold;
+footer div.links-container .circle-container .color-2 {
+  background-color: #a70000;
 }
-footer div.links-container .link-container .display-text-bold-hack-container {
-  content: attr(data-text);
-  content: attr(data-text) / "";
-  height: 0;
-  visibility: hidden;
-  overflow: hidden;
-  user-select: none;
-  pointer-events: none;
-  font-weight: bold;
+footer div.links-container .circle-container .color-3 {
+  background-color: #d30000;
 }
-@media speech {
-  footer div.links-container .link-container .display-text-bold-hack-container {
-    display: none;
-  }
+footer div.links-container .circle-container .color-4 {
+  background-color: #018037;
 }
 #raw-text-main-article-container code {
   white-space: break-spaces;

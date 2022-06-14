@@ -249,8 +249,8 @@ nav {
          }
       }
    }
-
 }
+
 footer {
    display: none;
    @media only screen and (max-width: @minBreakpoint)  {
@@ -275,7 +275,7 @@ footer {
 
    div.links-container {
       border: 2px black solid;
-      background-color: white;
+      background-color: @mobileFooterBackgroundColor;
       display: flex;
       justify-content: space-evenly;
       flex-wrap: wrap;
@@ -284,24 +284,29 @@ footer {
       margin: 0;
       padding: 0;
 
-      .link-container {
-         margin: 18px;
-         display: flex;
-         flex-direction: column;
-         span {
-            color: @footerLinkColor;
+      .circle-container {
+         display: block;
+         width: 64px;
+         height: 64px;
+         text-decoration: none;
 
-            a:visited {
-               color: @footerLinkVisitedColor;
-            }
-
-            &:hover {
-               font-weight: bold;
-            }
+         .circle {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
          }
 
-         .display-text-bold-hack-container {
-            .display-text-bold-hack();
+         .color-1 {
+            background-color: @mobileCircleBackgroundOne;
+         }
+         .color-2 {
+            background-color: @mobileCircleTwo
+         }
+         .color-3 {
+            background-color: @mobileCircleThree
+         }
+         .color-4 {
+            background-color: @mobileCircleFour;
          }
       }
    }

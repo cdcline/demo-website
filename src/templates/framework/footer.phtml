@@ -1,16 +1,16 @@
 <?php
 use Utils\HtmlUtils;
 
-$buildContainer = function($url, $navString) {
-   $linkSpan = HtmlUtils::makeSpanElement($navString, []);
-   $boldSpanHack = HtmlUtils::makeSpanElement($navString, ['class' => 'display-text-bold-hack-container']);
-   $link = "<a href=\"{$url}\">{$linkSpan}</a>";
-   return HtmlUtils::makeDivElement($link . $boldSpanHack, ['class' => 'link-container']);
+$numColors = 4;
+$buildContainer = function($url, $i) use ($numColors) {
+   $colorIndex = ($i % $numColors) + 1;
+   return "<a class=\"circle-container\" href=\"{$url}\"><div class=\"circle color-{$colorIndex}\">&nbsp;</div></a>";
 };
 
 $linksHTML = '';
+$count = 0;
 foreach ($this->packet->getFooterRows() as $navRow) {
-   $linksHTML .= $buildContainer($navRow['url'], $navRow['nav_string']);
+   $linksHTML .= $buildContainer($navRow['url'], $count++);
 }
 
 $linksContainerHTML = "<div class=\"links-container\">{$linksHTML}</div>";
