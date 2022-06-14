@@ -262,7 +262,7 @@ class PageNav {
           'img_src' => 'src/images/site/github_logo.png',
           'nav_string' => 'Home',
           'pageid' => 1,
-          'orderby' => 2
+          'orderby' => 1
          ],
          ['navid' => 7,
           'type' => self::FOOTER_TYPE,
@@ -270,7 +270,7 @@ class PageNav {
           'img_src' => 'src/images/site/linkedin_logo.png',
           'nav_string' => 'Work',
           'pageid' => 2,
-          'orderby' => 1
+          'orderby' => 2
          ],
          ['navid' => 8,
           'type' => self::FOOTER_TYPE,

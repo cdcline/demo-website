@@ -234,12 +234,13 @@ footer.fixed-footer {
 }
 @media only screen and (max-width: 480px) {
   footer.fixed-footer {
+    z-index: 1;
     display: block;
   }
 }
 footer div.links-container {
   border: 2px black solid;
-  background-color: #ff0000;
+  background-color: #5514d7;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -269,16 +270,16 @@ footer div.links-container .circle-container .circle.viewing {
   height: 50px;
 }
 footer div.links-container .circle-container .color-1 {
-  background-color: #860000;
+  background-color: #fcb300;
 }
 footer div.links-container .circle-container .color-2 {
-  background-color: #a70000;
+  background-color: #f96cff;
 }
 footer div.links-container .circle-container .color-3 {
-  background-color: #d30000;
+  background-color: #00acdd;
 }
 footer div.links-container .circle-container .color-4 {
-  background-color: #018037;
+  background-color: #09d8cb;
 }
 #raw-text-main-article-container code {
   white-space: break-spaces;
