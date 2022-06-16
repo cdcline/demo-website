@@ -4,7 +4,6 @@
  * data in a Packet.
  */
 use Utils\HtmlUtils;
-use HtmlFramework\Widget\BlockOFun;
 
 // <div id="raw-text-main-article-container" class="hidden">
 //  <div><code>{$rawText}</code></div>
@@ -47,4 +46,12 @@ $fP3 = HtmlUtils::makePElement("The rest of this page is a \"Widget\", a collect
 <?= $fP2 ?>
 <?= $fP3 ?>
 
-<?= BlockOFun::getHtmlFromWidgetCollectionPacket($this->getWidgetCollectionPacket()) ?>
+<div class="robot-fun-container">
+   <div class="robot-fun-img-container fun-btn">
+      <img src="/src/images/site/fun-robot.png" />
+   </div>
+   <div class="robot-fun-txt-container" >
+      <h5>Try clicking the circle.</h5>
+      <p>This is your basic block of fun</p>
+   </div>
+</div>

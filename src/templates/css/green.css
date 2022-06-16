@@ -326,6 +326,27 @@ footer div.links-container .circle-container .color-4 {
 #view-parse-toggle-btn {
   margin: 10px 5px;
 }
+.robot-fun-container {
+  display: flex;
+  flex-direction: row;
+  margin: 35px 0;
+  gap: 35px;
+}
+.robot-fun-container .robot-fun-img-container {
+  padding-left: 3px;
+}
+.robot-fun-container .robot-fun-img-container img {
+  width: 100%;
+  max-width: 142px;
+  height: auto;
+}
+.robot-fun-container .robot-fun-txt-container {
+  font-size: 20px;
+}
+.robot-fun-container .robot-fun-txt-container h5 {
+  margin: 0;
+  padding: 0;
+}
 #article-container {
   display: flex;
   flex-direction: column;
@@ -333,7 +354,7 @@ footer div.links-container .circle-container .color-4 {
 #article-container .hidden {
   display: none;
 }
-#article-container div {
+#article-container > div {
   display: flex;
   flex-direction: column;
 }
