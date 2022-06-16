@@ -41,13 +41,44 @@ header .header-main-title-container {
   justify-content: center;
   padding: 30px 0;
   text-align: center;
+  max-width: 1920px;
 }
 header .header-main-title-container h2 {
   margin: 0px;
   padding: 0px;
 }
+header .header-main-title-container img {
+  display: none;
+}
+header .header-main-title-container.image-header-container {
+  padding: 0px;
+}
+header .header-main-title-container.image-header-container .image-header {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 480px) {
+  header .header-main-title-container.image-header-container .page-background {
+    display: none;
+  }
+}
+header .header-main-title-container.image-header-container .mobile-background {
+  height: auto;
+  width: 100%;
+  display: none;
+}
+@media (max-width: 480px) {
+  header .header-main-title-container.image-header-container .mobile-background {
+    display: block;
+  }
+}
+header .header-main-title-container.image-header-container h2 {
+  display: none;
+}
 /* Container for flexboxes */
 section {
+  display: flex;
   display: -webkit-flex;
   margin: 0 auto;
   background-color: white;
@@ -290,13 +321,17 @@ footer div.links-container .circle-container .color-4 {
 #article-container {
   display: flex;
   flex-direction: column;
-  max-width: 820px;
-}
-#article-container > div {
-  max-width: 777px;
 }
 #article-container .hidden {
   display: none;
+}
+#article-container div {
+  display: flex;
+  flex-direction: column;
+}
+#parsed-main-article-container {
+  display: flex;
+  flex-direction: column;
 }
 #parsed-main-article-container h2:first-child,
 #parsed-main-article-container p:first-child {

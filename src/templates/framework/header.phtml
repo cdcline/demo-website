@@ -1,5 +1,15 @@
 <header>
-   <div class="header-main-title-container">
+   <?php $headerImgSrc = $this->getPacketData('headerImgSrc'); ?>
+   <div class="header-main-title-container<?php if ($headerImgSrc) : ?> image-header-container<?php endif ?>">
+      <?php if ($headerImgSrc) :
+         // Hack b/c we won't support image headers for long
+         $headerImgSrcPrts = explode('.', $headerImgSrc);
+         $mobileName = $headerImgSrcPrts[0] . '_mobile';
+         $mobileSrc = $mobileName . '.' . $headerImgSrcPrts[1];
+      ?>
+         <img class="image-header page-background" src="<?= $headerImgSrc ?>" />
+         <img class="image-header mobile-background" src="<?= $mobileSrc ?>" />
+      <?php endif ?>
       <h2><?= $this->getPacketData('headerText') ?></h2>
    </div>
 </header>

@@ -7,7 +7,8 @@ use HtmlFramework\Packet\PacketTrait;
 class HeaderPacket {
    use PacketTrait;
 
-   public function __construct(string $headerText) {
+   public function __construct(string $headerText, ?string $headerImg) {
       $this->setData('headerText', $headerText);
+      $this->setData('headerImgSrc', $headerImg);
    }
 }

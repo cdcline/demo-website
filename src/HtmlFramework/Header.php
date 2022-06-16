@@ -15,8 +15,8 @@ class Header extends HtmlElement {
    private $headerText;
    private const FRAMEWORK_FILE = 'header.phtml';
 
-   public static function fromValues(string $headerText): self {
-      $packet = new HeaderPacket($headerText);
+   public static function fromValues(string $headerText, ?string $headerImg): self {
+      $packet = new HeaderPacket($headerText, $headerImg);
       return new self($packet);
    }
 

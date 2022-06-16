@@ -55,18 +55,49 @@ header {
       justify-content: center;
       padding: 30px 0;
       text-align: center;
+      max-width: @maxWidth;
 
       h2 {
          margin: 0px;
          padding: 0px;
       }
+
+      img {
+         display: none;
+      }
+
+      &.image-header-container {
+         padding: 0px;
+
+         .image-header {
+            width: 100%;
+            height: auto;
+            display: block;
+         }
+
+         .page-background {
+            @media (max-width: @minBreakpoint) {
+               display: none;
+            }
+         }
+         .mobile-background {
+            height: auto;
+            width: 100%;
+            display: none;
+            @media (max-width: @minBreakpoint) {
+               display: block;
+            }
+         }
+         h2 {
+            display: none;
+         }
+      }
    }
-
-
 }
 
 /* Container for flexboxes */
 section {
+   display: flex;
    display: -webkit-flex;
    margin: 0 auto;
    background-color: @interestingArticle;
