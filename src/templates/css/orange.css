@@ -312,6 +312,14 @@ footer div.links-container .circle-container .color-3 {
 footer div.links-container .circle-container .color-4 {
   background-color: #09d8cb;
 }
+.copyright-container {
+  display: flex;
+  margin: 10px 0;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0;
+}
 #raw-text-main-article-container code {
   white-space: break-spaces;
 }
