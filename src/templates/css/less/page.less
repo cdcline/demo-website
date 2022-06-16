@@ -47,7 +47,7 @@ header {
    margin: 0 auto;
    font-size: 35px;
    color: @headerTextColor;
-   background-color: blue;
+   background-color: @pageHeaderBackgroundColor;
    width: 100%;
 
    .header-main-title-container {
@@ -173,9 +173,9 @@ nav {
             }
 
             a {
-               color: white;
+               color: @navTextColor;
                &:visited {
-                  color: white;
+                  color: @navTextColor;
                }
                &.active {
                   color: orange;
@@ -199,8 +199,8 @@ nav {
    -ms-flex: 0;
    font-family: "Helvetica Neue, Bold";
    font-size: 24px;
-   color: @whiteText;
-   background-color: #003C02;
+   color: @footerTextColor;
+   background-color: @footerBackgroundColor;
    padding: 60px 20px;
 
    @media (max-width: @minBreakpoint) {

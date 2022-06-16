@@ -82,7 +82,7 @@ article {
 /* Style the navigation menu */
 nav {
   background: green;
-  color: #530E53;
+  color: white;
   -webkit-flex: 2;
   -ms-flex: 2;
   flex: 2;
