@@ -184,11 +184,11 @@ nav .nav-links-container .nav-section ul a:visited {
   color: black;
 }
 nav .nav-links-container .nav-section ul a.active {
-  color: orange;
+  color: #fcb300;
   font-weight: bold;
 }
 nav .nav-links-container .nav-section ul a:hover {
-  color: orange;
+  color: #fcb300;
 }
 /* Footer */
 .page-footer-container {

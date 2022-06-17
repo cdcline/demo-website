@@ -100,7 +100,7 @@ section {
    display: flex;
    display: -webkit-flex;
    margin: 0 auto;
-   background-color: @interestingArticle;
+   background-color: @articleBackgroundColor;
    padding: 20px;
    color: @articleTextColor;
    border-radius: 22px;
@@ -209,11 +209,11 @@ nav {
                   color: @navTextColor;
                }
                &.active {
-                  color: orange;
+                  color: @navTextActiveColor;
                   font-weight: bold;
                }
                &:hover {
-                  color: orange;
+                  color: @navTextActiveColor;
                }
             }
          }
