@@ -12,7 +12,7 @@ class PageIndex {
 
    const DEFAULT_TYPE = 'default';
    const HOMEPAGE_TYPE = 'homepage';
-   const DEV_TYPE = 'dev';
+   const WORK_TYPE = 'work';
 
    const ORANGE_THEME = 'orange';
    const GREY_THEME = 'grey';
@@ -178,20 +178,16 @@ This is great for:
 However, it has it's limits. You can't really do fancy **frontend** _things_.
 EOT
          ],
-         ['type' => self::DEV_TYPE,
+         ['type' => self::WORK_TYPE,
           'theme' => self::GREY_THEME,
           'pageid' => 2,
-          'page_title' => 'Dev - Website Demo',
-          'page_header' => 'The Dev Environment',
+          'page_title' => 'Work - My Website Demo',
+          'page_header' => 'Work',
           'page_header_img' => null,
           'nav_text' => null,
-          'main_article' => <<<EOT
-## This is the Dev Article!
-
-I need a space that's pretty constant and one that's _kinda_ scratch paper. This one's the scratch paper!
-EOT
+          'main_article' => ''
          ],
-         ['type' => self::DEV_TYPE,
+         ['type' => self::DEFAULT_TYPE,
           'theme' => self::GREEN_THEME,
           'pageid' => 3,
           'page_title' => 'Test 3 - Website Demo',

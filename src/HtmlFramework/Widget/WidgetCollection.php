@@ -18,8 +18,8 @@ use DB\PageIndex;
  */
 class WidgetCollection {
    private $wcPacket;
-   // By "default" we'll add all the widgets.
-   private $defaultWidgets = [MiniArticleList::class, BlockOFun::class];
+   // By "default" we'll add the MiniArticleList.
+   private $defaultWidgets = [MiniArticleList::class];
 
    public static function getHtmlFromArticlePacket(ArticlePacket $aPacket) {
       $wcPacket = WidgetCollectionPacket::fromValues($aPacket->getPageType(), $aPacket->getPageid());
@@ -45,25 +45,23 @@ class WidgetCollection {
     * NOTE: This is probably where I'd re-order things if needed
     */
    private function getWidgetClasses() {
-      $getClassesFromDefault = function(array $excludeFromDefault = []): array {
+      $getClassesFromDefault = function(array $includeWidgets = [], array $excludeWidgets = []): array {
          $defaultWidgets = $this->defaultWidgets;
-         foreach ($excludeFromDefault as $className) {
+         foreach ($excludeWidgets as $className) {
             if (($iWidget = array_search($className, $defaultWidgets)) !== false) {
                unset($defaultWidgets[$iWidget]);
             }
          }
-         return $defaultWidgets;
+         return array_merge($defaultWidgets, $includeWidgets);
       };
 
       switch ($this->wcPacket->getPageType()) {
-         case PageIndex::DEV_TYPE:
-            // There's enough with the Mini Article List data on the dev page
-            return $getClassesFromDefault([BlockOFun::class]);
-         case PageIndex::HOMEPAGE_TYPE:
-            // We add the Block-O-Fun back into the template to show that you can do that
-            return $getClassesFromDefault([BlockOFun::class]);
-         default:
+         case PageIndex::WORK_TYPE:
             return $getClassesFromDefault();
+         case PageIndex::HOMEPAGE_TYPE:
+            return $getClassesFromDefault();
+         default:
+            return $getClassesFromDefault([BlockOFun::class]);
       }
    }
 }

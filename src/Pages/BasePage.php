@@ -63,8 +63,8 @@ abstract class BasePage {
 
    public static function getClassNameFromPageType(string $pageType): string {
       switch ($pageType) {
-         case PageIndex::DEV_TYPE:
-            return DevPage::class;
+         case PageIndex::WORK_TYPE:
+            return WorkPage::class;
          case PageIndex::HOMEPAGE_TYPE:
             return HomePage::class;
          case PageIndex::DEFAULT_TYPE:
