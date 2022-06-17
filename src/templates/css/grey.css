@@ -407,6 +407,7 @@ footer div.links-container .circle-container .color-4 {
   margin: 0px 6px;
   display: flex;
   flex-direction: column;
+  font-family: "Helvetica Neue, Regular";
   /**
    * We'd like the last entry to not push down the footer so we have to set the
    * last last entry margin to 0.
@@ -436,10 +437,7 @@ footer div.links-container .circle-container .color-4 {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  /* Sets the cool border around the parsed text */
   padding: 8px 10px;
-  border: 1px solid #FF00FF;
-  border-radius: 15px;
 }
 #mini-article-list .ma-entry-container .ma-entry-text-container p,
 #mini-article-list .ma-entry-container .ma-entry-text-container h1,
@@ -463,11 +461,10 @@ footer div.links-container .circle-container .color-4 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #FF4900;
-  border-radius: 10%;
-  font-size: 16px;
+  border: 2px solid #F643FD;
+  font-size: 30px;
   min-width: 60px;
-  padding: 2px 4px;
+  padding: 15px 20px;
 }
 /* Head - Header / Sort / Tags */
 #ma-head-container {
@@ -477,25 +474,24 @@ footer div.links-container .circle-container .color-4 {
 }
 #ma-head-container #ma-header-and-sort-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin: 10px 0;
-  align-items: stretch;
+  justify-content: left;
   gap: 4px;
   flex-wrap: wrap;
   /* Header */
   /* Mini Article Sort */
 }
 #ma-head-container #ma-header-and-sort-container h3 {
-  font-size: 25px;
+  font-size: 40px;
   margin: 0;
 }
 #ma-head-container #ma-header-and-sort-container #mini-article-sort-container {
   display: flex;
   flex-direction: row;
   gap: 5px;
-  font-size: 18px;
+  font-size: 20px;
   flex-wrap: wrap;
-  align-self: center;
 }
 #ma-head-container #ma-header-and-sort-container #mini-article-sort-container span {
   min-width: fit-content;
@@ -507,22 +503,27 @@ footer div.links-container .circle-container .color-4 {
   text-shadow: -0.04em 0.04em 0.08em #6c006c, 0.04em 0.04em 0.08em #6c006c, 0.04em -0.04em 0 #6c006c, -0.04em -0.04em 0 #6c006c;
 }
 #ma-head-container #mini-article-tag-list {
-  margin: 0 8px ;
-  justify-content: center;
+  margin: 40px 0 40px 8px ;
+  justify-content: left;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
+  gap: 13px;
+}
+#ma-head-container #mini-article-tag-list .ma-tag {
+  padding: 20px 30px;
+  font-size: 20px;
 }
 #ma-head-container #mini-article-tag-list .ma-tag.active {
-  color: #74FF00;
-  border-color: #D93E00;
-  background-color: #FF00FF;
+  color: black;
+  border-color: #F643FD;
+  background-color: #F643FD;
 }
 #ma-head-container #mini-article-tag-list .ma-tag:hover {
   background-image: linear-gradient(90deg, #FFA4FF 3%, #FF70FF 15%, #FF00FF 50%, #FF70FF 85%, #FFA4FF 97%);
   animation: slidebg 5s linear infinite;
-  color: #74FF00;
+  color: black;
   -webkit-text-stroke-width: 0.015em;
   -webkit-text-stroke-color: black;
   cursor: pointer;
@@ -538,25 +539,22 @@ footer div.links-container .circle-container .color-4 {
 }
 #mini-article-entries .ma-entry-title-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: left;
   margin-bottom: 10px;
   align-items: baseline;
-  gap: 4px;
   flex-wrap: wrap;
 }
 #mini-article-entries .ma-entry-title-container h5 {
   font-size: 30px;
   margin: 0;
-  color: #FFA4FF;
-  text-shadow: -0.04em 0.04em 0.08em #449500, 0.04em 0.04em 0.08em #449500, 0.04em -0.04em 0 #449500, -0.04em -0.04em 0 #449500;
-  -webkit-text-stroke-width: 0.02em;
-  -webkit-text-stroke-color: #6c006c;
+  color: white;
 }
 #mini-article-entries .ma-entry-date-container {
   align-items: center;
   gap: 8px;
-  font-size: 14px;
-  color: #74FF00;
+  font-size: 20px;
+  color: #09d8cb;
   text-shadow: -0.04em 0.04em 0.08em #6c006c, 0.04em 0.04em 0.08em #6c006c, 0.04em -0.04em 0 #6c006c, -0.04em -0.04em 0 #6c006c;
 }
 #mini-article-entries .ma-entry-tag-container {
@@ -567,7 +565,7 @@ footer div.links-container .circle-container .color-4 {
   color: #74FF00;
   border-color: #D93E00;
   background-color: #FF00FF;
-  font-size: 8px;
+  font-size: 20px;
   min-width: 40px;
   padding: 2px 3px;
 }
