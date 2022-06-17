@@ -178,6 +178,7 @@ class MiniArticleList {
     * Should generate somthing like:
     * <div class="ma-entry-tag-container">
     *    <span class="ma-tag ma-entry-tags" data-value="Tag 1">Tag1</span>
+    *    <span class="ma-entry-tag-spacer">|</span>
     *    <span class="ma tag ma-entry-tags" data-value="Tag 2">Tag2</span>
     *    ... - foreach tag
     * </div>
@@ -188,7 +189,8 @@ class MiniArticleList {
       foreach ($tags as $tag) {
          $tagEls[] = HtmlUtils::makeSpanElement($tag, array_merge($tagSpanParams, ['data-value' => $tag]));
       }
-      $tagHtml = implode(' ', $tagEls);
+      $spacerHtml =HtmlUtils::makeSpanElement('|', ['class' => 'ma-entry-tag-spacer']);
+      $tagHtml = implode($spacerHtml, $tagEls);
       return HtmlUtils::makeDivElement($tagHtml, ['class' => 'ma-entry-tag-container']);
    }
 

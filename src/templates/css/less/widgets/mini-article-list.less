@@ -19,6 +19,7 @@
    display: flex;
    flex-direction: column;
    font-family: "Helvetica Neue, Regular";
+   font-size: @commonPageFont;
 
    .ma-entry-container {
       /**
@@ -34,12 +35,11 @@
       */
       .ma-entry-text-container {
          /* This is how we set #mini-article-entries {gap:18px} */
-         margin-bottom: 18px;
+         margin-bottom: 20px;
          /* We might as well make the parsed article flex too */
          display: flex;
          flex-direction: column;
-         gap: 8px;
-         padding: 8px 10px;
+         gap: 20px;
 
          // Remove a bunch of too large margins in the text container
          p, h1, h2, h3, h4, h5, h6 {
@@ -67,9 +67,6 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid @maTagBorderColor;
-      font-size: @commonHeaderFont;
-      min-width: 60px;
       padding: 15px 20px;
    }
 }
@@ -128,6 +125,7 @@
       .ma-tag {
          padding: 20px 30px;
          font-size: @commonPageFont;
+         border: 2px solid @maTagBorderColor;
       }
 
       .ma-tag.active {
@@ -152,7 +150,6 @@
 #mini-article-entries {
    display: inline-flex;
    flex-direction: column;
-   margin: 4px;
 
    .ma-entry-head-container {
       margin-bottom: 12px;
@@ -185,14 +182,13 @@
    }
 
    .ma-entry-tag-container {
-      margin: 0 14px 6px;
+      align-items: center;
+      font-size: @commonPageFont;
+      color: @maEntryTagTextColor;
 
       /* Make them smaller b/c they're kinda different */
       .ma-tag {
-         color: @maEntryTagText;
-         border-color: @maEntryTagBorder;
-         background-color: @maEntryTagBackground;
-         font-size: @commonPageFont;
+         text-transform: uppercase;
          min-width: 40px;
          padding: 2px 3px;
       }

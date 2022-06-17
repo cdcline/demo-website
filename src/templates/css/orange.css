@@ -408,6 +408,7 @@ footer div.links-container .circle-container .color-4 {
   display: flex;
   flex-direction: column;
   font-family: "Helvetica Neue, Regular";
+  font-size: 20px;
   /**
    * We'd like the last entry to not push down the footer so we have to set the
    * last last entry margin to 0.
@@ -432,12 +433,11 @@ footer div.links-container .circle-container .color-4 {
 }
 #mini-article-list .ma-entry-container .ma-entry-text-container {
   /* This is how we set #mini-article-entries {gap:18px} */
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   /* We might as well make the parsed article flex too */
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 8px 10px;
+  gap: 20px;
 }
 #mini-article-list .ma-entry-container .ma-entry-text-container p,
 #mini-article-list .ma-entry-container .ma-entry-text-container h1,
@@ -461,9 +461,6 @@ footer div.links-container .circle-container .color-4 {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #F643FD;
-  font-size: 30px;
-  min-width: 60px;
   padding: 15px 20px;
 }
 /* Head - Header / Sort / Tags */
@@ -514,6 +511,7 @@ footer div.links-container .circle-container .color-4 {
 #ma-head-container #mini-article-tag-list .ma-tag {
   padding: 20px 30px;
   font-size: 20px;
+  border: 2px solid #F643FD;
 }
 #ma-head-container #mini-article-tag-list .ma-tag.active {
   color: black;
@@ -532,7 +530,6 @@ footer div.links-container .circle-container .color-4 {
 #mini-article-entries {
   display: inline-flex;
   flex-direction: column;
-  margin: 4px;
 }
 #mini-article-entries .ma-entry-head-container {
   margin-bottom: 12px;
@@ -558,14 +555,13 @@ footer div.links-container .circle-container .color-4 {
   text-shadow: -0.04em 0.04em 0.08em #6c006c, 0.04em 0.04em 0.08em #6c006c, 0.04em -0.04em 0 #6c006c, -0.04em -0.04em 0 #6c006c;
 }
 #mini-article-entries .ma-entry-tag-container {
-  margin: 0 14px 6px;
+  align-items: center;
+  font-size: 20px;
+  color: #F643FD;
   /* Make them smaller b/c they're kinda different */
 }
 #mini-article-entries .ma-entry-tag-container .ma-tag {
-  color: #74FF00;
-  border-color: #D93E00;
-  background-color: #FF00FF;
-  font-size: 20px;
+  text-transform: uppercase;
   min-width: 40px;
   padding: 2px 3px;
 }
