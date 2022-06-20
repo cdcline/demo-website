@@ -21,6 +21,9 @@ body .body-content-container {
   gap: 10px;
   margin-bottom: 10px;
 }
+body .copyright-container {
+  color: black;
+}
 .flex-break {
   flex-basis: 100%;
   height: 0;
@@ -110,6 +113,9 @@ article {
     flex: 0;
   }
 }
+article img {
+  float: right;
+}
 /* Style the navigation menu */
 nav {
   background: black;
@@ -156,7 +162,6 @@ nav .nav-links-container .nav-section h5 {
   padding: 0px;
   font-family: "Helvetica Neue, Bold";
   font-size: 24px;
-  color: white;
 }
 nav .nav-links-container .nav-section .image-link-container {
   display: flex;

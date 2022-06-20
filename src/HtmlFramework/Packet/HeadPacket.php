@@ -11,7 +11,7 @@ class HeadPacket {
    private const ORANGE_THEME_STYLE_SHEET_PATH = 'src/templates/css/orange.css';
    private const GREY_THEME_STYLE_SHEET_PATH = 'src/templates/css/grey.css';
    private const GREEN_THEME_STYLE_SHEET_PATH = 'src/templates/css/green.css';
-   private const PURPLE_THEME_SHEET_PATH = 'src/templates/css/purple.css';
+   private const BLACK_THEME_STYLE_SHEET_PATH = 'src/templates/css/black.css';
    private const JS_LOADER_PATH = 'src/templates/js/page.js';
    private const FAVICON_PATH = '/src/images/fav/favicon.ico';
    private const FAVICON_PATH_16 = '/src/images/fav/favicon-16x16.png';
@@ -39,8 +39,10 @@ class HeadPacket {
             return self::GREY_THEME_STYLE_SHEET_PATH;
          case PageIndex::GREEN_THEME:
             return self::GREEN_THEME_STYLE_SHEET_PATH;
+         case PageIndex::BLACK_THEME:
+            return self::BLACK_THEME_STYLE_SHEET_PATH;
       }
-      return self::PURPLE_THEME_SHEET_PATH;
+      return self::ORANGE_THEME_STYLE_SHEET_PATH;
    }
 
    public function getJavascriptPath(): string {

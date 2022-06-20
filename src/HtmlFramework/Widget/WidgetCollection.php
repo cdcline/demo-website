@@ -61,7 +61,7 @@ class WidgetCollection {
          case PageIndex::HOMEPAGE_TYPE:
             return $getClassesFromDefault();
          default:
-            return $getClassesFromDefault([BlockOFun::class]);
+            return $getClassesFromDefault([]);
       }
    }
 }

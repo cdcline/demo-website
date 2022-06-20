@@ -17,7 +17,7 @@ class PageIndex {
    const ORANGE_THEME = 'orange';
    const GREY_THEME = 'grey';
    const GREEN_THEME = 'green';
-   const PURPLE_THEME = 'purple';
+   const BLACK_THEME = 'black';
 
    private $pageid;
    private $pageTitle;
@@ -104,7 +104,7 @@ class PageIndex {
          $iPageValues['type'] ?? self::DEFAULT_TYPE,
          $iPageValues['main_article'] ?? '',
          $iPageValues['nav_text'] ?? '',
-         $iPageValues['theme'] ?? self::PURPLE_THEME,
+         $iPageValues['theme'] ?? self::GREEN_THEME,
       );
    }
 
@@ -188,19 +188,21 @@ EOT
           'main_article' => ''
          ],
          ['type' => self::DEFAULT_TYPE,
-          'theme' => self::GREEN_THEME,
+          'theme' => self::BLACK_THEME,
           'pageid' => 3,
           'page_title' => 'Test 3 - Website Demo',
           'page_header' => 'Test Page 3',
           'page_header_img' => null,
           'main_article' => <<<EOT
-## This is **Test Page 3**
+## Robots
 
-Egestas sed tempus urna et pharetra pharetra massa massa ultricies. Neque sodales ut etiam sit amet nisl. Dictum sit amet justo donec enim diam vulputate. Morbi tincidunt augue interdum velit euismod in pellentesque massa placerat. Vulputate enim nulla aliquet porttitor. Aenean et tortor at risus viverra adipiscing. Pharetra sit amet aliquam id diam. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim. Adipiscing at in tellus integer feugiat. Nulla facilisi cras fermentum odio eu feugiat pretium nibh. Pharetra massa massa ultricies mi quis hendrerit dolor. Purus ut faucibus pulvinar elementum integer enim neque volutpat ac.
+### Franky ![Franky](src/images/site/fun-robot.png)
+
+Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
 EOT
          ],
          ['type' => self::DEFAULT_TYPE,
-          'theme' => self::PURPLE_THEME,
+          'theme' => self::GREEN_THEME,
           'pageid' => 4,
           'page_title' => 'Test 4 - Website Demo',
           'page_header' => 'Test Page 4',
