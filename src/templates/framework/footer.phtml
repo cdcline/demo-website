@@ -1,5 +1,4 @@
 <?php
-use Utils\HtmlUtils;
 
 $numColors = 4;
 $buildContainer = function($navRow, $i) use ($numColors) {
@@ -27,6 +26,6 @@ $linksContainerHTML = "<div class=\"links-container\">{$linksHTML}</div>";
    <?= $linksContainerHTML ?>
 </footer>
 
-<footer>
+<footer class="spacer-footer">
    <?= $linksContainerHTML ?>
 </footer>

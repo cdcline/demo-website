@@ -309,6 +309,25 @@ footer {
       }
    }
 
+   /**
+    * The "fixed" footer will end up hiding things b/c the page doesn't
+    * know to add extra space for the overlapping content
+    *
+    * So we hack in another footer at the bottom of the page and make it
+    * 0 width & full height. This acts as a hidden spacer at the bottom of
+    * the page which makes sure there's always enough room for the floating
+    * footer below the content.
+    */
+   &.spacer-footer {
+      content: attr(data-text);
+      content: attr(data-text) / "";
+      visibility: hidden;
+      overflow: hidden;
+      user-select: none;
+      pointer-events: none;
+      font-weight: bold;
+   }
+
    width: 100%;
    font-size: 1.5em;
    margin: @sectionGap 0 0 0 ;
