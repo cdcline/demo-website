@@ -26,6 +26,7 @@ class PageIndex {
    private $pageType;
    private $mainArticle;
    private $navText;
+   private $hideMainNav;
    private $theme;
 
    public static function getThemeFromPageid(int $pageid): string {
@@ -64,8 +65,12 @@ class PageIndex {
       return $this->pageid;
    }
 
-   public function getNavText(): string{
+   public function getNavText(): string {
       return (string)$this->navText;
+   }
+
+   public function getHideMainNav(): bool {
+      return $this->hideMainNav;
    }
 
    public function getPage(): BasePage {
@@ -91,6 +96,7 @@ class PageIndex {
          'page_header_img' => $this->getPageHeader(),
          'main_article' => $this->getMainArticle(),
          'nav_text' => $this->getNavText(),
+         'hide_main_nav' => $this->getHideMainNav(),
          'theme' => $this->getTheme()
       ];
    }
@@ -104,11 +110,12 @@ class PageIndex {
          $iPageValues['type'] ?? self::DEFAULT_TYPE,
          $iPageValues['main_article'] ?? '',
          $iPageValues['nav_text'] ?? '',
+         isset($iPageValues['hide_main_nav']) ? (bool)$iPageValues['hide_main_nav'] : false,
          $iPageValues['theme'] ?? self::GREEN_THEME,
       );
    }
 
-   private function __construct(int $pageid, string $pageTitle, string $pageHeader, ?string $pageHeaderImg, string $pageType, string $mainArticle, string $navText, string $theme) {
+   private function __construct(int $pageid, string $pageTitle, string $pageHeader, ?string $pageHeaderImg, string $pageType, string $mainArticle, string $navText, bool $hideMainNav, string $theme) {
       $this->pageid = $pageid;
       $this->pageTitle = $pageTitle;
       $this->pageHeader = $pageHeader;
@@ -116,6 +123,7 @@ class PageIndex {
       $this->pageType = $pageType;
       $this->mainArticle = $mainArticle;
       $this->navText = $navText;
+      $this->hideMainNav = $hideMainNav;
       $this->theme = $theme;
    }
 
@@ -125,7 +133,7 @@ class PageIndex {
 
    private static function fetchAllRows(): array {
       $path = FirestoreUtils::indexPagesPath();
-      $iDocs = ['pageid', 'main_article', 'page_header', 'page_header_img', 'page_title', 'nav_text', 'theme'];
+      $iDocs = ['pageid', 'main_article', 'page_header', 'page_header_img', 'page_title', 'nav_text', 'hide_main_nav', 'theme'];
       $iSnaps = [FirestoreUtils::buildSnap('type', 'enum')];
       $fromFirestoreFnc = function($iPageValues): array {
          $iPageValues['main_article'] = FirestoreUtils::hackNewlines($iPageValues['main_article']);
@@ -151,6 +159,7 @@ class PageIndex {
           'pageid' => 1,
           'page_title' => 'Welcome - My Demo Website',
           'page_header' => 'Welcome',
+          'hide_main_nav' => null,
           'page_header_img' => null,
           'nav_text' => 'You might also enjoy...',
           'main_article' => <<<EOT
@@ -183,6 +192,7 @@ EOT
           'pageid' => 2,
           'page_title' => 'Work - My Website Demo',
           'page_header' => 'Work',
+          'hide_main_nav' => null,
           'page_header_img' => null,
           'nav_text' => null,
           'main_article' => ''
@@ -192,6 +202,7 @@ EOT
           'pageid' => 3,
           'page_title' => 'Test 3 - Website Demo',
           'page_header' => 'Test Page 3',
+          'hide_main_nav' => null,
           'page_header_img' => null,
           'main_article' => <<<EOT
 ## Robots
@@ -206,6 +217,7 @@ EOT
           'pageid' => 4,
           'page_title' => 'Life - Website Demo',
           'page_header' => 'Life',
+          'hide_main_nav' => true,
           'page_header_img' => null,
           'nav_text' => null,
           'main_article' => <<<EOT

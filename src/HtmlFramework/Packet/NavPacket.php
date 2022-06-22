@@ -9,9 +9,15 @@ class NavPacket {
    use PacketTrait;
 
    private $navRows;
+   private $hideMainNav;
 
-   public function __construct(array $pageNavs) {
+   public function __construct(array $pageNavs, bool $hideMainNav) {
+      $this->hideMainNav = $hideMainNav;
       $this->navRows = $this->extractNavDataFromPageNavs($pageNavs);
+   }
+
+   public function showMainNav(): bool {
+      return !$this->hideMainNav;
    }
 
    public function getNavSections(): array {

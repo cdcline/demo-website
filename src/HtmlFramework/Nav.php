@@ -14,8 +14,8 @@ use Utils\HtmlUtils;
 class Nav extends HtmlElement {
    private const FRAMEWORK_FILE = 'nav.phtml';
 
-   public static function fromValues(): self {
-      $navPacket = new NavPacket(PageNav::fetchAllRowsFromStaticCache());
+   public static function fromValues(bool $hideMainNav): self {
+      $navPacket = new NavPacket(PageNav::fetchAllRowsFromStaticCache(), $hideMainNav);
       return new self($navPacket);
    }
 
