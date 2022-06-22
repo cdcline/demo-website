@@ -36,7 +36,7 @@ header {
   margin: 0 auto;
   font-size: 35px;
   color: white;
-  background-color: #5514d7;
+  background-color: #5514D7;
   width: 100%;
 }
 header .header-main-title-container {
@@ -204,7 +204,7 @@ nav .nav-links-container .nav-section ul a:hover {
   font-family: "Helvetica Neue, Bold";
   font-size: 24px;
   color: white;
-  background-color: #5514d7;
+  background-color: #5514D7;
   padding: 60px 20px;
 }
 @media (max-width: 480px) {
@@ -276,7 +276,7 @@ footer.fixed-footer {
 }
 footer div.links-container {
   border: 2px black solid;
-  background-color: #5514d7;
+  background-color: #5514D7;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
@@ -306,16 +306,16 @@ footer div.links-container .circle-container .circle.viewing {
   height: 50px;
 }
 footer div.links-container .circle-container .color-1 {
-  background-color: #fcb300;
+  background-color: #FCB300;
 }
 footer div.links-container .circle-container .color-2 {
-  background-color: #f96cff;
+  background-color: #F96CFF;
 }
 footer div.links-container .circle-container .color-3 {
-  background-color: #00acdd;
+  background-color: #00ACDD;
 }
 footer div.links-container .circle-container .color-4 {
-  background-color: #09d8cb;
+  background-color: #09D8CB;
 }
 .copyright-container {
   display: flex;
@@ -556,7 +556,7 @@ footer div.links-container .circle-container .color-4 {
   align-items: center;
   gap: 8px;
   font-size: 20px;
-  color: #09d8cb;
+  color: #09D8CB;
   text-shadow: -0.04em 0.04em 0.08em #6c006c, 0.04em 0.04em 0.08em #6c006c, 0.04em -0.04em 0 #6c006c, -0.04em -0.04em 0 #6c006c;
 }
 #mini-article-entries .ma-entry-tag-container {
