@@ -1,14 +1,3 @@
 <header>
-   <?php $headerImgSrc = $this->getPacketData('headerImgSrc'); ?>
-   <div class="header-main-title-container<?php if ($headerImgSrc) : ?> image-header-container<?php endif ?>">
-      <?php if ($headerImgSrc) :
-         // Hack b/c we won't support image headers for long
-         $preg = '/(.+)(\.png)$/';
-         $mobileSrc = preg_replace($preg, '$1_mobile$2', $headerImgSrc);
-      ?>
-         <img class="image-header page-background" src="<?= $headerImgSrc ?>" />
-         <img class="image-header mobile-background" src="<?= $mobileSrc ?>" />
-      <?php endif ?>
-      <h2><?= $this->getPacketData('headerText') ?></h2>
-   </div>
+   <?= $this->getHeaderContentHtml() ?>
 </header>
