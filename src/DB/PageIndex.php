@@ -3,6 +3,7 @@
 namespace DB;
 
 use DB\DBTrait;
+use DB\PageHeaderImages;
 use Pages\BasePage;
 use Pages\InvalidPageException;
 use Utils\FirestoreUtils;
@@ -22,7 +23,7 @@ class PageIndex {
    private $pageid;
    private $pageTitle;
    private $pageHeader;
-   private $pageHeaderImg;
+   private $pageHeaderImages;
    private $pageType;
    private $mainArticle;
    private $navText;
@@ -45,8 +46,12 @@ class PageIndex {
       return $this->pageHeader;
    }
 
-   public function getPageHeaderImage(): ?string {
-      return $this->pageHeaderImg;
+   public function getFullHeaderImages(): array {
+      return $this->pageHeaderImages->toFullArray();
+   }
+
+   public function getMobileHeaderImages(): array {
+      return $this->pageHeaderImages->toMobileArray();
    }
 
    public function getPageType(): string {
@@ -93,7 +98,8 @@ class PageIndex {
          'pageid' => $this->getPageid(),
          'page_title' => $this->getPageTitle(),
          'page_header' => $this->getPageHeader(),
-         'page_header_img' => $this->getPageHeader(),
+         'full_header_images' => $this->getFullHeaderImages(),
+         'mobile_header_images' => $this->getMobileHeaderImages(),
          'main_article' => $this->getMainArticle(),
          'nav_text' => $this->getNavText(),
          'hide_main_nav' => $this->getHideMainNav(),
@@ -102,11 +108,11 @@ class PageIndex {
    }
 
    private static function fromArray(array $iPageValues) {
+      $pageHeaderImages = PageHeaderImages::fromPageid($iPageValues['pageid']);
       return new self(
          (int)$iPageValues['pageid'],
          $iPageValues['page_title'] ?? 'Unknown Title',
          $iPageValues['page_header'] ?? 'Unknown Header',
-         $iPageValues['page_header_img'] ?? null,
          $iPageValues['type'] ?? self::DEFAULT_TYPE,
          $iPageValues['main_article'] ?? '',
          $iPageValues['nav_text'] ?? '',
@@ -115,16 +121,16 @@ class PageIndex {
       );
    }
 
-   private function __construct(int $pageid, string $pageTitle, string $pageHeader, ?string $pageHeaderImg, string $pageType, string $mainArticle, string $navText, bool $hideMainNav, string $theme) {
+   private function __construct(int $pageid, string $pageTitle, string $pageHeader, string $pageType, string $mainArticle, string $navText, bool $hideMainNav, string $theme) {
       $this->pageid = $pageid;
       $this->pageTitle = $pageTitle;
       $this->pageHeader = $pageHeader;
-      $this->pageHeaderImg = $pageHeaderImg;
       $this->pageType = $pageType;
       $this->mainArticle = $mainArticle;
       $this->navText = $navText;
       $this->hideMainNav = $hideMainNav;
       $this->theme = $theme;
+      $this->pageHeaderImages = PageHeaderImages::fromPageid($pageid);
    }
 
    private function matchesPageid(int $pageid): bool {
@@ -133,7 +139,7 @@ class PageIndex {
 
    private static function fetchAllRows(): array {
       $path = FirestoreUtils::indexPagesPath();
-      $iDocs = ['pageid', 'main_article', 'page_header', 'page_header_img', 'page_title', 'nav_text', 'hide_main_nav', 'theme'];
+      $iDocs = ['pageid', 'main_article', 'page_header', 'page_title', 'nav_text', 'hide_main_nav', 'theme'];
       $iSnaps = [FirestoreUtils::buildSnap('type', 'enum')];
       $fromFirestoreFnc = function($iPageValues): array {
          $iPageValues['main_article'] = FirestoreUtils::hackNewlines($iPageValues['main_article']);
@@ -159,8 +165,6 @@ class PageIndex {
           'pageid' => 1,
           'page_title' => 'Welcome - My Demo Website',
           'page_header' => 'Welcome',
-          'hide_main_nav' => null,
-          'page_header_img' => null,
           'nav_text' => 'You might also enjoy...',
           'main_article' => <<<EOT
 ## Welcome to My Personal Website!
@@ -192,18 +196,12 @@ EOT
           'pageid' => 2,
           'page_title' => 'Work - My Website Demo',
           'page_header' => 'Work',
-          'hide_main_nav' => null,
-          'page_header_img' => null,
-          'nav_text' => null,
-          'main_article' => ''
          ],
          ['type' => self::DEFAULT_TYPE,
           'theme' => self::BLACK_THEME,
           'pageid' => 3,
           'page_title' => 'Test 3 - Website Demo',
           'page_header' => 'Test Page 3',
-          'hide_main_nav' => null,
-          'page_header_img' => null,
           'main_article' => <<<EOT
 ## Robots
 
@@ -218,8 +216,6 @@ EOT
           'page_title' => 'Life - Website Demo',
           'page_header' => 'Life',
           'hide_main_nav' => true,
-          'page_header_img' => null,
-          'nav_text' => null,
           'main_article' => <<<EOT
 ## Life
 

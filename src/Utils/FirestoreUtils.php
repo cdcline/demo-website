@@ -8,6 +8,7 @@ use Utils\FirestoreConverter as Converter;
 class FirestoreUtils {
    private const PAGE_INDEX = 'page_index';
    private const ARTICLE_LISTS = 'mini_article_list';
+   private const HEADER_IMAGES = 'page_header_images';
    private const ARTICLES = 'articles';
    private const TAGS = 'tags';
 
@@ -21,6 +22,10 @@ class FirestoreUtils {
 
    public static function maPath(string $firestoreId): string {
       return self::getPath('page_article_lists', ['id' => $firestoreId]);
+   }
+
+   public static function headerImagesPath(string $firestoreId): string {
+      return self::getPath('page_header_images', ['id' => $firestoreId]);
    }
 
    public static function articlesPath(string $parent, string $id): string {
@@ -51,6 +56,10 @@ class FirestoreUtils {
          case 'page_article_lists':
             if ($id) {
                return self::buildPath([self::PAGE_INDEX, $id, self::ARTICLE_LISTS]);
+            }
+         case 'page_header_images':
+            if ($id) {
+               return self::buildPath([self::PAGE_INDEX, $id, self::HEADER_IMAGES]);
             }
       }
       $optStr = '';

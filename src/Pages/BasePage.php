@@ -51,7 +51,7 @@ abstract class BasePage {
    public function printHtml(): void {
       $this->ranHTMLPrint = true;
       $htmlHead = HtmlHead::fromValues($this->getTheme(), $this->getPageTitle());
-      $htmlHeader = HtmlHeader::fromValues($this->getPageHeader(), $this->getPageHeaderImage());
+      $htmlHeader = HtmlHeader::fromValues($this->getPageHeader(), $this->getPageHeaderImages());
       $htmlNav = HtmlNav::fromValues($this->hideMainNav());
       $htmlArticle = HtmlArticle::fromValues($this->getPageType(), $this->getPageid(), $this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
       $htmlFooter = HtmlFooter::fromValues($this->getNavText());
@@ -97,8 +97,11 @@ abstract class BasePage {
       return $this->getPageIndex()->getPageHeader();
    }
 
-   private function getPageHeaderImage(): ?string {
-      return $this->getPageIndex()->getPageHeaderImage();
+   private function getPageHeaderImages(): array {
+      return [
+         'full' => $this->getPageIndex()->getFullHeaderImages(),
+         'mobile' => $this->getPageIndex()->getMobileHeaderImages()
+      ];
    }
 
    private function hideMainNav(): bool {

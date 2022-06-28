@@ -13,10 +13,12 @@ use Utils\HtmlUtils;
  * The actual text is created in the Page objects.
  */
 class Header extends HtmlElement {
+   protected $packet;
+
    private const FRAMEWORK_FILE = 'header.phtml';
 
-   public static function fromValues(string $headerText, ?string $headerImg): self {
-      $packet = new HeaderPacket($headerText, $headerImg);
+   public static function fromValues(string $headerText, array $headerImages): self {
+      $packet = new HeaderPacket($headerText, $headerImages);
       return new self($packet);
    }
 
@@ -38,16 +40,16 @@ class Header extends HtmlElement {
    protected function getHeaderContentHtml(): string {
       $containerClasses = ['header-main-title-container'];
       $headerContentEls = [];
-      $headerCarousel = $this->packet->getSlideshows();
-      if ($headerCarousel) {
+      if ($this->packet->hasImages()) {
          $containerClasses[] = 'image-header-container';
-         $fullSlideshow = $this->buildSlideshowHtml($headerCarousel['full'], /*full*/true);
-         $mobileSlideshow = $this->buildSlideshowHtml($headerCarousel['mobile'], /*full*/false);
+         $fullSlideshow = $this->buildSlideshowHtml($this->packet->getFullImages(), /*full*/true);
+         $mobileSlideshow = $this->buildSlideshowHtml($this->packet->getMobileImages(), /*full*/false);
 
+         $nextHtml = $this->packet->showCarousel() ? HtmlUtils::makeDivElement('Next', ['class' => 'js-next-button']) : '';
          $carouselEls = [
            $fullSlideshow,
            $mobileSlideshow,
-           HtmlUtils::makeDivElement('Next', ['class' => 'js-next-button'])
+           $nextHtml
          ];
          $headerContentEls[] = HtmlUtils::makeDivElement(implode(' ', $carouselEls), ['class' => 'header-slideshow-container']);
       }

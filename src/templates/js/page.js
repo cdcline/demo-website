@@ -156,6 +156,9 @@ class FlexSlider {
 	}
 
 	gotoNext() {
+      if (this.container.classList.contains('slider-container-transition')) {
+         return;
+      }
       // translate from 0 to -100%
       // we need transitionend to fire for this translation, so add transition CSS
       this.container.classList.add('slider-container-transition');
