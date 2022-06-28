@@ -50,34 +50,42 @@ header .header-main-title-container h2 {
   margin: 0px;
   padding: 0px;
 }
-header .header-main-title-container img {
-  display: none;
-}
 header .header-main-title-container.image-header-container {
   padding: 0px;
 }
-header .header-main-title-container.image-header-container .image-header {
-  width: 100%;
-  height: auto;
-  display: block;
+header .header-main-title-container.image-header-container h2 {
+  display: none;
+}
+header .header-main-title-container.image-header-container .header-slideshow-container {
+  overflow: hidden;
+}
+header .header-main-title-container.image-header-container .header-slideshow-container .slider-container-transition {
+  transition: transform 0.7s ease-in-out;
+}
+header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
 }
 @media (max-width: 480px) {
-  header .header-main-title-container.image-header-container .page-background {
+  header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images.full-header-imaages {
     display: none;
   }
 }
-header .header-main-title-container.image-header-container .mobile-background {
+header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images.mobile-header-images {
+  display: none;
   height: auto;
   width: 100%;
-  display: none;
 }
 @media (max-width: 480px) {
-  header .header-main-title-container.image-header-container .mobile-background {
-    display: block;
+  header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images.mobile-header-images {
+    display: flex;
   }
 }
-header .header-main-title-container.image-header-container h2 {
-  display: none;
+header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images .header-image {
+  width: 100%;
+  flex-shrink: 0;
+  height: auto;
 }
 /* Container for flexboxes */
 section {

@@ -80,10 +80,92 @@ class PageUtils {
             MiniArticleList.setupEvents();
          });
       }
+
+      SlideshowRunner.init();
    }
 }
 
 PageUtils.runLoader();
+
+const SlideshowRunner = {
+   slideshows: [],
+   init: function() {
+      document.querySelectorAll(".js-flex-carousel").forEach(function(slideshowEl) {
+         this.slideshows.push(new FlexSlider(slideshowEl));
+      }.bind(this));
+
+		document.querySelectorAll(".js-next-button").forEach(function(el) {
+         el.addEventListener('click', () => {
+            this.slideshows.forEach(function(el) {
+               el.gotoNext();
+            });
+         });
+		}.bind(this));
+   }
+};
+
+// Thanks https://usefulangle.com/post/313/css-flex-order-carousel-infinite
+class FlexSlider {
+	constructor(slideshowEl) {
+      this.current = 1;
+      this.container = slideshowEl;
+      this.slides = this.container.getElementsByClassName("js-carousel-slide");
+      this.num_items = this.slides.length;
+		// set CSS order of each item initially
+      [...this.slides].forEach(function(element, index) {
+         element.style.order = index+1;
+      });
+
+		this.addEvents();
+	}
+
+	addEvents() {
+		// after each item slides in, slider container fires transitionend event
+		this.container.addEventListener('transitionend', function(el) {
+         this.changeOrder();
+      }.bind(this));
+	}
+
+	changeOrder() {
+      if (this.timeout) {
+         clearTimeout(this.timeout);
+      }
+      // We only want to change the order if it has a "transition" to do
+      if (!this.container.classList.contains('slider-container-transition')) {
+         return;
+      }
+
+		// change current position. We start at 1
+      this.current++;
+		if(this.current > this.num_items)
+			this.current = 1;
+
+      [...this.slides].forEach(function(slide) {
+         let ogOrder = parseInt(slide.getAttribute('data-position'));
+         let newOrder = ogOrder - (this.current - 1);
+         if (newOrder < 1) {
+            newOrder = newOrder + this.num_items;
+         }
+         slide.style.order = newOrder;
+
+         // translate back to 0 from -100%
+         // we don't need transitionend to fire for this translation, so remove transition CSS
+         this.container.classList.remove('slider-container-transition');
+         this.container.style.transform = 'translateX(0)';
+      }.bind(this));
+	}
+
+	gotoNext() {
+      // translate from 0 to -100%
+      // we need transitionend to fire for this translation, so add transition CSS
+      this.container.classList.add('slider-container-transition');
+      this.container.style.transform = 'translateX(-100%)';
+      // The transition end doesn't fire if it's not visible so we'll fire the change
+      // manually after the transition should have happened.
+      this.timeout = setTimeout(this.changeOrder.bind(this), 1000);
+	}
+};
+
 
 /**
  * This is the kinda hacky way we support splitting up the js files.

@@ -22,26 +22,36 @@ class Header extends HtmlElement {
 
    /**
     *    <div class="header-main-title-container {if $headerImage)image-header-container{endif}">
-    *      <img class="image-header page-background" src="<?= $headerImgSrc ?>" />
-    *      <img class="image-header mobile-background" src="<?= $mobileSrc ?>" />
+    *      <div class="header-slideshow-container">
+    *         <div class="header-slideshow-images slider-container-transition full-header-images">
+    *            <img class="header-image full-size" src="<?= $headerImgSrc ?>" />
+    *            { ... }
+    *         </div>
+    *         <div class="header-slideshow-images slider-container-transition mobile-header-images">
+    *            <img class="header-image mobile-size" src="<?= $headerImgSrc ?>" />
+    *            { ... }
+    *         </div>
+    *      </div>
     *      <h2><?= $this->getHeaderText ?></h2>
     *    </div>
     */
    protected function getHeaderContentHtml(): string {
       $containerClasses = ['header-main-title-container'];
-      // Build the Text Header
-      $headerContentEls = [HtmlUtils::makeHXElement(2, $this->packet->getHeaderText())];
-      // Build the Images
-      $imgClasses = ['image-header'];
-      $headerImages = $this->packet->getPageIndexImage();
-      if ($headerImages) {
+      $headerContentEls = [];
+      $headerCarousel = $this->packet->getSlideshows();
+      if ($headerCarousel) {
          $containerClasses[] = 'image-header-container';
-         $fullImageClasses = implode(' ', array_merge($imgClasses, ['page-background']));
-         $mobileImageClasses = implode(' ', array_merge($imgClasses, ['mobile-background']));
-         $fullImageHtml = HtmlUtils::makeImageElement(['src' => $headerImages['full'], 'class' => $fullImageClasses]);
-         $mobileImageHtml = HtmlUtils::makeImageElement(['src' => $headerImages['mobile'], 'class' => $mobileImageClasses]);
-         $headerContentEls = array_merge([$fullImageHtml, $mobileImageHtml], $headerContentEls);
+         $fullSlideshow = $this->buildSlideshowHtml($headerCarousel['full'], /*full*/true);
+         $mobileSlideshow = $this->buildSlideshowHtml($headerCarousel['mobile'], /*full*/false);
+
+         $carouselEls = [
+           $fullSlideshow,
+           $mobileSlideshow,
+           HtmlUtils::makeDivElement('Next', ['class' => 'js-next-button'])
+         ];
+         $headerContentEls[] = HtmlUtils::makeDivElement(implode(' ', $carouselEls), ['class' => 'header-slideshow-container']);
       }
+      $headerContentEls[] = HtmlUtils::makeHXElement(2, $this->packet->getHeaderText());
       // Build the Container
       $contentHtml = implode (' ', $headerContentEls);
       $contentParts = ['class' => implode(' ', $containerClasses)];
@@ -50,6 +60,29 @@ class Header extends HtmlElement {
 
    protected function getFrameworkFile(): string {
       return self::FRAMEWORK_FILE;
+   }
+
+   private function buildSlideshowHtml(array $images, bool $isFullImage): string {
+      $addClass = $isFullImage ? 'full-header-imaages' : 'mobile-header-images';
+      $slideshowClasses = ['js-flex-carousel', 'header-slideshow-images', $addClass];
+      $slideshowParams = ['class' => implode(' ', $slideshowClasses)];
+      $imageEls = [];
+      $order = 0;
+      foreach ($images as $iData) {
+         ++$order;
+         $imageEls[] = $this->buildImageHtml($isFullImage, $iData['src'], $order);
+      }
+      return HtmlUtils::makeDivElement(implode(' ', $imageEls), $slideshowParams);
+   }
+
+
+   private function buildImageHtml(bool $isFullImg, string $imageSrc, int $position) {
+      $index = $isFullImg ? 'full' : 'mobile';
+      $typeClass = $isFullImg ? 'page-background' : 'mobile-background';
+      $imageClasses = "js-carousel-slide header-image {$typeClass}";
+      $width = $isFullImg ? HeaderPacket::FULL_WIDTH : HeaderPacket::MOBILE_WIDTH;
+      $height = $isFullImg ? HeaderPacket::FULL_HEIGHT: HeaderPacket::MOBILE_HEIGHT;
+      return HtmlUtils::makeImageElement(['src' => $imageSrc, 'class' => $imageClasses, 'width' => $width, 'height' => $height, 'data-position' => $position]);
    }
 
    private function __construct(HeaderPacket $packet) {
