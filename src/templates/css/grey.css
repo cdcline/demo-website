@@ -596,3 +596,28 @@ footer div.links-container .circle-container .color-4 {
   min-width: 40px;
   padding: 2px 3px;
 }
+#carousel-controller {
+  margin-top: 20px;
+}
+#carousel-controller .controller-option-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+#carousel-controller .controller-option-container .controller-option-set-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#carousel-controller .controller-option-container .controller-option-set-container .controller-option-set-btn {
+  width: 100%;
+  max-width: 140px;
+  background-color: black;
+  height: 70px;
+  border: 4px dashed white;
+  border-radius: 33%;
+}

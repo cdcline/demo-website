@@ -42,11 +42,11 @@ trait DBTrait {
       return self::setStaticCache($rows);
    }
 
-   private static function setStaticCache(array $rows): array {
+   protected static function setStaticCache(array $rows): array {
       return self::$staticRowCache = $rows;
    }
 
-   private static function getStaticCache(): ?array {
+   protected static function getStaticCache(): ?array {
       return isset(self::$staticRowCache) ? self::$staticRowCache : null;
    }
 

@@ -69,14 +69,11 @@ class Header extends HtmlElement {
       $slideshowClasses = ['js-flex-carousel', 'header-slideshow-images', $addClass];
       $slideshowParams = ['class' => implode(' ', $slideshowClasses)];
       $imageEls = [];
-      $order = 0;
       foreach ($images as $iData) {
-         ++$order;
-         $imageEls[] = $this->buildImageHtml($isFullImage, $iData['src'], $order);
+         $imageEls[] = $this->buildImageHtml($isFullImage, $iData['src'], $iData['position']);
       }
       return HtmlUtils::makeDivElement(implode(' ', $imageEls), $slideshowParams);
    }
-
 
    private function buildImageHtml(bool $isFullImg, string $imageSrc, int $position) {
       $index = $isFullImg ? 'full' : 'mobile';

@@ -2,11 +2,11 @@
 
 namespace HtmlFramework\Widget;
 
+use DB\PageIndex;
 use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Packet\WidgetCollectionPacket;
-use HtmlFramework\Widget\BlockOFun;
+use HtmlFramework\Widget\CarouselController;
 use HtmlFramework\Widget\MiniArticleList;
-use DB\PageIndex;
 
 /**
  * Each "Page Type" can have an arbitrary number of "Widgets" linked to that type.
@@ -19,7 +19,7 @@ use DB\PageIndex;
 class WidgetCollection {
    private $wcPacket;
    // By "default" we'll add the MiniArticleList.
-   private $defaultWidgets = [MiniArticleList::class];
+   private $defaultWidgets = [MiniArticleList::class, CarouselController::class];
 
    public static function getHtmlFromArticlePacket(ArticlePacket $aPacket) {
       $wcPacket = WidgetCollectionPacket::fromValues($aPacket->getPageType(), $aPacket->getPageid());
@@ -61,7 +61,7 @@ class WidgetCollection {
          case PageIndex::HOMEPAGE_TYPE:
             return $getClassesFromDefault();
          default:
-            return $getClassesFromDefault([]);
+            return $getClassesFromDefault();
       }
    }
 }

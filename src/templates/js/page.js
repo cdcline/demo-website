@@ -81,27 +81,74 @@ class PageUtils {
          });
       }
 
-      SlideshowRunner.init();
+      CarouselRunner.init();
    }
 }
 
 PageUtils.runLoader();
 
-const SlideshowRunner = {
-   slideshows: [],
+const CarouselRunner = {
+   carousels: [],
+   numSlides: 0,
+   position: 1,
+
    init: function() {
       document.querySelectorAll(".js-flex-carousel").forEach(function(slideshowEl) {
-         this.slideshows.push(new FlexSlider(slideshowEl));
+         this.carousels.push(new FlexSlider(slideshowEl));
       }.bind(this));
 
+      if (this.carousels.length) {
+         this.numSlides = this.carousels[0].numSlides();
+      }
+
 		document.querySelectorAll(".js-next-button").forEach(function(el) {
-         el.addEventListener('click', () => {
-            this.slideshows.forEach(function(el) {
-               el.gotoNext();
-            });
-         });
+         el.addEventListener('click', this.gotoNext.bind(this));
 		}.bind(this));
+
+		document.querySelectorAll(".js-prev-button").forEach(function(el) {
+         el.addEventListener('click', this.gotoPrev.bind(this));
+		}.bind(this));
+
+		document.querySelectorAll(".js-set-carousel-slide").forEach(function(el) {
+         el.addEventListener('click', function(ev) {
+            let position = ev.target.getAttribute('data-position');
+            this.gotoPosition(position);
+         }.bind(this))
+		}.bind(this));
+   },
+
+   gotoPosition: function(position) {
+      this.position = position;
+      this.normalizePosition();
+      this.carousels.forEach(function(el) {
+         el.setActive(this.position);
+      }.bind(this));
+   },
+
+   gotoNext: function() {
+      this.position++;
+      this.normalizePosition();
+      this.carousels.forEach(function(el) {
+         el.setActive(this.position);
+      }.bind(this));
+   },
+
+   gotoPrev: function() {
+      this.position--;
+      this.normalizePosition();
+      this.carousels.forEach(function(el) {
+         el.setActive(this.position);
+      }.bind(this));
+   },
+
+   normalizePosition: function() {
+      if (this.position > this.numSlides) {
+         this.position = 1;
+      } else if (this.position < 1) {
+         this.position = this.numSlides;
+      }
    }
+
 };
 
 // Thanks https://usefulangle.com/post/313/css-flex-order-carousel-infinite
@@ -118,6 +165,30 @@ class FlexSlider {
 
 		this.addEvents();
 	}
+
+   numSlides() {
+      return this.num_items;
+   }
+
+   setActive(position) {
+      if (this.inTransition()) {
+         return;
+      }
+      if (this.current === position) {
+         return;
+      }
+      [...this.slides].forEach(function(slide) {
+         let initPosition = parseInt(slide.getAttribute('data-position'));
+         if (slide.style.order === 2) {
+            slide.style.order = this.num_items + 1;
+         }
+         if (position === initPosition) {
+            slide.style.order = 2;
+         }
+      });
+      this.current = position;
+      this.showNextSlide();
+   }
 
 	addEvents() {
 		// after each item slides in, slider container fires transitionend event
@@ -136,7 +207,6 @@ class FlexSlider {
       }
 
 		// change current position. We start at 1
-      this.current++;
 		if(this.current > this.num_items)
 			this.current = 1;
 
@@ -155,10 +225,7 @@ class FlexSlider {
       }.bind(this));
 	}
 
-	gotoNext() {
-      if (this.container.classList.contains('slider-container-transition')) {
-         return;
-      }
+	showNextSlide() {
       // translate from 0 to -100%
       // we need transitionend to fire for this translation, so add transition CSS
       this.container.classList.add('slider-container-transition');
@@ -167,6 +234,10 @@ class FlexSlider {
       // manually after the transition should have happened.
       this.timeout = setTimeout(this.changeOrder.bind(this), 1000);
 	}
+
+   inTransition() {
+      return this.container.classList.contains('slider-container-transition');
+   }
 };
 
 
