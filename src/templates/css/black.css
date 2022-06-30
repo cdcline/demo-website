@@ -62,6 +62,11 @@ header .header-main-title-container.image-header-container .header-slideshow-con
 header .header-main-title-container.image-header-container .header-slideshow-container .slider-container-transition {
   transition: transform 0.7s ease-in-out;
 }
+header .header-main-title-container.image-header-container .header-slideshow-container .slider-container-transition-down {
+  transform: translateX(100%);
+  position: relative;
+  left: -100%;
+}
 header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images {
   display: flex;
   flex-wrap: nowrap;
