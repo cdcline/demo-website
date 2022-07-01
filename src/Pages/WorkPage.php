@@ -57,7 +57,7 @@ final class WorkPage extends BasePage {
          $pageList = current($pageLists);
          $maTitle = $pageList['title'];
          $pageArticles = $pageList['articles'];
-         $convertArticles = function(&$article) {
+         $convertArticles = function($article) {
             $article['tags'] = implode(',', $article['tags']);
             return $article;
          };
