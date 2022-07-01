@@ -18,17 +18,17 @@
          .controller-option-set-btn {
             width: 100%;
             max-width: 140px;
-            background-color: black;
+            background-color: @siteBlack;
             height: 70px;
-            border: 4px dashed white;
+            border: 4px dashed @siteWhite;
             border-radius: 33%;
 
             &:hover {
-               border-color: red;
+               border-color: @siteBrightRed;
                cursor: pointer;
             }
             &.active {
-               border-color: red;
+               border-color: @siteBrightRed;
             }
          }
       }
@@ -46,15 +46,15 @@
          align-items: center;
 
          .carousel-controller-arrow {
-            fill: white;
-            stroke: grey;
-            stroke-width:2;
+            fill: @siteWhite;
+            stroke: @siteGrey;
+            stroke-width: 2;
 
             &:hover {
                cursor: pointer;
-               fill: red;
-               stroke: green;
-               stroke-width:4
+               fill: @siteBrightRed;
+               stroke: @siteGreen;
+               stroke-width: 4
             }
          }
       }
