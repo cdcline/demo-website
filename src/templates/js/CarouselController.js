@@ -10,6 +10,7 @@ const CarouselRunner = {
    carousels: [],
    numSlides: 0,
    position: 1,
+   setBtns: null,
 
    init: function() {
       document.querySelectorAll(".js-flex-carousel").forEach(function(slideshowEl) {
@@ -28,7 +29,8 @@ const CarouselRunner = {
          el.addEventListener('click', this.gotoPrev.bind(this));
 		}.bind(this));
 
-		document.querySelectorAll(".js-set-carousel-slide").forEach(function(el) {
+		this.setBtns = document.querySelectorAll(".js-set-carousel-slide");
+      this.setBtns.forEach(function(el) {
          el.addEventListener('click', function(ev) {
             let position = ev.target.getAttribute('data-position');
             this.gotoPosition(position);
@@ -69,6 +71,18 @@ const CarouselRunner = {
       } else if (this.position < 1) {
          this.position = this.numSlides;
       }
+
+      this.updateActivePosition();
+   },
+
+   updateActivePosition: function() {
+      this.setBtns.forEach(function(el) {
+         if (parseInt(el.getAttribute('data-position')) == this.position) {
+            el.classList.add('active');
+         } else {
+            el.classList.remove('active');
+         }
+      }.bind(this));
    }
 };
 
@@ -210,9 +224,9 @@ class FlexCarousel {
       // Reorder the slides so that that "this.current" slide is style.order 1
       // and all the following slides are in ascending order.
       [...this.slides].forEach(function(slide) {
-         let ogOrder = parseInt(slide.getAttribute('data-position'));
+         let iPosition = parseInt(slide.getAttribute('data-position'));
          slide.style.margin = 0;
-         let newOrder = ogOrder - (this.movingTo - 1);
+         let newOrder = iPosition - (this.movingTo - 1);
          if (newOrder < 1) {
             newOrder = newOrder + this.num_items;
          }

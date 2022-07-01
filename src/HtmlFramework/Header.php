@@ -45,11 +45,9 @@ class Header extends HtmlElement {
          $fullSlideshow = $this->buildSlideshowHtml($this->packet->getFullImages(), /*full*/true);
          $mobileSlideshow = $this->buildSlideshowHtml($this->packet->getMobileImages(), /*full*/false);
 
-         $nextHtml = $this->packet->showCarousel() ? HtmlUtils::makeDivElement('Next', ['class' => 'js-next-button']) : '';
          $carouselEls = [
            $fullSlideshow,
-           $mobileSlideshow,
-           $nextHtml
+           $mobileSlideshow
          ];
          $headerContentEls[] = HtmlUtils::makeDivElement(implode(' ', $carouselEls), ['class' => 'header-slideshow-container']);
       }

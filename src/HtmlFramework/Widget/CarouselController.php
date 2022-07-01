@@ -6,7 +6,6 @@ use DB\PageHeaderImages;
 use Exception;
 use HtmlFramework\Widget\WidgetTrait;
 use Utils\HtmlUtils;
-use Utils\LoremIpsumUtils;
 
 /**
  * We have a carousel in the header that cycles through slides but we'd also
@@ -69,18 +68,17 @@ class CarouselController {
    }
 
    /*
-    * {$prevOptionHtml}
     * <div class="controller-option-prev-container">
-    *    <img class="js-prev-button" />
+    *   <svg left-arrow />
     * </div>
     */
    private function getPrevOptionHtml(): string {
-      $imgHtml = '<p class="js-prev-button">Prev</p>';
-      return HtmlUtils::makeDivElement($imgHtml, ['class' => 'controller-option-prev-container']);
+      $options =['class' => 'js-prev-button controller-option-prev-container'];
+      return HtmlUtils::makeDivElement(self::getSvgArrow(/*next*/false), $options);
    }
 
+
    /*
-    * {$setOptionHtml}
     * <div class="controller-option-set-container">
     *    {repeat}
     *       <div class="controller-option-set-btn" data-position={$i}>&nbsp;</div>
@@ -90,11 +88,13 @@ class CarouselController {
    private function getSetOptionHtml(): string {
       $slides = $this->getPageHeaderImages()->toFullArray();
       $position = 1;
-      $generateBtnHtml = function($slideData) use (&$position): string {
+      $classes = ['js-set-carousel-slide', 'controller-option-set-btn'];
+      $generateBtnHtml = function($slideData) use (&$position, $classes): string {
          $position = $slideData['orderby'] ?? $position;
+         $sClasses = $position === 1 ? array_merge($classes, ['active']) : $classes;
          $setValues = [
             'data-position' => $position++,
-            'class' => 'js-set-carousel-slide controller-option-set-btn'
+            'class' => implode(' ', $sClasses)
          ];
          return HtmlUtils::makeDivElement('&nbsp', $setValues);
       };
@@ -103,13 +103,23 @@ class CarouselController {
    }
 
    /*
-    * {$nextOptionHtml}
-    * <div class="controller-option-next-container">
-    *    <img class="js-next-button" />
+    * <div class="js-next-button controller-option-next-container">
+    *    <svg right-arrow />
     * </div>
     */
    private function getNextOptionHtml(): string {
-      $imgHtml = '<p class="js-next-button">Next</p>';
-      return HtmlUtils::makeDivElement($imgHtml, ['class' => 'controller-option-next-container']);
+      $options =['class' => 'js-next-button controller-option-next-container'];
+      return HtmlUtils::makeDivElement(self::getSvgArrow(/*next*/true), $options);
+   }
+
+   private function getSvgArrow(bool $next): string {
+      $height = $width = 30;
+      $points = $next ? "0,0 0,30 30,15" : "0,15 30,0 30,30";
+      $class = "carousel-controller-arrow";
+      return <<<EOT
+<svg height="{$height}" width="{$width}">
+   <polygon class="{$class}" points="{$points}" />
+</svg>
+EOT;
    }
 }

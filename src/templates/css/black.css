@@ -626,3 +626,34 @@ footer div.links-container .circle-container .color-4 {
   border: 4px dashed white;
   border-radius: 33%;
 }
+#carousel-controller .controller-option-container .controller-option-set-container .controller-option-set-btn:hover {
+  border-color: red;
+  cursor: pointer;
+}
+#carousel-controller .controller-option-container .controller-option-set-container .controller-option-set-btn.active {
+  border-color: red;
+}
+#carousel-controller .controller-option-container .controller-option-prev-container {
+  margin-right: 10px;
+}
+#carousel-controller .controller-option-container .controller-option-next-container {
+  margin-left: 10px;
+}
+#carousel-controller .controller-option-container .controller-option-prev-container,
+#carousel-controller .controller-option-container .controller-option-next-container {
+  display: flex;
+  align-items: center;
+}
+#carousel-controller .controller-option-container .controller-option-prev-container .carousel-controller-arrow,
+#carousel-controller .controller-option-container .controller-option-next-container .carousel-controller-arrow {
+  fill: white;
+  stroke: grey;
+  stroke-width: 2;
+}
+#carousel-controller .controller-option-container .controller-option-prev-container .carousel-controller-arrow:hover,
+#carousel-controller .controller-option-container .controller-option-next-container .carousel-controller-arrow:hover {
+  cursor: pointer;
+  fill: red;
+  stroke: green;
+  stroke-width: 4;
+}
