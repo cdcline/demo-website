@@ -604,7 +604,7 @@ footer div.links-container .circle-container .color-4 {
   padding: 2px 3px;
 }
 #carousel-controller {
-  margin-top: 20px;
+  margin: 20px 0;
 }
 #carousel-controller .controller-option-container {
   display: flex;
@@ -645,6 +645,12 @@ footer div.links-container .circle-container .color-4 {
 #carousel-controller .controller-option-container .controller-option-next-container {
   display: flex;
   align-items: center;
+}
+@media (max-width: 480px) {
+  #carousel-controller .controller-option-container .controller-option-prev-container,
+  #carousel-controller .controller-option-container .controller-option-next-container {
+    display: none;
+  }
 }
 #carousel-controller .controller-option-container .controller-option-prev-container .carousel-controller-arrow,
 #carousel-controller .controller-option-container .controller-option-next-container .carousel-controller-arrow {

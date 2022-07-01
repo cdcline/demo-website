@@ -11,6 +11,7 @@ const CarouselRunner = {
    numSlides: 0,
    position: 1,
    setBtns: null,
+   autoPlayInterval: null,
 
    init: function() {
       document.querySelectorAll(".js-flex-carousel").forEach(function(slideshowEl) {
@@ -19,23 +20,34 @@ const CarouselRunner = {
 
       if (this.carousels.length) {
          this.numSlides = this.carousels[0].numSlides();
+         this.autoPlayInterval = setInterval(this.gotoNext.bind(this), 5000);
       }
 
-		document.querySelectorAll(".js-next-button").forEach(function(el) {
-         el.addEventListener('click', this.gotoNext.bind(this));
-		}.bind(this));
+      let handleControllerClick = function(goto) {
+         this.stopAutoplay();
+         if (goto === 'next') {
+            this.gotoNext();
+         } else if (goto === 'prev') {
+            this.gotoPrev();
+         } else {
+            this.gotoPosition(goto);
+         }
+      }.bind(this);
 
-		document.querySelectorAll(".js-prev-button").forEach(function(el) {
-         el.addEventListener('click', this.gotoPrev.bind(this));
-		}.bind(this));
+		document.querySelectorAll(".js-next-button").forEach((el) => {
+         el.addEventListener('click', () => handleControllerClick('next'));
+		});
+
+		document.querySelectorAll(".js-prev-button").forEach((el) => {
+         el.addEventListener('click', () => handleControllerClick('prev'));
+		});
 
 		this.setBtns = document.querySelectorAll(".js-set-carousel-slide");
-      this.setBtns.forEach(function(el) {
-         el.addEventListener('click', function(ev) {
-            let position = ev.target.getAttribute('data-position');
-            this.gotoPosition(position);
-         }.bind(this))
-		}.bind(this));
+      this.setBtns.forEach((el) => {
+         el.addEventListener('click', (ev) => {
+            handleControllerClick(ev.target.getAttribute('data-position'));
+         })
+		});
    },
 
    gotoPosition: function(position) {
@@ -62,6 +74,12 @@ const CarouselRunner = {
       }.bind(this));
    },
 
+   stopAutoplay: function() {
+      if (this.autoPlayInterval) {
+         clearInterval(this.autoPlayInterval);
+      }
+   },
+
    normalizePosition: function() {
       // We don't expect invalid positions and want to wrap to the first slide
       // so if "next position" is "over" we go back to the first slide.
@@ -72,6 +90,7 @@ const CarouselRunner = {
          this.position = this.numSlides;
       }
 
+      // Mark the new position as "active"
       this.updateActivePosition();
    },
 

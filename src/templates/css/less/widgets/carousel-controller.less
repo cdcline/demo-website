@@ -1,5 +1,5 @@
 #carousel-controller {
-   margin-top: 20px;
+   margin: 20px 0;
 
    .controller-option-container {
       display: flex;
@@ -44,6 +44,10 @@
       .controller-option-prev-container, .controller-option-next-container {
          display: flex;
          align-items: center;
+
+         @media (max-width: @minBreakpoint) {
+            display: none;
+         }
 
          .carousel-controller-arrow {
             fill: @siteWhite;
