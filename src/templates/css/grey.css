@@ -101,10 +101,12 @@ section {
   padding: 20px;
   color: white;
   border-radius: 22px;
+  width: 100%;
 }
 section .article-nav-container {
   display: flex;
   flex-direction: row;
+  width: 100%;
   /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 }
 @media (max-width: 745px) {
