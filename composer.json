@@ -8,11 +8,13 @@
       }
    },
    "require": {
-      "php": ">=7",
-      "google/cloud-storage": "^1.11",
-      "google/cloud-firestore": "^1.2",
-      "google/cloud-logging": "^1.14",
-      "google/cloud-error-reporting": "^0.18.0",
-      "erusev/parsedown": "^1.7"
+      "php": ">=8",
+      "ext-grpc": "*",
+      "google/cloud-core": "^1.39",
+      "google/gax": "^1.1",
+      "ramsey/uuid": "^3.0|^4.0",
+      "erusev/parsedown": "^1.7",
+      "opis/closure": "^3",
+      "symfony/lock": "3.3.x-dev#1ba6ac9"
    }
 }
