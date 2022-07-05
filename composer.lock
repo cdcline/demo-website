@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35e1d3f6d36f8bc8114b98837555ee32",
+    "content-hash": "2be7b4adae954b11d68a21474cf1a62a",
     "packages": [
         {
             "name": "brick/math",
@@ -237,56 +237,6 @@
             "time": "2022-05-16T19:34:15+00:00"
         },
         {
-            "name": "google/cloud-common-protos",
-            "version": "v0.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/googleapis/google-cloud-php-common-protos.git",
-                "reference": "c67d6bf09553d2aedaed71f6469e48c9e488d322"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-common-protos/zipball/c67d6bf09553d2aedaed71f6469e48c9e488d322",
-                "reference": "c67d6bf09553d2aedaed71f6469e48c9e488d322",
-                "shasum": ""
-            },
-            "require": {
-                "google/common-protos": "^1.0||^2.0",
-                "google/protobuf": "^3.7.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8.36"
-            },
-            "type": "library",
-            "extra": {
-                "component": {
-                    "id": "cloud-common-protos",
-                    "target": "googleapis/google-cloud-php-common-protos.git",
-                    "path": "CommonProtos",
-                    "entry": "README.md"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Google\\Cloud\\": "src",
-                    "GPBMetadata\\Google\\": "metadata"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "Common Protos for Google Cloud APIs",
-            "homepage": "https://github.com/googleapis/google-cloud-php-common-protos",
-            "keywords": [
-                "google"
-            ],
-            "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-common-protos/tree/v0.3.3"
-            },
-            "time": "2022-05-04T00:38:37+00:00"
-        },
-        {
             "name": "google/cloud-core",
             "version": "v1.46.1",
             "source": {
@@ -352,79 +302,17 @@
             "time": "2022-06-15T21:38:50+00:00"
         },
         {
-            "name": "google/cloud-debugger",
-            "version": "v1.4.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/googleapis/google-cloud-php-debugger.git",
-                "reference": "ec2e938477d6085f921eb94ac987aca8b6f869df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-debugger/zipball/ec2e938477d6085f921eb94ac987aca8b6f869df",
-                "reference": "ec2e938477d6085f921eb94ac987aca8b6f869df",
-                "shasum": ""
-            },
-            "require": {
-                "google/cloud-common-protos": "^0.3",
-                "google/cloud-core": "^1.39",
-                "google/cloud-logging": "^1.16",
-                "google/gax": "^1.1",
-                "psr/log": "^1.0"
-            },
-            "require-dev": {
-                "erusev/parsedown": "^1.6",
-                "google/cloud-tools": "^0.12.0",
-                "phpdocumentor/reflection": "^3.0||^4.0",
-                "phpunit/phpunit": "^4.8|^5.0|^8.0",
-                "squizlabs/php_codesniffer": "2.*",
-                "yoast/phpunit-polyfills": "^1.0"
-            },
-            "suggest": {
-                "ext-grpc": "The gRPC extension enables use of the performant gRPC transport",
-                "ext-protobuf": "Provides a significant increase in throughput over the pure PHP protobuf implementation. See https://cloud.google.com/php/grpc for installation instructions.",
-                "ext-stackdriver_debugger": "*"
-            },
-            "bin": [
-                "bin/google-cloud-debugger"
-            ],
-            "type": "library",
-            "extra": {
-                "component": {
-                    "id": "cloud-debugger",
-                    "target": "googleapis/google-cloud-php-debugger.git",
-                    "path": "Debugger",
-                    "entry": "src/DebuggerClient.php"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Google\\Cloud\\Debugger\\": "src",
-                    "GPBMetadata\\Google\\Devtools\\Clouddebugger\\": "metadata"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "description": "Stackdriver Debugger Client for PHP",
-            "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-debugger/tree/v1.4.7"
-            },
-            "time": "2022-06-02T21:53:43+00:00"
-        },
-        {
             "name": "google/cloud-error-reporting",
-            "version": "v0.19.3",
+            "version": "v0.18.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-cloud-php-errorreporting.git",
-                "reference": "d277172e740adb00b54321fb8a238f299dbca256"
+                "reference": "1190c6f00c913700b169f227b18c78940f815662"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-errorreporting/zipball/d277172e740adb00b54321fb8a238f299dbca256",
-                "reference": "d277172e740adb00b54321fb8a238f299dbca256",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-errorreporting/zipball/1190c6f00c913700b169f227b18c78940f815662",
+                "reference": "1190c6f00c913700b169f227b18c78940f815662",
                 "shasum": ""
             },
             "require": {
@@ -433,8 +321,8 @@
             },
             "require-dev": {
                 "google/cloud-core": "^1.39",
-                "phpunit/phpunit": "^4.8|^5.0|^8.0",
-                "yoast/phpunit-polyfills": "^1.0"
+                "phpdocumentor/reflection": "^3.0",
+                "phpunit/phpunit": "^4.8|^5.0"
             },
             "suggest": {
                 "ext-grpc": "The gRPC extension allows more granular control over Error Reporting",
@@ -461,9 +349,9 @@
             ],
             "description": "Stackdriver Error Reporting Client for PHP",
             "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-errorreporting/tree/v0.19.3"
+                "source": "https://github.com/googleapis/google-cloud-php-errorreporting/tree/v0.18.4"
             },
-            "time": "2022-05-18T19:48:28+00:00"
+            "time": "2021-10-20T17:52:15+00:00"
         },
         {
             "name": "google/cloud-firestore",
@@ -586,55 +474,59 @@
             "time": "2022-06-02T21:53:43+00:00"
         },
         {
-            "name": "google/cloud-secret-manager",
-            "version": "v1.9.2",
+            "name": "google/cloud-storage",
+            "version": "v1.27.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/googleapis/google-cloud-php-secret-manager.git",
-                "reference": "def763703c7a7319c735d76003adea047100cd2c"
+                "url": "https://github.com/googleapis/google-cloud-php-storage.git",
+                "reference": "f66d228d5991674c015bd32e5ed8d857d9d8352d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-cloud-php-secret-manager/zipball/def763703c7a7319c735d76003adea047100cd2c",
-                "reference": "def763703c7a7319c735d76003adea047100cd2c",
+                "url": "https://api.github.com/repos/googleapis/google-cloud-php-storage/zipball/f66d228d5991674c015bd32e5ed8d857d9d8352d",
+                "reference": "f66d228d5991674c015bd32e5ed8d857d9d8352d",
                 "shasum": ""
             },
             "require": {
-                "google/gax": "^1.2.0"
+                "google/cloud-core": "^1.43",
+                "google/crc32": "^0.1.0"
             },
             "require-dev": {
+                "erusev/parsedown": "^1.6",
+                "google/cloud-pubsub": "^1.0",
+                "phpdocumentor/reflection": "^3.0||^4.0",
+                "phpseclib/phpseclib": "^2.0||^3.0",
                 "phpunit/phpunit": "^4.8|^5.0|^8.0",
+                "squizlabs/php_codesniffer": "2.*",
                 "yoast/phpunit-polyfills": "^1.0"
             },
             "suggest": {
-                "ext-grpc": "Enables use of gRPC, a universal high-performance RPC framework created by Google.",
-                "ext-protobuf": "Provides a significant increase in throughput over the pure PHP protobuf implementation. See https://cloud.google.com/php/grpc for installation instructions."
+                "google/cloud-pubsub": "May be used to register a topic to receive bucket notifications.",
+                "phpseclib/phpseclib": "May be used in place of OpenSSL for creating signed Cloud Storage URLs. Please require version ^2."
             },
             "type": "library",
             "extra": {
                 "component": {
-                    "id": "cloud-secret-manager",
-                    "path": "SecretManager",
-                    "entry": null,
-                    "target": "googleapis/google-cloud-php-secret-manager.git"
+                    "id": "cloud-storage",
+                    "target": "googleapis/google-cloud-php-storage.git",
+                    "path": "Storage",
+                    "entry": "src/StorageClient.php"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Google\\Cloud\\SecretManager\\": "src",
-                    "GPBMetadata\\Google\\Cloud\\Secrets\\": "metadata",
-                    "GPBMetadata\\Google\\Cloud\\Secretmanager\\": "metadata"
+                    "Google\\Cloud\\Storage\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
-            "description": "Secret Manager Client for PHP",
+            "description": "Cloud Storage Client for PHP",
             "support": {
-                "source": "https://github.com/googleapis/google-cloud-php-secret-manager/tree/v1.9.2"
+                "source": "https://github.com/googleapis/google-cloud-php-storage/tree/v1.27.1"
             },
-            "time": "2022-05-18T19:48:28+00:00"
+            "time": "2022-06-02T21:53:43+00:00"
         },
         {
             "name": "google/common-protos",
@@ -678,6 +570,52 @@
                 "source": "https://github.com/googleapis/common-protos-php/tree/2.1.0"
             },
             "time": "2022-05-13T21:07:15+00:00"
+        },
+        {
+            "name": "google/crc32",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/google/php-crc32.git",
+                "reference": "a8525f0dea6fca1893e1bae2f6e804c5f7d007fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/google/php-crc32/zipball/a8525f0dea6fca1893e1bae2f6e804c5f7d007fb",
+                "reference": "a8525f0dea6fca1893e1bae2f6e804c5f7d007fb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^1.13 || v2.14.2",
+                "paragonie/random_compat": ">=2",
+                "phpunit/phpunit": "^4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Google\\CRC32\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Andrew Brampton",
+                    "email": "bramp@google.com"
+                }
+            ],
+            "description": "Various CRC32 implementations",
+            "homepage": "https://github.com/google/php-crc32",
+            "support": {
+                "issues": "https://github.com/google/php-crc32/issues",
+                "source": "https://github.com/google/php-crc32/tree/v0.1.0"
+            },
+            "time": "2019-05-09T06:24:58+00:00"
         },
         {
             "name": "google/gax",
@@ -1504,30 +1442,30 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.4",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
+                "reference": "ef29f6d262798707a9edd554e2b82517ef3a9376"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/ef29f6d262798707a9edd554e2b82517ef3a9376",
+                "reference": "ef29f6d262798707a9edd554e2b82517ef3a9376",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
+                    "Psr\\Log\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1548,9 +1486,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
+                "source": "https://github.com/php-fig/log/tree/2.0.0"
             },
-            "time": "2021-05-03T11:20:27+00:00"
+            "time": "2021-07-14T16:41:46+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -1981,8 +1919,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1",
-        "ext-bcmath": "*"
+        "php": ">=7"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
