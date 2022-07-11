@@ -10,7 +10,7 @@ namespace Utils;
  */
 class ServerUtils {
    public static function useBackendDB(): bool {
-      return self::onGoogleCloudProject();
+      return false; //self::onGoogleCloudProject();
    }
 
    // We want to load the google tools if we're on the google cloud.

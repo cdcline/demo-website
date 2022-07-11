@@ -4,8 +4,8 @@ namespace DB\MiniArticleList;
 
 use DB\DBTrait;
 use DB\MiniArticleList\ArticleCollection;
-use Exception;
-use Utils\FirestoreUtils;
+// use Exception;
+// use Utils\FirestoreUtils;
 
 class PageLists {
    private $miniArticleLists;
@@ -50,9 +50,10 @@ class PageLists {
    }
 
    private static function fetchAllRows(): array {
-      return self::getMiniArticles();
+      return [];//self::getMiniArticles();
    }
 
+   /*
    private static function getMiniArticles(): array {
       // We're gonna pull these values from each `articles` collection
       $aDocValues = ['title', 'text', 'start_date', 'end_date'];
@@ -124,6 +125,7 @@ class PageLists {
       }
       return $maCollections;
    }
+   */
 
    private static function getHardcodedRows(): array {
       return [

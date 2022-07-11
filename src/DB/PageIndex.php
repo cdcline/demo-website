@@ -6,7 +6,7 @@ use DB\DBTrait;
 use DB\PageHeaderImages;
 use Pages\BasePage;
 use Pages\InvalidPageException;
-use Utils\FirestoreUtils;
+//use Utils\FirestoreUtils;
 
 class PageIndex {
    use DBTrait;
@@ -108,7 +108,6 @@ class PageIndex {
    }
 
    private static function fromArray(array $iPageValues) {
-      $pageHeaderImages = PageHeaderImages::fromPageid($iPageValues['pageid']);
       return new self(
          (int)$iPageValues['pageid'],
          $iPageValues['page_title'] ?? 'Unknown Title',
@@ -138,6 +137,7 @@ class PageIndex {
    }
 
    private static function fetchAllRows(): array {
+      /*
       $path = FirestoreUtils::indexPagesPath();
       $iDocs = ['pageid', 'main_article', 'page_header', 'page_title', 'nav_text', 'hide_main_nav', 'theme'];
       $iSnaps = [FirestoreUtils::buildSnap('type', 'enum')];
@@ -149,6 +149,8 @@ class PageIndex {
          fn($iPageValues) => self::fromArray($iPageValues),
          self::fetchRows($path, $iDocs, $iSnaps, $fromFirestoreFnc)
       );
+      */
+      return [];
    }
 
    private static function getHardcodedRows(): array {

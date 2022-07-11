@@ -2,7 +2,7 @@
 
 namespace DB;
 
-use Utils\FirestoreConverter;
+//use Utils\FirestoreConverter;
 use Utils\ServerUtils;
 
 /**
@@ -51,6 +51,6 @@ trait DBTrait {
    }
 
    private static function fetchRows(string $path, array $docVaules, array $snapValues = [], $convertFunc = null): array {
-      return FirestoreConverter::fromValues($path, $docVaules, $snapValues, $convertFunc);
+      return [];//FirestoreConverter::fromValues($path, $docVaules, $snapValues, $convertFunc);
    }
 }

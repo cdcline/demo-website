@@ -5,9 +5,9 @@ namespace DB;
 use DB\DBTrait;
 use Exception;
 use HtmlFramework\Packet\HeaderPacket;
-use Utils\FirestoreUtils;
+//use Utils\FirestoreUtils;
 use Utils\HtmlUtils;
-use Utils\ServerUtils;
+//use Utils\ServerUtils;
 
 class PageHeaderImages {
    use DBTrait;
@@ -22,7 +22,7 @@ class PageHeaderImages {
       if (isset($cache[$pageid])) {
          return $cache[$pageid];
       }
-      $imageValues = ServerUtils::useBackendDB() ? self::getPageHeaderImages($pageid) : self::getRowsForPageid($pageid);
+      $imageValues = /*ServerUtils::useBackendDB() ? self::getPageHeaderImages($pageid) : */self::getRowsForPageid($pageid);
       $pHeaderImages = self::fromValues($imageValues);
       $cache[$pageid] = $pHeaderImages;
       self::setStaticCache($cache);
@@ -59,6 +59,7 @@ class PageHeaderImages {
       $this->pageHeaderImages = $pageHeaderImages;
    }
 
+   /*
    private static function getPageHeaderImages(int $pageid): array {
       // We're gonna pull these values from each `page_header_images` collection
       $imageDocValues = ['full_src', 'mobile_src', 'orderby'];
@@ -78,6 +79,7 @@ class PageHeaderImages {
       }
       return $imageData ?: [];
    }
+   */
 
    private static function getRowsForPageid(int $pageid): array {
       $staticRows = [

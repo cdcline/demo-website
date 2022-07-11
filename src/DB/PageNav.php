@@ -6,7 +6,7 @@ use DB\DBTrait;
 use Pages\InvalidPageException;
 use Utils\StringUtils;
 use Pages\BasePage;
-use Utils\FirestoreUtils;
+//use Utils\FirestoreUtils;
 use Utils\SiteRunner;
 
 class PageNav {
@@ -85,6 +85,7 @@ class PageNav {
    }
 
    private static function fetchAllRows(): array {
+      /*
       $path = 'page_nav';
       $iDocs = ['section', 'img_src', 'slug', 'nav_string', 'orderby'];
       $iSnaps = [
@@ -95,6 +96,8 @@ class PageNav {
          fn($aValues) => self::fromArray($aValues),
          self::fetchRows($path, $iDocs, $iSnaps)
       );
+      */
+      return [];
    }
 
    private static function getPageNavFromPageid(int $pageid): self {
