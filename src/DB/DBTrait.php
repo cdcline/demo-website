@@ -16,18 +16,8 @@ trait DBTrait {
    private static $db;
    private static $staticRowCache;
 
-   /**
-    * This should return a set of values matching the structure we'd get out of `fetchAllRows`.
-    * Used for Dev when we don't want to worry about fetching data from elsewhere.
-    */
-   // Boo, App deploys on 7.3 and we can't do this. Pretend like this is here.
-   // abstract private static function getHardcodedRows();
-
-   /**
-    * The actual query we'd like to stick in the "static cache"
-    */
-   // Boo, App deploys on 7.3 and we can't do this. Pretend like this is here.
-   // abstract private static function fetchAllRows();
+   abstract private static function getDevStaticData(): array;
+   abstract private static function getLiveStaticData(): array;
 
    /**
     * This is a poor way of caching but the data set should always be
@@ -38,7 +28,7 @@ trait DBTrait {
       if ($sCache = self::getStaticCache()) {
          return $sCache;
       }
-      $rows = ServerUtils::useBackendDB() ? self::fetchAllRows() : self::getHardcodedRows();
+      $rows = ServerUtils::useBackendDB() ? self::fetchAllRows() : self::getStaticData();
       return self::setStaticCache($rows);
    }
 
@@ -50,7 +40,24 @@ trait DBTrait {
       return isset(self::$staticRowCache) ? self::$staticRowCache : null;
    }
 
+   /**
+    * The actual firestore query we'd like to stick in the "static cache"
+    */
    private static function fetchRows(string $path, array $docVaules, array $snapValues = [], $convertFunc = null): array {
       return [];//FirestoreConverter::fromValues($path, $docVaules, $snapValues, $convertFunc);
+   }
+
+   /**
+    * This should return a set of values matching the structure we'd get out of `Firestore`.
+    *
+    * Used for Dev when we don't want to worry about fetching data from elsewhere.
+    * Also used on the live site b/c Firestore is broken
+    */
+   private static function getStaticData(): array {
+      if (ServerUtils::onGoogleCloudProject()) {
+         return self::getLiveStaticData();
+      } else {
+         return self::getDevStaticData();
+      }
    }
 }

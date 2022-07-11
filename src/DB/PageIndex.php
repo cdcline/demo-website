@@ -153,12 +153,20 @@ class PageIndex {
       return [];
    }
 
-   private static function getHardcodedRows(): array {
+   private static function getDevStaticData(): array {
       return array_map(
          fn($iPageValues) => self::fromArray($iPageValues),
          self::getStaticRows()
       );
    }
+
+   private static function getLiveStaticData(): array {
+      return array_map(
+         fn($iPageValues) => self::fromArray($iPageValues),
+         self::getStaticRows()
+      );
+   }
+
 
    private static function getStaticRows(): array {
       return [

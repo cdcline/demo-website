@@ -127,6 +127,15 @@ class PageLists {
    }
    */
 
+
+   private static function getDevStaticData(): array {
+      return self::getHardcodedRows();
+   }
+
+   private static function getLiveStaticData(): array {
+      return self::getHardcodedRows();
+   }
+
    private static function getHardcodedRows(): array {
       return [
          ['title' => 'Mini Article List!',

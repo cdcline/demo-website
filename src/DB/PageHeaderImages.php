@@ -81,8 +81,64 @@ class PageHeaderImages {
    }
    */
 
+   private static function getDevStaticData(): array {
+      return self::getHardcodedRows();
+   }
+
+   private static function getLiveStaticData(): array {
+      return [
+         1 => [
+            ['full_src' => self::getHostedImagePath('welcome.png'),
+             'mobile_src' => self::getHostedImagePath('welcome_mobile.png'),
+             'orderby' => 1,
+            ],
+         ],
+         2 => [
+            ['full_src' => self::getHostedImagePath('work.png'),
+             'mobile_src' => self::getHostedImagePath('work_mobile.png'),
+             'orderby' => 1,
+            ],
+         ],
+         3 => [
+            ['full_src' => self::getHostedImagePath('robots.png'),
+             'mobile_src' => self::getHostedImagePath('robots_mobile.png'),
+             'orderby' => 1,
+            ],
+         ],
+         4 => [
+            ['full_src' => self::getHostedImagePath('life.png'),
+             'mobile_src' => self::getHostedImagePath('life_mobile.png'),
+             'orderby' => 1,
+            ],
+         ],
+         4 => [
+            ['full_src' => self::getHostedImagePath('welcome.png'),
+             'mobile_src' => self::getHostedImagePath('welcome_mobile.png'),
+             'orderby' => 2,
+            ],
+            ['full_src' => self::getHostedImagePath('work.png'),
+             'mobile_src' => self::getHostedImagePath('work_mobile.png'),
+             'orderby' => 3,
+            ],
+            ['full_src' => self::getHostedImagePath('robots.png'),
+             'mobile_src' => self::getHostedImagePath('robots_mobile.png'),
+             'orderby' => 4,
+            ],
+            ['full_src' => self::getHostedImagePath('life.png'),
+             'mobile_src' => self::getHostedImagePath('life_mobile.png'),
+             'orderby' => 1,
+            ]
+         ]
+      ];
+   }
+
    private static function getRowsForPageid(int $pageid): array {
-      $staticRows = [
+      $staticRows = self::getStaticData();
+      return $staticRows[$pageid] ?? [];
+   }
+
+   private static function getHardcodedRows(): array {
+      return [
          1 => [
             ['full_src' => self::getRandomFullHeaderImgSrc(),
              'mobile_src' => self::getRandomMobileHeaderImgSrc(),
@@ -108,8 +164,12 @@ class PageHeaderImages {
             ]
          ]
       ];
+   }
 
-      return $staticRows[$pageid] ?? [];
+   private static function getHostedImagePath($imageName): string {
+      $siteName = getenv('GOOGLE_CLOUD_PROJECT');
+      $path = "https://storage.googleapis.com/{$siteName}.appspot.com/images/site/";
+      return $path . $imageName;
    }
 
    private static function getRandomFullHeaderImgSrc(): string {

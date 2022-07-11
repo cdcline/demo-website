@@ -182,6 +182,14 @@ class PageNav {
       return StringUtils::iMatch($this->slug, $slug);
    }
 
+   private static function getDevStaticData(): array {
+      return self::getHardcodedRows();
+   }
+
+   private static function getLiveStaticData(): array {
+      return self::getHardcodedRows();
+   }
+
    // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
       $values = [
