@@ -8,13 +8,17 @@
 @footerCircleSize: 84px;
 @footerCircleVisitingSize: 50px;
 
+@defaultFontFamily: Arial, Helvetica, sans-serif;
+@generalFontFamily: "Helvetica Neue, Regular";
+@headerFontFamily: "Helvetica Neue, Bold";
+
 /** Global **/
 * {
    box-sizing: border-box;
 }
 
 body {
-   font-family: Arial, Helvetica, sans-serif;
+   font-family: @defaultFontFamily;
    background-color: @bodyBackgroundColor;
    display: flex;
    flex-direction: column;
@@ -43,7 +47,6 @@ body {
    margin: 0;
    padding: 0;
  }
-
 
 /** Major Sections */
 /** Header */
@@ -140,8 +143,6 @@ section {
          flex-direction: column;
       }
    }
-
-
 }
 
 /* Style the content */
@@ -160,7 +161,6 @@ article {
    }
 }
 
-
 /* Style the navigation menu */
 nav {
    background: @navBackgroundColor;
@@ -176,7 +176,7 @@ nav {
    }
 
    text-align: left;
-   font-family: "Helvetica Neue, Regular";
+   font-family: @generalFontFamily;
    font-size: 20px;
 
    .nav-links-container {
@@ -203,7 +203,7 @@ nav {
          h5 {
             margin: 0 0 6px 0;
             padding: 0px;
-            font-family: "Helvetica Neue, Bold";
+            font-family: @headerFontFamily;
             font-size: 24px;
          }
 
@@ -249,14 +249,13 @@ nav {
    }
 }
 
-
 /* Footer */
 .page-footer-container {
    width: 100%;
    flex: 0;
    -webkit-flex: 0;
    -ms-flex: 0;
-   font-family: "Helvetica Neue, Bold";
+   font-family: @headerFontFamily;
    font-size: 24px;
    color: @footerTextColor;
    background-color: @footerBackgroundColor;
@@ -355,7 +354,7 @@ footer {
    padding: 0;
 
    div.links-container {
-      border: 2px black solid;
+      border: 2px @siteBlack solid;
       background-color: @mobileFooterBackgroundColor;
       display: flex;
       justify-content: space-evenly;
