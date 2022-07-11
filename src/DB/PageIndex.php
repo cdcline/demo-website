@@ -156,19 +156,18 @@ class PageIndex {
    private static function getDevStaticData(): array {
       return array_map(
          fn($iPageValues) => self::fromArray($iPageValues),
-         self::getStaticRows()
+         self::getDevStaticRows()
       );
    }
 
    private static function getLiveStaticData(): array {
       return array_map(
          fn($iPageValues) => self::fromArray($iPageValues),
-         self::getStaticRows()
+         self::getLiveStaticRows()
       );
    }
 
-
-   private static function getStaticRows(): array {
+   private static function getDevStaticRows(): array {
       return [
          ['type' => self::HOMEPAGE_TYPE,
           'theme' => self::ORANGE_THEME,
@@ -216,6 +215,50 @@ EOT
 ## Robots
 
 ### Franky ![Franky](src/images/site/fun-robot.png)
+
+Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
+EOT
+         ],
+         ['type' => self::DEFAULT_TYPE,
+          'theme' => self::GREEN_THEME,
+          'pageid' => 4,
+          'page_title' => 'Life - Website Demo',
+          'page_header' => 'Life',
+          'hide_main_nav' => true,
+          'main_article' => ''
+         ],
+      ];
+   }
+
+   private static function getLiveStaticRows(): array {
+      return [
+         ['type' => self::HOMEPAGE_TYPE,
+          'theme' => self::ORANGE_THEME,
+          'pageid' => 1,
+          'page_title' => 'About Me - Website Demo',
+          'page_header' => 'About Me',
+          'nav_text' => 'You might also enjoy...',
+          'main_article' => <<<EOT
+## This is the About Me Article!
+
+I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!
+EOT
+         ],
+         ['type' => self::WORK_TYPE,
+          'theme' => self::GREY_THEME,
+          'pageid' => 2,
+          'page_title' => 'Work - Website Demo',
+          'page_header' => 'Work',
+         ],
+         ['type' => self::DEFAULT_TYPE,
+          'theme' => self::BLACK_THEME,
+          'pageid' => 3,
+          'page_title' => 'Robots - Website Demo',
+          'page_header' => 'Robots',
+          'main_article' => <<<EOT
+## Robots
+
+### Franky ![Franky](https://storage.googleapis.com/burnished-flare-348022.appspot.com/images/site/c2d2.png)
 
 Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
 EOT
