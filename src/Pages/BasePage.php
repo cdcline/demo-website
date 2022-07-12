@@ -51,10 +51,10 @@ abstract class BasePage {
    public function printHtml(): void {
       $this->ranHTMLPrint = true;
       $htmlHead = HtmlHead::fromValues($this->getTheme(), $this->getPageTitle());
-      $htmlHeader = HtmlHeader::fromValues($this->getPageHeader());
-      $htmlNav = HtmlNav::fromValues($this->getNavText());
+      $htmlHeader = HtmlHeader::fromValues($this->getPageHeader(), $this->getPageHeaderImages());
+      $htmlNav = HtmlNav::fromValues($this->hideMainNav());
       $htmlArticle = HtmlArticle::fromValues($this->getPageType(), $this->getPageid(), $this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
-      $htmlFooter = HtmlFooter::fromValues();
+      $htmlFooter = HtmlFooter::fromValues($this->getNavText());
       $htmlSection = HtmlSection::fromValues($htmlArticle, $htmlNav, $htmlFooter);
       $htmlBody = HtmlBody::fromValues($htmlHeader, $htmlSection, $htmlFooter);
       $htmlRoot = HtmlRoot::fromValues($htmlHead, $htmlBody);
@@ -63,8 +63,8 @@ abstract class BasePage {
 
    public static function getClassNameFromPageType(string $pageType): string {
       switch ($pageType) {
-         case PageIndex::DEV_TYPE:
-            return DevPage::class;
+         case PageIndex::WORK_TYPE:
+            return WorkPage::class;
          case PageIndex::HOMEPAGE_TYPE:
             return HomePage::class;
          case PageIndex::DEFAULT_TYPE:
@@ -83,7 +83,6 @@ abstract class BasePage {
 
    private function getTheme(): string {
       return $this->getPageIndex()->getTheme();
-
    }
 
    private function getPageType(): string {
@@ -96,6 +95,17 @@ abstract class BasePage {
 
    private function getPageHeader(): string {
       return $this->getPageIndex()->getPageHeader();
+   }
+
+   private function getPageHeaderImages(): array {
+      return [
+         'full' => $this->getPageIndex()->getFullHeaderImages(),
+         'mobile' => $this->getPageIndex()->getMobileHeaderImages()
+      ];
+   }
+
+   private function hideMainNav(): bool {
+      return $this->getPageIndex()->getHideMainNav();
    }
 
    private function getNavText(): string {

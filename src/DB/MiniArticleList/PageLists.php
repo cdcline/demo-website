@@ -4,8 +4,8 @@ namespace DB\MiniArticleList;
 
 use DB\DBTrait;
 use DB\MiniArticleList\ArticleCollection;
-use Exception;
-use Utils\FirestoreUtils;
+// use Exception;
+// use Utils\FirestoreUtils;
 
 class PageLists {
    private $miniArticleLists;
@@ -50,9 +50,10 @@ class PageLists {
    }
 
    private static function fetchAllRows(): array {
-      return self::getMiniArticles();
+      return [];//self::getMiniArticles();
    }
 
+   /*
    private static function getMiniArticles(): array {
       // We're gonna pull these values from each `articles` collection
       $aDocValues = ['title', 'text', 'start_date', 'end_date'];
@@ -124,8 +125,18 @@ class PageLists {
       }
       return $maCollections;
    }
+   */
 
-   private static function getHardcodedRows(): array {
+
+   private static function getDevStaticData(): array {
+      return self::getDevHardcodedRows();
+   }
+
+   private static function getLiveStaticData(): array {
+      return self::getLiveHardcodedRows();
+   }
+
+   private static function getDevHardcodedRows(): array {
       return [
          ['title' => 'Mini Article List!',
           'articles' => [
@@ -193,5 +204,49 @@ EOT;
 `Tellus mauris a diam maecenas sed enim ut. Dui vivamus arcu felis bibendum ut tristique et egestas. Ante in nibh mauris cursus mattis. Euismod elementum nisi quis eleifend quam. Sollicitudin aliquam ultrices sagittis orci a scelerisque purus. Eget sit amet tellus cras adipiscing enim eu turpis egestas. Bibendum ut tristique et egestas. Facilisi morbi tempus iaculis urna id volutpat lacus laoreet. Nullam non nisi est sit amet facilisis magna etiam tempor. Nisi vitae suscipit tellus mauris a diam maecenas. Dignissim sodales ut eu sem integer. Vitae congue eu consequat ac felis donec et odio pellentesque. Vitae congue eu consequat ac felis donec et odio. Potenti nullam ac tortor vitae purus faucibus.`
 EOT;
       }
+   }
+
+   private static function getLiveHardcodedRows(): array {
+      return [
+         ['title' => 'Mini Article List',
+          'articles' => [
+            ['pageid' => 2,
+            'title' => 'Mini Article 1',
+            'text' => self::getStaticArticleText(1),
+            'start_date' => 1391555735,
+            'end_date' => 1645658135,
+            'tags' => ['Foo','Buzz','☃️']
+            ],
+            ['pageid' => 2,
+            'title' => 'Mini Article 2',
+            'text' => self::getStaticArticleText(2),
+            'start_date' => 1325546135,
+            'end_date' => NULL,
+            'tags' => ['Foo','Bar']
+            ],
+            ['pageid' => 2,
+            'title' => 'Mini Article 5',
+            'text' => self::getStaticArticleText(3),
+            'start_date' => 1650774278,
+            'end_date' => 1713932680,
+            'tags' => ['Foo','Bar','Fizz','Buzz','🎂']
+            ],
+            ['pageid' => 2,
+            'title' => 'Mini Article 3',
+            'text' => self::getStaticArticleText(4),
+            'start_date' => 409674412,
+            'end_date' => 447179274,
+            'tags' => ['Fizz','Buzz']
+            ],
+            ['pageid' => 2,
+            'title' => 'Mini Article 4',
+            'text' => self::getStaticArticleText(5),
+            'start_date' => 930049271,
+            'end_date' => NULL,
+            'tags' => ['Fizz','Bar','☃️']
+            ],
+          ]
+         ]
+      ];
    }
 }

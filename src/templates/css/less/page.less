@@ -1,15 +1,52 @@
+/** Vars **/
+@sectionGap: 10px;
+@minWidth: 320px;
+@minBreakpoint: 480px;
+@pageBreakpoint: 745px;
+@maxWidth: 1920px;
+@contentSidePadding: 14px;
+@footerCircleSize: 84px;
+@footerCircleVisitingSize: 50px;
+
+@defaultFontFamily: Arial, Helvetica, sans-serif;
+@generalFontFamily: "Helvetica Neue, Regular";
+@headerFontFamily: "Helvetica Neue, Bold";
+
 /** Global **/
 * {
    box-sizing: border-box;
 }
 
 body {
-   font-family: Arial, Helvetica, sans-serif;
+   font-family: @defaultFontFamily;
    background-color: @bodyBackgroundColor;
    display: flex;
    flex-direction: column;
    margin: 0;
+   padding: 0;
+
+   .body-content-container {
+      min-width: @minWidth;
+      max-width: @maxWidth;
+      padding: 0 @contentSidePadding;
+      margin: 0px auto;
+      display: flex;
+      flex-direction: column;
+      gap: @sectionGap;
+      margin-bottom: @sectionGap;
+   }
+
+   .copyright-container {
+      color: @copyrightContainerTextColor;
+   }
 }
+
+ .flex-break {
+   flex-basis: 100%;
+   height: 0;
+   margin: 0;
+   padding: 0;
+ }
 
 /** Major Sections */
 /** Header */
@@ -17,24 +54,352 @@ header {
    margin: 0 auto;
    font-size: 35px;
    color: @headerTextColor;
+   background-color: @pageHeaderBackgroundColor;
+   width: 100%;
 
-   div {
-      max-width: 928px;
-      margin: 30px;
+   .header-main-title-container {
+      display: flex;
+      justify-content: center;
+      padding: 30px 0;
+      text-align: center;
+      max-width: @maxWidth;
+
+      h2 {
+         margin: 0px;
+         padding: 0px;
+      }
+
+      &.image-header-container {
+         padding: 0px;
+
+         h2 {
+            display: none;
+         }
+
+         .header-slideshow-container {
+            overflow: hidden;
+
+            .slider-container-transition {
+               transition: transform 0.7s ease-in-out;
+            }
+
+            .slider-container-transition-down {
+               transform: translateX(100%);
+               position: relative;
+               left: -100%;
+            }
+
+            .header-slideshow-images {
+               display: flex;
+               flex-wrap: nowrap;
+               flex-direction: row;
+
+               &.full-header-imaages {
+                  @media (max-width: @minBreakpoint) {
+                     display: none;
+                  }
+               }
+
+               &.mobile-header-images {
+                  display: none;
+                  height: auto;
+                  width: 100%;
+
+                  @media (max-width: @minBreakpoint) {
+                     display: flex;
+                  }
+               }
+
+               .header-image {
+                  width: 100%;
+                  flex-shrink: 0;
+                  height: auto;
+               }
+            }
+         }
+      }
    }
 }
 
 /* Container for flexboxes */
 section {
-   display: -webkit-flex;
    display: flex;
+   display: -webkit-flex;
    margin: 0 auto;
-   flex-direction: column;
+   background-color: @articleBackgroundColor;
+   padding: 20px;
+   color: @articleTextColor;
+   border-radius: 22px;
+   width: 100%;
 
-   /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
-   @media (max-width: 600px) {
-      -webkit-flex-direction: column;
+   .article-nav-container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+
+      /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+      @media (max-width: @pageBreakpoint) {
+         -webkit-flex-direction: column;
+         flex-direction: column;
+      }
+   }
+}
+
+/* Style the content */
+article {
+   -webkit-flex: 5;
+   -ms-flex: 5;
+   flex: 5;
+   @media (max-width: @pageBreakpoint) {
+      -webkit-flex: 0;
+      -ms-flex: 0;
+      flex: 0;
+   }
+
+   img {
+      float: right;
+   }
+}
+
+/* Style the navigation menu */
+nav {
+   background: @navBackgroundColor;
+   color: @navTextColor;
+   -webkit-flex: 2;
+   -ms-flex: 2;
+   flex: 2;
+
+   @media (max-width: @pageBreakpoint) {
+      -webkit-flex: 0;
+      -ms-flex: 0;
+      flex: 0;
+   }
+
+   text-align: left;
+   font-family: @generalFontFamily;
+   font-size: 20px;
+
+   .nav-links-container {
+      padding: 18px;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 55px 30px;
+      justify-content: left;
       flex-direction: column;
+
+      @media (max-width: @pageBreakpoint) {
+         flex-direction: row;
+         justify-content: space-around;
+      }
+
+      @media (max-width: @minBreakpoint) {
+         flex-direction: column;
+         justify-content: left;
+      }
+
+      .nav-section {
+         flex: 1;
+
+         h5 {
+            margin: 0 0 6px 0;
+            padding: 0px;
+            font-family: @headerFontFamily;
+            font-size: 24px;
+         }
+
+         .image-link-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+            gap: 10px;
+
+            img {
+               width: 76px;
+               height: auto;
+            }
+         }
+
+         ul {
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+
+            &.rowLayout {
+               li {
+                  display: inline;
+               }
+            }
+
+            a {
+               color: @navTextColor;
+               &:visited {
+                  color: @navTextColor;
+               }
+               &.active {
+                  color: @navTextActiveColor;
+                  font-weight: bold;
+               }
+               &:hover {
+                  color: @navTextActiveColor;
+               }
+            }
+         }
+      }
+   }
+}
+
+/* Footer */
+.page-footer-container {
+   width: 100%;
+   flex: 0;
+   -webkit-flex: 0;
+   -ms-flex: 0;
+   font-family: @headerFontFamily;
+   font-size: 24px;
+   color: @footerTextColor;
+   background-color: @footerBackgroundColor;
+   padding: 60px 20px;
+
+   @media (max-width: @minBreakpoint) {
+      display: none;
+   }
+
+   .page-footer {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      gap: 20px;
+
+      .page-footer-entry-container {
+         &.page-footer-text-entry {
+            text-align: left;
+            width: 270px;
+         }
+
+         a {
+            color: @footerTextColor;
+            display: block;
+            position: relative;
+            text-align: center;
+            width: 200px;
+            height: 200px;
+
+            img {
+               width: 200px;
+               height: auto;
+               border-radius: 50%;
+               filter: brightness(50%);
+               position: absolute;
+               top: 50%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+            }
+
+            span {
+               z-index: 1;
+               width: 100%;
+               display: block;
+               position: absolute;
+               top: 50%;
+               left: 50%;
+               transform: translate(-50%, -50%);
+            }
+         }
+      }
+   }
+}
+
+footer {
+   display: none;
+   @media only screen and (max-width: @minBreakpoint)  {
+      display: block;
+   }
+
+   &.fixed-footer {
+      display: none;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+
+      @media only screen and (max-width: @minBreakpoint)  {
+         z-index: 1;
+         display: block;
+      }
+   }
+
+   /**
+    * The "fixed" footer will end up hiding things b/c the page doesn't
+    * know to add extra space for the overlapping content
+    *
+    * So we hack in another footer at the bottom of the page and make it
+    * 0 width & full height. This acts as a hidden spacer at the bottom of
+    * the page which makes sure there's always enough room for the floating
+    * footer below the content.
+    */
+   &.spacer-footer {
+      content: attr(data-text);
+      content: attr(data-text) / "";
+      visibility: hidden;
+      overflow: hidden;
+      user-select: none;
+      pointer-events: none;
+      font-weight: bold;
+   }
+
+   width: 100%;
+   font-size: 1.5em;
+   margin: @sectionGap 0 0 0 ;
+   padding: 0;
+
+   div.links-container {
+      border: 2px @siteBlack solid;
+      background-color: @mobileFooterBackgroundColor;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      text-align: center;
+      margin: 0;
+      padding: 13px;
+      min-width: @minWidth;
+
+      .circle-container {
+         position: relative;
+         display: block;
+         width: @footerCircleSize;
+         height: @footerCircleSize;
+         text-decoration: none;
+
+         .circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: @footerCircleSize;
+            height: @footerCircleSize;
+            border-radius: 50%;
+
+            &.viewing {
+               width: @footerCircleVisitingSize;
+               height: @footerCircleVisitingSize;
+            }
+         }
+
+         .color-1 {
+            background-color: @mobileCircleBackgroundOne;
+         }
+         .color-2 {
+            background-color: @mobileCircleBackgroundTwo
+         }
+         .color-3 {
+            background-color: @mobileCircleBackgroundThree
+         }
+         .color-4 {
+            background-color: @mobileCircleBackgroundFour;
+         }
+      }
    }
 }
 
@@ -56,113 +421,11 @@ section {
    }
 }
 
-/* Style the navigation menu */
-nav {
-   background: @navBackgroundColor;
-   color: @navTextColor;
+.copyright-container {
    display: flex;
-   flex-direction: column;
-   font-size: 1.5em;
-
-   h3 {
-      margin: 18px 10px;
-      color: @whiteText;
-   }
-
-   .nav-links-container {
-      padding: 18px;
-      display: flex;
-      gap: 10px;
-      align-items: stretch;
-      align-content: center;
-      justify-content: space-evenly;
-      text-align: center;
-      flex-wrap: wrap;
-
-      .nav-link-container {
-         padding: 4px;
-         gap: 8px;
-         display: flex;
-         flex-direction: column;
-
-         &:hover {
-            font-weight: bold;
-            cursor: pointer;
-         }
-
-         .display-text-bold-hack-container {
-            .display-text-bold-hack();
-         }
-
-         a, a:visited {
-            color: @navTextColor;
-            text-decoration: none;
-         }
-
-         .color-block {
-            align-self: center;
-            width: 120px;
-            height: 120px;
-            background-color: @black;
-            border: 2px solid @white;
-            &.orange {
-               background-color: @orange;
-            }
-            &.grey {
-               background-color: @grey;
-            }
-            &.green {
-               background-color: @lightGreen;
-            }
-            &.purple {
-               background-color: @purple;
-            }
-         }
-      }
-   }
-}
-
-/* Style the content */
-article {
-   -webkit-flex: 5;
-   -ms-flex: 5;
-   flex: 5;
-   background-color: @interestingArticle;
-   padding: 20px;
-   color: @articleTextColor;
-}
-
-/* Footer */
-footer {
-   font-size: 1.5em;
-
-   div.links-container {
-      border: 2px black solid;
-      background-color: white;
-      display: flex;
-      justify-content: space-evenly;
-      flex-wrap: wrap;
-      text-align: center;
-
-      .link-container {
-         margin: 18px;
-         display: flex;
-         flex-direction: column;
-         span {
-            color: @footerLinkColor;
-
-            a:visited {
-               color: @footerLinkVisitedColor;
-            }
-
-            &:hover {
-               font-weight: bold;
-            }
-         }
-
-         .display-text-bold-hack-container {
-            .display-text-bold-hack();
-         }
-      }
-   }
+   margin: @sectionGap 0;
+   flex-direction: row;
+   justify-content: center;
+   text-align: center;
+   padding: @sectionGap 0;
 }

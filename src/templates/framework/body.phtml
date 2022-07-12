@@ -1,4 +1,12 @@
 <body>
-   <?php $this->printHeader() ?>
-   <?php $this->printSection() ?>
+   <div class="body-content-container">
+      <?= $this->printHeader() ?>
+      <?= $this->printSection() ?>
+
+      <?= $this->printPageFooter() ?>
+   </div>
+   <div class="copyright-container">
+      <div>©2022 C.D.CLINE</div>
+   </div>
+   <?= $this->printMobileFooter() ?>
 </body>

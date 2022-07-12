@@ -1,3 +1,6 @@
+@commonPageFont: 20px;
+@commonHeaderFont: 30px;
+
 .tagContainer {
    display: flex;
    flex-direction: row;
@@ -15,6 +18,8 @@
    margin: 0px 6px;
    display: flex;
    flex-direction: column;
+   font-family: "Helvetica Neue, Regular";
+   font-size: @commonPageFont;
 
    .ma-entry-container {
       /**
@@ -30,15 +35,11 @@
       */
       .ma-entry-text-container {
          /* This is how we set #mini-article-entries {gap:18px} */
-         margin-bottom: 18px;
+         margin-bottom: 20px;
          /* We might as well make the parsed article flex too */
          display: flex;
          flex-direction: column;
-         gap: 8px;
-         /* Sets the cool border around the parsed text */
-         padding: 8px 10px;
-         border: 1px solid @maEntryTextBorder;
-         border-radius: 15px;
+         gap: 20px;
 
          // Remove a bunch of too large margins in the text container
          p, h1, h2, h3, h4, h5, h6 {
@@ -66,11 +67,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      border: 2px solid @maTagBorder;
-      border-radius: 10%;
-      font-size: 16px;
-      min-width: 60px;
-      padding: 2px 4px;
+      padding: 15px 20px;
    }
 }
 
@@ -81,15 +78,15 @@
    /* Mini Article Header and Sort */
    #ma-header-and-sort-container {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       margin: 10px 0;
-      align-items: stretch;
+      justify-content: left;
       gap: 4px;
       flex-wrap: wrap;
 
       /* Header */
       h3 {
-         font-size: 25px;
+         font-size: 40px;
          margin: 0;
       }
 
@@ -98,9 +95,8 @@
          display: flex;
          flex-direction: row;
          gap: 5px;
-         font-size: 18px;
+         font-size: @commonPageFont;
          flex-wrap: wrap;
-         align-self: center;
 
          span {
             min-width: fit-content;
@@ -119,20 +115,29 @@
 
    /* Mini Article Tags & Entry Tags */
    #mini-article-tag-list {
-      margin: 0 8px ;
-      justify-content: center;
+      margin: 40px 0 40px 8px ;
+      justify-content: left;
+
       .tagContainer();
 
+      gap: 13px;
+
+      .ma-tag {
+         padding: 20px 30px;
+         font-size: @commonPageFont;
+         border: 2px solid @maTagBorderColor;
+      }
+
       .ma-tag.active {
-         color: @maFilterTagActiveText;
-         border-color: @maFilterTagActiveBorder;
-         background-color: @maFilterTagActiveBackground;
+         color: @maFilterTagActiveTextColor;
+         border-color: @maFilterTagActiveBorderColor;
+         background-color: @maFilterTagActiveBackgroundColor;
       }
 
       .ma-tag:hover {
          background-image: linear-gradient(90deg, @fx1 3%, @fx2 15%, @fx3 50%, @fx2 85%, @fx1 97%);
          animation: slidebg 5s linear infinite;
-         color: @maFilterTagHoverText;
+         color: @maFilterTagHoverTextColor;
          -webkit-text-stroke-width: 0.015em;
          -webkit-text-stroke-color: @maFilterTagHoverStroke;
          cursor: pointer;
@@ -145,7 +150,6 @@
 #mini-article-entries {
    display: inline-flex;
    flex-direction: column;
-   margin: 4px;
 
    .ma-entry-head-container {
       margin-bottom: 12px;
@@ -153,30 +157,24 @@
 
    .ma-entry-title-container {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: left;
       margin-bottom: 10px;
       align-items: baseline;
-      gap: 4px;
       flex-wrap: wrap;
 
       h5 {
-         font-size: 30px;
+         font-size: @commonHeaderFont;
          margin: 0;
-         color: @maEntryHeader;
-         text-shadow: -0.04em  0.04em 0.08em @maEntryHeaderShadow,
-                     0.04em  0.04em 0.08em @maEntryHeaderShadow,
-                     0.04em -0.04em 0      @maEntryHeaderShadow,
-                     -0.04em -0.04em 0      @maEntryHeaderShadow;
-         -webkit-text-stroke-width: 0.02em;
-         -webkit-text-stroke-color: @maEntryHeaderStroke;
+         color: @maEntryHeaderTextColor;
       }
    }
 
    .ma-entry-date-container {
       align-items: center;
       gap: 8px;
-      font-size: 14px;
-      color: @maEntryDateText;
+      font-size: @commonPageFont;
+      color: @maEntryDateTextColor;
       text-shadow: -0.04em  0.04em 0.08em @maEntryDateShadow,
                   0.04em  0.04em 0.08em @maEntryDateShadow,
                   0.04em -0.04em 0      @maEntryDateShadow,
@@ -184,14 +182,13 @@
    }
 
    .ma-entry-tag-container {
-      margin: 0 14px 6px;
+      align-items: center;
+      font-size: @commonPageFont;
+      color: @maEntryTagTextColor;
 
       /* Make them smaller b/c they're kinda different */
       .ma-tag {
-         color: @maEntryTagText;
-         border-color: @maEntryTagBorder;
-         background-color: @maEntryTagBackground;
-         font-size: 8px;
+         text-transform: uppercase;
          min-width: 40px;
          padding: 2px 3px;
       }

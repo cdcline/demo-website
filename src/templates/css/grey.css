@@ -1,13 +1,34 @@
+/** Vars **/
 /** Global **/
 * {
   box-sizing: border-box;
 }
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background-color: grey;
+  background-color: #888888;
   display: flex;
   flex-direction: column;
   margin: 0;
+  padding: 0;
+}
+body .body-content-container {
+  min-width: 320px;
+  max-width: 1920px;
+  padding: 0 14px;
+  margin: 0px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+body .copyright-container {
+  color: black;
+}
+.flex-break {
+  flex-basis: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
 }
 /** Major Sections */
 /** Header */
@@ -15,145 +36,327 @@ header {
   margin: 0 auto;
   font-size: 35px;
   color: white;
+  background-color: #5514D7;
+  width: 100%;
 }
-header div {
-  max-width: 928px;
-  margin: 30px;
-}
-/* Container for flexboxes */
-section {
-  display: -webkit-flex;
+header .header-main-title-container {
   display: flex;
-  margin: 0 auto;
-  flex-direction: column;
-  /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
-}
-@media (max-width: 600px) {
-  section {
-    -webkit-flex-direction: column;
-    flex-direction: column;
-  }
-}
-/* Style the navigation menu */
-nav {
-  background: green;
-  color: #530E53;
-  display: flex;
-  flex-direction: column;
-  font-size: 1.5em;
-}
-nav h3 {
-  margin: 18px 10px;
-  color: white;
-}
-nav .nav-links-container {
-  padding: 18px;
-  display: flex;
-  gap: 10px;
-  align-items: stretch;
-  align-content: center;
-  justify-content: space-evenly;
+  justify-content: center;
+  padding: 30px 0;
   text-align: center;
-  flex-wrap: wrap;
+  max-width: 1920px;
 }
-nav .nav-links-container .nav-link-container {
-  padding: 4px;
-  gap: 8px;
-  display: flex;
-  flex-direction: column;
+header .header-main-title-container h2 {
+  margin: 0px;
+  padding: 0px;
 }
-nav .nav-links-container .nav-link-container:hover {
-  font-weight: bold;
-  cursor: pointer;
+header .header-main-title-container.image-header-container {
+  padding: 0px;
 }
-nav .nav-links-container .nav-link-container .display-text-bold-hack-container {
-  content: attr(data-text);
-  content: attr(data-text) / "";
-  height: 0;
-  visibility: hidden;
+header .header-main-title-container.image-header-container h2 {
+  display: none;
+}
+header .header-main-title-container.image-header-container .header-slideshow-container {
   overflow: hidden;
-  user-select: none;
-  pointer-events: none;
-  font-weight: bold;
 }
-@media speech {
-  nav .nav-links-container .nav-link-container .display-text-bold-hack-container {
+header .header-main-title-container.image-header-container .header-slideshow-container .slider-container-transition {
+  transition: transform 0.7s ease-in-out;
+}
+header .header-main-title-container.image-header-container .header-slideshow-container .slider-container-transition-down {
+  transform: translateX(100%);
+  position: relative;
+  left: -100%;
+}
+header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+}
+@media (max-width: 480px) {
+  header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images.full-header-imaages {
     display: none;
   }
 }
-nav .nav-links-container .nav-link-container a,
-nav .nav-links-container .nav-link-container a:visited {
-  color: #530E53;
-  text-decoration: none;
+header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images.mobile-header-images {
+  display: none;
+  height: auto;
+  width: 100%;
 }
-nav .nav-links-container .nav-link-container .color-block {
-  align-self: center;
-  width: 120px;
-  height: 120px;
+@media (max-width: 480px) {
+  header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images.mobile-header-images {
+    display: flex;
+  }
+}
+header .header-main-title-container.image-header-container .header-slideshow-container .header-slideshow-images .header-image {
+  width: 100%;
+  flex-shrink: 0;
+  height: auto;
+}
+/* Container for flexboxes */
+section {
+  display: flex;
+  display: -webkit-flex;
+  margin: 0 auto;
   background-color: black;
-  border: 2px solid white;
+  padding: 20px;
+  color: white;
+  border-radius: 22px;
+  width: 100%;
 }
-nav .nav-links-container .nav-link-container .color-block.orange {
-  background-color: orange;
+section .article-nav-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 }
-nav .nav-links-container .nav-link-container .color-block.grey {
-  background-color: grey;
-}
-nav .nav-links-container .nav-link-container .color-block.green {
-  background-color: lightgreen;
-}
-nav .nav-links-container .nav-link-container .color-block.purple {
-  background-color: purple;
+@media (max-width: 745px) {
+  section .article-nav-container {
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
 }
 /* Style the content */
 article {
   -webkit-flex: 5;
   -ms-flex: 5;
   flex: 5;
-  background-color: black;
-  padding: 20px;
+}
+@media (max-width: 745px) {
+  article {
+    -webkit-flex: 0;
+    -ms-flex: 0;
+    flex: 0;
+  }
+}
+article img {
+  float: right;
+}
+/* Style the navigation menu */
+nav {
+  background: black;
   color: white;
+  -webkit-flex: 2;
+  -ms-flex: 2;
+  flex: 2;
+  text-align: left;
+  font-family: "Helvetica Neue, Regular";
+  font-size: 20px;
 }
-/* Footer */
-footer {
-  font-size: 1.5em;
+@media (max-width: 745px) {
+  nav {
+    -webkit-flex: 0;
+    -ms-flex: 0;
+    flex: 0;
+  }
 }
-footer div.links-container {
-  border: 2px black solid;
-  background-color: white;
+nav .nav-links-container {
+  padding: 18px;
   display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  text-align: center;
-}
-footer div.links-container .link-container {
-  margin: 18px;
-  display: flex;
+  flex-wrap: nowrap;
+  gap: 55px 30px;
+  justify-content: left;
   flex-direction: column;
 }
-footer div.links-container .link-container span {
-  color: black;
+@media (max-width: 745px) {
+  nav .nav-links-container {
+    flex-direction: row;
+    justify-content: space-around;
+  }
 }
-footer div.links-container .link-container span a:visited {
-  color: black;
+@media (max-width: 480px) {
+  nav .nav-links-container {
+    flex-direction: column;
+    justify-content: left;
+  }
 }
-footer div.links-container .link-container span:hover {
+nav .nav-links-container .nav-section {
+  flex: 1;
+}
+nav .nav-links-container .nav-section h5 {
+  margin: 0 0 6px 0;
+  padding: 0px;
+  font-family: "Helvetica Neue, Bold";
+  font-size: 24px;
+}
+nav .nav-links-container .nav-section .image-link-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  gap: 10px;
+}
+nav .nav-links-container .nav-section .image-link-container img {
+  width: 76px;
+  height: auto;
+}
+nav .nav-links-container .nav-section ul {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+nav .nav-links-container .nav-section ul.rowLayout li {
+  display: inline;
+}
+nav .nav-links-container .nav-section ul a {
+  color: white;
+}
+nav .nav-links-container .nav-section ul a:visited {
+  color: white;
+}
+nav .nav-links-container .nav-section ul a.active {
+  color: #F643FD;
   font-weight: bold;
 }
-footer div.links-container .link-container .display-text-bold-hack-container {
+nav .nav-links-container .nav-section ul a:hover {
+  color: #F643FD;
+}
+/* Footer */
+.page-footer-container {
+  width: 100%;
+  flex: 0;
+  -webkit-flex: 0;
+  -ms-flex: 0;
+  font-family: "Helvetica Neue, Bold";
+  font-size: 24px;
+  color: white;
+  background-color: #5514D7;
+  padding: 60px 20px;
+}
+@media (max-width: 480px) {
+  .page-footer-container {
+    display: none;
+  }
+}
+.page-footer-container .page-footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+.page-footer-container .page-footer .page-footer-entry-container.page-footer-text-entry {
+  text-align: left;
+  width: 270px;
+}
+.page-footer-container .page-footer .page-footer-entry-container a {
+  color: white;
+  display: block;
+  position: relative;
+  text-align: center;
+  width: 200px;
+  height: 200px;
+}
+.page-footer-container .page-footer .page-footer-entry-container a img {
+  width: 200px;
+  height: auto;
+  border-radius: 50%;
+  filter: brightness(50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.page-footer-container .page-footer .page-footer-entry-container a span {
+  z-index: 1;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+footer {
+  display: none;
+  /**
+    * The "fixed" footer will end up hiding things b/c the page doesn't
+    * know to add extra space for the overlapping content
+    *
+    * So we hack in another footer at the bottom of the page and make it
+    * 0 width & full height. This acts as a hidden spacer at the bottom of
+    * the page which makes sure there's always enough room for the floating
+    * footer below the content.
+    */
+  width: 100%;
+  font-size: 1.5em;
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+@media only screen and (max-width: 480px) {
+  footer {
+    display: block;
+  }
+}
+footer.fixed-footer {
+  display: none;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+@media only screen and (max-width: 480px) {
+  footer.fixed-footer {
+    z-index: 1;
+    display: block;
+  }
+}
+footer.spacer-footer {
   content: attr(data-text);
   content: attr(data-text) / "";
-  height: 0;
   visibility: hidden;
   overflow: hidden;
   user-select: none;
   pointer-events: none;
   font-weight: bold;
 }
-@media speech {
-  footer div.links-container .link-container .display-text-bold-hack-container {
-    display: none;
-  }
+footer div.links-container {
+  border: 2px black solid;
+  background-color: #5514D7;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  text-align: center;
+  margin: 0;
+  padding: 13px;
+  min-width: 320px;
+}
+footer div.links-container .circle-container {
+  position: relative;
+  display: block;
+  width: 84px;
+  height: 84px;
+  text-decoration: none;
+}
+footer div.links-container .circle-container .circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+}
+footer div.links-container .circle-container .circle.viewing {
+  width: 50px;
+  height: 50px;
+}
+footer div.links-container .circle-container .color-1 {
+  background-color: #FCB300;
+}
+footer div.links-container .circle-container .color-2 {
+  background-color: #FCB300;
+}
+footer div.links-container .circle-container .color-3 {
+  background-color: #FCB300;
+}
+footer div.links-container .circle-container .color-4 {
+  background-color: #FCB300;
+}
+.copyright-container {
+  display: flex;
+  margin: 10px 0;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 0;
 }
 #raw-text-main-article-container code {
   white-space: break-spaces;
@@ -161,16 +364,41 @@ footer div.links-container .link-container .display-text-bold-hack-container {
 #view-parse-toggle-btn {
   margin: 10px 5px;
 }
+.robot-fun-container {
+  display: flex;
+  flex-direction: row;
+  margin: 35px 0;
+  gap: 35px;
+}
+.robot-fun-container .robot-fun-img-container {
+  padding-left: 3px;
+}
+.robot-fun-container .robot-fun-img-container img {
+  width: 100%;
+  max-width: 142px;
+  height: auto;
+}
+.robot-fun-container .robot-fun-txt-container {
+  font-size: 20px;
+}
+.robot-fun-container .robot-fun-txt-container h5 {
+  margin: 0;
+  padding: 0;
+}
 #article-container {
   display: flex;
   flex-direction: column;
-  max-width: 820px;
-}
-#article-container > div {
-  max-width: 777px;
 }
 #article-container .hidden {
   display: none;
+}
+#article-container > div {
+  display: flex;
+  flex-direction: column;
+}
+#parsed-main-article-container {
+  display: flex;
+  flex-direction: column;
 }
 #parsed-main-article-container h2:first-child,
 #parsed-main-article-container p:first-child {
@@ -217,6 +445,8 @@ footer div.links-container .link-container .display-text-bold-hack-container {
   margin: 0px 6px;
   display: flex;
   flex-direction: column;
+  font-family: "Helvetica Neue, Regular";
+  font-size: 20px;
   /**
    * We'd like the last entry to not push down the footer so we have to set the
    * last last entry margin to 0.
@@ -241,15 +471,11 @@ footer div.links-container .link-container .display-text-bold-hack-container {
 }
 #mini-article-list .ma-entry-container .ma-entry-text-container {
   /* This is how we set #mini-article-entries {gap:18px} */
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   /* We might as well make the parsed article flex too */
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  /* Sets the cool border around the parsed text */
-  padding: 8px 10px;
-  border: 1px solid #FF00FF;
-  border-radius: 15px;
+  gap: 20px;
 }
 #mini-article-list .ma-entry-container .ma-entry-text-container p,
 #mini-article-list .ma-entry-container .ma-entry-text-container h1,
@@ -273,11 +499,7 @@ footer div.links-container .link-container .display-text-bold-hack-container {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #FF4900;
-  border-radius: 10%;
-  font-size: 16px;
-  min-width: 60px;
-  padding: 2px 4px;
+  padding: 15px 20px;
 }
 /* Head - Header / Sort / Tags */
 #ma-head-container {
@@ -287,25 +509,24 @@ footer div.links-container .link-container .display-text-bold-hack-container {
 }
 #ma-head-container #ma-header-and-sort-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   margin: 10px 0;
-  align-items: stretch;
+  justify-content: left;
   gap: 4px;
   flex-wrap: wrap;
   /* Header */
   /* Mini Article Sort */
 }
 #ma-head-container #ma-header-and-sort-container h3 {
-  font-size: 25px;
+  font-size: 40px;
   margin: 0;
 }
 #ma-head-container #ma-header-and-sort-container #mini-article-sort-container {
   display: flex;
   flex-direction: row;
   gap: 5px;
-  font-size: 18px;
+  font-size: 20px;
   flex-wrap: wrap;
-  align-self: center;
 }
 #ma-head-container #ma-header-and-sort-container #mini-article-sort-container span {
   min-width: fit-content;
@@ -317,22 +538,28 @@ footer div.links-container .link-container .display-text-bold-hack-container {
   text-shadow: -0.04em 0.04em 0.08em #6c006c, 0.04em 0.04em 0.08em #6c006c, 0.04em -0.04em 0 #6c006c, -0.04em -0.04em 0 #6c006c;
 }
 #ma-head-container #mini-article-tag-list {
-  margin: 0 8px ;
-  justify-content: center;
+  margin: 40px 0 40px 8px ;
+  justify-content: left;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 10px;
+  gap: 13px;
+}
+#ma-head-container #mini-article-tag-list .ma-tag {
+  padding: 20px 30px;
+  font-size: 20px;
+  border: 2px solid #F643FD;
 }
 #ma-head-container #mini-article-tag-list .ma-tag.active {
-  color: #74FF00;
-  border-color: #D93E00;
-  background-color: #FF00FF;
+  color: black;
+  border-color: #F643FD;
+  background-color: #F643FD;
 }
 #ma-head-container #mini-article-tag-list .ma-tag:hover {
   background-image: linear-gradient(90deg, #FFA4FF 3%, #FF70FF 15%, #FF00FF 50%, #FF70FF 85%, #FFA4FF 97%);
   animation: slidebg 5s linear infinite;
-  color: #74FF00;
+  color: black;
   -webkit-text-stroke-width: 0.015em;
   -webkit-text-stroke-color: black;
   cursor: pointer;
@@ -341,43 +568,100 @@ footer div.links-container .link-container .display-text-bold-hack-container {
 #mini-article-entries {
   display: inline-flex;
   flex-direction: column;
-  margin: 4px;
 }
 #mini-article-entries .ma-entry-head-container {
   margin-bottom: 12px;
 }
 #mini-article-entries .ma-entry-title-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: left;
   margin-bottom: 10px;
   align-items: baseline;
-  gap: 4px;
   flex-wrap: wrap;
 }
 #mini-article-entries .ma-entry-title-container h5 {
   font-size: 30px;
   margin: 0;
-  color: #FFA4FF;
-  text-shadow: -0.04em 0.04em 0.08em #449500, 0.04em 0.04em 0.08em #449500, 0.04em -0.04em 0 #449500, -0.04em -0.04em 0 #449500;
-  -webkit-text-stroke-width: 0.02em;
-  -webkit-text-stroke-color: #6c006c;
+  color: white;
 }
 #mini-article-entries .ma-entry-date-container {
   align-items: center;
   gap: 8px;
-  font-size: 14px;
-  color: #74FF00;
+  font-size: 20px;
+  color: #09D8CB;
   text-shadow: -0.04em 0.04em 0.08em #6c006c, 0.04em 0.04em 0.08em #6c006c, 0.04em -0.04em 0 #6c006c, -0.04em -0.04em 0 #6c006c;
 }
 #mini-article-entries .ma-entry-tag-container {
-  margin: 0 14px 6px;
+  align-items: center;
+  font-size: 20px;
+  color: #F643FD;
   /* Make them smaller b/c they're kinda different */
 }
 #mini-article-entries .ma-entry-tag-container .ma-tag {
-  color: #74FF00;
-  border-color: #D93E00;
-  background-color: #FF00FF;
-  font-size: 8px;
+  text-transform: uppercase;
   min-width: 40px;
   padding: 2px 3px;
+}
+#carousel-controller {
+  margin: 20px 0;
+}
+#carousel-controller .controller-option-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+#carousel-controller .controller-option-container .controller-option-set-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#carousel-controller .controller-option-container .controller-option-set-container .controller-option-set-btn {
+  width: 100%;
+  max-width: 140px;
+  background-color: black;
+  height: 70px;
+  border: 4px dashed white;
+  border-radius: 33%;
+}
+#carousel-controller .controller-option-container .controller-option-set-container .controller-option-set-btn:hover {
+  border-color: #FF0000;
+  cursor: pointer;
+}
+#carousel-controller .controller-option-container .controller-option-set-container .controller-option-set-btn.active {
+  border-color: #FF0000;
+}
+#carousel-controller .controller-option-container .controller-option-prev-container {
+  margin-right: 10px;
+}
+#carousel-controller .controller-option-container .controller-option-next-container {
+  margin-left: 10px;
+}
+#carousel-controller .controller-option-container .controller-option-prev-container,
+#carousel-controller .controller-option-container .controller-option-next-container {
+  display: flex;
+  align-items: center;
+}
+@media (max-width: 480px) {
+  #carousel-controller .controller-option-container .controller-option-prev-container,
+  #carousel-controller .controller-option-container .controller-option-next-container {
+    display: none;
+  }
+}
+#carousel-controller .controller-option-container .controller-option-prev-container .carousel-controller-arrow,
+#carousel-controller .controller-option-container .controller-option-next-container .carousel-controller-arrow {
+  fill: white;
+  stroke: #888888;
+  stroke-width: 2;
+}
+#carousel-controller .controller-option-container .controller-option-prev-container .carousel-controller-arrow:hover,
+#carousel-controller .controller-option-container .controller-option-next-container .carousel-controller-arrow:hover {
+  cursor: pointer;
+  fill: #FF0000;
+  stroke: #018037;
+  stroke-width: 4;
 }

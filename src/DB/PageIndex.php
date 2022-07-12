@@ -3,28 +3,31 @@
 namespace DB;
 
 use DB\DBTrait;
+use DB\PageHeaderImages;
 use Pages\BasePage;
 use Pages\InvalidPageException;
-use Utils\FirestoreUtils;
+//use Utils\FirestoreUtils;
 
 class PageIndex {
    use DBTrait;
 
    const DEFAULT_TYPE = 'default';
    const HOMEPAGE_TYPE = 'homepage';
-   const DEV_TYPE = 'dev';
+   const WORK_TYPE = 'work';
 
    const ORANGE_THEME = 'orange';
    const GREY_THEME = 'grey';
    const GREEN_THEME = 'green';
-   const PURPLE_THEME = 'purple';
+   const BLACK_THEME = 'black';
 
    private $pageid;
    private $pageTitle;
    private $pageHeader;
+   private $pageHeaderImages;
    private $pageType;
    private $mainArticle;
    private $navText;
+   private $hideMainNav;
    private $theme;
 
    public static function getThemeFromPageid(int $pageid): string {
@@ -43,6 +46,14 @@ class PageIndex {
       return $this->pageHeader;
    }
 
+   public function getFullHeaderImages(): array {
+      return $this->pageHeaderImages->toFullArray();
+   }
+
+   public function getMobileHeaderImages(): array {
+      return $this->pageHeaderImages->toMobileArray();
+   }
+
    public function getPageType(): string {
       return $this->pageType;
    }
@@ -59,8 +70,12 @@ class PageIndex {
       return $this->pageid;
    }
 
-   public function getNavText(): string{
+   public function getNavText(): string {
       return (string)$this->navText;
+   }
+
+   public function getHideMainNav(): bool {
+      return $this->hideMainNav;
    }
 
    public function getPage(): BasePage {
@@ -83,8 +98,11 @@ class PageIndex {
          'pageid' => $this->getPageid(),
          'page_title' => $this->getPageTitle(),
          'page_header' => $this->getPageHeader(),
+         'full_header_images' => $this->getFullHeaderImages(),
+         'mobile_header_images' => $this->getMobileHeaderImages(),
          'main_article' => $this->getMainArticle(),
          'nav_text' => $this->getNavText(),
+         'hide_main_nav' => $this->getHideMainNav(),
          'theme' => $this->getTheme()
       ];
    }
@@ -97,18 +115,21 @@ class PageIndex {
          $iPageValues['type'] ?? self::DEFAULT_TYPE,
          $iPageValues['main_article'] ?? '',
          $iPageValues['nav_text'] ?? '',
-         $iPageValues['theme'] ?? self::PURPLE_THEME,
+         isset($iPageValues['hide_main_nav']) ? (bool)$iPageValues['hide_main_nav'] : false,
+         $iPageValues['theme'] ?? self::GREEN_THEME,
       );
    }
 
-   private function __construct(int $pageid, string $pageTitle, string $pageHeader, string $pageType, string $mainArticle, string $navText, string $theme) {
+   private function __construct(int $pageid, string $pageTitle, string $pageHeader, string $pageType, string $mainArticle, string $navText, bool $hideMainNav, string $theme) {
       $this->pageid = $pageid;
       $this->pageTitle = $pageTitle;
       $this->pageHeader = $pageHeader;
       $this->pageType = $pageType;
       $this->mainArticle = $mainArticle;
       $this->navText = $navText;
+      $this->hideMainNav = $hideMainNav;
       $this->theme = $theme;
+      $this->pageHeaderImages = PageHeaderImages::fromPageid($pageid);
    }
 
    private function matchesPageid(int $pageid): bool {
@@ -116,8 +137,9 @@ class PageIndex {
    }
 
    private static function fetchAllRows(): array {
+      /*
       $path = FirestoreUtils::indexPagesPath();
-      $iDocs = ['pageid', 'main_article', 'page_header', 'page_title', 'nav_text', 'theme'];
+      $iDocs = ['pageid', 'main_article', 'page_header', 'page_title', 'nav_text', 'hide_main_nav', 'theme'];
       $iSnaps = [FirestoreUtils::buildSnap('type', 'enum')];
       $fromFirestoreFnc = function($iPageValues): array {
          $iPageValues['main_article'] = FirestoreUtils::hackNewlines($iPageValues['main_article']);
@@ -127,16 +149,25 @@ class PageIndex {
          fn($iPageValues) => self::fromArray($iPageValues),
          self::fetchRows($path, $iDocs, $iSnaps, $fromFirestoreFnc)
       );
+      */
+      return [];
    }
 
-   private static function getHardcodedRows(): array {
+   private static function getDevStaticData(): array {
       return array_map(
          fn($iPageValues) => self::fromArray($iPageValues),
-         self::getStaticRows()
+         self::getDevStaticRows()
       );
    }
 
-   private static function getStaticRows(): array {
+   private static function getLiveStaticData(): array {
+      return array_map(
+         fn($iPageValues) => self::fromArray($iPageValues),
+         self::getLiveStaticRows()
+      );
+   }
+
+   private static function getDevStaticRows(): array {
       return [
          ['type' => self::HOMEPAGE_TYPE,
           'theme' => self::ORANGE_THEME,
@@ -169,40 +200,76 @@ This is great for:
 However, it has it's limits. You can't really do fancy **frontend** _things_.
 EOT
          ],
-         ['type' => self::DEV_TYPE,
+         ['type' => self::WORK_TYPE,
           'theme' => self::GREY_THEME,
           'pageid' => 2,
-          'page_title' => 'Dev - Website Demo',
-          'page_header' => 'The Dev Environment',
-          'nav_text' => null,
-          'main_article' => <<<EOT
-## This is the Dev Article!
-
-I need a space that's pretty constant and one that's _kinda_ scratch paper. This one's the scratch paper!
-EOT
+          'page_title' => 'Work - My Website Demo',
+          'page_header' => 'Work',
          ],
-         ['type' => self::DEV_TYPE,
-          'theme' => self::GREEN_THEME,
+         ['type' => self::DEFAULT_TYPE,
+          'theme' => self::BLACK_THEME,
           'pageid' => 3,
           'page_title' => 'Test 3 - Website Demo',
           'page_header' => 'Test Page 3',
           'main_article' => <<<EOT
-## This is **Test Page 3**
+## Robots
 
-Egestas sed tempus urna et pharetra pharetra massa massa ultricies. Neque sodales ut etiam sit amet nisl. Dictum sit amet justo donec enim diam vulputate. Morbi tincidunt augue interdum velit euismod in pellentesque massa placerat. Vulputate enim nulla aliquet porttitor. Aenean et tortor at risus viverra adipiscing. Pharetra sit amet aliquam id diam. Platea dictumst vestibulum rhoncus est pellentesque elit ullamcorper dignissim. Adipiscing at in tellus integer feugiat. Nulla facilisi cras fermentum odio eu feugiat pretium nibh. Pharetra massa massa ultricies mi quis hendrerit dolor. Purus ut faucibus pulvinar elementum integer enim neque volutpat ac.
+### Franky ![Franky](src/images/site/fun-robot.png)
+
+Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
 EOT
          ],
          ['type' => self::DEFAULT_TYPE,
-          'theme' => self::PURPLE_THEME,
+          'theme' => self::GREEN_THEME,
           'pageid' => 4,
-          'page_title' => 'Test 4 - Website Demo',
-          'page_header' => 'Test Page 4',
-          'nav_text' => null,
-          'main_article' => <<<EOT
-## This is _Test Page 4_
+          'page_title' => 'Life - Website Demo',
+          'page_header' => 'Life',
+          'hide_main_nav' => true,
+          'main_article' => ''
+         ],
+      ];
+   }
 
-Vulputate dignissim suspendisse in est. Amet risus nullam eget felis eget nunc lobortis. Pellentesque diam volutpat commodo sed egestas. Id leo in vitae turpis massa sed elementum tempus egestas. Nam libero justo laoreet sit amet cursus sit. Consectetur purus ut faucibus pulvinar. Laoreet suspendisse interdum consectetur libero id faucibus nisl. Laoreet non curabitur gravida arcu ac tortor dignissim convallis aenean. Viverra mauris in aliquam sem fringilla. Nibh nisl condimentum id venenatis a condimentum vitae sapien pellentesque. Ut placerat orci nulla pellentesque. Bibendum at varius vel pharetra vel turpis nunc eget lorem. Euismod quis viverra nibh cras pulvinar mattis nunc sed.
+   private static function getLiveStaticRows(): array {
+      return [
+         ['type' => self::HOMEPAGE_TYPE,
+          'theme' => self::ORANGE_THEME,
+          'pageid' => 1,
+          'page_title' => 'About Me - Website Demo',
+          'page_header' => 'About Me',
+          'nav_text' => 'You might also enjoy...',
+          'main_article' => <<<EOT
+## This is the About Me Article!
+
+I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!
 EOT
+         ],
+         ['type' => self::WORK_TYPE,
+          'theme' => self::GREY_THEME,
+          'pageid' => 2,
+          'page_title' => 'Work - Website Demo',
+          'page_header' => 'Work',
+         ],
+         ['type' => self::DEFAULT_TYPE,
+          'theme' => self::BLACK_THEME,
+          'pageid' => 3,
+          'page_title' => 'Robots - Website Demo',
+          'page_header' => 'Robots',
+          'main_article' => <<<EOT
+## Robots
+
+### Franky ![Franky](https://storage.googleapis.com/burnished-flare-348022.appspot.com/images/site/c2d2.png)
+
+Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
+EOT
+         ],
+         ['type' => self::DEFAULT_TYPE,
+          'theme' => self::GREEN_THEME,
+          'pageid' => 4,
+          'page_title' => 'Life - Website Demo',
+          'page_header' => 'Life',
+          'hide_main_nav' => true,
+          'main_article' => ''
          ],
       ];
    }

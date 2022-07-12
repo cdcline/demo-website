@@ -1,0 +1,66 @@
+#carousel-controller {
+   margin: 20px 0;
+
+   .controller-option-container {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+
+      .controller-option-set-container {
+         width: 100%;
+         display: flex;
+         justify-content: space-evenly;
+         flex-direction: row;
+         flex-wrap: wrap;
+         gap: 10px;
+
+         .controller-option-set-btn {
+            width: 100%;
+            max-width: 140px;
+            background-color: @siteBlack;
+            height: 70px;
+            border: 4px dashed @siteWhite;
+            border-radius: 33%;
+
+            &:hover {
+               border-color: @siteBrightRed;
+               cursor: pointer;
+            }
+            &.active {
+               border-color: @siteBrightRed;
+            }
+         }
+      }
+
+      .controller-option-prev-container {
+         margin-right: 10px;
+      }
+
+      .controller-option-next-container {
+         margin-left: 10px;
+      }
+
+      .controller-option-prev-container, .controller-option-next-container {
+         display: flex;
+         align-items: center;
+
+         @media (max-width: @minBreakpoint) {
+            display: none;
+         }
+
+         .carousel-controller-arrow {
+            fill: @siteWhite;
+            stroke: @siteGrey;
+            stroke-width: 2;
+
+            &:hover {
+               cursor: pointer;
+               fill: @siteBrightRed;
+               stroke: @siteGreen;
+               stroke-width: 4
+            }
+         }
+      }
+   }
+}

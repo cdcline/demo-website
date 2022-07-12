@@ -6,22 +6,25 @@ use DB\DBTrait;
 use Pages\InvalidPageException;
 use Utils\StringUtils;
 use Pages\BasePage;
-use Utils\FirestoreUtils;
+//use Utils\FirestoreUtils;
 use Utils\SiteRunner;
 
 class PageNav {
    use DBTrait;
 
-   public const ARTICLE_TYPE = 'ARTICLE';
-   public const FOOTER_TYPE = 'FOOTER';
    public const DEFAULT_PAGEID = 1;
 
+   private const MAIN_TYPE = 'MAIN';
+   private const FOOTER_TYPE = 'FOOTER';
+
+   private $section;
    private $slug;
    private $nav_string;
    private $orderby;
    // Odd to need a pageid here but we use it to generate the link URLs
    private $pageid;
    private $type;
+   private $imgSrc;
 
    public static function getPageFromSlug(string $slug): BasePage {
       // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
@@ -39,8 +42,11 @@ class PageNav {
 
    public function toArray(): array {
       return [
+         'is_viewed' => $this->isDisplayedPage(),
+         'is_image' => $this->isImageLink(),
+         'img_src' => $this->imgSrc,
          'type' => $this->type,
-         'theme' => $this->getTheme(),
+         'section' => $this->section,
          'slug' => $this->slug,
          'url' => $this->getUrl(),
          'nav_string' => $this->navString,
@@ -50,7 +56,7 @@ class PageNav {
    }
 
    public function displayInNav(): bool {
-      return $this->isArticleLink() && !$this->isDisplayedPage();
+      return $this->isArticleLink();
    }
 
    public function displayInFooter(): bool {
@@ -71,14 +77,17 @@ class PageNav {
          $aData['slug'],
          $aData['nav_string'],
          $aData['type'],
+         $aData['section'] ?? null,
          (int)$aData['orderby'],
-         (int)$aData['pageid']
+         (int)$aData['pageid'],
+         $aData['img_src'] ?? null
       );
    }
 
    private static function fetchAllRows(): array {
+      /*
       $path = 'page_nav';
-      $iDocs = ['slug', 'nav_string', 'orderby'];
+      $iDocs = ['section', 'img_src', 'slug', 'nav_string', 'orderby'];
       $iSnaps = [
          FirestoreUtils::buildSnap('page', 'pageid', 'pageid'),
          FirestoreUtils::buildSnap('type', 'enum'),
@@ -87,6 +96,8 @@ class PageNav {
          fn($aValues) => self::fromArray($aValues),
          self::fetchRows($path, $iDocs, $iSnaps)
       );
+      */
+      return [];
    }
 
    private static function getPageNavFromPageid(int $pageid): self {
@@ -98,16 +109,22 @@ class PageNav {
       InvalidPageException::throwPageNotFound($pageid);
    }
 
-   private function __construct(string $slug, string $navString, string $type, int $orderby, int $pageid) {
+   private function __construct(string $slug, string $navString, string $type, ?string $section, int $orderby, int $pageid, ?string $imgSrc) {
+      $this->section = $section;
       $this->slug = $slug;
       $this->navString = $navString;
       $this->type = $type;
       $this->orderby = $orderby;
       $this->pageid = $pageid;
+      $this->imgSrc = $imgSrc;
    }
 
    private function isArticleLink(): bool {
-      return StringUtils::iMatch($this->type, self::ARTICLE_TYPE);
+      return StringUtils::iMatch($this->type, self::MAIN_TYPE);
+   }
+
+   private function isImagelink(): bool {
+      return (bool)$this->imgSrc;
    }
 
    private function isDisplayedPage(): bool {
@@ -117,7 +134,7 @@ class PageNav {
 
    private function getUrl(): string {
       // We'll assume the slug is a full URL in the footer
-      if ($this->isFooterLink()) {
+      if ($this->isFooterLink() || !$this->pageid) {
          return $this->slug;
       }
 
@@ -165,59 +182,118 @@ class PageNav {
       return StringUtils::iMatch($this->slug, $slug);
    }
 
-   private function getTheme(): string {
-      return $this->getPageid() ? PageIndex::getThemeFromPageid($this->getPageid()) : PageIndex::PURPLE_THEME;
+   private static function getDevStaticData(): array {
+      return self::getHardcodedRows();
+   }
+
+   private static function getLiveStaticData(): array {
+      return self::getHardcodedRows();
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
       $values = [
          ['navid' => 1,
-          'type' => self::ARTICLE_TYPE,
-          'slug' => 'homepage',
-          'nav_string' => 'Homepage',
+          'type' => self::MAIN_TYPE,
+          'section' => 'About',
+          'slug' => 'welcome',
+          'nav_string' => 'Welcome',
           'pageid' => 1,
           'orderby' => 1
          ],
          ['navid' => 2,
-          'type' => self::FOOTER_TYPE,
-          'slug' => 'https://github.com/cdcline/demo-website',
-          'nav_string' => 'Resume',
-          'pageid' => NULL,
+          'type' => self::MAIN_TYPE,
+          'section' => 'About',
+          'slug' => 'robots',
+          'nav_string' => 'Robots',
+          'pageid' => 3,
           'orderby' => 2
          ],
          ['navid' => 3,
-          'type' => self::ARTICLE_TYPE,
-          'slug' => 'dev',
-          'nav_string' => 'Dev',
+          'type' => self::MAIN_TYPE,
+          'section' => 'About',
+          'slug' => 'work',
+          'nav_string' => 'Work',
           'pageid' => 2,
-          'orderby' => 2
+          'orderby' => 3
          ],
          ['navid' => 4,
-          'type' => self::FOOTER_TYPE,
+          'type' => self::MAIN_TYPE,
+          'section' => 'About',
+          'slug' => 'life',
+          'nav_string' => 'Life',
+          'pageid' => 4,
+          'orderby' => 4
+         ],
+         ['navid' => 5,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Contact',
           'slug' => 'https://www.linkedin.com/in/cdcline/',
+          'img_src' => 'src/images/site/linkedin_logo.png',
           'nav_string' => 'LinkedIn',
           'pageid' => NULL,
           'orderby' => 1
          ],
-         ['navid' => 5,
-          'type' => self::FOOTER_TYPE,
-          'slug' => 'mailto:1248182+cdcline@users.noreply.github.com',
-          'nav_string' => 'Contact Me',
+         ['navid' => 6,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Contact',
+          'slug' => 'https://github.com/cdcline/demo-website',
+          'img_src' => 'src/images/site/github_logo.png',
+          'nav_string' => 'Resume',
           'pageid' => NULL,
+          'orderby' => 2
+         ],
+         ['navid' => 7,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Code Features',
+          'slug' => 'versatility',
+          'nav_string' => 'Versatility',
+          'pageid' => 2,
+          'orderby' => 1
+         ],
+         ['navid' => 8,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Code Features',
+          'slug' => 'accessibility',
+          'nav_string' => 'Accessibility',
+          'pageid' => 3,
+          'orderby' => 2
+         ],
+         ['navid' => 9,
+          'type' => self::MAIN_TYPE,
+          'section' => 'Code Features',
+          'slug' => 'scalability',
+          'nav_string' => 'Scalability',
+          'pageid' => 4,
           'orderby' => 3
          ],
-         ['navid' => 6,
-          'type' => self::ARTICLE_TYPE,
-          'slug' => 'test-page-1',
-          'nav_string' => 'Test Page 1',
+         ['navid' => 5,
+          'type' => self::FOOTER_TYPE,
+          'slug' => 'welcome',
+          'img_src' => 'src/images/site/github_logo.png',
+          'nav_string' => 'Home',
+          'pageid' => 1,
+          'orderby' => 1
+         ],
+         ['navid' => 7,
+          'type' => self::FOOTER_TYPE,
+          'slug' => 'work',
+          'img_src' => 'src/images/site/linkedin_logo.png',
+          'nav_string' => 'Work',
+          'pageid' => 2,
+          'orderby' => 2
+         ],
+         ['navid' => 8,
+          'type' => self::FOOTER_TYPE,
+          'slug' => 'robots',
+          'nav_string' => 'Robots',
           'pageid' => 3,
           'orderby' => 3
          ],
-         ['navid' => 7,
-          'type' => self::ARTICLE_TYPE,
-          'slug' => 'test-page-2',
-          'nav_string' => 'Test Page 2',
+         ['navid' => 9,
+          'type' => self::FOOTER_TYPE,
+          'slug' => 'life',
+          'nav_string' => 'Life',
           'pageid' => 4,
           'orderby' => 4
          ]

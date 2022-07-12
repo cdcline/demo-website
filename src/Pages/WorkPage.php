@@ -11,8 +11,8 @@ use Utils\Parser;
 use Utils\SecretManager;
 use Utils\StringUtils;
 
-final class DevPage extends BasePage {
-   private const PAGE_TEMPLATE = 'dev.phtml';
+final class WorkPage extends BasePage {
+   private const PAGE_TEMPLATE = 'default.phtml';
 
    public function doStuff(): void {
       $this->setPageData('pageTableHtml', HtmlUtils::makeTableElement($this->getPageIndexTableData()));
@@ -57,7 +57,7 @@ final class DevPage extends BasePage {
          $pageList = current($pageLists);
          $maTitle = $pageList['title'];
          $pageArticles = $pageList['articles'];
-         $convertArticles = function(&$article) {
+         $convertArticles = function($article) {
             $article['tags'] = implode(',', $article['tags']);
             return $article;
          };

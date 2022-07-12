@@ -1,15 +1,28 @@
-<nav>
-   <?= $this->getNavTextHtml() ?>
-   <div class="nav-links-container">
-      <?php foreach ($this->getPacketData('navRows') as $i => $navRow) :
-      ?>
-         <a href="<?= $navRow['url'] ?>">
-            <div class="nav-link-container <?= $navRow['theme'] ?>">
-                  <div class="color-block <?= $navRow['theme'] ?>"></div>
-                  <span class="display-text"><?= $navRow['nav_string'] ?></span>
-                  <span class="display-text-bold-hack-container"><?= $navRow['nav_string'] ?></span>
+<?php if ($this->packet->showMainNav()) : ?>
+   <nav>
+      <div class="nav-links-container">
+         <?php foreach ($this->packet->getNavSections() as $navSection) : ?>
+            <?php $isImageLayout = $navSection['title'] === 'Contact' ?>
+            <div class="nav-section">
+               <h5><?= $navSection['title'] ?></h5>
+               <?php if ($isImageLayout) : ?>
+                  <div class="image-link-container">
+                     <?php foreach ($navSection['entries'] as $navEntry) : ?>
+                        <a href="<?= $navEntry['url'] ?>"><img src="<?= $navEntry['img_src'] ?>" /></a>
+                     <?php endforeach ?>
+                  </div>
+               <?php else : ?>
+                  <ul>
+                     <?php foreach ($navSection['entries'] as $navEntry) : ?>
+                        <?php $classStr = $navEntry['is_viewed'] ? 'class="active"' : '' ?>
+                        <a <?=$classStr ?> href="<?= $navEntry['url'] ?>">
+                           <li><?= $navEntry['nav_string'] ?></li>
+                        </a>
+                     <?php endforeach ?>
+                  </ul>
+               <?php endif ?>
             </div>
-         </a>
-      <?php endforeach ?>
-   </div>
-</nav>
+         <?php endforeach ?>
+      </div>
+   </nav>
+<?php endif ?>

@@ -23,6 +23,11 @@ class HtmlUtils {
       return "<link {$elPartStr}>";
    }
 
+   public static function makeWebLinkElement(string $url, string $innerHtml, array $elPartParams = []): string {
+      $elPartStr = self::generateElementPartStr($elPartParams);
+      return "<a href=\"{$url}\" {$elPartStr}>{$innerHtml}</a>";
+   }
+
    public static function makeScriptElement(array $elPartParams): string {
       $elPartStr = self::generateElementPartStr($elPartParams);
       return "<script {$elPartStr}></script>";

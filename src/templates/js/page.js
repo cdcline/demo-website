@@ -80,6 +80,13 @@ class PageUtils {
             MiniArticleList.setupEvents();
          });
       }
+
+      // Check for CarouselController
+      if (document.getElementById('carousel-controller')) {
+         PageUtils.loadClass('CarouselController', function() {
+            CarouselRunner.init();
+         });
+      }
    }
 }
 

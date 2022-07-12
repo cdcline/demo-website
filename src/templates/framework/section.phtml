@@ -1,5 +1,6 @@
 <section>
-   <?php $this->getPacketData('article')->printHtml() ?>
-   <?php $this->getPacketData('nav')->printHtml() ?>
-   <?php $this->getPacketData('footer')->printHtml() ?>
+   <div class="article-nav-container">
+      <?= $this->printArticle() ?>
+      <?= $this->printNav() ?>
+   </div>
 </section>

@@ -1,10 +1,31 @@
-<footer>
-   <div class="links-container">
-      <?php foreach ($this->getPacketData('footerRows') as $navRow) : ?>
-         <div class="link-container">
-            <a href="<?= $navRow['url'] ?>"><span><?= $navRow['nav_string'] ?></span></a>
-            <span class="display-text-bold-hack-container"><?= $navRow['nav_string'] ?></span>
-         </div>
-      <?php endforeach ?>
-   </div>
+<?php
+
+$numColors = 4;
+$buildContainer = function($navRow, $i) use ($numColors) {
+   $url = $navRow['url'];
+   $viewed = $navRow['is_viewed'];
+   $colorIndex = ($i % $numColors) + 1;
+   $cClasses = ['circle', "color-{$colorIndex}"];
+   if ($viewed) {
+      $cClasses[] = "viewing";
+   }
+   $cStr = implode(' ', $cClasses);
+   return "<a class=\"circle-container\" href=\"{$url}\"><div class=\"{$cStr}\">&nbsp;</div></a>";
+};
+
+$linksHTML = '';
+$count = 0;
+foreach ($this->packet->getFooterRows() as $navRow) {
+   $linksHTML .= $buildContainer($navRow, $count++);
+}
+
+$linksContainerHTML = "<div class=\"links-container\">{$linksHTML}</div>";
+?>
+
+<footer class="fixed-footer">
+   <?= $linksContainerHTML ?>
+</footer>
+
+<footer class="spacer-footer">
+   <?= $linksContainerHTML ?>
 </footer>
