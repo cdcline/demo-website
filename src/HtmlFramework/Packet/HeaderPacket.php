@@ -41,4 +41,8 @@ class HeaderPacket {
    public function getMobileImages(): array {
       return $this->headerImages['mobile'];
    }
+
+   public function getHeaderTemplate(): string {
+      return $this->headerText == "Welcome" ? 'src/templates/welcome_header.phtml' : '';
+   }
 }

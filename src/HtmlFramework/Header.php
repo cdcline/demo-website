@@ -38,6 +38,14 @@ class Header extends HtmlElement {
     *    </div>
     */
    protected function getHeaderContentHtml(): string {
+      $headerTemplatePath = $this->packet->getHeaderTemplate();
+      if ($headerTemplatePath) {
+         ob_start();
+         require $headerTemplatePath;
+         $templateHtml = ob_get_contents();
+         ob_end_clean();
+         return $templateHtml;
+      }
       $containerClasses = ['header-main-title-container'];
       $headerContentEls = [];
       if ($this->packet->hasImages()) {

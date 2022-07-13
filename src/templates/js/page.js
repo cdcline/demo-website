@@ -56,6 +56,8 @@ class PageUtils {
       // We'll Look into Bundles if we really care.
       this.loadClass('Nav', function() {Nav.setupEvents()});
 
+
+
       // Page JS loading
       // We're gonna need server utils to check what page we're on.
       this.loadClass('JSServerUtils', function() {
@@ -65,15 +67,24 @@ class PageUtils {
                HomePage.setupEvents();
             }.bind(this));
          }
+
+         this.loadClass('MathUtils', function() {
+            // Check for Welcome Header
+            if (document.getElementById('welcome-header-container')) {
+               PageUtils.loadClass('WelcomeHeader', function() {
+                  WelcomeHeader.init();
+               });
+            }
+
+            // Check for Block'O'Fun
+            if (document.getElementsByClassName('fun-btn').length) {
+               PageUtils.loadClass('FunUtils', function() {
+                  FunUtils.setupFun();
+               });
+            }
+         });
       }.bind(this));
 
-      // Widget JS loading
-      // Check for Block'O'Fun
-      if (document.getElementsByClassName('fun-btn').length) {
-         PageUtils.loadClass('FunUtils', function() {
-            FunUtils.setupFun();
-         });
-      }
       // Check for MiniArticleList
       if (document.getElementById('mini-article-list')) {
          PageUtils.loadClass('MiniArticleList', function() {

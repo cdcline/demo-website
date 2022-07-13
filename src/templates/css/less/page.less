@@ -120,6 +120,35 @@ header {
    }
 }
 
+#welcome-header-container {
+   position: relative;
+   overflow: hidden;
+
+   .welcome-header-floating-circle-container {
+      position: relative;
+      z-index: 2;
+
+      &:first-child {
+         margin-left: -40px;
+      }
+
+      .floating-circle {
+         left: 0;
+         top: 0;
+         position: absolute;
+         z-index: 3;
+
+         &.top-floating-circle {
+            z-index: 4;
+         }
+      }
+   }
+
+   .slider-container-transition {
+      transition: transform 10s ease-in-out;
+   }
+}
+
 /* Container for flexboxes */
 section {
    display: flex;
