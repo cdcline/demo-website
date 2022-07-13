@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Helvetica Neue, Regular";
   background-color: #A70000;
   display: flex;
   flex-direction: column;
@@ -342,13 +342,13 @@ footer div.links-container .circle-container .color-1 {
   background-color: #860000;
 }
 footer div.links-container .circle-container .color-2 {
-  background-color: #860000;
+  background-color: #A70000;
 }
 footer div.links-container .circle-container .color-3 {
-  background-color: #860000;
+  background-color: #D30000;
 }
 footer div.links-container .circle-container .color-4 {
-  background-color: #860000;
+  background-color: #018037;
 }
 .copyright-container {
   display: flex;
@@ -476,6 +476,7 @@ footer div.links-container .circle-container .color-4 {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  font-family: monospace;
 }
 #mini-article-list .ma-entry-container .ma-entry-text-container p,
 #mini-article-list .ma-entry-container .ma-entry-text-container h1,
