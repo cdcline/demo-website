@@ -7,6 +7,7 @@
 @contentSidePadding: 14px;
 @footerCircleSize: 84px;
 @footerCircleVisitingSize: 50px;
+@maxHeaderHeight: 400px;
 
 @generalFontFamily: "Helvetica Neue, Regular";
 @headerFontFamily: "Helvetica Neue, Bold";
@@ -142,10 +143,27 @@ header {
             z-index: 4;
          }
       }
+
+      .slider-container-transition {
+         transition: transform 10s ease-in-out;
+      }
    }
 
-   .slider-container-transition {
-      transition: transform 10s ease-in-out;
+   .welcome-header-slash-container {
+      position: relative;
+      z-index: 1;
+      margin-left: -550px;
+
+      .welcome-header-slash {
+         position: absolute;
+         top: 0;
+         height: @maxHeaderHeight;
+         width: auto;
+
+         &.js-animate-slash {
+            transition: transform 10s ease-in-out;
+         }
+      }
    }
 }
 

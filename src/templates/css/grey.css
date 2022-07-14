@@ -112,7 +112,21 @@ header .header-main-title-container.image-header-container .header-slideshow-con
 #welcome-header-container .welcome-header-floating-circle-container .floating-circle.top-floating-circle {
   z-index: 4;
 }
-#welcome-header-container .slider-container-transition {
+#welcome-header-container .welcome-header-floating-circle-container .slider-container-transition {
+  transition: transform 10s ease-in-out;
+}
+#welcome-header-container .welcome-header-slash-container {
+  position: relative;
+  z-index: 1;
+  margin-left: -550px;
+}
+#welcome-header-container .welcome-header-slash-container .welcome-header-slash {
+  position: absolute;
+  top: 0;
+  height: 400px;
+  width: auto;
+}
+#welcome-header-container .welcome-header-slash-container .welcome-header-slash.js-animate-slash {
   transition: transform 10s ease-in-out;
 }
 /* Container for flexboxes */
