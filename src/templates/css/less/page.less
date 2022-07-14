@@ -7,7 +7,7 @@
 @contentSidePadding: 14px;
 @footerCircleSize: 84px;
 @footerCircleVisitingSize: 50px;
-@maxHeaderHeight: 400px;
+@maxHeaderHeight: 550px;
 
 @generalFontFamily: "Helvetica Neue, Regular";
 @headerFontFamily: "Helvetica Neue, Bold";
@@ -124,6 +124,7 @@ header {
 #welcome-header-container {
    position: relative;
    overflow: hidden;
+   height: @maxHeaderHeight;
 
    .welcome-header-floating-circle-container {
       position: relative;
@@ -152,7 +153,7 @@ header {
    .welcome-header-slash-container {
       position: relative;
       z-index: 1;
-      margin-left: -550px;
+      margin-left: -650px;
 
       .welcome-header-slash {
          position: absolute;
@@ -163,6 +164,17 @@ header {
          &.js-animate-slash {
             transition: transform 10s ease-in-out;
          }
+      }
+   }
+
+   .welcome-header-x-container {
+      z-index: 3;
+      position: absolute;
+      left: 40px;
+      bottom: 40px;
+
+      .welcome-header-x {
+         transition: transform 10s ease-in-out;
       }
    }
 }
