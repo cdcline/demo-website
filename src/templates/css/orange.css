@@ -101,6 +101,11 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   position: relative;
   z-index: 2;
 }
+#welcome-header-container .welcome-header-floating-circle-container.right-side {
+  position: absolute;
+  bottom: 200px;
+  right: 200px;
+}
 #welcome-header-container .welcome-header-floating-circle-container:first-child {
   margin-left: -40px;
 }
@@ -135,6 +140,11 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   position: absolute;
   left: 40px;
   bottom: 40px;
+}
+#welcome-header-container .welcome-header-x-container.right-side {
+  text-align: right;
+  right: 40px;
+  top: 40px;
 }
 #welcome-header-container .welcome-header-x-container .welcome-header-x {
   transition: transform 10s ease-in-out;

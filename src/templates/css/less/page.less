@@ -130,6 +130,12 @@ header {
       position: relative;
       z-index: 2;
 
+      &.right-side {
+         position: absolute;
+         bottom: 200px;
+         right: 200px;
+      }
+
       &:first-child {
          margin-left: -40px;
       }
@@ -172,6 +178,12 @@ header {
       position: absolute;
       left: 40px;
       bottom: 40px;
+
+      &.right-side {
+         text-align: right;
+         right: 40px;
+         top: 40px;
+      }
 
       .welcome-header-x {
          transition: transform 10s ease-in-out;
