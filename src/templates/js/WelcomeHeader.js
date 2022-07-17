@@ -21,6 +21,12 @@ class WelcomeHeader {
          return xBox;
 
       });
+
+      this.hiddenTextContainers = [...document.getElementsByClassName('js-hidden-text-container')].map(function(el) {
+         let htContainer = new HiddenTextContainer(el);
+         htContainer.loop();
+         return htContainer;
+      });
    }
 }
 
@@ -150,5 +156,109 @@ class FloatingXBox {
    floatHome() {
       let sTransform ='translate(0%, 0%)';
       this.xBox.style.transform = sTransform;
+   }
+}
+
+class HiddenTextContainer {
+   constructor(hidddenTextContainer) {
+      this.textContainer = hidddenTextContainer;
+      this.textConcealer = this.textContainer.querySelector('.hidden-text-concealer');
+      this.text = this.textContainer.querySelector('.hidden-text');
+      this.resetting = false;
+      this.revealing = false;
+      this.closing = false;
+      this.loopTimeoutid = null;
+      this.delayTimoutId = null;
+      this.textContainer.addEventListener('transitionend', function(el) {
+         if (this.resetting) {
+            this.show();
+         } else if (this.revealing) {
+            this.closeAnimation();
+         }
+      }.bind(this));
+   }
+
+   loop() {
+      this.setRandomTime();
+      if (this.loopTimeoutId) {
+         clearTimeout(this.loopTimeoutId);
+      }
+      this.reset();
+      this.loopTimeoutId = setTimeout(this.loop.bind(this), this.loopTime * 1000);
+   }
+
+   reset() {
+      this.revealing = false;
+      this.closing = false;
+      this.resetting = true;
+      this.textConcealer.style.visibility = 'hidden';
+      let oTime = this.textConcealer.style.transitionDuration;
+      this.textConcealer.style.transitionDuration = '.05s';
+      this.textConcealer.style.transform = 'translateX(0) scaleX(0)';
+      this.textConcealer.style.transitionDuration = oTime;
+   }
+
+   show() {
+      this.revealing = true;
+      this.closing = false;
+      this.resetting = false;
+      if (this.delayTimoutId) {
+         clearTimeout(this.delayTimoutId);
+      }
+
+      this.delayTimoutId = setTimeout(function() {
+         this.text.style.visibility = 'hidden';
+         this.textConcealer.style.visibility = 'visible';
+         this.textConcealer.style.transform = this.getTransformVisible();
+      }.bind(this), this.getDelay());
+   }
+
+   closeAnimation() {
+      this.revealing = false;
+      this.closing = true;
+      this.resetting = false;
+      this.text.style.visibility = 'visible';
+      this.textConcealer.style.transform = this.getTransformClose();
+   }
+
+   getTransformVisible() {
+      return this.isHeaderTextArea() ?
+        'translateX(200px) scaleX(4000%)' :
+        'translateX(100px) scaleX(2000%)';
+   }
+
+   getTransformClose() {
+      return this.isHeaderTextArea() ?
+        'translateX(500px) scaleX(0%)' :
+        'translateX(400px) scaleX(0%)';
+   }
+
+   isHeaderTextArea() {
+      if (this.textContainer.classList.contains('js-delay-one') || this.textContainer.classList.contains('js-delay-two')) {
+         return true;
+      }
+      return false;
+   }
+
+   getDelay() {
+      if (this.textContainer.classList.contains('js-delay-one')) {
+         return 0;
+      }
+      if (this.textContainer.classList.contains('js-delay-two')) {
+         return 200;
+      }
+      if (this.textContainer.classList.contains('js-delay-three')) {
+         return 400;
+      }
+      if (this.textContainer.classList.contains('js-delay-four') || this.textContainer.classList.contains('js-delay-five')) {
+         return 600;
+      }
+      if (this.textContainer.classList.contains('js-delay-six')) {
+         return 800;
+      }
+   }
+
+   setRandomTime() {
+      this.loopTime = MathUtils.getRandomIntInclusive(5, 10);
    }
 }

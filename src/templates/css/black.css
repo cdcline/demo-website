@@ -165,6 +165,26 @@ header .header-main-title-container.image-header-container .header-slideshow-con
     text-align: center;
   }
 }
+#welcome-header-container .welcome-header-contact-info-container .hidden-text-container {
+  position: relative;
+}
+#welcome-header-container .welcome-header-contact-info-container .hidden-text-container .hidden-text-concealer {
+  display: block;
+  visibility: hidden;
+  transition: transform 0.15s ease-in-out;
+  z-index: 7;
+  user-select: none;
+  pointer-events: none;
+  background-color: white;
+  width: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: fit-content;
+}
+#welcome-header-container .welcome-header-contact-info-container .hidden-text-container .hidden-text {
+  visibility: hidden;
+}
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-image-container {
   z-index: 6;
 }
@@ -177,6 +197,7 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   flex-direction: column;
   gap: 10px;
   z-index: 6;
+  overflow: hidden;
 }
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container h2,
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container p,
@@ -189,11 +210,13 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   grid-template-columns: repeat(2, auto);
   gap: 10px;
   grid-auto-rows: auto;
+  overflow: hidden;
 }
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-details-container .welcome-header-contact-info-data {
   display: flex;
   flex-direction: row;
   align-items: center;
+  overflow: hidden;
 }
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-details-container .welcome-header-contact-info-data .welcome-header-contact-icon {
   font-size: 25px;

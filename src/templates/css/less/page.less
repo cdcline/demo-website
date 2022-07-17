@@ -205,8 +205,32 @@ header {
          text-align: center;
       }
 
+      .hidden-text-container {
+         position: relative;
+
+         .hidden-text-concealer {
+            display: block;
+            visibility: hidden;
+            transition: transform .15s ease-in-out;
+            z-index: 7;
+            user-select: none;
+            pointer-events: none;
+            background-color: white;
+            width: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: fit-content;
+         }
+
+         .hidden-text {
+            visibility: hidden;
+         }
+      }
+
       .welcome-header-contact-info-image-container {
          z-index: 6;
+
          img {
             z-index: 7;
             height: 300px;
@@ -218,6 +242,7 @@ header {
          flex-direction: column;
          gap: 10px;
          z-index: 6;
+         overflow: hidden;
 
          h2, p, div {
             margin: 0;
@@ -229,11 +254,13 @@ header {
             grid-template-columns: repeat(2, auto);
             gap: 10px;
             grid-auto-rows: auto;
+            overflow: hidden;
 
             .welcome-header-contact-info-data {
                display: flex;
                flex-direction: row;
                align-items: center;
+               overflow: hidden;
 
                .welcome-header-contact-icon {
                   font-size: 25px;
