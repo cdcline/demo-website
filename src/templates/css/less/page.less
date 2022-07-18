@@ -1,6 +1,6 @@
 /** Vars **/
 @sectionGap: 10px;
-@minWidth: 320px;
+@minWidth: 375px;
 @minBreakpoint: 480px;
 @pageBreakpoint: 745px;
 @maxWidth: 1920px;
@@ -29,6 +29,11 @@ body {
       min-width: @minWidth;
       max-width: @maxWidth;
       padding: 0 @contentSidePadding;
+
+      @media (max-width: @minBreakpoint) {
+         padding: 0;
+      }
+
       margin: 0px auto;
       display: flex;
       flex-direction: column;
@@ -121,6 +126,11 @@ header {
    }
 }
 
+@xBoxXPadding: 40px;
+@xBoxYMinPadding: 80px;
+@xBoxYPagePadding: 60px;
+@xBoxYMaxPadding: 40px;
+
 #welcome-header-container {
    position: relative;
    overflow: hidden;
@@ -132,12 +142,21 @@ header {
 
       &.right-side {
          position: absolute;
-         bottom: 200px;
-         right: 200px;
+
+         right: 20%;
+         bottom: 133px;
+         @media (max-width: @pageBreakpoint) {
+            right: 22%;
+            bottom: 355px;
+         }
+         @media (max-width: @minBreakpoint) {
+            right: 23%;
+            bottom: 380px;
+         }
       }
 
       &:first-child {
-         margin-left: -40px;
+         margin-left: -50px;
       }
 
       .floating-circle {
@@ -176,17 +195,45 @@ header {
    .welcome-header-x-container {
       z-index: 3;
       position: absolute;
-      left: 40px;
-      bottom: 40px;
+
+      left: 5%;
+      bottom: 30px;
+      @media (max-width: @pageBreakpoint) {
+         left: 5%;
+         bottom: 129px;
+      }
+      @media (max-width: @minBreakpoint) {
+         bottom: 213px;
+         left: 8%;
+      }
 
       &.right-side {
          text-align: right;
-         right: 40px;
-         top: 40px;
+         right: 5%;
+         top: 70px;
+
+         @media (max-width: @pageBreakpoint) {
+            right: 10%;
+            top: 60px;
+         }
+
+         @media (max-width: @minBreakpoint) {
+            top: 40px;
+         }
       }
 
       .welcome-header-x {
          transition: transform 10s ease-in-out;
+         width: 48px;
+
+         @media (max-width: @pageBreakpoint) {
+            width: 24px;
+         }
+
+         @media (max-width: @minBreakpoint) {
+            width: 12px;
+         }
+
       }
    }
 
