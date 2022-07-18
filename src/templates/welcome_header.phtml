@@ -1,74 +1,267 @@
+<?php
+
+use Utils\HtmlUtils;
+
+abstract class WelcomeHeaderElement
+{
+   private const IMAGE_PATH = 'src/images/site/welcome/';
+
+   public static function getHtml(array $params = []): string
+   {
+      return (new static($params))->buildHtml();
+   }
+
+   abstract protected function buildHtml(): string;
+
+   protected function getImage(string $imageName): string
+   {
+      return self::IMAGE_PATH . $imageName;
+   }
+}
+
+class FloatingCircles extends WelcomeHeaderElement
+{
+   private const DEFAULT_CLASSES = ['js-floating-circle', 'floating-circle', 'slider-container-transition'];
+
+   protected function __construct(array $params)
+   {
+      $isLeft = $params['isLeft'] ?? false;
+      $this->isLeft = $isLeft;
+   }
+
+   /**
+    *  <div>
+    *    <img>
+    *    <img>
+    *  </div>
+    */
+   protected function buildHtml(): string
+   {
+      $topCircle = $this->getCircleHtml(/*isTop*/true);
+      $bottomCircle = $this->getCircleHtml(/*isTop*/false);
+      $classes = ['welcome-header-floating-circle-container'];
+      if (!$this->isLeft) {
+         $classes[] = 'right-side';
+      }
+      return HtmlUtils::makeDivElement(
+         $topCircle . $bottomCircle,
+         ['class' => implode(' ', $classes)]
+      );
+   }
+
+   private function getCircleHtml(bool $isTop): string
+   {
+      $extraClasses = $isTop ? ['top-floating-circle'] : [];
+      $classes = array_merge(self::DEFAULT_CLASSES, $extraClasses);
+      $srcName = $isTop ? 'white_strips_circle.png' : 'orange_circle.png';
+      return HtmlUtils::makeImageElement([
+         'src' => $this->getImage($srcName),
+         'class' => implode(' ', $classes)
+      ]);
+   }
+}
+
+class FloatingXBox extends WelcomeHeaderElement
+{
+   private const DEFAULT_IMAGE_CLASSES = ['js-floating-x', 'welcome-header-x'];
+   private const X_IMAGE_NAME = 'x.png';
+
+   protected function __construct(array $params)
+   {
+      $this->isLeft = $params['isLeft'] ?? false;
+      $this->numXs = 4;
+   }
+
+   /**
+    *  <div>
+    *    <img>
+    *    <img>
+    *    ....
+    *  </div>
+    */
+   protected function buildHtml(): string
+   {
+      $xHtml = '';
+      for ($i = 0; $i < $this->numXs; $i++) {
+         $xHtml .= $this->getXImageHtml();
+      }
+      $classes = ['js-welcome-header-x-container', ' welcome-header-x-container'];
+      if (!$this->isLeft) {
+         $classes[] = 'right-side';
+      }
+
+      return HtmlUtils::makeDivElement($xHtml, ['class' => implode(' ', $classes)]);
+   }
+
+   private function getXImageHtml(): string
+   {
+      return HtmlUtils::makeImageElement([
+         'src' => $this->getImage(self::X_IMAGE_NAME),
+         'class' => implode(' ', self::DEFAULT_IMAGE_CLASSES)
+      ]);
+   }
+}
+
+class MovingSlash extends WelcomeHeaderElement
+{
+   /**
+    *  <div>
+    *    <img>
+    *  </div>
+    */
+   protected function buildHtml(): string
+   {
+      $imgAttributes = [
+         'id' => 'welcome-header-slash',
+         'class' => 'js-moving-slash js-animate-slash welcome-header-slash',
+         'src' => $this->getImage('orange_lines.png')
+      ];
+      $imgHtml = HtmlUtils::makeImageElement($imgAttributes);
+      $divAttributes = [
+         'id' => 'welcome-header-slash-container',
+         'class' => 'welcome-header-slash-container js-welcome-header-slash-container'
+      ];
+      return HtmlUtils::makeDivElement($imgHtml, $divAttributes);
+   }
+}
+
+class ContactInfo extends WelcomeHeaderElement {
+   private const HIDDEN_CLASSES = ['js-hidden-text-container', 'hidden-text-container'];
+   private const IMAGE_PATH = 'chris_circle.png';
+
+   /**
+    *  <div>
+    *    {$imageElements}
+    *    {$textElements}
+    *  </div>
+    */
+   protected function buildHtml(): string {
+      $containerAttributes = ['class' => 'welcome-header-contact-info-container'];
+      $imageContainer = $this->getImageContainerHtml();
+      $textContainer = $this->getTextContainerHtml();
+      return HtmlUtils::makeDivElement($imageContainer . $textContainer, $containerAttributes);
+   }
+
+   /**
+    *    <div>
+    *      <img>
+    *    </div>
+    */
+   private function getImageContainerHtml(): string {
+      $imgAttribtes = [
+         'src' => $this->getImage(self::IMAGE_PATH),
+         'class' => 'welcome-header-contact-info-image'
+      ];
+
+      return HtmlUtils::makeDivElement(
+         HtmlUtils::makeImageElement($imgAttribtes),
+         ['class' => 'welcome-header-contact-info-image-container']
+      );
+   }
+
+   /**
+    * <div>
+    *    {$topText}
+    *    {$bottomText}
+    * </div>
+    */
+   private function getTextContainerHtml(): string {
+      return HtmlUtils::makeDivElement(
+         $this->getTopTextHtml() . $this->getBottomTextHtml(),
+         ['class' => 'welcome-header-contact-info-text-container']
+      );
+   }
+
+   /**
+    * <div><h2><span><span></h2></div>
+    * <div><p><span><span></p></div>
+    */
+   private function getTopTextHtml(): string {
+      $headerText = 'Hi, I\'m Chris';
+      $cHeaderText = $this->getConcealedSpanHtml($headerText);
+      $headerClass = array_merge(self::HIDDEN_CLASSES, ['js-delay-one']);
+      $headerHtml = HtmlUtils::makeHXElement(2, $cHeaderText, ['class' => implode(' ', $headerClass)]);
+
+      $headerContainer = HtmlUtils::makeDivElement(
+         $headerHtml,
+         ['class' => 'welcome-header-contact-info-welcome-container']
+      );
+
+      $posText = 'Senior Software Engineer';
+      $cPosText = $this->getConcealedSpanHtml($posText);
+      $posClass = array_merge(self::HIDDEN_CLASSES, ['js-delay-two']);
+      $posHtml = HtmlUtils::makeDivElement($cPosText, ['class' => implode(' ', $posClass)]);
+
+      $posContainer = HtmlUtils::makeDivElement(
+         $posHtml,
+         ['class' => 'welcome-header-contact-info-position-container']
+      );
+
+      return $headerContainer . $posContainer;
+   }
+
+   /**
+    * <div>
+    *   <div>
+    *      <div></div>
+    *      <p><span><span></p>
+    *   </div>
+    *   ...
+    * </div>
+    */
+   private function getBottomTextHtml(): string {
+      $phone = '+123-456-7890';
+      $webLinkHtml = '<a href="https://www.github.com/cdcline">www.github.com/cdcline</a>';
+      $emailLinkHtml = '<a href="mailto:cdcline+demo-site@gmail.com">cdcline@gmail.com</a>';
+      $address = '123 Anywhere St, Any City';
+      $gridData = [
+         ['&#x260F;', $phone, 'js-delay-three'],
+         ['&#x261E;', $webLinkHtml, 'js-delay-four'],
+         ['&#9993;', $emailLinkHtml, 'js-delay-five'],
+         ['&#x2624;', $address, 'js-delay-six']
+      ];
+
+      $gridHtml = '';
+      foreach ($gridData as $gData) {
+         $gridHtml .= $this->buildGridHtml($gData[0], $gData[1], $gData[2]);
+      }
+
+      return HtmlUtils::makeDivElement(
+         $gridHtml,
+         ['class' => 'welcome-header-contact-info-details-container']
+      );
+   }
+
+   private function getConcealedSpanHtml(string $text): string {
+      $cSpan = HtmlUtils::makeSpanElement('&nbsp', ['class' => 'hidden-text-concealer']);
+      $tSpan = HtmlUtils::makeSpanElement($text, ['class' => 'hidden-text']);
+      return $cSpan . $tSpan;
+   }
+
+   private function buildGridHtml(string $icon, string $text, string $timeClass): string {
+      $hiddenElClasses = implode(' ', array_merge(self::HIDDEN_CLASSES, [$timeClass]));
+      $hiddenEl = HtmlUtils::makePElement(
+         $this->getConcealedSpanHtml($text),
+         ['class' => $hiddenElClasses]
+      );
+      $iconEl = HtmlUtils::makeDivElement($icon, ['class' => 'welcome-header-contact-icon']);
+      return HtmlUtils::makeDivElement(
+         $iconEl . $hiddenEl,
+         ['class' => 'welcome-header-contact-info-data']
+      );
+   }
+}
+
+$left = ['isLeft' => true];
+$right = ['isLeft' => false];
+?>
+
+
 <div id="welcome-header-container">
-   <div class="welcome-header-floating-circle-container">
-      <img class="js-floating-circle floating-circle slider-container-transition" src="src/images/site/welcome/orange_circle.png" />
-      <img class="js-floating-circle floating-circle top-floating-circle slider-container-transition" src="src/images/site/welcome/white_strips_circle.png" />
-   </div>
-   <div class="js-welcome-header-x-container welcome-header-x-container">
-      <img class="js-floating-x welcome-header-x" src="src/images/site/welcome/x.png" />
-      <img class="js-floating-x welcome-header-x" src="src/images/site/welcome/x.png" />
-      <img class="js-floating-x welcome-header-x" src="src/images/site/welcome/x.png" />
-      <img class="js-floating-x welcome-header-x" src="src/images/site/welcome/x.png" />
-   </div>
-   <div class="welcome-header-floating-circle-container right-side">
-      <img class="js-floating-circle floating-circle slider-container-transition" src="src/images/site/welcome/orange_circle.png" />
-      <img class="js-floating-circle floating-circle top-floating-circle slider-container-transition" src="src/images/site/welcome/white_strips_circle.png" />
-   </div>
-   <div class="js-welcome-header-x-container welcome-header-x-container right-side">
-      <img class="js-floating-x welcome-header-x" src="src/images/site/welcome/x.png" />
-      <img class="js-floating-x welcome-header-x" src="src/images/site/welcome/x.png" />
-      <img class="js-floating-x welcome-header-x" src="src/images/site/welcome/x.png" />
-      <img class="js-floating-x welcome-header-x" src="src/images/site/welcome/x.png" />
-   </div>
-   <div id="welcome-header-slash-container" class="welcome-header-slash-container js-welcome-header-slash-container">
-      <img id="welcome-header-slash" class="js-moving-slash js-animate-slash welcome-header-slash" src="src/images/site/welcome/orange_lines.png" />
-   </div>
-   <div class="welcome-header-contact-info-container">
-      <div class="welcome-header-contact-info-image-container">
-         <img class="welcome-header-contact-info-image" src="src/images/site/welcome/chris_circle.png" />
-      </div>
-      <div class="welcome-header-contact-info-text-container">
-         <div class="welcome-header-contact-info-welcome-container">
-            <h2 class="js-hidden-text-container js-delay-one hidden-text-container">
-               <span class="hidden-text-concealer">&nbsp;</span>
-               <span class="hidden-text">Hi, I'm Chris</span>
-            </h2>
-         </div>
-         <div class="welcome-header-contact-info-position-container">
-            <p class="js-hidden-text-container js-delay-two hidden-text-container">
-               <span class="hidden-text-concealer">&nbsp;</span>
-               <span class="hidden-text">Senior Software Engineer</span>
-            </p>
-         </div>
-         <div class="welcome-header-contact-info-details-container">
-            <div class="welcome-header-contact-info-data">
-               <div class="welcome-header-contact-icon">&#x260F;</div>
-               <p class="js-hidden-text-container js-delay-three hidden-text-container">
-                  <span class="hidden-text-concealer">&nbsp;</span>
-                   <span class="hidden-text">+123-456-7890</span>
-               </p>
-            </div>
-            <div class="welcome-header-contact-info-data">
-               <div class="welcome-header-contact-icon">&#x261E;</div>
-               <p class="js-hidden-text-container js-delay-four hidden-text-container">
-                  <span class="hidden-text-concealer">&nbsp;</span>
-                  <span class="hidden-text"><a href="https://www.github.com/cdcline">www.github.com/cdcline</a></span>
-               </p>
-            </div>
-            <div class="welcome-header-contact-info-data">
-               <div class="welcome-header-contact-icon">&#9993;</div>
-               <p class="js-hidden-text-container js-delay-five hidden-text-container">
-                  <span class="hidden-text-concealer">&nbsp;</span>
-                  <span class="hidden-text"><a href="mailto:cdcline+demo-site@gmail.com">cdcline@gmail.com</a></span>
-               </p>
-            </div>
-            <div class="welcome-header-contact-info-data">
-               <div class="welcome-header-contact-icon">&#x2624;</div>
-               <p class="js-hidden-text-container js-delay-six hidden-text-container">
-                  <span class="hidden-text-concealer">&nbsp;</span>
-                  <span class="hidden-text">123 Anywhere St, Any City</span>
-               </p>
-            </div>
-         </div>
-      </div>
-   </div>
+   <?= FloatingCircles::getHtml($left) ?>
+   <?= FloatingXBox::getHtml($left) ?>
+   <?= FloatingCircles::getHtml($right) ?>
+   <?= FloatingXBox::getHtml($right) ?>
+   <?= MovingSlash::getHtml() ?>
+   <?= ContactInfo::getHtml() ?>
 </div>
