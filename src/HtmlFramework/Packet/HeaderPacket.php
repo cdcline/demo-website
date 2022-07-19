@@ -2,8 +2,8 @@
 
 namespace HtmlFramework\Packet;
 
+use DB\PageIndex;
 use HtmlFramework\Packet\PacketTrait;
-use Utils\HtmlUtils;
 
 class HeaderPacket {
    public const FULL_WIDTH = 2000;
@@ -11,13 +11,14 @@ class HeaderPacket {
    public const MOBILE_WIDTH = 1200;
    public const MOBILE_HEIGHT = 1200;
 
-
+   private $pageType;
    private $headerText;
    private $headerImages;
 
    use PacketTrait;
 
-   public function __construct(string $headerText, array $headerImages) {
+   public function __construct(string $pageType, string $headerText, array $headerImages) {
+      $this->pageType = $pageType;
       $this->headerText = $headerText;
       $this->headerImages = $headerImages;
    }
@@ -43,6 +44,9 @@ class HeaderPacket {
    }
 
    public function getHeaderTemplate(): string {
-      return $this->headerText == "Welcome" ? 'src/templates/welcome_header.phtml' : '';
+      switch ($this->pageType) {
+         case PageIndex::HOMEPAGE_TYPE: return 'src/templates/welcome_header.phtml';
+      }
+      return '';
    }
 }

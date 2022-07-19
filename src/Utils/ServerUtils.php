@@ -29,4 +29,9 @@ class ServerUtils {
    public static function onGoogleCloudProject(): bool {
       return (bool)getenv('GOOGLE_CLOUD_PROJECT');
    }
+
+   public static function getHostedImagePath(): string {
+      $siteName = getenv('GOOGLE_CLOUD_PROJECT');
+      return "https://storage.googleapis.com/{$siteName}.appspot.com/images/site/";
+   }
 }

@@ -1,10 +1,11 @@
 <?php
 
 use Utils\HtmlUtils;
+use Utils\ServerUtils;
 
 abstract class WelcomeHeaderElement
 {
-   private const IMAGE_PATH = 'src/images/site/welcome/';
+   private const STATIC_IMAGE_PATH = 'src/images/site/welcome/';
 
    public static function getHtml(array $params = []): string
    {
@@ -13,18 +14,25 @@ abstract class WelcomeHeaderElement
 
    abstract protected function buildHtml(): string;
 
-   protected function getImage(string $imageName): string
-   {
-      return self::IMAGE_PATH . $imageName;
+   protected function getImage(string $imageName, bool $forceStatic = true): string {
+      $useStatic = $forceStatic || !ServerUtils::onGoogleCloudProject();
+      return $useStatic ? self::getStaticImage($imageName) : self::getHostedImage($imageName);
+
+   }
+
+   protected static function getStaticImage(string $imageName) {
+      return self::STATIC_IMAGE_PATH . $imageName;
+   }
+
+   protected static function getHostedImage(string $imageName): string {
+      return ServerUtils::getHostedImagePath() . "homepage_header/{$imageName}";
    }
 }
 
-class FloatingCircles extends WelcomeHeaderElement
-{
+class FloatingCircles extends WelcomeHeaderElement {
    private const DEFAULT_CLASSES = ['js-floating-circle', 'floating-circle', 'slider-container-transition'];
 
-   protected function __construct(array $params)
-   {
+   protected function __construct(array $params) {
       $isLeft = $params['isLeft'] ?? false;
       $this->isLeft = $isLeft;
    }
@@ -35,8 +43,7 @@ class FloatingCircles extends WelcomeHeaderElement
     *    <img>
     *  </div>
     */
-   protected function buildHtml(): string
-   {
+   protected function buildHtml(): string {
       $topCircle = $this->getCircleHtml(/*isTop*/true);
       $bottomCircle = $this->getCircleHtml(/*isTop*/false);
       $classes = ['welcome-header-floating-circle-container'];
@@ -49,15 +56,24 @@ class FloatingCircles extends WelcomeHeaderElement
       );
    }
 
-   private function getCircleHtml(bool $isTop): string
-   {
+   private function getCircleHtml(bool $isTop): string {
       $extraClasses = $isTop ? ['top-floating-circle'] : [];
       $classes = array_merge(self::DEFAULT_CLASSES, $extraClasses);
-      $srcName = $isTop ? 'white_strips_circle.png' : 'orange_circle.png';
+      $src = $isTop ? $this->getTopCircle() : $this->getBottomCircleSrc();
       return HtmlUtils::makeImageElement([
-         'src' => $this->getImage($srcName),
+         'src' => $src,
          'class' => implode(' ', $classes)
       ]);
+   }
+
+   private function getBottomCircleSrc(): string {
+      return $this->getImage('orange_circle.png');
+   }
+
+   private function getTopCircle(): string {
+      $imgName = ServerUtils::onGoogleCloudProject() ? 'hq_stripe_circle.png' : 'white_strips_circle.png';
+      return $this->getImage($imgName, /*forceStatic*/false);
+
    }
 }
 
