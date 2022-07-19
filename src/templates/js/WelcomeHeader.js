@@ -1,6 +1,7 @@
 class WelcomeHeader {
    static circleLoopInterval;
    static loopCircles;
+   static resetting = false;
 
    static init() {
       this.loopCircles = [...document.getElementsByClassName('js-floating-circle')].map(function(el) {
@@ -27,6 +28,25 @@ class WelcomeHeader {
          htContainer.loop();
          return htContainer;
       });
+
+      let allowResetting = function() {
+         this.resetting = false;
+      }.bind(this);
+      [...document.getElementsByClassName('welcome-header-contact-info-image')].forEach(function(el) {
+
+         el.addEventListener('click', function(ev) {
+            if (!this.resetting) {
+               this.resetting = true;
+            } else {
+               return;
+            }
+            setTimeout(allowResetting, 1000);
+
+            this.hiddenTextContainers.forEach(el => {
+               el.fullReset();
+            });
+         }.bind(this));
+      }.bind(this));
    }
 }
 
@@ -178,11 +198,16 @@ class HiddenTextContainer {
       }.bind(this));
    }
 
+   fullReset() {
+      this.clearLoopTimeout();
+      this.clearDelayTimeout();
+      this.hideText();
+      this.loop();
+   }
+
    loop() {
       this.setRandomTime();
-      if (this.loopTimeoutId) {
-         clearTimeout(this.loopTimeoutId);
-      }
+      this.clearLoopTimeout();
       this.reset();
       this.loopTimeoutId = setTimeout(this.loop.bind(this), this.loopTime * 1000);
    }
@@ -204,12 +229,11 @@ class HiddenTextContainer {
       this.revealing = true;
       this.closing = false;
       this.resetting = false;
-      if (this.delayTimoutId) {
-         clearTimeout(this.delayTimoutId);
-      }
+      this.clearDelayTimeout();
 
       this.delayTimoutId = setTimeout(function() {
-         this.text.classList.remove('js-show-hidden-text');
+         // Confusing but we want the text to "flash" so we hide it before we start the animation
+         this.hideText();
          this.textConcealer.classList.add('js-header-animation-running');
          this.textConcealer.classList.add(this.getStartAnimationClass());
       }.bind(this), this.getDelay());
@@ -219,7 +243,8 @@ class HiddenTextContainer {
       this.revealing = false;
       this.closing = true;
       this.resetting = false;
-      this.text.classList.add('js-show-hidden-text');
+      // Now that we've animated a box across the whole div, we reveal the hidden text
+      this.showText();
       this.textConcealer.classList.add(this.getEndAnimationClass());
    }
 
@@ -233,6 +258,14 @@ class HiddenTextContainer {
       return this.isHeaderArea() ?
         'js-header-animation-end' :
         'js-grid-animation-end';
+   }
+
+   showText() {
+      this.text.classList.add('js-show-hidden-text');
+   }
+
+   hideText() {
+      this.text.classList.remove('js-show-hidden-text');
    }
 
    isHeaderArea() {
@@ -262,5 +295,17 @@ class HiddenTextContainer {
 
    setRandomTime() {
       this.loopTime = MathUtils.getRandomIntInclusive(5, 10);
+   }
+
+   clearDelayTimeout() {
+      if (this.delayTimoutId) {
+         clearTimeout(this.delayTimoutId);
+      }
+   }
+
+   clearLoopTimeout() {
+      if (this.loopTimeoutId) {
+         clearTimeout(this.loopTimeoutId);
+      }
    }
 }
