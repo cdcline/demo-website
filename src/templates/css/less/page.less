@@ -185,9 +185,20 @@ header {
          top: 0;
          height: @maxHeaderHeight;
          width: auto;
+         transition: transform 10s ease-in-out;
+         visibility: hidden;
 
          &.js-animate-slash {
-            transition: transform 10s ease-in-out;
+            visibility: visible;
+            transform: translateX(330%);
+
+            @media (max-width: @pageBreakpoint) {
+               transform: translateX(220%);
+            }
+
+            @media (max-width: @minBreakpoint) {
+               transform: translateX(175%);
+            }
          }
       }
    }

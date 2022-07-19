@@ -148,9 +148,22 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   top: 0;
   height: 550px;
   width: auto;
+  transition: transform 10s ease-in-out;
+  visibility: hidden;
 }
 #welcome-header-container .welcome-header-slash-container .welcome-header-slash.js-animate-slash {
-  transition: transform 10s ease-in-out;
+  visibility: visible;
+  transform: translateX(330%);
+}
+@media (max-width: 745px) {
+  #welcome-header-container .welcome-header-slash-container .welcome-header-slash.js-animate-slash {
+    transform: translateX(220%);
+  }
+}
+@media (max-width: 480px) {
+  #welcome-header-container .welcome-header-slash-container .welcome-header-slash.js-animate-slash {
+    transform: translateX(175%);
+  }
 }
 #welcome-header-container .welcome-header-x-container {
   z-index: 3;

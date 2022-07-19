@@ -12,7 +12,7 @@ class WelcomeHeader {
 
       this.slashLoops = [...document.getElementsByClassName('js-welcome-header-slash-container')].map(function(el) {
          let sLoop = new SlashLoop(el);
-         sLoop.loop();
+         sLoop.animate();
          return sLoop;
       }.bind(this));
 
@@ -80,37 +80,30 @@ class FloatingCircle {
 class SlashLoop {
    constructor(slashContainer) {
       this.slashContainer = slashContainer;
+      this.animating = false;
       this.slashContainer.addEventListener('transitionend', function(el) {
-         this.resetAnimation();
+         if (this.animating) {
+            this.resetAnimation();
+         } else {
+            this.animate();
+         }
       }.bind(this));
       this.slashEl = this.slashContainer.querySelector('.js-moving-slash');
       this.timeoutId = null;
    }
 
-   loop() {
-      this.setRandomTime();
-      if (this.timeoutId) {
-         clearTimeout(this.timeoutId);
-         this.resetAnimation();
-      }
-      this.move();
-      this.timeoutId = setTimeout(this.loop.bind(this), this.loopTime * 1000);
-   }
-
-   move() {
-      let sTransform = 'translateX(285%)';
-      this.slashEl.style.transform = sTransform;
-      this.slashEl.style.transitionDuration = this.loopTime + 's';
-   }
-
-   setRandomTime() {
-      this.loopTime = MathUtils.getRandomIntInclusive(5, 15);
+   animate() {
+      this.animating = true;
+      let loopTime = MathUtils.getRandomIntInclusive(5, 15);
+      this.slashEl.style.transitionDuration = loopTime + 's';
+      this.slashEl.classList.add('js-animate-slash');
    }
 
    resetAnimation() {
-      let sTransform = 'translateX(0)';
-      this.slashEl.style.transform = sTransform;
-      this.slashEl.style.transitionDuration = '0s';
+      this.animating = false;
+      let waitTime = MathUtils.getRandomIntInclusive(1, 5);
+      this.slashEl.style.transitionDuration = waitTime + 's';
+      this.slashEl.classList.remove('js-animate-slash');
    }
 }
 
