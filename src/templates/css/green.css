@@ -131,6 +131,8 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   top: 0;
   position: absolute;
   z-index: 3;
+  width: 225px;
+  height: 225px;
 }
 #welcome-header-container .welcome-header-floating-circle-container .floating-circle.top-floating-circle {
   z-index: 4;

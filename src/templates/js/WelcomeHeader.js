@@ -35,6 +35,10 @@ class WelcomeHeader {
       [...document.getElementsByClassName('welcome-header-contact-info-image')].forEach(function(el) {
 
          el.addEventListener('click', function(ev) {
+            this.loopCircles.forEach(el => {
+               el.randomImage();
+            });
+
             if (!this.resetting) {
                this.resetting = true;
             } else {
@@ -62,6 +66,28 @@ class FloatingCircle {
       this.resetValues();
       this.move();
       this.timeoutId = setTimeout(this.loop.bind(this), this.loopTime * 1000);
+   }
+
+   randomImage() {
+      let curIndex = parseInt(this.circleEl.getAttribute('data-src-index'));
+      if (isNaN(curIndex) || curIndex < 1) {
+         return;
+      }
+
+      let newImageIndex = curIndex;
+      let max = 10;
+      let i = 0;
+      while (newImageIndex === curIndex) {
+         if (i++ > max) {
+            break;
+         }
+         newImageIndex = MathUtils.getRandomIntInclusive(1, 3);
+      }
+
+      let newSrcAttribute = 'data-src-' + newImageIndex;
+      let newSrc = this.circleEl.getAttribute(newSrcAttribute);
+      this.circleEl.setAttribute('data-src-index', newImageIndex);
+      this.circleEl.src = newSrc;
    }
 
    move() {

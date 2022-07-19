@@ -59,21 +59,47 @@ class FloatingCircles extends WelcomeHeaderElement {
    private function getCircleHtml(bool $isTop): string {
       $extraClasses = $isTop ? ['top-floating-circle'] : [];
       $classes = array_merge(self::DEFAULT_CLASSES, $extraClasses);
-      $src = $isTop ? $this->getTopCircle() : $this->getBottomCircleSrc();
-      return HtmlUtils::makeImageElement([
-         'src' => $src,
-         'class' => implode(' ', $classes)
-      ]);
+      $useRandomImages = $isTop && ServerUtils::onGoogleCloudProject();
+      // We want to keep track of the "image index" we show b/c when we switch images, we want a "new" image
+      $i = $useRandomImages ? rand(1, 3) : 0;
+      $src = $isTop ? $this->getTopCircle($i) : $this->getBottomCircleSrc();
+      $attributes = ['src' => $src, 'class' => implode(' ', $classes), 'data-src-index' => $i];
+      return HtmlUtils::makeImageElement(array_merge($attributes, $this->getExtraImageAttributes($isTop)));
    }
 
    private function getBottomCircleSrc(): string {
       return $this->getImage('orange_circle.png');
    }
 
-   private function getTopCircle(): string {
-      $imgName = ServerUtils::onGoogleCloudProject() ? 'hq_stripe_circle.png' : 'white_strips_circle.png';
+   private function getTopCircle(int $index): string {
+      $imgName = ServerUtils::onGoogleCloudProject() ? $this->getCloudImage($index) : 'white_strips_circle.png';
       return $this->getImage($imgName, /*forceStatic*/false);
 
+   }
+
+   // This is all to support a silly hack where if you click on the portrait in the header, the floating
+   // images will switch to another random image.
+   private function getExtraImageAttributes(bool $isTop): array {
+      if (!$isTop || !ServerUtils::onGoogleCloudProject()) {
+         return [];
+      }
+
+      $eAttributes = [];
+      foreach([1, 2, 3] as $i) {
+         $eAttributes["data-src-{$i}"]= $this->getImage($this->getCloudImage($i), /*forceStatic*/false);
+
+      }
+
+      return $eAttributes;
+   }
+
+   private function getCloudImage(int $i): string {
+      switch($i) {
+         case 1: return 'chip.png';
+         case 2: return 'camera.png';
+         case 3:
+         default: return 'hq_stripe_circle.png';
+      }
    }
 }
 
