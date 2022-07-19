@@ -191,11 +191,13 @@ class HiddenTextContainer {
       this.revealing = false;
       this.closing = false;
       this.resetting = true;
-      this.textConcealer.style.visibility = 'hidden';
-      let oTime = this.textConcealer.style.transitionDuration;
-      this.textConcealer.style.transitionDuration = '.05s';
-      this.textConcealer.style.transform = 'translateX(0) scaleX(0)';
-      this.textConcealer.style.transitionDuration = oTime;
+      if (this.delayTimoutId) {
+         this.textConcealer.classList.remove('js-header-animation-running');
+         this.textConcealer.classList.remove(this.getStartAnimationClass());
+         this.textConcealer.classList.remove(this.getEndAnimationClass());
+      } else {
+         this.show();
+      }
    }
 
    show() {
@@ -207,9 +209,9 @@ class HiddenTextContainer {
       }
 
       this.delayTimoutId = setTimeout(function() {
-         this.text.style.visibility = 'hidden';
-         this.textConcealer.style.visibility = 'visible';
-         this.textConcealer.style.transform = this.getTransformVisible();
+         this.text.classList.remove('js-show-hidden-text');
+         this.textConcealer.classList.add('js-header-animation-running');
+         this.textConcealer.classList.add(this.getStartAnimationClass());
       }.bind(this), this.getDelay());
    }
 
@@ -217,23 +219,23 @@ class HiddenTextContainer {
       this.revealing = false;
       this.closing = true;
       this.resetting = false;
-      this.text.style.visibility = 'visible';
-      this.textConcealer.style.transform = this.getTransformClose();
+      this.text.classList.add('js-show-hidden-text');
+      this.textConcealer.classList.add(this.getEndAnimationClass());
    }
 
-   getTransformVisible() {
-      return this.isHeaderTextArea() ?
-        'translateX(200px) scaleX(4000%)' :
-        'translateX(100px) scaleX(2000%)';
+   getStartAnimationClass() {
+      return this.isHeaderArea() ?
+        'js-header-animation-start' :
+        'js-grid-animation-start';
    }
 
-   getTransformClose() {
-      return this.isHeaderTextArea() ?
-        'translateX(500px) scaleX(0%)' :
-        'translateX(400px) scaleX(0%)';
+   getEndAnimationClass() {
+      return this.isHeaderArea() ?
+        'js-header-animation-end' :
+        'js-grid-animation-end';
    }
 
-   isHeaderTextArea() {
+   isHeaderArea() {
       if (this.textContainer.classList.contains('js-delay-one') || this.textContainer.classList.contains('js-delay-two')) {
          return true;
       }

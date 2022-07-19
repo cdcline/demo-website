@@ -268,10 +268,30 @@ header {
             top: 0;
             left: 0;
             height: fit-content;
+
+            &.js-header-animation-running {
+               visibility: visible;
+            }
+            &.js-header-animation-start {
+               transform: translateX(200px) scaleX(4000%);
+            }
+            &.js-grid-animation-start {
+               transform: translateX(100px) scaleX(2000%);
+            }
+            &.js-header-animation-end {
+               transform: translateX(500px) scaleX(0%);
+            }
+            &.js-grid-animation-end {
+               transform: translateX(400px) scaleX(0%);
+            }
          }
 
          .hidden-text {
             visibility: hidden;
+
+            &.js-show-hidden-text {
+               visibility: visible;
+            }
          }
       }
 
