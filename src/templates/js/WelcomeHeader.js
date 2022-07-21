@@ -39,6 +39,8 @@ class WelcomeHeader {
                el.randomImage();
             });
 
+            this.birdCage.goWild();
+
             if (!this.resetting) {
                this.resetting = true;
             } else {
@@ -51,6 +53,9 @@ class WelcomeHeader {
             });
          }.bind(this));
       }.bind(this));
+
+      this.birdCage = new FlyingBirdCage(document.getElementById('welcome-header-flying-bird-cage'));
+      this.birdCage.loop();
    }
 }
 
@@ -326,5 +331,162 @@ class HiddenTextContainer {
       if (this.loopTimeoutId) {
          clearTimeout(this.loopTimeoutId);
       }
+   }
+}
+
+class FlyingBirdCage {
+   constructor(birdCage) {
+      this.birdCage = birdCage;
+      this.babyBird = [...this.birdCage.getElementsByClassName('js-flying-bird')][0];
+      this.theWild = document.getElementById('background-container');
+      this.birds = [];
+      this.freeNewBird();
+   }
+
+   loop() {
+      clearTimeout(this.timeoutId);
+      this.releaseBirds();
+      let moveTime = MathUtils.getRandomIntInclusive(8, 13);
+      this.timeoutId = setTimeout(this.loop.bind(this), moveTime * 1000);
+   }
+
+   releaseBirds() {
+      this.birds.forEach(function(bird) {
+         bird.move();
+      });
+   }
+
+   freeNewBird() {
+      let newBird = this.babyBird.cloneNode();
+      this.theWild.prepend(newBird);
+      let bFlyingBird = new FlyingBird(newBird);
+      bFlyingBird.move();
+      this.birds.push(bFlyingBird);
+      return newBird;
+   }
+
+   goWild() {
+      this.freeNewBird();
+      let numBirds = this.birds.length;
+      this.birds.forEach(function(bird) {
+         bird.goWild(numBirds);
+      });
+   }
+}
+
+class FlyingBird {
+   constructor(birdEl) {
+      this.bird = birdEl;
+      this.toX = null;
+      this.toY = null;
+      this.toScale = null;
+      this.turn = null;
+      this.wild = false;
+      this.moveTime = null;
+   }
+
+   move() {
+      this.setNewLocation();
+      let sTransform ='translate(' + this.toX + '%,' + this.toY+ '%) scale(' + this.toScale + ') rotate(' + this.turn + 'turn)';
+      this.bird.style.transform = sTransform;
+      this.bird.style.transitionDuration = this.flyTime + 's';
+
+   }
+
+   // This is all a bit silly but I wanted the birds to fly to the "edge" of
+   // the screen b/c it's hidden by the page content otherwise.
+   //
+   // Also thought it would be fun to scale them and rotate them when they go
+   // "wild"
+   setNewLocation() {
+      this.toScale = this.randomScale();
+      this.flyTime = this.randomTime();
+      this.turn = this.randomTurn();
+
+      // Choose to move to "sides" or "top/bottom"
+      if (this.moveToSide()) {
+         // We're moveing to a side so choose left or right
+         this.toX = this.moveToLeftSide() ? this.randomLeftX() : this.randomRightX();
+         // Move to any Y on that side (it should be visible through the padding)
+         this.toY = this.randomAnyY();
+      } else {
+         // We're moving to the top so pick top or bottom
+         // NOTE: It's weighed more for the bottom b/c the top doesn't have any padding
+         if (this.moveToTop()) {
+            this.toY = this.randomTopY();
+            // There's no padding in the top center so move either to the left or right if we're moving to the top
+            this.toX = this.moveToLeftSide() ? this.randomLeftX() : this.randomRightX();
+         } else {
+            this.toY = this.randomBottomY();
+            this.toX = this.anyRandomX();
+         }
+      }
+   }
+
+   goWild(numBirds) {
+      this.wild = numBirds;
+   }
+
+   moveToSide() {
+      return this.randomBool();
+   }
+
+   moveToLeftSide() {
+      return this.randomBool();
+   }
+
+   moveToTop() {
+      return MathUtils.getRandomIntInclusive(0, 4) < 1;
+   }
+
+   randomBool() {
+      return MathUtils.getRandomIntInclusive(0, 1) > 0;
+   }
+
+   randomScale() {
+      // I wanted the birds to get smaller as more got added but not too small
+      let wildScale = this.wild ? this.wild : 1;
+      let cappedWildScale = wildScale > 5 ? 5 : wildScale;
+      let maxScale = 100;
+      let minScale = 50;
+      // Kinda an arbitrary min / max function with a cap to keep from too small
+      if (wildScale > 1) {
+         maxScale -= ((cappedWildScale - 1) * 10);
+         minScale -= ((cappedWildScale - 1) * 10);
+         minScale = minScale < 30 ? 30 : minScale;
+      }
+      return MathUtils.getRandomIntInclusive(minScale, maxScale) / 100;
+   }
+
+   randomTime() {
+      return MathUtils.getRandomIntInclusive(3, 10);
+   }
+
+   randomTurn() {
+      return this.wild ? MathUtils.getRandomIntInclusive(0, 100) / 100 : 0;
+   }
+
+   randomLeftX() {
+      return MathUtils.getRandomIntInclusive(-60, -20)
+   }
+
+   randomRightX() {
+      return MathUtils.getRandomIntInclusive(120, 160)
+   }
+
+   anyRandomX() {
+      return MathUtils.getRandomIntInclusive(-60, 160)
+   }
+
+   randomTopY() {
+      return MathUtils.getRandomIntInclusive(-50, 30)
+   }
+
+   randomBottomY() {
+      return MathUtils.getRandomIntInclusive(90, 110)
+   }
+
+   randomAnyY() {
+      return MathUtils.getRandomIntInclusive(-50, 550);
    }
 }

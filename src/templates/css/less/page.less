@@ -17,11 +17,16 @@
    box-sizing: border-box;
 }
 
+html, body {
+   height: fit-content;
+   width: 100%;
+   display: flex;
+}
+
 body {
    font-family: @generalFontFamily;
    background-color: @bodyBackgroundColor;
-   display: flex;
-   flex-direction: column;
+   justify-content: center;
    margin: 0;
    padding: 0;
 
@@ -43,6 +48,21 @@ body {
 
    .copyright-container {
       color: @copyrightContainerTextColor;
+   }
+}
+
+.page-background-container {
+   height: fit-content;
+   position: relative;
+   width: 100%;
+
+   .background-container {
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      bottom: 0%;
+      width: 100%;
+      z-index: -1;
    }
 }
 
@@ -373,6 +393,17 @@ header {
          }
       }
    }
+
+   .welcome-header-flying-bird-cage {
+      visibility: hidden;
+   }
+}
+
+.welcome-header-flying-bird {
+   width: 50vw;
+   transition: transform 10s ease-in-out;
+   position: absolute;
+   z-index: -1;
 }
 
 /* Container for flexboxes */

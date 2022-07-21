@@ -3,11 +3,16 @@
 * {
   box-sizing: border-box;
 }
+html,
+body {
+  height: fit-content;
+  width: 100%;
+  display: flex;
+}
 body {
   font-family: "Helvetica Neue, Regular";
   background-color: #A70000;
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   margin: 0;
   padding: 0;
 }
@@ -28,6 +33,19 @@ body .body-content-container {
 }
 body .copyright-container {
   color: white;
+}
+.page-background-container {
+  height: fit-content;
+  position: relative;
+  width: 100%;
+}
+.page-background-container .background-container {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  bottom: 0%;
+  width: 100%;
+  z-index: -1;
 }
 .flex-break {
   flex-basis: 100%;
@@ -327,6 +345,15 @@ header .header-main-title-container.image-header-container .header-slideshow-con
 }
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-details-container .welcome-header-contact-info-data a:visited {
   color: white;
+}
+#welcome-header-container .welcome-header-flying-bird-cage {
+  visibility: hidden;
+}
+.welcome-header-flying-bird {
+  width: 50vw;
+  transition: transform 10s ease-in-out;
+  position: absolute;
+  z-index: -1;
 }
 /* Container for flexboxes */
 section {

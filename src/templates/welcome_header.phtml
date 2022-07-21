@@ -294,12 +294,31 @@ class ContactInfo extends WelcomeHeaderElement {
    }
 }
 
+class FlyingBird extends WelcomeHeaderElement
+{
+   /**
+    *  <img>
+    */
+   protected function buildHtml(): string
+   {
+      $imgAttributes = [
+         'class' => 'js-flying-bird welcome-header-flying-bird',
+         'src' => $this->getImage('flying_bird.png')
+      ];
+      return HtmlUtils::makeDivElement(
+         HtmlUtils::makeImageElement($imgAttributes),
+         ['id' => 'welcome-header-flying-bird-cage', 'class' => 'welcome-header-flying-bird-cage']
+      );
+   }
+}
+
 $left = ['isLeft' => true];
 $right = ['isLeft' => false];
 ?>
 
 
 <div id="welcome-header-container">
+   <?= FlyingBird::getHtml() ?>
    <?= FloatingCircles::getHtml($left) ?>
    <?= FloatingXBox::getHtml($left) ?>
    <?= FloatingCircles::getHtml($right) ?>
