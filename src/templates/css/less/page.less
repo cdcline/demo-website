@@ -3,13 +3,16 @@
 @minWidth: 375px;
 @minBreakpoint: 480px;
 @pageBreakpoint: 745px;
-@maxWidth: 1920px;
+@maxWidth: 1280px;
 @contentSidePadding: 14px;
 @footerCircleSize: 84px;
 @footerCircleVisitingSize: 50px;
-@maxHeaderHeight: 550px;
 
-@generalFontFamily: "Helvetica Neue, Regular";
+@maxPageHeaderHeight: 500px;
+@standardPageHeaderHeight: 550px;
+
+@robotoFlex: 'Roboto Flex';
+@generalFontFamily: "'Open Sans', sans-serif";
 @headerFontFamily: "Helvetica Neue, Bold";
 
 /** Global **/
@@ -154,40 +157,58 @@ header {
 #welcome-header-container {
    position: relative;
    overflow: hidden;
-   height: @maxHeaderHeight;
+   height: @maxPageHeaderHeight;
+
+   @media (max-width: @pageBreakpoint) {
+      height: @standardPageHeaderHeight;
+   }
+
+   .welcome-header-content-background {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      bottom: 0%;
+   }
 
    .welcome-header-floating-circle-container {
-      position: relative;
+      position: absolute;
       z-index: 2;
 
-      &.right-side {
-         position: absolute;
+      &.left-side {
+         left: 10vw;
+         top: 12vw;
+         margin-left: -140px;
+         margin-top: -160px;
 
-         right: 20%;
-         bottom: 133px;
          @media (max-width: @pageBreakpoint) {
-            right: 22%;
-            bottom: 355px;
-         }
-         @media (max-width: @minBreakpoint) {
-            right: 23%;
-            bottom: 380px;
+            margin-top: -120px;
          }
       }
 
-      &:first-child {
-         margin-left: -50px;
+      &.right-side {
+         right: 5vw;
+         bottom: 10vw;
+         margin-right: -130px;
+         margin-bottom: -160px;
+
+         @media (max-width: @pageBreakpoint) {
+            margin-bottom: 20vw;
+            right: 5vw;
+         }
+         @media (max-width: @minBreakpoint) {
+            margin-bottom: 33vw;
+            margin-right: -190px;
+         }
       }
 
       .floating-circle {
-         left: 0;
-         top: 0;
-         position: absolute;
          z-index: 3;
          width: 225px;
          height: 225px;
+         position: relative;
 
          &.top-floating-circle {
+            position: absolute;
             z-index: 4;
          }
       }
@@ -205,7 +226,11 @@ header {
       .welcome-header-slash {
          position: absolute;
          top: 0;
-         height: @maxHeaderHeight;
+         height: @maxPageHeaderHeight;
+
+         @media (max-width: @pageBreakpoint) {
+            height: @standardPageHeaderHeight;
+         }
          width: auto;
          transition: transform 10s ease-in-out;
          visibility: hidden;
@@ -229,28 +254,34 @@ header {
       z-index: 3;
       position: absolute;
 
-      left: 5%;
-      bottom: 30px;
-      @media (max-width: @pageBreakpoint) {
-         left: 5%;
-         bottom: 129px;
-      }
-      @media (max-width: @minBreakpoint) {
-         bottom: 213px;
-         left: 8%;
+      &.left-side {
+         margin-left: -120px;
+         left: 20vw;
+         bottom: 25px;
+         @media (max-width: @pageBreakpoint) {
+            margin-left: -47px;
+            left: 10vw;
+            bottom: 110px;
+         }
+         @media (max-width: @minBreakpoint) {
+            margin-left: -75px;
+            left: 20vw;
+            bottom: 220px;
+         }
       }
 
       &.right-side {
          text-align: right;
-         right: 5%;
-         top: 70px;
+         right: 20vw;
+         top: 48px;
 
          @media (max-width: @pageBreakpoint) {
-            right: 10%;
+            margin-right: -50px;
             top: 60px;
          }
 
          @media (max-width: @minBreakpoint) {
+            margin-right: -75px;
             top: 40px;
          }
       }
@@ -262,11 +293,6 @@ header {
          @media (max-width: @pageBreakpoint) {
             width: 24px;
          }
-
-         @media (max-width: @minBreakpoint) {
-            width: 12px;
-         }
-
       }
    }
 
@@ -278,11 +304,12 @@ header {
       justify-content: center;
       align-items: center;
       z-index: 5;
-      gap: 10px;
+      gap: 3px;
 
       @media (max-width: @pageBreakpoint) {
          flex-direction: column;
          text-align: center;
+         gap: 15px;
       }
 
       .hidden-text-container {
@@ -339,9 +366,10 @@ header {
       }
 
       .welcome-header-contact-info-text-container {
+         font-family: @robotoFlex;
          display: flex;
          flex-direction: column;
-         gap: 10px;
+         gap: 5px;
          z-index: 6;
          overflow: hidden;
 
@@ -350,21 +378,40 @@ header {
             padding: 0;
          }
 
+         h2 {
+            font-size: 75px;
+            font-weight: 800;
+
+            @media (max-width: @pageBreakpoint) {
+               font-size: 65px;
+            }
+            @media (max-width: @minBreakpoint) {
+               font-size: 60px;
+            }
+         }
+
+         .welcome-header-contact-info-position-container {
+            font-size: 30px;
+            font-weight: 400;
+         }
+
          .welcome-header-contact-info-details-container {
             display: grid;
             grid-template-columns: repeat(2, auto);
-            gap: 10px;
+            gap: 3px;
             grid-auto-rows: auto;
             overflow: hidden;
+            margin-top: 5px;
 
             .welcome-header-contact-info-data {
                display: flex;
                flex-direction: row;
                align-items: center;
                overflow: hidden;
+               font-weight: 200;
 
                .welcome-header-contact-icon {
-                  font-size: 25px;
+                  font-size: 20px;
 
                   @media (max-width: @minBreakpoint) {
                      font-size: 20px;
@@ -372,7 +419,7 @@ header {
                }
 
                p {
-                  font-size: 20px;
+                  font-size: 16px;
                   padding-left: 6px;
 
                   @media (max-width: @minBreakpoint) {
@@ -400,10 +447,11 @@ header {
 }
 
 .welcome-header-flying-bird {
-   width: 50vw;
    transition: transform 10s ease-in-out;
+   transform: scale(.5);
    position: absolute;
-   z-index: -1;
+   left: 0;
+   top: 0;
 }
 
 /* Container for flexboxes */

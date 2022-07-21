@@ -20,7 +20,6 @@ class WelcomeHeader {
          let xBox = new FloatingXBoxContainer(el);
          xBox.loop();
          return xBox;
-
       });
 
       this.hiddenTextContainers = [...document.getElementsByClassName('js-hidden-text-container')].map(function(el) {
@@ -390,7 +389,6 @@ class FlyingBird {
       let sTransform ='translate(' + this.toX + '%,' + this.toY+ '%) scale(' + this.toScale + ') rotate(' + this.turn + 'turn)';
       this.bird.style.transform = sTransform;
       this.bird.style.transitionDuration = this.flyTime + 's';
-
    }
 
    // This is all a bit silly but I wanted the birds to fly to the "edge" of
@@ -447,15 +445,16 @@ class FlyingBird {
       // I wanted the birds to get smaller as more got added but not too small
       let wildScale = this.wild ? this.wild : 1;
       let cappedWildScale = wildScale > 5 ? 5 : wildScale;
-      let maxScale = 100;
-      let minScale = 50;
+      let maxNewScale = 80;
+      let minNewScale = 50;
+      let minScale = 30;
       // Kinda an arbitrary min / max function with a cap to keep from too small
       if (wildScale > 1) {
-         maxScale -= ((cappedWildScale - 1) * 10);
-         minScale -= ((cappedWildScale - 1) * 10);
-         minScale = minScale < 30 ? 30 : minScale;
+         maxNewScale -= ((cappedWildScale - 1) * 10);
+         minNewScale -= ((cappedWildScale - 1) * 10);
+         minNewScale = minNewScale < minScale ? minScale : minNewScale;
       }
-      return MathUtils.getRandomIntInclusive(minScale, maxScale) / 100;
+      return MathUtils.getRandomIntInclusive(minNewScale, maxNewScale) / 100;
    }
 
    randomTime() {
@@ -467,26 +466,50 @@ class FlyingBird {
    }
 
    randomLeftX() {
-      return MathUtils.getRandomIntInclusive(-60, -20)
+      return MathUtils.getRandomIntInclusive(-50, -60)
    }
 
    randomRightX() {
-      return MathUtils.getRandomIntInclusive(120, 160)
+      let viewWidth = this.width();
+      // Aritrary but grows with window size.
+      let rightX = viewWidth / 20;
+
+      return MathUtils.getRandomIntInclusive(rightX - 10, rightX + 10)
+   }
+
+   width() {
+      return window.innerWidth
+          || document.documentElement.clientWidth
+          || document.body.clientWidth
+          || 0;
    }
 
    anyRandomX() {
-      return MathUtils.getRandomIntInclusive(-60, 160)
+      return MathUtils.getRandomIntInclusive(this.randomLeftX(), this.randomRightX())
    }
 
    randomTopY() {
-      return MathUtils.getRandomIntInclusive(-50, 30)
+      return MathUtils.getRandomIntInclusive(-25, 50)
    }
 
    randomBottomY() {
-      return MathUtils.getRandomIntInclusive(90, 110)
+      // Bottom of either the page or header
+      return this.randomBool() ?
+       MathUtils.getRandomIntInclusive(15, 30) :
+       this.randomBottomHeight();
+   }
+
+   randomBottomHeight() {
+      // Super arbitrary. The ratio seemed to work as the page scaled up.
+      let height = this.height() / 8;
+      return MathUtils.getRandomIntInclusive(height - 10, height + 10);
    }
 
    randomAnyY() {
-      return MathUtils.getRandomIntInclusive(-50, 550);
+      return MathUtils.getRandomIntInclusive(this.randomTopY(), this.randomBottomHeight());
+   }
+
+   height() {
+      return document.getElementById('background-container').clientHeight;
    }
 }

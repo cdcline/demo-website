@@ -10,7 +10,7 @@ body {
   display: flex;
 }
 body {
-  font-family: "Helvetica Neue, Regular";
+  font-family: "'Open Sans', sans-serif";
   background-color: #888888;
   justify-content: center;
   margin: 0;
@@ -18,7 +18,7 @@ body {
 }
 body .body-content-container {
   min-width: 375px;
-  max-width: 1920px;
+  max-width: 1280px;
   padding: 0 14px;
   margin: 0px auto;
   display: flex;
@@ -67,7 +67,7 @@ header .header-main-title-container {
   justify-content: center;
   padding: 30px 0;
   text-align: center;
-  max-width: 1920px;
+  max-width: 1280px;
 }
 header .header-main-title-container h2 {
   margin: 0px;
@@ -118,41 +118,60 @@ header .header-main-title-container.image-header-container .header-slideshow-con
 #welcome-header-container {
   position: relative;
   overflow: hidden;
-  height: 550px;
+  height: 500px;
+}
+@media (max-width: 745px) {
+  #welcome-header-container {
+    height: 550px;
+  }
+}
+#welcome-header-container .welcome-header-content-background {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0%;
 }
 #welcome-header-container .welcome-header-floating-circle-container {
-  position: relative;
+  position: absolute;
   z-index: 2;
 }
+#welcome-header-container .welcome-header-floating-circle-container.left-side {
+  left: 10vw;
+  top: 12vw;
+  margin-left: -140px;
+  margin-top: -160px;
+}
+@media (max-width: 745px) {
+  #welcome-header-container .welcome-header-floating-circle-container.left-side {
+    margin-top: -120px;
+  }
+}
 #welcome-header-container .welcome-header-floating-circle-container.right-side {
-  position: absolute;
-  right: 20%;
-  bottom: 133px;
+  right: 5vw;
+  bottom: 10vw;
+  margin-right: -130px;
+  margin-bottom: -160px;
 }
 @media (max-width: 745px) {
   #welcome-header-container .welcome-header-floating-circle-container.right-side {
-    right: 22%;
-    bottom: 355px;
+    margin-bottom: 20vw;
+    right: 5vw;
   }
 }
 @media (max-width: 480px) {
   #welcome-header-container .welcome-header-floating-circle-container.right-side {
-    right: 23%;
-    bottom: 380px;
+    margin-bottom: 33vw;
+    margin-right: -190px;
   }
 }
-#welcome-header-container .welcome-header-floating-circle-container:first-child {
-  margin-left: -50px;
-}
 #welcome-header-container .welcome-header-floating-circle-container .floating-circle {
-  left: 0;
-  top: 0;
-  position: absolute;
   z-index: 3;
   width: 225px;
   height: 225px;
+  position: relative;
 }
 #welcome-header-container .welcome-header-floating-circle-container .floating-circle.top-floating-circle {
+  position: absolute;
   z-index: 4;
 }
 #welcome-header-container .welcome-header-floating-circle-container .slider-container-transition {
@@ -166,10 +185,15 @@ header .header-main-title-container.image-header-container .header-slideshow-con
 #welcome-header-container .welcome-header-slash-container .welcome-header-slash {
   position: absolute;
   top: 0;
-  height: 550px;
+  height: 500px;
   width: auto;
   transition: transform 10s ease-in-out;
   visibility: hidden;
+}
+@media (max-width: 745px) {
+  #welcome-header-container .welcome-header-slash-container .welcome-header-slash {
+    height: 550px;
+  }
 }
 #welcome-header-container .welcome-header-slash-container .welcome-header-slash.js-animate-slash {
   visibility: visible;
@@ -188,34 +212,40 @@ header .header-main-title-container.image-header-container .header-slideshow-con
 #welcome-header-container .welcome-header-x-container {
   z-index: 3;
   position: absolute;
-  left: 5%;
-  bottom: 30px;
+}
+#welcome-header-container .welcome-header-x-container.left-side {
+  margin-left: -120px;
+  left: 20vw;
+  bottom: 25px;
 }
 @media (max-width: 745px) {
-  #welcome-header-container .welcome-header-x-container {
-    left: 5%;
-    bottom: 129px;
+  #welcome-header-container .welcome-header-x-container.left-side {
+    margin-left: -47px;
+    left: 10vw;
+    bottom: 110px;
   }
 }
 @media (max-width: 480px) {
-  #welcome-header-container .welcome-header-x-container {
-    bottom: 213px;
-    left: 8%;
+  #welcome-header-container .welcome-header-x-container.left-side {
+    margin-left: -75px;
+    left: 20vw;
+    bottom: 220px;
   }
 }
 #welcome-header-container .welcome-header-x-container.right-side {
   text-align: right;
-  right: 5%;
-  top: 70px;
+  right: 20vw;
+  top: 48px;
 }
 @media (max-width: 745px) {
   #welcome-header-container .welcome-header-x-container.right-side {
-    right: 10%;
+    margin-right: -50px;
     top: 60px;
   }
 }
 @media (max-width: 480px) {
   #welcome-header-container .welcome-header-x-container.right-side {
+    margin-right: -75px;
     top: 40px;
   }
 }
@@ -228,11 +258,6 @@ header .header-main-title-container.image-header-container .header-slideshow-con
     width: 24px;
   }
 }
-@media (max-width: 480px) {
-  #welcome-header-container .welcome-header-x-container .welcome-header-x {
-    width: 12px;
-  }
-}
 #welcome-header-container .welcome-header-contact-info-container {
   display: flex;
   flex-direction: row;
@@ -241,12 +266,13 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   justify-content: center;
   align-items: center;
   z-index: 5;
-  gap: 10px;
+  gap: 3px;
 }
 @media (max-width: 745px) {
   #welcome-header-container .welcome-header-contact-info-container {
     flex-direction: column;
     text-align: center;
+    gap: 15px;
   }
 }
 #welcome-header-container .welcome-header-contact-info-container .hidden-text-container {
@@ -296,9 +322,10 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   cursor: pointer;
 }
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container {
+  font-family: 'Roboto Flex';
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   z-index: 6;
   overflow: hidden;
 }
@@ -308,21 +335,41 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   margin: 0;
   padding: 0;
 }
+#welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container h2 {
+  font-size: 75px;
+  font-weight: 800;
+}
+@media (max-width: 745px) {
+  #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container h2 {
+    font-size: 65px;
+  }
+}
+@media (max-width: 480px) {
+  #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container h2 {
+    font-size: 60px;
+  }
+}
+#welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-position-container {
+  font-size: 30px;
+  font-weight: 400;
+}
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-details-container {
   display: grid;
   grid-template-columns: repeat(2, auto);
-  gap: 10px;
+  gap: 3px;
   grid-auto-rows: auto;
   overflow: hidden;
+  margin-top: 5px;
 }
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-details-container .welcome-header-contact-info-data {
   display: flex;
   flex-direction: row;
   align-items: center;
   overflow: hidden;
+  font-weight: 200;
 }
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-details-container .welcome-header-contact-info-data .welcome-header-contact-icon {
-  font-size: 25px;
+  font-size: 20px;
 }
 @media (max-width: 480px) {
   #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-details-container .welcome-header-contact-info-data .welcome-header-contact-icon {
@@ -330,7 +377,7 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   }
 }
 #welcome-header-container .welcome-header-contact-info-container .welcome-header-contact-info-text-container .welcome-header-contact-info-details-container .welcome-header-contact-info-data p {
-  font-size: 20px;
+  font-size: 16px;
   padding-left: 6px;
 }
 @media (max-width: 480px) {
@@ -350,10 +397,11 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   visibility: hidden;
 }
 .welcome-header-flying-bird {
-  width: 50vw;
   transition: transform 10s ease-in-out;
+  transform: scale(0.5);
   position: absolute;
-  z-index: -1;
+  left: 0;
+  top: 0;
 }
 /* Container for flexboxes */
 section {
@@ -402,7 +450,7 @@ nav {
   -ms-flex: 2;
   flex: 2;
   text-align: left;
-  font-family: "Helvetica Neue, Regular";
+  font-family: "'Open Sans', sans-serif";
   font-size: 20px;
 }
 @media (max-width: 745px) {

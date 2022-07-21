@@ -47,9 +47,7 @@ class FloatingCircles extends WelcomeHeaderElement {
       $topCircle = $this->getCircleHtml(/*isTop*/true);
       $bottomCircle = $this->getCircleHtml(/*isTop*/false);
       $classes = ['welcome-header-floating-circle-container'];
-      if (!$this->isLeft) {
-         $classes[] = 'right-side';
-      }
+      $classes[] = $this->isLeft ? 'left-side' : 'right-side';
       return HtmlUtils::makeDivElement(
          $topCircle . $bottomCircle,
          ['class' => implode(' ', $classes)]
@@ -128,9 +126,7 @@ class FloatingXBox extends WelcomeHeaderElement
          $xHtml .= $this->getXImageHtml();
       }
       $classes = ['js-welcome-header-x-container', ' welcome-header-x-container'];
-      if (!$this->isLeft) {
-         $classes[] = 'right-side';
-      }
+      $classes[] = $this->isLeft ? 'left-side' : 'right-side';
 
       return HtmlUtils::makeDivElement($xHtml, ['class' => implode(' ', $classes)]);
    }
@@ -319,10 +315,12 @@ $right = ['isLeft' => false];
 
 <div id="welcome-header-container">
    <?= FlyingBird::getHtml() ?>
-   <?= FloatingCircles::getHtml($left) ?>
-   <?= FloatingXBox::getHtml($left) ?>
-   <?= FloatingCircles::getHtml($right) ?>
-   <?= FloatingXBox::getHtml($right) ?>
-   <?= MovingSlash::getHtml() ?>
+   <div class="welcome-header-content-background">
+      <?= FloatingCircles::getHtml($left) ?>
+      <?= FloatingCircles::getHtml($right) ?>
+      <?= FloatingXBox::getHtml($left) ?>
+      <?= FloatingXBox::getHtml($right) ?>
+      <?= MovingSlash::getHtml() ?>
+   </div>
    <?= ContactInfo::getHtml() ?>
 </div>
