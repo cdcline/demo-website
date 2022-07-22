@@ -210,7 +210,7 @@ header .header-main-title-container.image-header-container .header-slideshow-con
   }
 }
 #welcome-header-container .welcome-header-x-container {
-  z-index: 3;
+  z-index: 10;
   position: absolute;
 }
 #welcome-header-container .welcome-header-x-container.left-side {
@@ -252,11 +252,20 @@ header .header-main-title-container.image-header-container .header-slideshow-con
 #welcome-header-container .welcome-header-x-container .welcome-header-x {
   transition: transform 10s ease-in-out;
   width: 48px;
+  height: 48px;
 }
 @media (max-width: 745px) {
   #welcome-header-container .welcome-header-x-container .welcome-header-x {
     width: 24px;
+    height: 24px;
   }
+}
+#welcome-header-container .welcome-header-x-container .welcome-header-x.svg-path-cross {
+  background-color: white;
+  clip-path: polygon(10% 0%, 0% 10%, 40% 50%, 0% 90%, 10% 100%, 50% 60%, 90% 100%, 100% 90%, 60% 50%, 100% 10%, 90% 0%, 50% 40%);
+}
+#welcome-header-container .welcome-header-x-container .welcome-header-x:hover {
+  cursor: pointer;
 }
 #welcome-header-container .welcome-header-contact-info-container {
   display: flex;

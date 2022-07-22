@@ -50,6 +50,10 @@ class WelcomeHeader {
             this.hiddenTextContainers.forEach(el => {
                el.fullReset();
             });
+
+            this.floatXBoxes.forEach(el => {
+               el.goWild();
+            });
          }.bind(this));
       }.bind(this));
 
@@ -165,12 +169,26 @@ class FloatingXBoxContainer {
    setRandomTime() {
       this.loopTime = MathUtils.getRandomIntInclusive(5, 15);
    }
+
+   goWild() {
+      this.xBoxes.forEach(function(xBox) {xBox.goWild()});
+   }
 }
 
 class FloatingXBox {
    constructor(xBoxEl) {
       this.xBox = xBoxEl;
       this.resetTimeoutid = null;
+      this.originalColor = this.xBox.style.backgroundColor;
+      this.wild = false;
+      this.tempColor = null;
+      this.wildTimeoutid = null;
+
+      this.xBox.addEventListener('click', function() {
+         this.changeColor();
+         this.originalColor = this.xBox.style.backgroundColor;
+         this.goWild();
+      }.bind(this));
    }
 
    setupFloat(maxFloatTime) {
@@ -178,6 +196,9 @@ class FloatingXBox {
       let shouldMove = MathUtils.getRandomIntInclusive(0, 2);
       if (!shouldMove) {
          return;
+      }
+      if (this.resetTimeoutid) {
+         clearTimeout(this.resetTimeoutid);
       }
       this.maxMoveTime = parseInt(maxFloatTime / 2);
       this.floatToRandomSpot();
@@ -187,18 +208,49 @@ class FloatingXBox {
    floatToRandomSpot() {
       let toX = MathUtils.getRandomIntInclusive(-50, 50);
       let toY = MathUtils.getRandomIntInclusive(-50, 50);
+      if (this.wild) {
+         toX = toX * MathUtils.getRandomIntInclusive(1, 10);
+         toY = toY * MathUtils.getRandomIntInclusive(1, 10);
+      }
       let sTransform ='translate(' + toX + '%,' + toY+ '%)';
       this.xBox.style.transform = sTransform;
       // Kinda arbitrary but this will change x move speeds
       // If > "maxMoveTime" the X won't actually go the full set distance
       // This duration gives a pretty good, random, slow "floaty" feel
-      let duration = this.maxMoveTime * 2 + 's';
-      this.xBox.style.transitionDuration = duration;
+      let multiplier = this.wild ? MathUtils.getRandomIntInclusive(2, 10) : 2;
+      let duration = this.maxMoveTime * multiplier;
+      this.xBox.style.transitionDuration = duration + 's';
    }
 
    floatHome() {
       let sTransform ='translate(0%, 0%)';
       this.xBox.style.transform = sTransform;
+   }
+
+   goWild() {
+      if (this.wildTimeoutid) {
+         clearTimeout(this.wildTimeoutid);
+      }
+
+      let randomColorTime = MathUtils.getRandomIntInclusive(5, 20);
+      this.wildTimeoutid = setTimeout(this.changeColor.bind(this), randomColorTime * 1000);
+      if (!this.wild) {
+         this.wild = true;
+         this.xBox.addEventListener('mouseenter', function() {
+            this.tempColor = this.xBox.style.backgroundColor;
+            this.xBox.style.backgroundColor = this.originalColor;
+         }.bind(this));
+         this.xBox.addEventListener('mouseleave', function() {
+            if (this.tempColor) {
+               this.xBox.style.backgroundColor = this.tempColor;
+               this.tempColor = null;
+            }
+         }.bind(this));
+      }
+   }
+
+   changeColor() {
+      this.xBox.style.backgroundColor = MathUtils.getRandomRGB();
    }
 }
 

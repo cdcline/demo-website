@@ -133,10 +133,8 @@ class FloatingXBox extends WelcomeHeaderElement
 
    private function getXImageHtml(): string
    {
-      return HtmlUtils::makeImageElement([
-         'src' => $this->getImage(self::X_IMAGE_NAME),
-         'class' => implode(' ', self::DEFAULT_IMAGE_CLASSES)
-      ]);
+      $classes = implode(' ', self::DEFAULT_IMAGE_CLASSES);
+      return "<svg class=\"svg-path-cross {$classes}\"></svg>";
    }
 }
 

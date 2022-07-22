@@ -251,7 +251,9 @@ header {
    }
 
    .welcome-header-x-container {
-      z-index: 3;
+      // Shouldn't ever overlap the header image but might go over transparent image edges
+      // We still want to be able to interact with it so we'll bump the z-index up a lot
+      z-index: 6;
       position: absolute;
 
       &.left-side {
@@ -289,9 +291,20 @@ header {
       .welcome-header-x {
          transition: transform 10s ease-in-out;
          width: 48px;
+         height: 48px;
 
          @media (max-width: @pageBreakpoint) {
             width: 24px;
+            height: 24px;
+         }
+
+         &.svg-path-cross {
+            background-color: @headerTextColor;
+            clip-path: polygon(10% 0%, 0% 10%, 40% 50%, 0% 90%, 10% 100%, 50% 60%, 90% 100%, 100% 90%, 60% 50%, 100% 10%, 90% 0%, 50% 40%);
+         }
+
+         &:hover {
+            cursor: pointer;
          }
       }
    }
