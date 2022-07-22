@@ -54,6 +54,10 @@ class WelcomeHeader {
             this.floatXBoxes.forEach(el => {
                el.goWild();
             });
+
+            this.slashLoops.forEach(el => {
+               el.goWild();
+            });
          }.bind(this));
       }.bind(this));
 
@@ -115,6 +119,7 @@ class SlashLoop {
    constructor(slashContainer) {
       this.slashContainer = slashContainer;
       this.animating = false;
+      this.loopTime = 1;
       this.slashContainer.addEventListener('transitionend', function(el) {
          if (this.animating) {
             this.resetAnimation();
@@ -123,13 +128,17 @@ class SlashLoop {
          }
       }.bind(this));
       this.slashEl = this.slashContainer.querySelector('.js-moving-slash');
+      this.slashParts = [...this.slashContainer.querySelectorAll('.js-poly-slash-piece')];
       this.timeoutId = null;
    }
 
    animate() {
       this.animating = true;
-      let loopTime = MathUtils.getRandomIntInclusive(5, 15);
-      this.slashEl.style.transitionDuration = loopTime + 's';
+      this.loopTime = MathUtils.getRandomIntInclusive(5, 15);
+      if (this.wild) {
+         this.changeColors();
+      }
+      this.slashEl.style.transitionDuration = this.loopTime + 's';
       this.slashEl.classList.add('js-animate-slash');
    }
 
@@ -138,6 +147,18 @@ class SlashLoop {
       let waitTime = MathUtils.getRandomIntInclusive(1, 5);
       this.slashEl.style.transitionDuration = waitTime + 's';
       this.slashEl.classList.remove('js-animate-slash');
+   }
+
+   goWild() {
+      this.wild = true;
+      this.changeColors();
+   }
+
+   changeColors() {
+      this.slashParts.forEach(function(el) {
+         el.style.backgroundColor = MathUtils.getRandomRGB();
+         el.style.transitionDuration = this.loopTime + 's';
+      }.bind(this));
    }
 }
 

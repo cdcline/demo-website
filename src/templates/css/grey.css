@@ -448,14 +448,37 @@ footer div.links-container .circle-container .color-4 {
 }
 #welcome-header-container .welcome-header-slash-container {
   z-index: 1;
-  position: relative;
-  margin-left: -650px;
-}
-#welcome-header-container .welcome-header-slash-container .welcome-header-slash {
   position: absolute;
   top: 0;
+  bottom: 0;
+  width: 100%;
+  margin-left: -650px;
+}
+#welcome-header-container .welcome-header-slash-container .clip-path-poly-slash-large,
+#welcome-header-container .welcome-header-slash-container .clip-path-poly-slash-small {
+  position: absolute;
+  width: 600px;
+  background-color: #ffad30;
   height: 500px;
-  width: auto;
+  transition: background-color 10s ease;
+}
+@media (max-width: 745px) {
+  #welcome-header-container .welcome-header-slash-container .clip-path-poly-slash-large,
+  #welcome-header-container .welcome-header-slash-container .clip-path-poly-slash-small {
+    height: 550px;
+  }
+}
+#welcome-header-container .welcome-header-slash-container .clip-path-poly-slash-large {
+  clip-path: polygon(55% 0, 92% 0, 37% 100%, 0 100%);
+}
+#welcome-header-container .welcome-header-slash-container .clip-path-poly-slash-small {
+  position: absolute;
+  clip-path: polygon(95% 0, 100% 0, 45% 100%, 40% 100%);
+}
+#welcome-header-container .welcome-header-slash-container .welcome-header-slash {
+  display: block;
+  width: 650px;
+  height: 500px;
   transition: transform 10s ease-in-out;
   visibility: hidden;
 }

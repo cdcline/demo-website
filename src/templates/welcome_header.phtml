@@ -138,8 +138,7 @@ class FloatingXBox extends WelcomeHeaderElement
    }
 }
 
-class MovingSlash extends WelcomeHeaderElement
-{
+class MovingSlash extends WelcomeHeaderElement {
    /**
     *  <div>
     *    <img>
@@ -147,17 +146,41 @@ class MovingSlash extends WelcomeHeaderElement
     */
    protected function buildHtml(): string
    {
-      $imgAttributes = [
-         'id' => 'welcome-header-slash',
-         'class' => 'js-moving-slash welcome-header-slash',
-         'src' => $this->getImage('orange_lines.png')
-      ];
-      $imgHtml = HtmlUtils::makeImageElement($imgAttributes);
       $divAttributes = [
-         'id' => 'welcome-header-slash-container',
          'class' => 'welcome-header-slash-container js-welcome-header-slash-container'
       ];
-      return HtmlUtils::makeDivElement($imgHtml, $divAttributes);
+      return HtmlUtils::makeDivElement($this->buildSlashElement(), $divAttributes);
+   }
+
+   private function buildSlashElement(): string {
+      $dom = new DOMDocument();
+      $localName = 'poly-slash';
+      $parentEl = $dom->createElement($localName);
+      $this->addAttribute($dom, $parentEl, 'class', 'welcome-header-slash js-moving-slash');
+      $this->buildSmallSlashElement($dom, $parentEl);
+      $this->buildLargeSlashElement($dom, $parentEl);
+      $dom->appendChild($parentEl);
+      return $dom->saveHTML();
+   }
+
+   private function buildSmallSlashElement(DOMDocument $dom, DOMElement $parent): void {
+      $localName = 'poly-slash-small';
+      $sSlashEl = $dom->createElement($localName);
+      $this->addAttribute($dom, $sSlashEl, 'class', 'clip-path-poly-slash-small js-poly-slash-piece');
+      $parent->appendChild($sSlashEl);
+   }
+
+   private function buildLargeSlashElement(DOMDocument $dom, DOMElement $parent): void {
+      $localName = 'poly-slash-large';
+      $lSlashEl = $dom->createElement($localName);
+      $this->addAttribute($dom, $lSlashEl, 'class', 'clip-path-poly-slash-large js-poly-slash-piece');
+      $parent->appendChild($lSlashEl);
+   }
+
+   private function addAttribute(DOMDocument $dom, DomElement $element, string $attributeName, string $attributeValue): void {
+      $dAttribute = $dom->createAttribute($attributeName);
+      $dAttribute->value = $attributeValue;
+      $element->appendChild($dAttribute);
    }
 }
 

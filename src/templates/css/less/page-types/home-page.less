@@ -69,18 +69,40 @@
 
    .welcome-header-slash-container {
       z-index: 1;
-      position: relative;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
       margin-left: -650px;
 
-      .welcome-header-slash {
+      .clip-path-poly-slash-large, .clip-path-poly-slash-small {
          position: absolute;
-         top: 0;
+         width: 600px;
+         background-color: @welcomeHeaderSlash;
+         height: @maxPageHeaderHeight;
+         transition: background-color 10s ease;
+         @media (max-width: @pageBreakpoint) {
+            height: @standardPageHeaderHeight;
+         }
+      }
+
+      .clip-path-poly-slash-large {
+         clip-path: polygon(55% 0, 92% 0, 37% 100%, 0 100%);
+      }
+
+      .clip-path-poly-slash-small {
+         position: absolute;
+         clip-path: polygon(95% 0, 100% 0, 45% 100%, 40% 100%);
+      }
+
+      .welcome-header-slash {
+         display: block;
+         width: 650px;
          height: @maxPageHeaderHeight;
 
          @media (max-width: @pageBreakpoint) {
             height: @standardPageHeaderHeight;
          }
-         width: auto;
          transition: transform 10s ease-in-out;
          visibility: hidden;
 
