@@ -58,6 +58,10 @@ class WelcomeHeader {
             this.slashLoops.forEach(el => {
                el.goWild();
             });
+
+            this.loopCircles.forEach(el => {
+               el.goWild();
+            });
          }.bind(this));
       }.bind(this));
 
@@ -70,6 +74,7 @@ class FloatingCircle {
 	constructor(circleEl) {
       this.circleEl = circleEl;
       this.timeoutId = null;
+      this.wild = false;
       this.resetValues();
    }
 
@@ -104,14 +109,42 @@ class FloatingCircle {
 
    move() {
       let sTransform ='translate(' + this.toX + '%,' + this.toY+ '%)';
+      if (this.wild) {
+         this.changeColor();
+      }
       this.circleEl.style.transform = sTransform;
       this.circleEl.style.transitionDuration = this.loopTime + 's';
    }
 
+   changeColor() {
+      if (this.circleEl.classList.contains('top-floating-circle')) {
+         return;
+      }
+      this.circleEl.style.backgroundColor = MathUtils.getRandomRGB();
+   }
+
    resetValues() {
-      this.loopTime = MathUtils.getRandomIntInclusive(5, 15);
-      this.toX = MathUtils.getRandomIntInclusive(-20, 20);
-      this.toY = MathUtils.getRandomIntInclusive(-20, 20);
+      let minLoopTime = 5;
+      let maxLoopTime = 15;
+      let minXMove = -20;
+      let maxXMove = 20;
+      let minYMove = -20;
+      let maxYMove = 20;
+      if (this.wild) {
+         minLoopTime = 1;
+         maxLoopTime = 30;
+         minXMove = minYMove = -50;
+         maxXMove = maxYMove = 50;
+      }
+
+      this.loopTime = MathUtils.getRandomIntInclusive(minLoopTime, maxLoopTime);
+      this.toX = MathUtils.getRandomIntInclusive(minXMove, maxXMove);
+      this.toY = MathUtils.getRandomIntInclusive(minYMove, maxYMove);
+   }
+
+   goWild() {
+      this.wild = true;
+      this.changeColor();
    }
 }
 

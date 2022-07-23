@@ -439,12 +439,17 @@ footer div.links-container .circle-container .color-4 {
   height: 225px;
   position: relative;
 }
+#welcome-header-container .welcome-header-floating-circle-container .floating-circle.clip-path-circle {
+  display: block;
+  clip-path: circle(50% at 50% 50%);
+  background-color: #e77619;
+}
 #welcome-header-container .welcome-header-floating-circle-container .floating-circle.top-floating-circle {
   position: absolute;
   z-index: 4;
 }
 #welcome-header-container .welcome-header-floating-circle-container .slider-container-transition {
-  transition: transform 10s ease-in-out;
+  transition: transform 10s ease-in-out, background-color 5s ease;
 }
 #welcome-header-container .welcome-header-slash-container {
   z-index: 1;

@@ -27,6 +27,12 @@ abstract class WelcomeHeaderElement
    protected static function getHostedImage(string $imageName): string {
       return ServerUtils::getHostedImagePath() . "homepage_header/{$imageName}";
    }
+
+   protected function addAttribute(DOMDocument $dom, DomElement $element, string $attributeName, string $attributeValue): void {
+      $dAttribute = $dom->createAttribute($attributeName);
+      $dAttribute->value = $attributeValue;
+      $element->appendChild($dAttribute);
+   }
 }
 
 class FloatingCircles extends WelcomeHeaderElement {
@@ -44,8 +50,8 @@ class FloatingCircles extends WelcomeHeaderElement {
     *  </div>
     */
    protected function buildHtml(): string {
-      $topCircle = $this->getCircleHtml(/*isTop*/true);
-      $bottomCircle = $this->getCircleHtml(/*isTop*/false);
+      $topCircle = $this->getTopCircleHtml();
+      $bottomCircle = $this->getBottomCircleHtml();
       $classes = ['welcome-header-floating-circle-container'];
       $classes[] = $this->isLeft ? 'left-side' : 'right-side';
       return HtmlUtils::makeDivElement(
@@ -54,31 +60,32 @@ class FloatingCircles extends WelcomeHeaderElement {
       );
    }
 
-   private function getCircleHtml(bool $isTop): string {
-      $extraClasses = $isTop ? ['top-floating-circle'] : [];
-      $classes = array_merge(self::DEFAULT_CLASSES, $extraClasses);
-      $useRandomImages = $isTop && ServerUtils::onGoogleCloudProject();
-      // We want to keep track of the "image index" we show b/c when we switch images, we want a "new" image
+   private function getTopCircleHtml(): string {
+      $classes = array_merge(self::DEFAULT_CLASSES, ['top-floating-circle']);
+      // Quick hack to only run on the live site b/c only single image on dev
+      $useRandomImages = ServerUtils::onGoogleCloudProject();
+      // A bit silly but we want a behavior of always switching to a "new" image.
+      // To do that we need to track the "image index" we're showing.
       $i = $useRandomImages ? rand(1, 3) : 0;
-      $src = $isTop ? $this->getTopCircle($i) : $this->getBottomCircleSrc();
+      $src = $this->getTopCircle($i);
       $attributes = ['src' => $src, 'class' => implode(' ', $classes), 'data-src-index' => $i];
-      return HtmlUtils::makeImageElement(array_merge($attributes, $this->getExtraImageAttributes($isTop)));
+      return HtmlUtils::makeImageElement(array_merge($attributes, $this->getOtherSrcImageAttributes()));
    }
 
-   private function getBottomCircleSrc(): string {
-      return $this->getImage('orange_circle.png');
+   private function getBottomCircleHtml(): string {
+      $classes = implode(' ', self::DEFAULT_CLASSES);
+      return "<circle class=\"clip-path-circle {$classes}\"></circle>";
    }
 
    private function getTopCircle(int $index): string {
       $imgName = ServerUtils::onGoogleCloudProject() ? $this->getCloudImage($index) : 'white_strips_circle.png';
       return $this->getImage($imgName, /*forceStatic*/false);
-
    }
 
    // This is all to support a silly hack where if you click on the portrait in the header, the floating
    // images will switch to another random image.
-   private function getExtraImageAttributes(bool $isTop): array {
-      if (!$isTop || !ServerUtils::onGoogleCloudProject()) {
+   private function getOtherSrcImageAttributes(): array {
+      if (!ServerUtils::onGoogleCloudProject()) {
          return [];
       }
 
@@ -104,7 +111,6 @@ class FloatingCircles extends WelcomeHeaderElement {
 class FloatingXBox extends WelcomeHeaderElement
 {
    private const DEFAULT_IMAGE_CLASSES = ['js-floating-x', 'welcome-header-x'];
-   private const X_IMAGE_NAME = 'x.png';
 
    protected function __construct(array $params)
    {
@@ -177,11 +183,6 @@ class MovingSlash extends WelcomeHeaderElement {
       $parent->appendChild($lSlashEl);
    }
 
-   private function addAttribute(DOMDocument $dom, DomElement $element, string $attributeName, string $attributeValue): void {
-      $dAttribute = $dom->createAttribute($attributeName);
-      $dAttribute->value = $attributeValue;
-      $element->appendChild($dAttribute);
-   }
 }
 
 class ContactInfo extends WelcomeHeaderElement {
