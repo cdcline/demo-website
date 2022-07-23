@@ -153,11 +153,14 @@ class SlashLoop {
       this.slashContainer = slashContainer;
       this.animating = false;
       this.loopTime = 1;
-      this.slashContainer.addEventListener('transitionend', function(el) {
-         if (this.animating) {
-            this.resetAnimation();
-         } else {
-            this.animate();
+      this.slashContainer.addEventListener('transitionend', function(ev) {
+         let isSlideAnimation = ev.propertyName === 'transform';
+         if (isSlideAnimation) {
+            if (this.animating) {
+               this.resetAnimation();
+            } else {
+               this.animate();
+            }
          }
       }.bind(this));
       this.slashEl = this.slashContainer.querySelector('.js-moving-slash');
@@ -237,11 +240,29 @@ class FloatingXBox {
       this.wild = false;
       this.tempColor = null;
       this.wildTimeoutid = null;
+      this.pause = false;
+      this.clickColorChange = false;
+      this.maxMoveTime = 10;
+      this.saveTransition();
 
       this.xBox.addEventListener('click', function() {
-         this.changeColor();
+         this.clickColorChange = true;
+         this.quickTransition();
+         this.xBox.style.backgroundColor = MathUtils.getRandomRGB();
          this.originalColor = this.xBox.style.backgroundColor;
+         this.reloadTransition();
          this.goWild();
+      }.bind(this));
+
+      this.xBox.addEventListener('transitionend', function(ev) {
+         let isColorChange = ev.propertyName === 'background-color';
+         if (isColorChange) {
+            if (this.clickColorChange) {
+               this.reloadTransition();
+            } else {
+               this.changeColor();
+            }
+         }
       }.bind(this));
    }
 
@@ -268,12 +289,7 @@ class FloatingXBox {
       }
       let sTransform ='translate(' + toX + '%,' + toY+ '%)';
       this.xBox.style.transform = sTransform;
-      // Kinda arbitrary but this will change x move speeds
-      // If > "maxMoveTime" the X won't actually go the full set distance
-      // This duration gives a pretty good, random, slow "floaty" feel
-      let multiplier = this.wild ? MathUtils.getRandomIntInclusive(2, 10) : 2;
-      let duration = this.maxMoveTime * multiplier;
-      this.xBox.style.transitionDuration = duration + 's';
+      this.xBox.style.transitionDuration = this.generateRandomDuration();
    }
 
    floatHome() {
@@ -291,10 +307,16 @@ class FloatingXBox {
       if (!this.wild) {
          this.wild = true;
          this.xBox.addEventListener('mouseenter', function() {
+            this.pause = true;
+            if (!this.clickColorChange) {
+               this.quickTransition();
+            }
             this.tempColor = this.xBox.style.backgroundColor;
             this.xBox.style.backgroundColor = this.originalColor;
          }.bind(this));
          this.xBox.addEventListener('mouseleave', function() {
+            this.pause = false;
+            this.reloadTransition();
             if (this.tempColor) {
                this.xBox.style.backgroundColor = this.tempColor;
                this.tempColor = null;
@@ -304,7 +326,36 @@ class FloatingXBox {
    }
 
    changeColor() {
-      this.xBox.style.backgroundColor = MathUtils.getRandomRGB();
+      if (!this.pause) {
+         this.clickColorChange = false;
+         this.xBox.style.backgroundColor = MathUtils.getRandomRGB();
+      }
+   }
+
+   quickTransition() {
+      this.saveTransition();
+      this.xBox.style.transitionDuration = '.5s';
+   }
+
+   saveTransition() {
+      let curTransition = this.xBox.style.transitionDuration;
+      if (typeof curTransition === 'string' || curTransition === '.5s') {
+         curTransition = this.generateRandomDuration();
+      }
+      this.xBox.style.transitionDuration = curTransition;
+   }
+
+   generateRandomDuration() {
+      // Kinda arbitrary but this will change x move speeds
+      // If > "maxMoveTime" the X won't actually go the full set distance
+      // This duration gives a pretty good, random, slow "floaty" feel
+      let multiplier = this.wild ? MathUtils.getRandomIntInclusive(2, 10) : 2;
+      let duration = this.maxMoveTime * multiplier;
+      return '' + duration.toString() + 's';
+   }
+
+   reloadTransition() {
+      this.xBox.style.transitionDuration = this.tempTransition;
    }
 }
 
