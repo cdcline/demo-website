@@ -313,22 +313,37 @@ class HiddenTextContainer {
       this.textContainer = hidddenTextContainer;
       this.textConcealer = this.textContainer.querySelector('.hidden-text-concealer');
       this.text = this.textContainer.querySelector('.hidden-text');
-      this.resetting = false;
-      this.revealing = false;
-      this.closing = false;
+      this.aMode = null;
       this.loopTimeoutid = null;
       this.delayTimoutId = null;
-      this.textContainer.addEventListener('transitionend', function(el) {
-         if (this.resetting) {
-            this.show();
-         } else if (this.revealing) {
-            this.closeAnimation();
+      this.textContainer.addEventListener('transitionend', function(ev) {
+         let isSlideAnimation = ev.propertyName === 'transform';
+         if (isSlideAnimation) {
+            switch (this.aMode) {
+               case 1:
+                  this.startAnimation();
+                  break;
+               case 2:
+                  this.closeAnimation();
+                  break;
+            }
          }
       }.bind(this));
    }
 
    fullReset() {
       this.clearLoopTimeout();
+      // This adds an odd behaviour if you click while the "animation" is running
+      // but it eventually gets back into a "good" state. I think you could fix
+      // with some special "mode" logic but I ended up liking the behavior, it's
+      // kinda rare to get, gives a different behavior and eventually works so
+      // feels appropriate.
+      //
+      // Funny because it's difficult to catch, you have to click after the
+      // animation timer starts and before the end animation begins. With the
+      // random 5-10 second timer it's difficult to replicate.
+      //
+      // NOTE: To replicate: change the loop time to ~1 second.
       this.clearDelayTimeout();
       this.hideText();
       this.loop();
@@ -336,28 +351,23 @@ class HiddenTextContainer {
 
    loop() {
       this.setRandomTime();
-      this.clearLoopTimeout();
       this.reset();
       this.loopTimeoutId = setTimeout(this.loop.bind(this), this.loopTime * 1000);
    }
 
    reset() {
-      this.revealing = false;
-      this.closing = false;
-      this.resetting = true;
+      this.aMode = 1;
       if (this.delayTimoutId) {
          this.textConcealer.classList.remove('js-header-animation-running');
          this.textConcealer.classList.remove(this.getStartAnimationClass());
          this.textConcealer.classList.remove(this.getEndAnimationClass());
       } else {
-         this.show();
+         this.startAnimation();
       }
    }
 
-   show() {
-      this.revealing = true;
-      this.closing = false;
-      this.resetting = false;
+   startAnimation() {
+      this.aMode = 2;
       this.clearDelayTimeout();
 
       this.delayTimoutId = setTimeout(function() {
@@ -365,13 +375,12 @@ class HiddenTextContainer {
          this.hideText();
          this.textConcealer.classList.add('js-header-animation-running');
          this.textConcealer.classList.add(this.getStartAnimationClass());
+         this.changeColor();
       }.bind(this), this.getDelay());
    }
 
    closeAnimation() {
-      this.revealing = false;
-      this.closing = true;
-      this.resetting = false;
+      this.aMode = 3;
       // Now that we've animated a box across the whole div, we reveal the hidden text
       this.showText();
       this.textConcealer.classList.add(this.getEndAnimationClass());
@@ -404,6 +413,11 @@ class HiddenTextContainer {
       return false;
    }
 
+   // We want the text to load in a pattern b/c it looks cool.
+   // We get that behavior delaying the load for each element.
+   //
+   // The "refresh" will also get a delay but that's fine, it
+   // adds to the "randomness" of the loop
    getDelay() {
       if (this.textContainer.classList.contains('js-delay-one')) {
          return 0;
@@ -427,15 +441,21 @@ class HiddenTextContainer {
    }
 
    clearDelayTimeout() {
-      if (this.delayTimoutId) {
+      if (typeof this.timeoutID === 'number') {
          clearTimeout(this.delayTimoutId);
       }
    }
 
    clearLoopTimeout() {
-      if (this.loopTimeoutId) {
+      if (typeof this.loopTimeoutId === 'number') {
          clearTimeout(this.loopTimeoutId);
       }
+   }
+
+   changeColor() {
+      // This will start white but if the "fun" logic is running it will
+      // match the color of the text being revealed
+      this.textConcealer.style.backgroundColor = this.text.style.color;
    }
 }
 
