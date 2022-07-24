@@ -240,6 +240,7 @@ class FloatingXBox {
       this.wild = false;
       this.tempColor = null;
       this.wildTimeoutid = null;
+      this.hoverColorChange = false;
       this.pause = false;
       this.clickColorChange = false;
       this.maxMoveTime = 10;
@@ -257,6 +258,10 @@ class FloatingXBox {
       this.xBox.addEventListener('transitionend', function(ev) {
          let isColorChange = ev.propertyName === 'background-color';
          if (isColorChange) {
+            if (this.hoverColorChange) {
+               return;
+            }
+
             if (this.clickColorChange) {
                this.reloadTransition();
             } else {
@@ -308,6 +313,7 @@ class FloatingXBox {
          this.wild = true;
          this.xBox.addEventListener('mouseenter', function() {
             this.pause = true;
+            this.hoverColorChange = true;
             if (!this.clickColorChange) {
                this.quickTransition();
             }
@@ -316,6 +322,7 @@ class FloatingXBox {
          }.bind(this));
          this.xBox.addEventListener('mouseleave', function() {
             this.pause = false;
+            this.hoverColorChange = false;
             this.reloadTransition();
             if (this.tempColor) {
                this.xBox.style.backgroundColor = this.tempColor;
@@ -328,6 +335,7 @@ class FloatingXBox {
    changeColor() {
       if (!this.pause) {
          this.clickColorChange = false;
+         this.reloadTransition();
          this.xBox.style.backgroundColor = MathUtils.getRandomRGB();
       }
    }
