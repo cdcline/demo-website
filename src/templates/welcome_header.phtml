@@ -304,9 +304,9 @@ class ContactInfo extends WelcomeHeaderElement {
          $this->getConcealedSpanHtml($text),
          ['class' => $hiddenElClasses]
       );
-      $iconEl = HtmlUtils::makeDivElement($icon, ['class' => 'welcome-header-contact-icon']);
+      $iconP = HtmlUtils::makePElement(HtmlUtils::makeSpanElement($icon, ['class' => 'welcome-header-contact-icon']));
       return HtmlUtils::makeDivElement(
-         $iconEl . $hiddenEl,
+         $iconP . $hiddenEl,
          ['class' => 'welcome-header-contact-info-data']
       );
    }

@@ -2,6 +2,7 @@ class WelcomeHeader {
    static circleLoopInterval;
    static loopCircles;
    static resetting = false;
+   static wild = 0;
 
    static init() {
       this.loopCircles = [...document.getElementsByClassName('js-floating-circle')].map(function(el) {
@@ -37,6 +38,9 @@ class WelcomeHeader {
             this.loopCircles.forEach(el => {
                el.randomImage();
             });
+
+            let newSize = (.1 * ++this.wild) + 1;
+            document.getElementById('welcome-header-container').style.fontSize = newSize + 'em';
 
             this.birdCage.goWild();
 
