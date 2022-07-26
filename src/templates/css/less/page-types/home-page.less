@@ -210,7 +210,7 @@
             position: absolute;
             top: 0;
             left: 0;
-            height: fit-content;
+            height: 100%;
 
             &.js-header-animation-running {
                visibility: visible;
@@ -360,13 +360,16 @@
          width: 100%;
          max-width: 142px;
          height: auto;
+
+         &:hover {
+            cursor: pointer;
+         }
       }
    }
 
    .robot-fun-txt-container {
-      font-size: 20px;
-      h5 {
-         margin: 0;
+      h3 {
+         margin: 0 0 10px 0;
          padding: 0;
       }
    }

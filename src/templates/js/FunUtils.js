@@ -8,7 +8,7 @@ class FunUtils {
    // Number to increment to increase color change frequency
    static funMeter = 0;
    // Number to check against to "hide" secret
-   static funLimit = 3;
+   static funLimit = 1;
    // We could stack loops on top but it looks better to stop one interval before you start another
    static funLoop;
    static minSpeed = 1;

@@ -6,6 +6,7 @@ use HtmlFramework\Element as HtmlElement;
 use HtmlFramework\Packet\ArticlePacket;
 use HtmlFramework\Packet\WidgetCollectionPacket;
 use HtmlFramework\Widget\WidgetCollection;
+use Utils\HtmlUtils;
 use Utils\Parser;
 
 /**
@@ -53,7 +54,8 @@ class Article extends HtmlElement {
    }
 
    protected function getWidgetCollectionHtml(): string {
-      return WidgetCollection::getHtmlFromArticlePacket($this->packet);
+      $wHtml = WidgetCollection::getHtmlFromArticlePacket($this->packet);
+      return trim($wHtml) ? HtmlUtils::makeDivElement($wHtml, ['id' => 'widget-collection-container']) : '';
    }
 
    /**

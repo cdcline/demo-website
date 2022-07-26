@@ -64,6 +64,7 @@ class Head extends HtmlElement {
       $googleFonts = [
          'Open+Sans:wght@400;700', // Regular and Bold
          'Roboto+Flex:wght@200;400;900',   //
+         'Roboto:wght@400;700',   //
       ];
       $gApiData = array_map(fn($fontString) => "family={$fontString}", $googleFonts);
       $gApiData[] = 'display=swap';

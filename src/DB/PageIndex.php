@@ -176,28 +176,33 @@ class PageIndex {
           'page_header' => 'Welcome',
           'nav_text' => 'You might also enjoy...',
           'main_article' => <<<EOT
-## Welcome to My Personal Website!
+## Welcome to My Website!
 
-I've been [writing code](#link) since [elementry school](https://en.wikipedia.org/wiki/Logo_(programming_language))!
+I'm a "Web Developer" who enjoys creating order from chaos. I've been [writing code](https://github.com/cdcline) since [elementry school](https://en.wikipedia.org/wiki/Logo_(programming_language)) and this is [my demo website](https://github.com/cdcline/demo-website).
 
-I write code and didn't have _any_ coding examples or even a server to run my site on! I hope to solve this with My Personal Website. It will be both as my personal coding playground and an example of how I write code!
+I wanted a website that would be fun & interactive. I wanted to write most of the code so I could play with how all the pieces of website worked. I knew it would be a [large undertaking](https://github.com/cdcline/demo-website/issues/12) but I had the Summer off and lots of free time.
 
-#### This page is an example of "My Demo Website" capabilities!
+### The Beginning
 
-All the text you've read so far is **[parsable](#toggleParser)** _text_ and should be easy for anyone to ~~etid~~ edit.
+I did some research and though I could get a "basic website" working in [about one week](https://github.com/cdcline/demo-website/issues/1). While mostly successful in estimation, like any coding project, the feature list quickly expanded.
 
-This is great for:
-* Speed
- * You can just write text and not worry about html
-* Frequent updating
- * Easy to find the text to change
-* Non-Coders
- * Don't have to know anything about CSS or HTML
-* Readability
- * It's a block of text with kinda random punctuation.
- * No `<code>` elements to worry about.
+I had originally intended "something simple":
+  * Loading the backend through Google Cloud
+  * Support loading a unique page off of an arbitrary url
+  * Basic CSS and JS
+  * Displaying some _parsable text_
+    * **[\[click here to see unparsed text\]](#toggleParser)**
+  * Supporting arbitrary HTML stuff on each page
+    * Could be "unique" html to the page
+    * Could be a "widget" that could be added to any page
 
-However, it has it's limits. You can't really do fancy **frontend** _things_.
+### The Evolution
+By the time I had my "simple" website ready, it had been about 2 weeks of development and I had a [functional but empty website](https://github.com/cdcline/demo-website/issues/12#issuecomment-1116862020). I felt like I had built a house but all the rooms were empty. So I spent a week adding [some content and style](https://github.com/cdcline/demo-website/issues/12#issuecomment-1120445080).
+
+I found myself with a website that looked ok. It had all the basics of a website but I wanted more. Something unique with animation and graphics. I knew much better designers so I hired one to [help figure out a site map](https://github.com/cdcline/demo-website/issues/22#issuecomment-1133763883) and an actual [design for each page](https://github.com/cdcline/demo-website/issues/65).
+
+### The Result
+The final design required [a lot of changes](https://github.com/cdcline/demo-website/issues/83) but in [the end](https://github.com/cdcline/demo-website/issues/105) I've got a cool sandbox to play in!   I ended up having a lot of fun with animations on this page. Try clicking [my profile picture](#welcome-header-container).
 EOT
          ],
          ['type' => self::WORK_TYPE,
@@ -231,19 +236,9 @@ EOT
    }
 
    private static function getLiveStaticRows(): array {
+      $devRows = self::getDevStaticRows();
       return [
-         ['type' => self::HOMEPAGE_TYPE,
-          'theme' => self::ORANGE_THEME,
-          'pageid' => 1,
-          'page_title' => 'About Me - Website Demo',
-          'page_header' => 'About Me',
-          'nav_text' => 'You might also enjoy...',
-          'main_article' => <<<EOT
-## This is the About Me Article!
-
-I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!
-EOT
-         ],
+         $devRows[0],
          ['type' => self::WORK_TYPE,
           'theme' => self::GREY_THEME,
           'pageid' => 2,

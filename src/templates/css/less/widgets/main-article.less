@@ -1,6 +1,14 @@
- #article-container {
+@textGap: 10px;
+
+#article-container {
    display: flex;
    flex-direction: column;
+   font-size: 1.2em;
+   gap: @textGap;
+
+   @media (max-width: @minBreakpoint) {
+      font-size: 1em;
+   }
 
    .hidden {
       display: none;
@@ -15,6 +23,15 @@
 #parsed-main-article-container {
    display: flex;
    flex-direction: column;
+   gap: @textGap;
+
+   h2 {
+      margin-bottom: @textGap;
+   }
+
+   h3 {
+      margin-top: @textGap;
+   }
 
    h2:first-child, p:first-child {
       margin-top: 0px;
