@@ -224,23 +224,18 @@ nav .nav-links-container .nav-section .image-link-container {
   flex-direction: row;
   justify-content: left;
   align-items: center;
+  margin-top: 15px;
   gap: 10px;
 }
 @media (max-width: 745px) {
   nav .nav-links-container .nav-section .image-link-container {
     justify-content: center;
-    gap: 10px;
   }
 }
 @media (max-width: 745px) and (max-width: 480px) {
   nav .nav-links-container .nav-section .image-link-container {
     justify-content: left;
   }
-}
-nav .nav-links-container .nav-section .image-link-container img {
-  margin-top: 5px;
-  width: 76px;
-  height: auto;
 }
 nav .nav-links-container .nav-section ul {
   list-style-type: none;
@@ -734,8 +729,13 @@ footer div.links-container .circle-container .color-4 {
 .robot-fun-container {
   display: flex;
   flex-direction: row;
-  margin: 35px 0;
+  margin: 25px 0 0 0;
   gap: 35px;
+}
+@media (max-width: 745px) {
+  .robot-fun-container {
+    margin-bottom: 25px;
+  }
 }
 .robot-fun-container .robot-fun-img-container {
   padding-left: 3px;

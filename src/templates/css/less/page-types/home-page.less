@@ -350,8 +350,12 @@
 .robot-fun-container {
    display: flex;
    flex-direction: row;
-   margin: 35px 0;
+   margin: 25px 0 0 0;
    gap: 35px;
+
+   @media (max-width: @pageBreakpoint) {
+      margin-bottom: 25px;
+   }
 
    .robot-fun-img-container {
       padding-left: 3px;

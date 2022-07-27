@@ -229,7 +229,7 @@ class PageNav {
           'type' => self::MAIN_TYPE,
           'section' => 'Contact',
           'slug' => 'https://www.linkedin.com/in/cdcline/',
-          'img_src' => 'src/images/site/linkedin_logo.png',
+          'img_src' => 'src/images/site/linkedin_logo_64px.png',
           'nav_string' => 'LinkedIn',
           'pageid' => NULL,
           'orderby' => 1
@@ -238,7 +238,7 @@ class PageNav {
           'type' => self::MAIN_TYPE,
           'section' => 'Contact',
           'slug' => 'https://github.com/cdcline/demo-website',
-          'img_src' => 'src/images/site/github_logo.png',
+          'img_src' => 'src/images/site/github_logo_64px.png',
           'nav_string' => 'Resume',
           'pageid' => NULL,
           'orderby' => 2
@@ -270,7 +270,7 @@ class PageNav {
          ['navid' => 5,
           'type' => self::FOOTER_TYPE,
           'slug' => 'welcome',
-          'img_src' => 'src/images/site/github_logo.png',
+          'img_src' => 'src/images/site/github_logo_64px.png',
           'nav_string' => 'Home',
           'pageid' => 1,
           'orderby' => 1
@@ -278,7 +278,7 @@ class PageNav {
          ['navid' => 7,
           'type' => self::FOOTER_TYPE,
           'slug' => 'work',
-          'img_src' => 'src/images/site/linkedin_logo.png',
+          'img_src' => 'src/images/site/linkedin_logo_64px.png',
           'nav_string' => 'Work',
           'pageid' => 2,
           'orderby' => 2
