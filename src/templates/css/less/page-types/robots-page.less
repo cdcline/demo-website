@@ -18,16 +18,36 @@
       width: 4258px; // Image width x 2
       animation: slide 120s linear infinite;
    }
+
+   .robots-header-robot {
+      position: absolute;
+      z-index: 2;
+      transform: scaleX(-1);
+
+      &:hover {
+         cursor: pointer;
+      }
+
+      &.robots-header-left-side {
+         top: 140px;
+         left: 90px;
+      }
+
+      &.robots-header-right-side {
+         bottom: 50px;
+         right: 90px;
+      }
+   }
 }
 
 .robots-header-text-container {
-   z-index: 2;
    display: flex;
    flex-direction: column;
    justify-content: center;
    align-content: center;
    text-align: center;
    gap: 20px;
+   z-index: 2;
    min-height: @maxPageHeaderHeight;
 
    @media (max-width: @pageBreakpoint) {

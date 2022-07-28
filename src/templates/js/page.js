@@ -56,8 +56,6 @@ class PageUtils {
       // We'll Look into Bundles if we really care.
       this.loadClass('Nav', function() {Nav.setupEvents()});
 
-
-
       // Page JS loading
       // We're gonna need server utils to check what page we're on.
       this.loadClass('JSServerUtils', function() {
@@ -73,6 +71,13 @@ class PageUtils {
             if (document.getElementById('welcome-header-container')) {
                PageUtils.loadClass('WelcomeHeader', function() {
                   WelcomeHeader.init();
+               });
+            }
+
+            // Check for Robots Header
+            if (document.getElementById('robots-header-container')) {
+               PageUtils.loadClass('RobotsHeader', function() {
+                  RobotsHeader.init();
                });
             }
 
