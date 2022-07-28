@@ -14,6 +14,7 @@ class PageIndex {
    const DEFAULT_TYPE = 'default';
    const HOMEPAGE_TYPE = 'homepage';
    const WORK_TYPE = 'work';
+   const ROBOTS_TYPE = 'robots';
 
    const ORANGE_THEME = 'orange';
    const GREY_THEME = 'grey';
@@ -211,7 +212,7 @@ EOT
           'page_title' => 'Work - My Website Demo',
           'page_header' => 'Work',
          ],
-         ['type' => self::DEFAULT_TYPE,
+         ['type' => self::ROBOTS_TYPE,
           'theme' => self::BLACK_THEME,
           'pageid' => 3,
           'page_title' => 'Test 3 - Website Demo',
@@ -245,7 +246,7 @@ EOT
           'page_title' => 'Work - Website Demo',
           'page_header' => 'Work',
          ],
-         ['type' => self::DEFAULT_TYPE,
+         ['type' => self::ROBOTS_TYPE,
           'theme' => self::BLACK_THEME,
           'pageid' => 3,
           'page_title' => 'Robots - Website Demo',

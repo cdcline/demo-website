@@ -1,0 +1,51 @@
+#robots-header-container {
+   position: relative;
+   height: 100%;
+}
+
+.robots-header-content-background {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   width: 100%;
+   overflow: hidden;
+
+   .robots-header-moon {
+      display: block;
+      background-image: url("/src/images/site/robots/moon.jpg");
+      background-repeat: repeat-x;
+      height: 591px;
+      width: 4258px; // Image width x 2
+      animation: slide 120s linear infinite;
+   }
+}
+
+.robots-header-text-container {
+   z-index: 2;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-content: center;
+   text-align: center;
+   gap: 20px;
+   min-height: @maxPageHeaderHeight;
+
+   @media (max-width: @pageBreakpoint) {
+      min-height: @standardPageHeaderHeight;
+   }
+
+   p, h1, div {
+      z-index: inherit;
+      margin: 0;
+      padding: 0;
+   }
+}
+
+@keyframes slide {
+   0% {
+     transform: translate(0);
+   }
+   100% {
+     transform: translate(-2129px); /* The image width */
+   }
+ }

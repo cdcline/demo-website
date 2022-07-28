@@ -3,7 +3,6 @@
 namespace Pages;
 
 use Pages\BasePage;
-use DB\PageIndex;
 
 final class HomePage extends BasePage {
    private const PAGE_TEMPLATE = 'homepage.phtml';

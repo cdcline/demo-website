@@ -46,6 +46,7 @@ class HeaderPacket {
    public function getHeaderTemplate(): string {
       switch ($this->pageType) {
          case PageIndex::HOMEPAGE_TYPE: return 'src/templates/welcome_header.phtml';
+         case PageIndex::ROBOTS_TYPE: return 'src/templates/robots_header.phtml';
       }
       return '';
    }

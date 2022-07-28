@@ -752,6 +752,56 @@ footer div.links-container .circle-container .color-4 {
   margin: 0 0 10px 0;
   padding: 0;
 }
+#robots-header-container {
+  position: relative;
+  height: 100%;
+}
+.robots-header-content-background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+}
+.robots-header-content-background .robots-header-moon {
+  display: block;
+  background-image: url("/src/images/site/robots/moon.jpg");
+  background-repeat: repeat-x;
+  height: 591px;
+  width: 4258px;
+  animation: slide 120s linear infinite;
+}
+.robots-header-text-container {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  gap: 20px;
+  min-height: 500px;
+}
+@media (max-width: 745px) {
+  .robots-header-text-container {
+    min-height: 550px;
+  }
+}
+.robots-header-text-container p,
+.robots-header-text-container h1,
+.robots-header-text-container div {
+  z-index: inherit;
+  margin: 0;
+  padding: 0;
+}
+@keyframes slide {
+  0% {
+    transform: translate(0);
+  }
+  100% {
+    transform: translate(-2129px);
+    /* The image width */
+  }
+}
 #article-container {
   display: flex;
   flex-direction: column;
