@@ -775,6 +775,7 @@ footer div.links-container .circle-container .color-4 {
   position: absolute;
   z-index: 2;
   transform: scaleX(-1);
+  height: 180px;
 }
 .robots-header-content-background .robots-header-robot:hover {
   cursor: pointer;

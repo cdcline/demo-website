@@ -1,37 +1,16 @@
 <?php
 
+use HtmlFramework\HeaderElement;
 use Utils\HtmlUtils;
 use Utils\ServerUtils;
 
-abstract class WelcomeHeaderElement
-{
-   private const STATIC_IMAGE_PATH = 'src/images/site/welcome/';
-
-   public static function getHtml(array $params = []): string
-   {
-      return (new static($params))->buildHtml();
-   }
-
-   abstract protected function buildHtml(): string;
-
-   protected function getImage(string $imageName, bool $forceStatic = true): string {
-      $useStatic = $forceStatic || !ServerUtils::onGoogleCloudProject();
-      return $useStatic ? self::getStaticImage($imageName) : self::getHostedImage($imageName);
-
-   }
-
-   protected static function getStaticImage(string $imageName) {
-      return self::STATIC_IMAGE_PATH . $imageName;
+abstract class WelcomeHeaderElement extends HeaderElement {
+   protected static function getStaticImage(string $imageName): string {
+      return parent::getStaticImage("welcome/$imageName");
    }
 
    protected static function getHostedImage(string $imageName): string {
-      return ServerUtils::getHostedImagePath() . "homepage_header/{$imageName}";
-   }
-
-   protected function addAttribute(DOMDocument $dom, DomElement $element, string $attributeName, string $attributeValue): void {
-      $dAttribute = $dom->createAttribute($attributeName);
-      $dAttribute->value = $attributeValue;
-      $element->appendChild($dAttribute);
+      return parent::getHostedImage("homepage_header/{$imageName}");
    }
 }
 
