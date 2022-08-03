@@ -270,7 +270,7 @@ class PageNav {
          ['navid' => 5,
           'type' => self::FOOTER_TYPE,
           'slug' => 'welcome',
-          'img_src' => 'src/images/site/github_logo_64px.png',
+          'img_src' => 'src/images/site/nav/welcome.png',
           'nav_string' => 'Home',
           'pageid' => 1,
           'orderby' => 1
@@ -278,7 +278,7 @@ class PageNav {
          ['navid' => 7,
           'type' => self::FOOTER_TYPE,
           'slug' => 'work',
-          'img_src' => 'src/images/site/linkedin_logo_64px.png',
+          'img_src' => 'src/images/site/nav/work.png',
           'nav_string' => 'Work',
           'pageid' => 2,
           'orderby' => 2
@@ -286,6 +286,7 @@ class PageNav {
          ['navid' => 8,
           'type' => self::FOOTER_TYPE,
           'slug' => 'robots',
+          'img_src' => 'src/images/site/nav/robots.png',
           'nav_string' => 'Robots',
           'pageid' => 3,
           'orderby' => 3
@@ -293,6 +294,7 @@ class PageNav {
          ['navid' => 9,
           'type' => self::FOOTER_TYPE,
           'slug' => 'life',
+          'img_src' => 'src/images/site/nav/life.png',
           'nav_string' => 'Life',
           'pageid' => 4,
           'orderby' => 4

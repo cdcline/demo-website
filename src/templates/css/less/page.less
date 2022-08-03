@@ -353,11 +353,15 @@ nav {
                width: 200px;
                height: auto;
                border-radius: 50%;
-               filter: brightness(50%);
                position: absolute;
                top: 50%;
                left: 50%;
                transform: translate(-50%, -50%);
+               filter: brightness(50%);
+
+               &:hover {
+                  filter: brightness(100%);
+               }
             }
 
             span {
@@ -365,6 +369,7 @@ nav {
                width: 100%;
                display: block;
                position: absolute;
+               pointer-events: none;
                top: 50%;
                left: 50%;
                transform: translate(-50%, -50%);

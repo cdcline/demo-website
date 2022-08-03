@@ -309,17 +309,21 @@ nav .nav-links-container .nav-section ul a:hover {
   width: 200px;
   height: auto;
   border-radius: 50%;
-  filter: brightness(50%);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  filter: brightness(50%);
+}
+.page-footer-container .page-footer .page-footer-entry-container a img:hover {
+  filter: brightness(100%);
 }
 .page-footer-container .page-footer .page-footer-entry-container a span {
   z-index: 1;
   width: 100%;
   display: block;
   position: absolute;
+  pointer-events: none;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -807,6 +811,7 @@ footer div.links-container .circle-container .color-4 {
   gap: 20px;
   z-index: 2;
   min-height: 500px;
+  pointer-events: none;
 }
 @media (max-width: 745px) {
   .robots-header-text-container {
