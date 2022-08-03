@@ -1,1 +1,72 @@
-<h1 class="fun">Robots</h1>
+<?php
+
+use Utils\HtmlUtils;
+use Utils\ServerUtils;
+
+$employerUrl = 'https://www.ifixit.com/User/3/Chris+Cline';
+$employerLink = HtmlUtils::makeWebLinkElement($employerUrl, 'employers');
+
+$challengeUrl = 'https://www.nasa.gov/offices/oct/early_stage_innovation/centennial_challenges/regolith/index.html';
+$challengeLink = HtmlUtils::makeWebLinkElement($challengeUrl, '2007 Regolith Excavation Challange');
+
+$winUrl = 'https://www.nasa.gov/offices/oct/early_stage_innovation/centennial_challenges/regolith/regolith_results_detail.html';
+$winLink = HtmlUtils::makeWebLinkElement($winUrl, 'winning second place');
+
+$frankieUrl = ServerUtils::getHostedImagePath() . 'robots/frankie_hq.png';
+$frankieImg = HtmlUtils::makeImageElement([
+   'src' => $frankieUrl,
+   'class' => 'robot-article-img left-side',
+]);
+
+$c2d2Url = ServerUtils::getHostedImagePath() . 'robots/c2d2_hq.png';
+$c2d2Img = HtmlUtils::makeImageElement([
+   'src' => $c2d2Url,
+   'class' => 'robot-article-img right-side',
+]);
+
+$tractorImg = $frankieImg;
+?>
+
+<h2>NASA Centennial Challenge</h2>
+<p>
+   My Senior Year of College I was trying to decide if I wanted to get into Robotics or something else.
+   My <?= $employerLink ?> had seen the <?= $challengeLink ?> and thought it would be fun to sponsor a Cal Poly team to win.
+   The goal was to build an autonomous robot that would dig Regolith (moon dirt), navagate a 3m x 3m box, avoid "bowling ball size" rocks, find a ramp and dump the regolith in a box at the end.
+   I was involved in the 2008 and 2009 challenge, <?= $winLink ?> with Slobotics in 2008. The 2009 experience wasn't so successful despite having a much better machine.
+</p>
+<h3>Frankie</h3>
+<div>
+   <?= $frankieImg ?>
+   <p>
+      Our first attempt at winning was the result of a lot of experimentation.
+      We first tried to navigate around by using a Wiimote and three known IR sources at the ramp.
+      We were successful indoors but outside had too much IR interference and we had to scrap that idea.
+      Our second attempt used a pulsing IR as a beacon at the ramp and our robot would find and use that to dig & dump.
+      We had wire "whiskers" that would tell us if we hit a rock or the edge of the box.
+      I never got too far into the dig and dump routine because the digging machine was still being wired the morning of the competition.
+      Frankie was however the only robot to leave the starting square and the only Robot to "find" and go up the ramp from the sandbox.
+      We won second place, losing to the team who flung about a handful of Regolith into the box.
+   </p>
+</div>
+
+<h3>C2D2</h3>
+<div>
+   <?= $c2d2Img ?>
+   <p>
+      Our second attempt was much more focused. The Slobtoics team had graduated and we formed a new, self funded team, C2 Robotics.
+      The rules had changed so that we started on the ramp, which made it a much easier problem to solve.
+      We built robot that could autonomously dig 2-3x the "winning" amount regularly by essentially digging a trench in front of the ramp.
+      I had all the software running weeks before the competition and the hardware had been finalized.
+      However, the day of the competition our digger motor didn't start up. We only got once chance.
+      I had put in most of my savings and this taught me some solid Roboitic lessons.
+   </p>
+</div>
+<h2>Tractor Hacking</h2>
+<div>
+   <?= $tractorImg ?>
+   Around 2007 <a href="https://www.ifixit.com">iFixit</a> decided to sponser a Cal Poly project to <a href="https://tractorhacking.github.io/about/">hack John Deere tractors.</a>
+   I was invited to act as the Project Mananger. I went onto the Cal Poly campus and explained the project details to a class.
+   Some students decided to work on the Project and I set them up with requirements, a budget and let them set sprint goals and general milestones.
+   I would sit in on meetings and give techincal advice & offer potential solutions to problems.
+   I've since moved on from Cal Poly and the project but it has grown into a <a href="https://www.calpoly.edu/news/could-these-students-improve-global-food-supply-theyre-finding-out-one-tractor-time">potential company.</a>
+</div>

@@ -43,7 +43,11 @@ class Article extends HtmlElement {
    }
 
    protected function getParsedMainArticle(): string {
-      return Parser::parseText($this->packet->getData('mainArticle'));
+      $mainArticle = Parser::parseText($this->packet->getData('mainArticle'));
+      if (!$mainArticle) {
+         return '';
+      }
+      return HtmlUtils::makeDivElement($mainArticle, ['id' => 'parsed-main-article-container']);
    }
 
    protected function getHtmlForPageType(): string {

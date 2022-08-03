@@ -138,6 +138,7 @@ section .article-nav-container {
   flex-direction: row;
   width: 100%;
   gap: 50px;
+  overflow-wrap: anywhere;
   /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 }
 @media (max-width: 745px) {
@@ -170,6 +171,15 @@ article p,
 article h2,
 article h3 {
   padding: 0;
+}
+#page-type-template-container {
+  gap: 10px;
+}
+#page-type-template-container h2 {
+  margin-bottom: 10px;
+}
+#page-type-template-container h3 {
+  margin-top: 10px;
 }
 /* Style the navigation menu */
 nav {
@@ -809,6 +819,16 @@ footer div.links-container .circle-container .color-4 {
   z-index: inherit;
   margin: 0;
   padding: 0;
+}
+.robot-article-img {
+  height: 180px;
+  width: fit-content;
+}
+.robot-article-img.left-side {
+  float: left;
+}
+.robot-article-img.right-side {
+  float: right;
 }
 @keyframes slide {
   0% {

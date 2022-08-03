@@ -21,6 +21,8 @@ class PageIndex {
    const GREEN_THEME = 'green';
    const BLACK_THEME = 'black';
 
+   const NAV_TEXT = 'You might also enjoy...';
+
    private $pageid;
    private $pageTitle;
    private $pageHeader;
@@ -175,7 +177,7 @@ class PageIndex {
           'pageid' => 1,
           'page_title' => 'Welcome - My Demo Website',
           'page_header' => 'Welcome',
-          'nav_text' => 'You might also enjoy...',
+          'nav_text' => self::NAV_TEXT,
           'main_article' => <<<EOT
 ## Welcome to My Website!
 
@@ -208,25 +210,21 @@ EOT
          ],
          ['type' => self::WORK_TYPE,
           'theme' => self::GREY_THEME,
+          'nav_text' => self::NAV_TEXT,
           'pageid' => 2,
-          'page_title' => 'Work - My Website Demo',
+          'page_title' => 'Work - Website Demo',
           'page_header' => 'Work',
          ],
          ['type' => self::ROBOTS_TYPE,
           'theme' => self::BLACK_THEME,
+          'nav_text' => self::NAV_TEXT,
           'pageid' => 3,
-          'page_title' => 'Test 3 - Website Demo',
-          'page_header' => 'Test Page 3',
-          'main_article' => <<<EOT
-## Robots
-
-### Franky ![Franky](src/images/site/fun-robot.png)
-
-Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
-EOT
+          'page_title' => 'Robots - Website Demo',
+          'page_header' => 'Robots',
          ],
          ['type' => self::DEFAULT_TYPE,
           'theme' => self::GREEN_THEME,
+          'nav_text' => self::NAV_TEXT,
           'pageid' => 4,
           'page_title' => 'Life - Website Demo',
           'page_header' => 'Life',
@@ -237,36 +235,6 @@ EOT
    }
 
    private static function getLiveStaticRows(): array {
-      $devRows = self::getDevStaticRows();
-      return [
-         $devRows[0],
-         ['type' => self::WORK_TYPE,
-          'theme' => self::GREY_THEME,
-          'pageid' => 2,
-          'page_title' => 'Work - Website Demo',
-          'page_header' => 'Work',
-         ],
-         ['type' => self::ROBOTS_TYPE,
-          'theme' => self::BLACK_THEME,
-          'pageid' => 3,
-          'page_title' => 'Robots - Website Demo',
-          'page_header' => 'Robots',
-          'main_article' => <<<EOT
-## Robots
-
-### Franky ![Franky](https://storage.googleapis.com/burnished-flare-348022.appspot.com/images/site/c2d2.png)
-
-Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
-EOT
-         ],
-         ['type' => self::DEFAULT_TYPE,
-          'theme' => self::GREEN_THEME,
-          'pageid' => 4,
-          'page_title' => 'Life - Website Demo',
-          'page_header' => 'Life',
-          'hide_main_nav' => true,
-          'main_article' => ''
-         ],
-      ];
+      return self::getDevStaticRows();
    }
 }
