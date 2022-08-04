@@ -1,0 +1,53 @@
+#work-header-container {
+   background: @siteBlack;
+   position: relative;
+   height: 100%;
+}
+
+.work-header-content-background {
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   width: 100%;
+   overflow: hidden;
+}
+
+.work-header-text-container {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-content: center;
+   text-align: center;
+   gap: 20px;
+   z-index: 3;
+   min-height: @maxPageHeaderHeight;
+   pointer-events: none;
+
+   * {
+      z-index: inherit;
+   }
+}
+
+.shape {
+   display: block;
+   position: absolute;
+   top: 0;
+   bottom: 0;
+   width: 100%;
+}
+
+.shader {
+   z-index: 2;
+   background-image: linear-gradient(to left, transparent 0%, black 95%);
+}
+
+.curve {
+   z-index: 1;
+   clip-path: url(#myCurve);
+   background: linear-gradient(to left, #8e2de2, #4a00e0);
+}
+
+.svg-defs, .svg-container {
+   height: 0px;
+   width: 0px;
+}
