@@ -45,6 +45,13 @@
    z-index: 1;
    clip-path: url(#myCurve);
    background: linear-gradient(to left, #8e2de2, #4a00e0);
+   transition: background-position 10s ease;
+   background-size: 200% auto;
+   background-position: 100%;
+
+   &.js-animate-curve {
+      background-position: 0%;
+   }
 }
 
 .svg-defs, .svg-container {

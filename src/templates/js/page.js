@@ -81,6 +81,13 @@ class PageUtils {
                });
             }
 
+            // Check for Work Header
+            if (document.getElementById('work-header-container')) {
+               PageUtils.loadClass('WorkHeader', function() {
+                  WorkHeader.init();
+               });
+            }
+
             // Check for Block'O'Fun
             if (document.getElementsByClassName('fun-btn').length) {
                PageUtils.loadClass('FunUtils', function() {
