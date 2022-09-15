@@ -208,45 +208,164 @@ EOT;
 
    private static function getLiveHardcodedRows(): array {
       return [
-         ['title' => 'Mini Article List',
+         ['title' => 'Projects',
           'articles' => [
             ['pageid' => 2,
-            'title' => 'Mini Article 1',
-            'text' => self::getStaticArticleText(1),
-            'start_date' => 1391555735,
-            'end_date' => 1645658135,
-            'tags' => ['Foo','Buzz','☃️']
+            'title' => 'AJAX Shopping Cart',
+            'text' => self::getLiveArticleText(1),
+            'start_date' => 1167642061,
+            'end_date' => 1577869261,
+            'tags' => ['System Design', 'QA', 'PHP', 'HTML', 'JS', 'MySQL']
             ],
             ['pageid' => 2,
-            'title' => 'Mini Article 2',
-            'text' => self::getStaticArticleText(2),
-            'start_date' => 1325546135,
-            'end_date' => NULL,
-            'tags' => ['Foo','Bar']
+            'title' => 'The "Customer Manager"',
+            'text' => self::getLiveArticleText(2),
+            'start_date' => 1167642061,
+            'end_date' => 1650067261,
+            'tags' => ['System Design', 'PHP', 'HTML', 'JS', 'MySQL']
             ],
             ['pageid' => 2,
-            'title' => 'Mini Article 5',
-            'text' => self::getStaticArticleText(3),
-            'start_date' => 1650774278,
-            'end_date' => 1713932680,
-            'tags' => ['Foo','Bar','Fizz','Buzz','🎂']
+            'title' => 'Cart Admin Systems',
+            'text' => self::getLiveArticleText(3),
+            'start_date' => 1167642061,
+            'end_date' => 1650067261,
+            'tags' => ['System Design', 'PHP', 'HTML', 'JS', 'MySQL']
             ],
             ['pageid' => 2,
-            'title' => 'Mini Article 3',
-            'text' => self::getStaticArticleText(4),
-            'start_date' => 409674412,
-            'end_date' => 447179274,
-            'tags' => ['Fizz','Buzz']
+            'title' => 'Payments',
+            'text' => self::getLiveArticleText(4),
+            'start_date' => 1167642061,
+            'end_date' => 1577869261,
+            'tags' => ['System Design', 'PHP', 'XML', 'MySQL']
             ],
             ['pageid' => 2,
-            'title' => 'Mini Article 4',
-            'text' => self::getStaticArticleText(5),
-            'start_date' => 930049271,
-            'end_date' => NULL,
-            'tags' => ['Fizz','Bar','☃️']
+            'title' => 'Users',
+            'text' => self::getLiveArticleText(5),
+            'start_date' => 1167642061,
+            'end_date' => 1650067261,
+            'tags' => ['System Design', 'PHP', 'XML', 'MySQL']
+            ],
+            ['pageid' => 2,
+            'title' => 'NASA Regolith Excavation Challenge',
+            'text' => self::getLiveArticleText(6),
+            'start_date' => 1167642061,
+            'end_date' => 1650067261,
+            'tags' => ['System Design', 'Robots', 'C']
+            ],
+            ['pageid' => 2,
+            'title' => 'Tractor Hacking',
+            'text' => self::getLiveArticleText(7),
+            'start_date' => 1167642061,
+            'end_date' => 1650067261,
+            'tags' => ['System Design', 'Management', 'Agile']
+            ],
+            ['pageid' => 2,
+            'title' => 'Mentoring',
+            'text' => self::getLiveArticleText(7),
+            'start_date' => 1167642061,
+            'end_date' => 1650067261,
+            'tags' => ['Management', 'Agile']
             ],
           ]
          ]
       ];
+   }
+
+   private static function getLiveArticleText(int $articleid): string {
+      switch($articleid) {
+         case 1: return <<<EOT
+My first real task as a Software Developer was testing the "new" shopping cart.
+
+It had all the wiz-bangs and featured AJAX requests! Finally you didn't have to load an entire page to add a new item to the cart. Just update a small section of the cart!
+
+Over time, our custom cart got more complicated and I was often handling those changes.
+
+I built things like the cart page, checkout experience, user adresses management and the product navigation.
+
+I often worked with the designers to make sure what was designed can fit easily into what was built and what we were building.
+EOT;
+         case 2: return <<<EOT
+I was first lured to work by the offer of a "Paid Senior Project."
+
+This ended up being a backend CMS that aggregated, tracked & managed customer's orders, returns, information, tags and other random utilities.
+
+It was generally used by Customer Service to manage any order issues.
+EOT;
+         case 3: return <<<EOT
+As someone that often worked on The Cart I also maintained a lot of various backend pages.
+
+For Example:
+   * New/Used Inventory Input
+   * Inventory History
+   * Returns
+   * Shipping Labels
+   * Product Lists
+   * Product Attributes
+EOT;
+         case 4: return <<<EOT
+When we first built the cart, we had a "custom" payment processor that we could charge, debit and refund through XML.
+
+As time progressed, other payment processors became available and we started implementing them.
+
+I added support for:
+ * Stripe
+ * PayPal
+ * ApplePay
+
+For another project I was tasked with building an "Automated Recurring Billing System" that ran off of a CronJob that would allow charging customers monthly.
+EOT;
+         case 5: return <<<EOT
+Over time we started to support features unrelated to checkouts and orders. We needed "user" information not "customer" information.
+
+As someone that did a lot of the "customer" code, I ened up working on a lot of the "user" features.
+
+For Example:
+   * View/Edit Profile Information
+   * View/Edit User Profile Page
+   * Admin User Utilities
+   * Moderation
+   * Filtering
+   * Ordering
+
+I also implemented logins from outside sources:
+   * Yahoo
+   * Google
+   * PayPal
+   * Apple
+EOT;
+         case 6: return <<<EOT
+The first time my company sponsored a team to complete the Regolith Challenge.
+
+I was the only programmer on a team that had to design & build a robot that would wake up in an unknown position, dig "regolith" and dump it in a box & navigate around obstacles.
+
+We got second place but no one had actually completed the challenge.
+
+The second time we were self funded but had a much better machine. We could actually complete the challenge weeks before the competition well past the minimum dig amount.
+
+However our dig motor blew out on our final run.
+
+Others were able to actually complete the challenge and that was it's final year.
+EOT;
+         case 7: return <<<EOT
+My company sponsored a Cal Poly student team to create software that would allow farmers to manage their tractor information without needed the manufacturer.
+
+I was in charge of giving a presentation of the project to the classes & the students could choose to work on it.
+
+Once the students joined, we had a small team that organized around "Agile Development" and I was essentially the "Project Owner."
+
+I would help plan sprints and sit in on Retrospectives to give direction.
+
+The final student team actually created a business out of it and got some funding.
+EOT;
+         case 8: return <<<EOT
+As someone that worked in the software for 15 years, I had a lot of knowlege in the "why" of code which often explains the "wtf."
+
+We liked to hire Cal Poly students who would work for a few years then move on when they graduate & would often have "new" coders. I often tried to break down the complex logic and to pick project that would help them learn the system.
+
+Later, we had our "Agile Revolution" and I helped students understand our deploy pipeline.
+
+I also kept an eye on "Project Scopes" so I could help break them up into known chunks of effort we could estimate in a sprint.
+EOT;
+      }
    }
 }
