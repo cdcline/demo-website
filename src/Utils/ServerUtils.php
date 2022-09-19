@@ -30,8 +30,21 @@ class ServerUtils {
       return (bool)getenv('GOOGLE_CLOUD_PROJECT');
    }
 
-   public static function getHostedImagePath(): string {
-      $siteName = getenv('GOOGLE_CLOUD_PROJECT');
-      return "https://storage.googleapis.com/{$siteName}.appspot.com/images/site/";
+   public static function jobSearching(): bool {
+      return true;
    }
+
+   private static function getHostedBase(string $path = ''): string {
+      $siteName = getenv('GOOGLE_CLOUD_PROJECT');
+      return "https://storage.googleapis.com/{$siteName}.appspot.com/{$path}";
+   }
+
+   public static function getHostedFile(string $file = ''): string {
+      return self::getHostedBase("shared/$file");
+   }
+
+   public static function getHostedImagePath(string $file = ''): string {
+      return self::getHostedBase("images/site/$file");
+   }
+
 }

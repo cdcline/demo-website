@@ -249,15 +249,26 @@ class ContactInfo extends WelcomeHeaderElement {
     * </div>
     */
    private function getBottomTextHtml(): string {
-      $phone = '+123-456-7890';
-      $webLinkHtml = '<a href="https://www.github.com/cdcline">www.github.com/cdcline</a>';
-      $emailLinkHtml = '<a href="mailto:cdcline+demo-site@gmail.com">cdcline@gmail.com</a>';
+      // Should come from some datasource but we'll hardcode for now.
+      $phone = '(123) 456-7890';
       $address = '123 Anywhere St, Any City';
+      $githubUrl = 'https://www.github.com/cdcline';
+      $contactEmail= 'cdcline+demo+contact@gmail.com';
+      $webLinkHtml = HtmlUtils::makeWebLinkElement($githubUrl, 'www.github.com/cdcline');
+      $emailLinkHtml = HtmlUtils::makeWebLinkElement('mailto:' . $contactEmail, 'cdcline@gmail.com');
+      $resumeHtml = HtmlUtils::makeWebLinkElement(ServerUtils::getHostedFile('cdcline_resume.pdf'), 'My Resume');
+
+      // Messed around with this logic a bit so made some common names to use
+      $gridOne = $phone;
+      $gridTwo = $webLinkHtml;
+      $gridThree = $emailLinkHtml;
+      $gridFour = ServerUtils::jobSearching() ? $resumeHtml : $address;
+
       $gridData = [
-         ['&#x260F;', $phone, 'js-delay-three'],
-         ['&#x261E;', $webLinkHtml, 'js-delay-four'],
-         ['&#9993;', $emailLinkHtml, 'js-delay-five'],
-         ['&#x2624;', $address, 'js-delay-six']
+         ['&#x260F;', $gridOne,   'js-delay-three'],
+         ['&#x261E;', $gridTwo,   'js-delay-four'],
+         ['&#9993;',  $gridThree, 'js-delay-five'],
+         ['&#x2624;', $gridFour,  'js-delay-six']
       ];
 
       $gridHtml = '';
