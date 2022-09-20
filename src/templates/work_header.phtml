@@ -15,12 +15,34 @@
    </svg>
 </div>
 
+<?php
+   use Utils\ServerUtils;
+   $useVideo = ServerUtils::onGoogleCloudProject();
+   $imgUrl = 'src/images/site/robots/c2d2.png';
+   $imgHtml = "<img src=\"{$imgUrl}\" />";
+   $videoUrl = ServerUtils::getHostedImagePath('work_header/work_700.mp4');
+   $videoHtml = <<<EOT
+      <video class="header-video" playsinline autoplay muted loop>
+         <source src="{$videoUrl}" type="video/mp4">
+         Your browser does not support the video tag.
+      </video>
+EOT;
+   $mediaHtml = $useVideo ? $videoHtml : $imgHtml;
+?>
+
 <div id="work-header-container">
    <div id="work-header-background-container" class="work-header-content-background">
       <shape class="shape shader"></shape>
       <shape id="header-curve" class="shape curve"></shape>
    </div>
-   <div class="work-header-text-container">
-      <h1>Resume</h1>
+   <div class="work-header-content-container">
+      <div class="video-container">
+         <div class="header-video-container">
+            <?= $mediaHtml ?>
+         </div>
+      </div>
+      <div class="text-container">
+         <h1>Resume</h1>
+      </div>
    </div>
 </div>

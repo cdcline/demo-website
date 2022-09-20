@@ -856,9 +856,9 @@ footer div.links-container .circle-container .color-4 {
   width: 100%;
   overflow: hidden;
 }
-.work-header-text-container {
+.work-header-content-container {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-content: center;
   text-align: center;
@@ -867,19 +867,40 @@ footer div.links-container .circle-container .color-4 {
   min-height: 500px;
   pointer-events: none;
 }
-.work-header-text-container * {
+.work-header-content-container * {
   z-index: inherit;
 }
 .shape {
   display: block;
   position: absolute;
+  left: 40%;
   top: 0;
   bottom: 0;
-  width: 100%;
+  width: 70%;
 }
 .shader {
   z-index: 2;
   background-image: linear-gradient(to left, transparent 0%, black 95%);
+}
+.video-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+}
+.video-container .header-video-container {
+  display: inherit;
+  align-items: inherit;
+  width: 300px;
+  height: 300px;
+}
+.video-container .header-video-container .header-video {
+  width: 100%;
+  height: auto;
+}
+.text-container {
+  display: flex;
+  align-items: center;
 }
 .curve {
   z-index: 1;

@@ -12,9 +12,9 @@
    overflow: hidden;
 }
 
-.work-header-text-container {
+.work-header-content-container {
    display: flex;
-   flex-direction: column;
+   flex-direction: row;
    justify-content: center;
    align-content: center;
    text-align: center;
@@ -31,14 +31,39 @@
 .shape {
    display: block;
    position: absolute;
+   left: 40%;
    top: 0;
    bottom: 0;
-   width: 100%;
+   width: 70%;
 }
 
 .shader {
    z-index: 2;
    background-image: linear-gradient(to left, transparent 0%, black 95%);
+}
+
+.video-container {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   overflow: hidden;
+
+   .header-video-container {
+      display: inherit;
+      align-items: inherit;
+      width: 300px;
+      height: 300px;
+
+      .header-video {
+         width: 100%;
+         height: auto;
+      }
+   }
+}
+
+.text-container {
+   display: flex;
+   align-items: center;
 }
 
 .curve {
