@@ -858,6 +858,19 @@ footer div.links-container .circle-container .color-4 {
   overflow: hidden;
   pointer-events: none;
 }
+.work-header-mobile-background {
+  display: none;
+}
+@media (max-width: 480px) {
+  .work-header-mobile-background {
+    display: block;
+  }
+}
+@media (max-width: 480px) {
+  .work-header-page-background {
+    display: none;
+  }
+}
 .work-header-content-container {
   display: flex;
   flex-direction: row;
@@ -871,6 +884,12 @@ footer div.links-container .circle-container .color-4 {
 .work-header-content-container * {
   z-index: inherit;
 }
+@media (max-width: 480px) {
+  .work-header-content-container {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+}
 .shape {
   display: block;
   position: absolute;
@@ -881,10 +900,10 @@ footer div.links-container .circle-container .color-4 {
 }
 @media (max-width: 480px) {
   .shape {
-    left: 8%;
-    width: 83%;
-    top: 49%;
-    transform: rotate(-90deg) scaleX(-1);
+    left: -50%;
+    width: 180%;
+    top: 0%;
+    height: 145%;
   }
 }
 .shader {
@@ -911,6 +930,25 @@ footer div.links-container .circle-container .color-4 {
   width: 100%;
   height: auto;
 }
+.mobile-header-video-container {
+  display: none;
+  z-index: 3;
+}
+@media (max-width: 480px) {
+  .mobile-header-video-container {
+    margin-top: 10px;
+    display: block;
+  }
+}
+.mobile-header-video-container .mobile-video-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.mobile-header-video-container .mobile-video-container .header-video {
+  width: 180px;
+  justify-content: center;
+}
 .text-container {
   display: flex;
   flex-direction: column;
@@ -922,6 +960,7 @@ footer div.links-container .circle-container .color-4 {
 @media (max-width: 480px) {
   .text-container {
     align-items: center;
+    padding-bottom: 20px;
   }
 }
 .text-container p,
@@ -945,7 +984,7 @@ footer div.links-container .circle-container .color-4 {
   align-items: stretch;
   gap: 6px;
   font-size: 0.55em;
-  background-image: linear-gradient(to right, #5614d6 60%, rgba(0, 0, 0, 0) 100%);
+  background-image: linear-gradient(to right, #5614d6 60%, rgba(86, 20, 214, 0.3) 90%);
   border-radius: 5px 0 0 5px;
 }
 .text-container .header-tags .header-tag {
@@ -960,17 +999,6 @@ footer div.links-container .circle-container .color-4 {
   stroke: #2c93d0, 1px;
   color: #5428e4;
   cursor: pointer;
-}
-.text-container .mobile-header-video-container {
-  display: none;
-}
-@media (max-width: 480px) {
-  .text-container .mobile-header-video-container {
-    display: block;
-  }
-}
-.text-container .mobile-header-video-container .header-video {
-  width: 150px;
 }
 .curve {
   z-index: 1;

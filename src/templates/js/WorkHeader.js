@@ -2,7 +2,9 @@ class WorkHeader {
    static backgroundShape;
 
    static init() {
-      this.backgroundShape = new BackgroundShape(document.getElementById('work-header-background-container'));
+      this.backgroundShapes = [...document.getElementsByClassName('js-background-shape-container')].map(function(el) {
+         return new BackgroundShape(el);
+      });
    }
 }
 

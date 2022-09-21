@@ -14,6 +14,19 @@
    pointer-events: none;
 }
 
+.work-header-mobile-background {
+   display: none;
+   @media (max-width: @minBreakpoint) {
+      display: block;
+   }
+}
+
+.work-header-page-background {
+   @media (max-width: @minBreakpoint) {
+      display: none;
+   }
+}
+
 .work-header-content-container {
    display: flex;
    flex-direction: row;
@@ -27,6 +40,11 @@
    * {
       z-index: inherit;
    }
+
+   @media (max-width: @minBreakpoint) {
+      flex-direction: column;
+      justify-content: flex-start;
+   }
 }
 
 .shape {
@@ -38,10 +56,10 @@
    width: 90%;
 
    @media (max-width: @minBreakpoint) {
-      left: 8%;
-      width: 83%;
-      top: 49%;
-      transform: rotate(-90deg) scaleX(-1);
+      left: -50%;
+      width: 180%;
+      top: 0%;
+      height: 145%;
    }
 }
 
@@ -72,6 +90,27 @@
    }
 }
 
+.mobile-header-video-container {
+   display: none;
+   z-index: 3;
+
+   @media (max-width: @minBreakpoint) {
+      margin-top: 10px;
+      display: block;
+   }
+
+   .mobile-video-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .header-video {
+         width: 180px;
+         justify-content: center;
+      }
+   }
+}
+
 .text-container {
    display: flex;
    flex-direction: column;
@@ -82,6 +121,7 @@
 
    @media (max-width: @minBreakpoint) {
       align-items: center;
+      padding-bottom: 20px;
    }
 
    p, div, h1 {
@@ -108,7 +148,7 @@
       align-items: stretch;
       gap: 6px;
       font-size: .55em;
-      background-image: linear-gradient(to right, rgba(86,20,214,1) 60%, rgba(0,0,0,0) 100%);
+      background-image: linear-gradient(to right, rgba(86,20,214,1) 60%, rgba(86,20,214,.3) 90%);
       border-radius: @tagRadius 0 0 @tagRadius;
 
       .header-tag {
@@ -124,18 +164,6 @@
             color: rgb(84,40,228);
             cursor: pointer;
          }
-      }
-   }
-
-   .mobile-header-video-container {
-      display: none;
-
-      @media (max-width: @minBreakpoint) {
-         display: block;
-      }
-
-      .header-video {
-         width: 150px;
       }
    }
 }
