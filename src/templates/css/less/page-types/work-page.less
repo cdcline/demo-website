@@ -2,6 +2,7 @@
    background: @siteBlack;
    position: relative;
    height: 100%;
+   overflow: hidden;
 }
 
 .work-header-content-background {
@@ -10,6 +11,7 @@
    bottom: 0;
    width: 100%;
    overflow: hidden;
+   pointer-events: none;
 }
 
 .work-header-content-container {
@@ -21,7 +23,6 @@
    gap: 20px;
    z-index: 3;
    min-height: @maxPageHeaderHeight;
-   pointer-events: none;
 
    * {
       z-index: inherit;
@@ -31,10 +32,17 @@
 .shape {
    display: block;
    position: absolute;
-   left: 40%;
+   left: -10%;
    top: 0;
    bottom: 0;
-   width: 70%;
+   width: 90%;
+
+   @media (max-width: @minBreakpoint) {
+      left: 8%;
+      width: 83%;
+      top: 49%;
+      transform: rotate(-90deg) scaleX(-1);
+   }
 }
 
 .shader {
@@ -46,13 +54,16 @@
    display: flex;
    flex-direction: row;
    align-items: center;
+   justify-content: center;
    overflow: hidden;
+
+   @media (max-width: @minBreakpoint) {
+      display: none;
+   }
 
    .header-video-container {
       display: inherit;
       align-items: inherit;
-      width: 300px;
-      height: 300px;
 
       .header-video {
          width: 100%;
@@ -63,7 +74,70 @@
 
 .text-container {
    display: flex;
-   align-items: center;
+   flex-direction: column;
+   align-items: flex-start;
+   justify-content: center;
+   width: 100%;
+   gap: 8px;
+
+   @media (max-width: @minBreakpoint) {
+      align-items: center;
+   }
+
+   p, div, h1 {
+      padding: 0;
+      margin: 0;
+   }
+
+   a {
+      text-decoration: none;
+      color: inherit;
+   }
+
+   p {
+      font-size: .65em;
+      margin-bottom: 12px;
+   }
+
+   @tagRadius: 5px;
+
+   .header-tags {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 6px;
+      font-size: .55em;
+      background-image: linear-gradient(to right, rgba(86,20,214,1) 60%, rgba(0,0,0,0) 100%);
+      border-radius: @tagRadius 0 0 @tagRadius;
+
+      .header-tag {
+         padding: 5px 13px;
+         display: flex;
+         align-items: center;
+
+         &:hover {
+            background-color: rgb(0,219,202);
+            border-radius: @tagRadius;
+            border-color: rgb(44,147,208);
+            stroke: rgb(44,147,208), 1px;
+            color: rgb(84,40,228);
+            cursor: pointer;
+         }
+      }
+   }
+
+   .mobile-header-video-container {
+      display: none;
+
+      @media (max-width: @minBreakpoint) {
+         display: block;
+      }
+
+      .header-video {
+         width: 150px;
+      }
+   }
 }
 
 .curve {

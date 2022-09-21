@@ -16,11 +16,10 @@
 </div>
 
 <?php
-   use Utils\ServerUtils;
-   $useVideo = ServerUtils::onGoogleCloudProject();
+   $useVideo = Utils\ServerUtils::onGoogleCloudProject();
    $imgUrl = 'src/images/site/robots/c2d2.png';
    $imgHtml = "<img src=\"{$imgUrl}\" />";
-   $videoUrl = ServerUtils::getHostedImagePath('work_header/work_700.mp4');
+   $videoUrl = Utils\ServerUtils::getHostedImagePath('work_header/work_700.mp4');
    $videoHtml = <<<EOT
       <video class="header-video" playsinline autoplay muted loop>
          <source src="{$videoUrl}" type="video/mp4">
@@ -28,13 +27,20 @@
       </video>
 EOT;
    $mediaHtml = $useVideo ? $videoHtml : $imgHtml;
+   $tags = [
+      'System Design',
+      'PHP',
+      'HTML',
+      'JS',
+      'Agile'
+   ];
+   $tagsHtml = implode(' ', array_map(fn($tag) => <<<EOT
+   <tag class="header-tag">{$tag}</tag>
+   EOT, $tags));
 ?>
 
 <div id="work-header-container">
-   <div id="work-header-background-container" class="work-header-content-background">
-      <shape class="shape shader"></shape>
-      <shape id="header-curve" class="shape curve"></shape>
-   </div>
+
    <div class="work-header-content-container">
       <div class="video-container">
          <div class="header-video-container">
@@ -42,7 +48,18 @@ EOT;
          </div>
       </div>
       <div class="text-container">
-         <h1>Resume</h1>
+         <div id="work-header-background-container" class="work-header-content-background">
+            <shape class="shape shader"></shape>
+            <shape id="header-curve" class="shape curve"></shape>
+         </div>
+         <div class="mobile-header-video-container">
+            <?= $mediaHtml ?>
+         </div>
+         <a href="<?= Utils\SiteUrl::getResume() ?>"><h1>RESUME</h1></a>
+         <p>Christopher Dean Cline</p>
+         <div class="header-tags">
+            <?= $tagsHtml ?>
+         </div>
       </div>
    </div>
 </div>
