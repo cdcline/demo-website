@@ -925,6 +925,7 @@ footer div.links-container .circle-container .color-4 {
 .video-container .header-video-container {
   display: inherit;
   align-items: inherit;
+  width: 400px;
 }
 .video-container .header-video-container .header-video {
   width: 100%;

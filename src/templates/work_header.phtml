@@ -35,7 +35,7 @@ EOT;
       'Agile'
    ];
    $tagsHtml = implode(' ', array_map(fn($tag) => <<<EOT
-   <tag class="header-tag">{$tag}</tag>
+   <tag class="header-tag ma-tag" data-value="{$tag}" header-tag>{$tag}</tag>
    EOT, $tags));
 ?>
 

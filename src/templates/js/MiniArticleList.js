@@ -13,9 +13,13 @@ class MiniArticleList {
    static addTagFilteringEvent() {
       this.getAllTagBtns().forEach(btn => {
          btn.addEventListener('click', function handleClick(event) {
+            let tagTarget = event.target;
             // Figure out what mini article "tag" the page is filtering on
-            let tag = event.target.getAttribute('data-value');
+            let tag = tagTarget.getAttribute('data-value');
             this.filterMiniArticlesByTag(tag);
+            if (tagTarget.getAttribute('header-tag') !== null) {
+               location.href = '#mini-article-list';
+            }
          }.bind(this)); // We're gonna call local logic so bind "this" up in scope
       });
    }
@@ -86,7 +90,7 @@ class MiniArticleList {
    }
 
    static getAllTagBtns() {
-      return document.querySelectorAll('#mini-article-tag-list .ma-tag');
+      return document.querySelectorAll('.ma-tag');
    }
 
    static markActiveTag(newFilterTag) {
