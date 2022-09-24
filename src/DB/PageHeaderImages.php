@@ -86,6 +86,12 @@ class PageHeaderImages {
    }
 
    private static function getLiveStaticData(): array {
+      $getLifeHeaderImage = function($orderby) {
+         return self::getHostedImage("life_header/life_{$orderby}.jpeg");
+      };
+      $getMobileLifeHeaderImage = function($orderby) {
+         return self::getHostedImage("life_header/life_mobile_{$orderby}.jpeg");
+      };
       return [
          1 => [
             ['full_src' => self::getHostedImage('welcome.png'),
@@ -112,21 +118,21 @@ class PageHeaderImages {
             ],
          ],
          4 => [
-            ['full_src' => self::getHostedImage('welcome.png'),
-             'mobile_src' => self::getHostedImage('welcome_mobile.png'),
+            ['full_src' => $getLifeHeaderImage(1),
+             'mobile_src' => $getMobileLifeHeaderImage(1),
+             'orderby' => 1,
+            ],
+            ['full_src' => $getLifeHeaderImage(2),
+             'mobile_src' => $getMobileLifeHeaderImage(2),
              'orderby' => 2,
             ],
-            ['full_src' => self::getHostedImage('work.png'),
-             'mobile_src' => self::getHostedImage('work_mobile.png'),
+            ['full_src' => $getLifeHeaderImage(3),
+             'mobile_src' => $getMobileLifeHeaderImage(3),
              'orderby' => 3,
             ],
-            ['full_src' => self::getHostedImage('robots.png'),
-             'mobile_src' => self::getHostedImage('robots_mobile.png'),
+            ['full_src' => $getLifeHeaderImage(4),
+             'mobile_src' => $getMobileLifeHeaderImage(4),
              'orderby' => 4,
-            ],
-            ['full_src' => self::getHostedImage('life.png'),
-             'mobile_src' => self::getHostedImage('life_mobile.png'),
-             'orderby' => 1,
             ]
          ]
       ];
