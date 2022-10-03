@@ -18,7 +18,7 @@
 <?php
    $useVideo = Utils\ServerUtils::onGoogleCloudProject();
    $imgUrl = 'src/images/site/robots/c2d2.png';
-   $imgHtml = "<img src=\"{$imgUrl}\" />";
+   $imgHtml = "<img class=\"header-video\" src=\"{$imgUrl}\" />";
    $videoUrl = Utils\ServerUtils::getHostedImagePath('work_header/work_700.mp4');
    $videoHtml = <<<EOT
       <video class="header-video" playsinline autoplay muted loop>
