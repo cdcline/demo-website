@@ -181,13 +181,13 @@ class PageIndex {
           'main_article' => <<<EOT
 ## Welcome to My Website!
 
-I'm a "Web Developer" who enjoys creating order from chaos. I've been [writing code](https://github.com/cdcline) since [elementry school](https://en.wikipedia.org/wiki/Logo_(programming_language)) and this is [my demo website](https://github.com/cdcline/demo-website).
+I'm a Web Developer who enjoys creating order from chaos and I've been [writing code](https://github.com/cdcline) since [elementary school](https://en.wikipedia.org/wiki/Logo_(programming_language))
 
-I wanted a website that would be fun & interactive. I wanted to write most of the code so I could play with how all the pieces of website worked. I knew it would be a [large undertaking](https://github.com/cdcline/demo-website/issues/12) but I had the Summer off and lots of free time.
+This is [my demo website](https://github.com/cdcline/demo-website), which I wrote to be fun and interactive. I wrote each component so I could play with (and learn) how all the website pieces worked together. While I knew this was going to be a [large undertaking](https://github.com/cdcline/demo-website/issues/12), I had the summer off (and this is my idea of a good time).
 
 ### The Beginning
 
-I did some research and though I could get a "basic website" working in [about one week](https://github.com/cdcline/demo-website/issues/1). While mostly successful in estimation, like any coding project, the feature list quickly expanded.
+After I did some research I thought I could build a functioning "basic website" in [about one week](https://github.com/cdcline/demo-website/issues/1). While my estimatate was fairly accurate, like any coding project, the feature list quickly expanded.
 
 I had originally intended "something simple":
   * Loading the backend through Google Cloud
@@ -200,12 +200,12 @@ I had originally intended "something simple":
     * Could be a "widget" that could be added to any page
 
 ### The Evolution
-By the time I had my "simple" website ready, it had been about 2 weeks of development and I had a [functional but empty website](https://github.com/cdcline/demo-website/issues/12#issuecomment-1116862020). I felt like I had built a house but all the rooms were empty. So I spent a week adding [some content and style](https://github.com/cdcline/demo-website/issues/12#issuecomment-1120445080).
+By the time my "simple" website was ready, it took 2 weeks of development. I had a [functional but empty website](https://github.com/cdcline/demo-website/issues/12#issuecomment-1116862020)—which kind of felt like I had built a house with empty rooms. So I spent a week adding [some content and style](https://github.com/cdcline/demo-website/issues/12#issuecomment-1120445080).
 
-I found myself with a website that looked ok. It had all the basics of a website but I wanted more. Something unique with animation and graphics. I knew much better designers so I hired one to [help figure out a site map](https://github.com/cdcline/demo-website/issues/22#issuecomment-1133763883) and an actual [design for each page](https://github.com/cdcline/demo-website/issues/65).
+Even with the added content and style, I still thought my website just looked ok. It had all the basics of a website, but I wanted more. I wanted something unique with animation and graphics. I knew much better designers, so I hired one to [help me architect my site map](https://github.com/cdcline/demo-website/issues/22#issuecomment-1133763883) and and create [designs for each page](https://github.com/cdcline/demo-website/issues/65).
 
 ### The Result
-The final design required [a lot of changes](https://github.com/cdcline/demo-website/issues/83) but in [the end](https://github.com/cdcline/demo-website/issues/105) I've got a cool sandbox to play in!   I ended up having a lot of fun with animations on this page. Try clicking [my profile picture](#welcome-header-container).
+The final design required [a lot of changes,](https://github.com/cdcline/demo-website/issues/83) but in [the end,](https://github.com/cdcline/demo-website/issues/105) I've got a cool sandbox to play in! I had a lot of fun coding the animations on this page. (Try clicking [my profile picture](#welcome-header-container).)
 EOT
          ],
          ['type' => self::WORK_TYPE,

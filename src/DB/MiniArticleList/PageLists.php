@@ -261,7 +261,7 @@ EOT;
             ],
             ['pageid' => 2,
             'title' => 'Mentoring',
-            'text' => self::getLiveArticleText(7),
+            'text' => self::getLiveArticleText(8),
             'start_date' => 1167642061,
             'end_date' => 1650067261,
             'tags' => ['Management', 'Agile']
@@ -274,25 +274,25 @@ EOT;
    private static function getLiveArticleText(int $articleid): string {
       switch($articleid) {
          case 1: return <<<EOT
-My first real task as a Software Developer was testing the "new" shopping cart.
+My first task as a Software Developer was testing a newly implimented shopping cart.
 
-It had all the wiz-bangs and featured AJAX requests! Finally you didn't have to load an entire page to add a new item to the cart. Just update a small section of the cart!
+It had all the wizbangs and featured AJAX requests! Finally, you didn't have to load an entire page to add a new item to the cart. Just update a small section instead!
 
-Over time, our custom cart got more complicated and I was often handling those changes.
+Over time, our custom homegrown shopping cart became overly complicated—and I had to manage those changes.
 
-I built things like the cart page, checkout experience, user adresses management and the product navigation.
+I built cart pages, checkout experiences, user address management, and product navigation.
 
-I often worked with the designers to make sure what was designed can fit easily into what was built and what we were building.
+I collaborated with designers to ensure designs fit easily into what was built and what we were building.
 EOT;
          case 2: return <<<EOT
 I was first lured to work by the offer of a "Paid Senior Project."
 
-This ended up being a backend CMS that aggregated, tracked & managed customer's orders, returns, information, tags and other random utilities.
+This ended up being a backend CMS that aggregated, tracked, and managed customer orders, returns, information, tags, and other random utilities.
 
-It was generally used by Customer Service to manage any order issues.
+It was generally used by Customer Service to manage order issues.
 EOT;
          case 3: return <<<EOT
-As someone that often worked on The Cart I also maintained a lot of various backend pages.
+In addition to working on The Cart, I also maintained a lot of various backend pages.
 
 For Example:
    * New/Used Inventory Input
@@ -303,21 +303,21 @@ For Example:
    * Product Attributes
 EOT;
          case 4: return <<<EOT
-When we first built the cart, we had a "custom" payment processor that we could charge, debit and refund through XML.
+When we first built the cart, we had a "custom" payment processor that enabled us to charge, debit, and refund through XML.
 
-As time progressed, other payment processors became available and we started implementing them.
+As time progressed, newer payment processors became available and we began implementing them.
 
 I added support for:
  * Stripe
  * PayPal
  * ApplePay
 
-For another project I was tasked with building an "Automated Recurring Billing System" that ran off of a CronJob that would allow charging customers monthly.
+In another project, I built an "Automated Recurring Billing System" that ran off of a CronJob that charged customers monthly.
 EOT;
          case 5: return <<<EOT
-Over time we started to support features unrelated to checkouts and orders. We needed "user" information not "customer" information.
+Over time, we supported features unrelated to checkouts and orders. We needed "user" information not "customer" information.
 
-As someone that did a lot of the "customer" code, I ened up working on a lot of the "user" features.
+Since I had a lot of experience working on "customer" code, I was tasked with a lot of "user" features.
 
 For Example:
    * View/Edit Profile Information
@@ -327,44 +327,36 @@ For Example:
    * Filtering
    * Ordering
 
-I also implemented logins from outside sources:
+I also implemented logins from external sources:
    * Yahoo
    * Google
    * PayPal
    * Apple
 EOT;
          case 6: return <<<EOT
-The first time my company sponsored a team to complete the Regolith Challenge.
+I was the only programmer on a team tasked with designing and building a robot that woke up in an unknown position, dug out "regolith",  dumped it in a box, and navigated around obstacles.
 
-I was the only programmer on a team that had to design & build a robot that would wake up in an unknown position, dig "regolith" and dump it in a box & navigate around obstacles.
+We won second place but no one completed the core challenge of digging a specific amount of regolith.
 
-We got second place but no one had actually completed the challenge.
+The second time we were self funded but had a much better machine. We completed the challenge weeks before the competition—and well past the minimum dig amount.
 
-The second time we were self funded but had a much better machine. We could actually complete the challenge weeks before the competition well past the minimum dig amount.
-
-However our dig motor blew out on our final run.
-
-Others were able to actually complete the challenge and that was it's final year.
+(However, our dig motor blew out on our final run.)
 EOT;
          case 7: return <<<EOT
-My company sponsored a Cal Poly student team to create software that would allow farmers to manage their tractor information without needed the manufacturer.
+My company sponsored a Cal Poly student team to create software that allowed farmers to manage their tractor information without needing the manufacturer.
 
-I was in charge of giving a presentation of the project to the classes & the students could choose to work on it.
+I was in charge of giving a presentation of the project to classes, where students could choose to work on it.
 
-Once the students joined, we had a small team that organized around "Agile Development" and I was essentially the "Project Owner."
+Once students joined, we had a small team that organized around "Agile Development" and I was the "Project Owner."
 
-I would help plan sprints and sit in on Retrospectives to give direction.
+I planned sprint objectives and participated in Retrospectives to give direction.
 
-The final student team actually created a business out of it and got some funding.
+The final student team created a business from this project and even received funding.
 EOT;
          case 8: return <<<EOT
-As someone that worked in the software for 15 years, I had a lot of knowlege in the "why" of code which often explains the "wtf."
+We often hired students who worked for a few years then move after they graduate. I often worked with them to explain our deploy pipline and complex logic.
 
-We liked to hire Cal Poly students who would work for a few years then move on when they graduate & would often have "new" coders. I often tried to break down the complex logic and to pick project that would help them learn the system.
-
-Later, we had our "Agile Revolution" and I helped students understand our deploy pipeline.
-
-I also kept an eye on "Project Scopes" so I could help break them up into known chunks of effort we could estimate in a sprint.
+I kept an eye on "Project Scopes" so I could help break them up into known chunks of effort we could estimate in a sprint.
 EOT;
       }
    }
