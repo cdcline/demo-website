@@ -1,0 +1,67 @@
+<?php
+
+use HtmlFramework\HeaderElement;
+use Utils\HtmlUtils;
+use Utils\ServerUtils;
+
+abstract class RobotsHeaderElement extends HeaderElement {
+   protected static function getStaticImage(string $imageName): string {
+      return parent::getStaticImage("robots/$imageName");
+   }
+
+   protected static function getHostedImage(string $imageName): string {
+      return parent::getHostedImage("robots/{$imageName}");
+   }
+}
+
+class RobotImage extends RobotsHeaderElement {
+   public const FRANKIE = 'frankie';
+   public const C2D2 = 'c2d2';
+
+   private const DEFAULT_CLASSES = ['robots-header-robot', 'js-header-robot'];
+
+   private $robot;
+   private $isLeft;
+
+   protected function __construct(array $params) {
+      $this->robot = $params['robot'] ?? false;
+      $this->isLeft =  $params['isLeft'] ?? false;
+   }
+
+   protected function buildHtml(): string {
+      $classes = self::DEFAULT_CLASSES;
+      $classes[] = $this->isLeft ? 'robots-header-left-side' : 'robots-header-right-side';
+      $classStr = implode(' ', $classes);
+      return HtmlUtils::makeImageElement([
+         'src' => $this->getRobotImagePath(),
+         'class' => $classStr
+      ]);
+   }
+
+   private function getRobotImagePath(): string {
+      if (!ServerUtils::onGoogleCloudProject()) {
+         return $this->getImage('c2d2.png');
+      }
+      switch($this->robot) {
+         case self::FRANKIE:
+            return $this->getImage('frankie_hq.png', /*forceStatic*/false);
+         case self::C2D2:
+         default:
+            return $this->getImage('c2d2_hq.png', /*forceStatic*/false);
+      }
+   }
+}
+
+?>
+
+<div id="robots-header-container">
+   <div class="robots-header-content-background">
+      <moon class="robots-header-moon">&nbsp;</moon>
+      <?= RobotImage::getHtml(['robot' => RobotImage::C2D2, 'isLeft' => true]) ?>
+      <?= RobotImage::getHtml(['robot' => RobotImage::FRANKIE]) ?>
+   </div>
+   <div class="robots-header-text-container">
+      <h1>Robots</h1>
+      <p>NASA Centennial Challenge & Tractor Hacking</p>
+   </div>
+</div>

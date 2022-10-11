@@ -1,0 +1,339 @@
+<?php
+
+use HtmlFramework\HeaderElement;
+use Utils\HtmlUtils;
+use Utils\ServerUtils;
+use Utils\SiteUrl;
+
+abstract class WelcomeHeaderElement extends HeaderElement {
+   protected static function getStaticImage(string $imageName): string {
+      return parent::getStaticImage("welcome/$imageName");
+   }
+
+   protected static function getHostedImage(string $imageName): string {
+      return parent::getHostedImage("homepage_header/{$imageName}");
+   }
+}
+
+class FloatingCircles extends WelcomeHeaderElement {
+   private const DEFAULT_CLASSES = ['js-floating-circle', 'floating-circle', 'slider-container-transition'];
+
+   protected function __construct(array $params) {
+      $isLeft = $params['isLeft'] ?? false;
+      $this->isLeft = $isLeft;
+   }
+
+   /**
+    *  <div>
+    *    <img>
+    *    <img>
+    *  </div>
+    */
+   protected function buildHtml(): string {
+      $topCircle = $this->getTopCircleHtml();
+      $bottomCircle = $this->getBottomCircleHtml();
+      $classes = ['welcome-header-floating-circle-container'];
+      $classes[] = $this->isLeft ? 'left-side' : 'right-side';
+      return HtmlUtils::makeDivElement(
+         $topCircle . $bottomCircle,
+         ['class' => implode(' ', $classes)]
+      );
+   }
+
+   private function getTopCircleHtml(): string {
+      $classes = array_merge(self::DEFAULT_CLASSES, ['top-floating-circle']);
+      // Quick hack to only run on the live site b/c only single image on dev
+      $useRandomImages = ServerUtils::onGoogleCloudProject();
+      // A bit silly but we want a behavior of always switching to a "new" image.
+      // To do that we need to track the "image index" we're showing.
+      $i = $useRandomImages ? rand(1, 3) : 0;
+      $src = $this->getTopCircle($i);
+      $attributes = ['src' => $src, 'class' => implode(' ', $classes), 'data-src-index' => $i];
+      return HtmlUtils::makeImageElement(array_merge($attributes, $this->getOtherSrcImageAttributes()));
+   }
+
+   private function getBottomCircleHtml(): string {
+      $classes = implode(' ', self::DEFAULT_CLASSES);
+      return "<circle class=\"clip-path-circle {$classes}\"></circle>";
+   }
+
+   private function getTopCircle(int $index): string {
+      $imgName = ServerUtils::onGoogleCloudProject() ? $this->getCloudImage($index) : 'white_strips_circle.png';
+      return $this->getImage($imgName, /*forceStatic*/false);
+   }
+
+   // This is all to support a silly hack where if you click on the portrait in the header, the floating
+   // images will switch to another random image.
+   private function getOtherSrcImageAttributes(): array {
+      if (!ServerUtils::onGoogleCloudProject()) {
+         return [];
+      }
+
+      $eAttributes = [];
+      foreach([1, 2, 3] as $i) {
+         $eAttributes["data-src-{$i}"]= $this->getImage($this->getCloudImage($i), /*forceStatic*/false);
+
+      }
+
+      return $eAttributes;
+   }
+
+   private function getCloudImage(int $i): string {
+      switch($i) {
+         case 1: return 'chip.png';
+         case 2: return 'camera.png';
+         case 3:
+         default: return 'hq_stripe_circle.png';
+      }
+   }
+}
+
+class FloatingXBox extends WelcomeHeaderElement
+{
+   private const DEFAULT_IMAGE_CLASSES = ['js-floating-x', 'welcome-header-x'];
+
+   protected function __construct(array $params)
+   {
+      $this->isLeft = $params['isLeft'] ?? false;
+      $this->numXs = 4;
+   }
+
+   /**
+    *  <div>
+    *    <img>
+    *    <img>
+    *    ....
+    *  </div>
+    */
+   protected function buildHtml(): string
+   {
+      $xHtml = '';
+      for ($i = 0; $i < $this->numXs; $i++) {
+         $xHtml .= $this->getXImageHtml();
+      }
+      $classes = ['js-welcome-header-x-container', ' welcome-header-x-container'];
+      $classes[] = $this->isLeft ? 'left-side' : 'right-side';
+
+      return HtmlUtils::makeDivElement($xHtml, ['class' => implode(' ', $classes)]);
+   }
+
+   private function getXImageHtml(): string
+   {
+      $classes = implode(' ', self::DEFAULT_IMAGE_CLASSES);
+      return "<svg class=\"svg-path-cross {$classes}\"></svg>";
+   }
+}
+
+class MovingSlash extends WelcomeHeaderElement {
+   /**
+    *  <div>
+    *    <img>
+    *  </div>
+    */
+   protected function buildHtml(): string
+   {
+      $divAttributes = [
+         'class' => 'welcome-header-slash-container js-welcome-header-slash-container'
+      ];
+      return HtmlUtils::makeDivElement($this->buildSlashElement(), $divAttributes);
+   }
+
+   private function buildSlashElement(): string {
+      $dom = new DOMDocument();
+      $localName = 'poly-slash';
+      $parentEl = $dom->createElement($localName);
+      $this->addAttribute($dom, $parentEl, 'class', 'welcome-header-slash js-moving-slash');
+      $this->buildSmallSlashElement($dom, $parentEl);
+      $this->buildLargeSlashElement($dom, $parentEl);
+      $dom->appendChild($parentEl);
+      return $dom->saveHTML();
+   }
+
+   private function buildSmallSlashElement(DOMDocument $dom, DOMElement $parent): void {
+      $localName = 'poly-slash-small';
+      $sSlashEl = $dom->createElement($localName);
+      $this->addAttribute($dom, $sSlashEl, 'class', 'clip-path-poly-slash-small js-poly-slash-piece');
+      $parent->appendChild($sSlashEl);
+   }
+
+   private function buildLargeSlashElement(DOMDocument $dom, DOMElement $parent): void {
+      $localName = 'poly-slash-large';
+      $lSlashEl = $dom->createElement($localName);
+      $this->addAttribute($dom, $lSlashEl, 'class', 'clip-path-poly-slash-large js-poly-slash-piece');
+      $parent->appendChild($lSlashEl);
+   }
+
+}
+
+class ContactInfo extends WelcomeHeaderElement {
+   private const HIDDEN_CLASSES = ['js-hidden-text-container', 'hidden-text-container'];
+   private const IMAGE_PATH = 'chris_circle.png';
+
+   /**
+    *  <div>
+    *    {$imageElements}
+    *    {$textElements}
+    *  </div>
+    */
+   protected function buildHtml(): string {
+      $containerAttributes = ['class' => 'welcome-header-contact-info-container'];
+      $imageContainer = $this->getImageContainerHtml();
+      $textContainer = $this->getTextContainerHtml();
+      return HtmlUtils::makeDivElement($imageContainer . $textContainer, $containerAttributes);
+   }
+
+   /**
+    *    <div>
+    *      <img>
+    *    </div>
+    */
+   private function getImageContainerHtml(): string {
+      $imgAttribtes = [
+         'src' => $this->getImage(self::IMAGE_PATH),
+         'class' => 'welcome-header-contact-info-image'
+      ];
+
+      return HtmlUtils::makeDivElement(
+         HtmlUtils::makeImageElement($imgAttribtes),
+         ['class' => 'welcome-header-contact-info-image-container']
+      );
+   }
+
+   /**
+    * <div>
+    *    {$topText}
+    *    {$bottomText}
+    * </div>
+    */
+   private function getTextContainerHtml(): string {
+      return HtmlUtils::makeDivElement(
+         $this->getTopTextHtml() . $this->getBottomTextHtml(),
+         ['class' => 'welcome-header-contact-info-text-container']
+      );
+   }
+
+   /**
+    * <div><h2><span><span></h2></div>
+    * <div><p><span><span></p></div>
+    */
+   private function getTopTextHtml(): string {
+      $headerText = 'Hi, I\'m Chris';
+      $cHeaderText = $this->getConcealedSpanHtml($headerText);
+      $headerClass = array_merge(self::HIDDEN_CLASSES, ['js-delay-one']);
+      $headerHtml = HtmlUtils::makeHXElement(2, $cHeaderText, ['class' => implode(' ', $headerClass)]);
+
+      $headerContainer = HtmlUtils::makeDivElement(
+         $headerHtml,
+         ['class' => 'welcome-header-contact-info-welcome-container']
+      );
+
+      $posText = 'Senior Software Engineer';
+      $cPosText = $this->getConcealedSpanHtml($posText);
+      $posClass = array_merge(self::HIDDEN_CLASSES, ['js-delay-two']);
+      $posHtml = HtmlUtils::makeDivElement($cPosText, ['class' => implode(' ', $posClass)]);
+
+      $posContainer = HtmlUtils::makeDivElement(
+         $posHtml,
+         ['class' => 'welcome-header-contact-info-position-container']
+      );
+
+      return $headerContainer . $posContainer;
+   }
+
+   /**
+    * <div>
+    *   <div>
+    *      <div></div>
+    *      <p><span><span></p>
+    *   </div>
+    *   ...
+    * </div>
+    */
+   private function getBottomTextHtml(): string {
+      // Should come from some datasource but we'll hardcode for now.
+      $phone = '(123) 456-7890';
+      $address = '123 Anywhere St, Any City';
+      $githubUrl = 'https://www.github.com/cdcline';
+      $contactEmail= 'cdcline+demo+contact@gmail.com';
+      $webLinkHtml = HtmlUtils::makeWebLinkElement($githubUrl, 'www.github.com/cdcline');
+      $emailLinkHtml = HtmlUtils::makeWebLinkElement('mailto:' . $contactEmail, 'cdcline@gmail.com');
+      $resumeHtml = HtmlUtils::makeWebLinkElement(SiteUrl::getResume(), 'My Resume');
+
+      // Messed around with this logic a bit so made some common names to use
+      $gridOne = $phone;
+      $gridTwo = $webLinkHtml;
+      $gridThree = $emailLinkHtml;
+      $gridFour = ServerUtils::jobSearching() ? $resumeHtml : $address;
+
+      $gridData = [
+         ['&#x260F;', $gridOne,   'js-delay-three'],
+         ['&#x261E;', $gridTwo,   'js-delay-four'],
+         ['&#9993;',  $gridThree, 'js-delay-five'],
+         ['&#x2624;', $gridFour,  'js-delay-six']
+      ];
+
+      $gridHtml = '';
+      foreach ($gridData as $gData) {
+         $gridHtml .= $this->buildGridHtml($gData[0], $gData[1], $gData[2]);
+      }
+
+      return HtmlUtils::makeDivElement(
+         $gridHtml,
+         ['class' => 'welcome-header-contact-info-details-container']
+      );
+   }
+
+   private function getConcealedSpanHtml(string $text): string {
+      $cSpan = HtmlUtils::makeSpanElement('&nbsp', ['class' => 'hidden-text-concealer']);
+      $tSpan = HtmlUtils::makeSpanElement($text, ['class' => 'hidden-text']);
+      return $cSpan . $tSpan;
+   }
+
+   private function buildGridHtml(string $icon, string $text, string $timeClass): string {
+      $hiddenElClasses = implode(' ', array_merge(self::HIDDEN_CLASSES, [$timeClass]));
+      $hiddenEl = HtmlUtils::makePElement(
+         $this->getConcealedSpanHtml($text),
+         ['class' => $hiddenElClasses]
+      );
+      $iconP = HtmlUtils::makePElement(HtmlUtils::makeSpanElement($icon, ['class' => 'welcome-header-contact-icon']));
+      return HtmlUtils::makeDivElement(
+         $iconP . $hiddenEl,
+         ['class' => 'welcome-header-contact-info-data']
+      );
+   }
+}
+
+class FlyingBird extends WelcomeHeaderElement
+{
+   /**
+    *  <img>
+    */
+   protected function buildHtml(): string
+   {
+      $imgAttributes = [
+         'class' => 'js-flying-bird welcome-header-flying-bird',
+         'src' => $this->getImage('flying_bird.png')
+      ];
+      return HtmlUtils::makeDivElement(
+         HtmlUtils::makeImageElement($imgAttributes),
+         ['id' => 'welcome-header-flying-bird-cage', 'class' => 'welcome-header-flying-bird-cage']
+      );
+   }
+}
+
+$left = ['isLeft' => true];
+$right = ['isLeft' => false];
+?>
+
+
+<div id="welcome-header-container">
+   <?= FlyingBird::getHtml() ?>
+   <div class="welcome-header-content-background">
+      <?= FloatingCircles::getHtml($left) ?>
+      <?= FloatingCircles::getHtml($right) ?>
+      <?= FloatingXBox::getHtml($left) ?>
+      <?= FloatingXBox::getHtml($right) ?>
+      <?= MovingSlash::getHtml() ?>
+   </div>
+   <?= ContactInfo::getHtml() ?>
+</div>

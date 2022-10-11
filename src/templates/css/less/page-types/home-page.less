@@ -1,3 +1,341 @@
+@xBoxXPadding: 40px;
+@xBoxYMinPadding: 80px;
+@xBoxYPagePadding: 60px;
+@xBoxYMaxPadding: 40px;
+
+#welcome-header-container {
+   position: relative;
+   height: 100%;
+   width: 100%;
+
+   .welcome-header-content-background {
+      position: absolute;
+      overflow: hidden;
+      width: 100%;
+      top: 0;
+      bottom: 0%;
+   }
+
+   .welcome-header-floating-circle-container {
+      position: absolute;
+      z-index: 2;
+
+      &.left-side {
+         left: 10vw;
+         top: 12vw;
+         margin-left: -140px;
+         margin-top: -160px;
+
+         @media (max-width: @pageBreakpoint) {
+            margin-top: -120px;
+         }
+      }
+
+      &.right-side {
+         right: 5vw;
+         bottom: 10vw;
+         margin-right: -130px;
+         margin-bottom: -160px;
+
+         @media (max-width: @pageBreakpoint) {
+            margin-bottom: 20vw;
+            right: 5vw;
+         }
+         @media (max-width: @minBreakpoint) {
+            margin-bottom: 33vw;
+            margin-right: -190px;
+         }
+      }
+
+      .floating-circle {
+         z-index: 3;
+         width: 225px;
+         height: 225px;
+         position: relative;
+
+         &.clip-path-circle {
+            display: block;
+            clip-path: circle(50% at 50% 50%);
+            background-color: @welcomeHeaderCircle;
+         }
+
+         &.top-floating-circle {
+            position: absolute;
+            z-index: 4;
+         }
+      }
+
+      .slider-container-transition {
+         transition: transform 10s ease-in-out, background-color 5s ease;
+      }
+   }
+
+   .welcome-header-slash-container {
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      margin-left: -650px;
+
+      .clip-path-poly-slash-large, .clip-path-poly-slash-small {
+         position: absolute;
+         top: 0;
+         bottom: 0;
+         background-color: @welcomeHeaderSlash;
+         width: 100%;
+         transition: background-color 10s ease;
+      }
+
+      .clip-path-poly-slash-large {
+         clip-path: polygon(55% 0, 92% 0, 37% 100%, 0 100%);
+      }
+
+      .clip-path-poly-slash-small {
+         clip-path: polygon(95% 0, 100% 0, 45% 100%, 40% 100%);
+      }
+
+      .welcome-header-slash {
+         display: block;
+         width: 650px;
+         height: 100%;
+
+         transition: transform 10s ease-in-out;
+         visibility: hidden;
+
+         &.js-animate-slash {
+            visibility: visible;
+            transform: translateX(330%);
+
+            @media (max-width: @pageBreakpoint) {
+               transform: translateX(220%);
+            }
+
+            @media (max-width: @minBreakpoint) {
+               transform: translateX(175%);
+            }
+         }
+      }
+   }
+
+   .welcome-header-x-container {
+      // Shouldn't ever overlap the header image but might go over transparent image edges
+      // We still want to be able to interact with it so we'll bump the z-index up a lot
+      z-index: 6;
+      position: absolute;
+
+      &.left-side {
+         margin-left: -120px;
+         left: 20vw;
+         bottom: 25px;
+         @media (max-width: @pageBreakpoint) {
+            margin-left: -47px;
+            left: 10vw;
+            bottom: 110px;
+         }
+         @media (max-width: @minBreakpoint) {
+            margin-left: -75px;
+            left: 20vw;
+            bottom: 220px;
+         }
+      }
+
+      &.right-side {
+         text-align: right;
+         right: 20vw;
+         top: 48px;
+
+         @media (max-width: @pageBreakpoint) {
+            margin-right: -50px;
+            top: 60px;
+         }
+
+         @media (max-width: @minBreakpoint) {
+            margin-right: -75px;
+            top: 40px;
+         }
+      }
+
+      .welcome-header-x {
+         transition: transform 10s ease-in-out, background-color 1s ease;
+         width: 48px;
+         height: 48px;
+
+         @media (max-width: @pageBreakpoint) {
+            width: 24px;
+            height: 24px;
+         }
+
+         &.svg-path-cross {
+            background-color: @headerTextColor;
+            clip-path: polygon(10% 0%, 0% 10%, 40% 50%, 0% 90%, 10% 100%, 50% 60%, 90% 100%, 100% 90%, 60% 50%, 100% 10%, 90% 0%, 50% 40%);
+         }
+
+         &:hover {
+            cursor: pointer;
+         }
+      }
+   }
+
+   .welcome-header-contact-info-container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      min-height: @maxPageHeaderHeight;
+      justify-content: center;
+      align-items: center;
+      z-index: 5;
+      gap: 2vw;
+
+      @media (max-width: @pageBreakpoint) {
+         min-height: @standardPageHeaderHeight;
+         flex-direction: column;
+         text-align: center;
+         gap: 1vw;
+      }
+
+      .hidden-text-container {
+         position: relative;
+
+         .hidden-text-concealer {
+            display: block;
+            visibility: hidden;
+            transition: transform .15s ease-in-out;
+            z-index: 7;
+            user-select: none;
+            pointer-events: none;
+            background-color: white;
+            width: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+
+            &.js-header-animation-running {
+               visibility: visible;
+            }
+            &.js-header-animation-start {
+               transform: translateX(200px) scaleX(4000%);
+            }
+            &.js-grid-animation-start {
+               transform: translateX(100px) scaleX(2000%);
+            }
+            &.js-header-animation-end {
+               transform: translateX(500px) scaleX(0%);
+            }
+            &.js-grid-animation-end {
+               transform: translateX(400px) scaleX(0%);
+            }
+         }
+
+         .hidden-text {
+            visibility: hidden;
+
+            &.js-show-hidden-text {
+               visibility: visible;
+            }
+         }
+      }
+
+      .welcome-header-contact-info-image-container {
+         z-index: 6;
+
+         img {
+            z-index: 7;
+            height: 300px;
+            cursor: pointer;
+         }
+      }
+
+      .welcome-header-contact-info-text-container {
+         font-family: @robotoFlex;
+         display: flex;
+         flex-direction: column;
+         gap: 5px;
+         z-index: 6;
+         overflow: hidden;
+
+         h2, p, div {
+            margin: 0;
+            padding: 0;
+         }
+
+         h2 {
+            font-size: 2em;
+            font-weight: 800;
+
+            @media (max-width: @pageBreakpoint) {
+               font-size: 1.9em;
+            }
+            @media (max-width: @minBreakpoint) {
+               font-size: 1.8em;
+            }
+         }
+
+         .welcome-header-contact-info-position-container {
+            font-size: .9em;
+            font-weight: 400;
+         }
+
+         .welcome-header-contact-info-details-container {
+            display: grid;
+            grid-template-columns: repeat(2, auto);
+            gap: 3px;
+            grid-auto-rows: auto;
+            overflow: hidden;
+            margin-top: 5px;
+
+            .welcome-header-contact-info-data {
+               display: flex;
+               flex-direction: row;
+               align-items: center;
+               overflow: hidden;
+               font-weight: 200;
+               font-size: .5em;
+               @media (max-width: @minBreakpoint) {
+                  font-size: .48em;
+               }
+
+               .welcome-header-contact-icon {
+                  font-size: 1.5em;
+
+                  @media (max-width: @minBreakpoint) {
+                     font-size: 1em;
+                  }
+               }
+
+               p {
+                  padding-left: 6px;
+
+                  @media (max-width: @minBreakpoint) {
+                     padding-left: 3px;
+                  }
+               }
+
+               a {
+                  text-decoration: none;
+                  color: @headerTextColor;
+
+                  &:visited {
+                     color: @headerTextColor;
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   .welcome-header-flying-bird-cage {
+      display: none;
+   }
+}
+
+.welcome-header-flying-bird {
+   transition: transform 10s ease-in-out;
+   transform: scale(.5);
+   position: absolute;
+   left: 0;
+   top: 0;
+}
+
 #raw-text-main-article-container code {
    white-space: break-spaces;
 }
@@ -9,8 +347,12 @@
 .robot-fun-container {
    display: flex;
    flex-direction: row;
-   margin: 35px 0;
+   margin: 25px 0 0 0;
    gap: 35px;
+
+   @media (max-width: @pageBreakpoint) {
+      margin-bottom: 25px;
+   }
 
    .robot-fun-img-container {
       padding-left: 3px;
@@ -19,13 +361,16 @@
          width: 100%;
          max-width: 142px;
          height: auto;
+
+         &:hover {
+            cursor: pointer;
+         }
       }
    }
 
    .robot-fun-txt-container {
-      font-size: 20px;
-      h5 {
-         margin: 0;
+      h3 {
+         margin: 0 0 10px 0;
          padding: 0;
       }
    }

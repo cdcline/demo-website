@@ -14,11 +14,14 @@ class PageIndex {
    const DEFAULT_TYPE = 'default';
    const HOMEPAGE_TYPE = 'homepage';
    const WORK_TYPE = 'work';
+   const ROBOTS_TYPE = 'robots';
 
    const ORANGE_THEME = 'orange';
    const GREY_THEME = 'grey';
    const GREEN_THEME = 'green';
    const BLACK_THEME = 'black';
+
+   const NAV_TEXT = 'You might also enjoy...';
 
    private $pageid;
    private $pageTitle;
@@ -174,53 +177,54 @@ class PageIndex {
           'pageid' => 1,
           'page_title' => 'Welcome - My Demo Website',
           'page_header' => 'Welcome',
-          'nav_text' => 'You might also enjoy...',
+          'nav_text' => self::NAV_TEXT,
           'main_article' => <<<EOT
-## Welcome to My Personal Website!
+## Welcome to My Website!
 
-I've been [writing code](#link) since [elementry school](https://en.wikipedia.org/wiki/Logo_(programming_language))!
+I'm a Web Developer who enjoys creating order from chaos and I've been [writing code](https://github.com/cdcline) since [elementary school](https://en.wikipedia.org/wiki/Logo_(programming_language))
 
-I write code and didn't have _any_ coding examples or even a server to run my site on! I hope to solve this with My Personal Website. It will be both as my personal coding playground and an example of how I write code!
+This is [my demo website](https://github.com/cdcline/demo-website), which I wrote to be fun and interactive. I wrote each component so I could play with (and learn) how all the website pieces worked together. While I knew this was going to be a [large undertaking](https://github.com/cdcline/demo-website/issues/12), I had the summer off (and this is my idea of a good time).
 
-#### This page is an example of "My Demo Website" capabilities!
+### The Beginning
 
-All the text you've read so far is **[parsable](#toggleParser)** _text_ and should be easy for anyone to ~~etid~~ edit.
+After I did some research I thought I could build a functioning "basic website" in [about one week](https://github.com/cdcline/demo-website/issues/1). While my estimatate was fairly accurate, like any coding project, the feature list quickly expanded.
 
-This is great for:
-* Speed
- * You can just write text and not worry about html
-* Frequent updating
- * Easy to find the text to change
-* Non-Coders
- * Don't have to know anything about CSS or HTML
-* Readability
- * It's a block of text with kinda random punctuation.
- * No `<code>` elements to worry about.
+I had originally intended "something simple":
+  * Loading the backend through Google Cloud
+  * Support loading a unique page off of an arbitrary url
+  * Basic CSS and JS
+  * Displaying some _parsable text_
+    * **[\[click here to see unparsed text\]](#toggleParser)**
+  * Supporting arbitrary HTML stuff on each page
+    * Could be "unique" html to the page
+    * Could be a "widget" that could be added to any page
 
-However, it has it's limits. You can't really do fancy **frontend** _things_.
+### The Evolution
+By the time my "simple" website was ready, it took 2 weeks of development. I had a [functional but empty website](https://github.com/cdcline/demo-website/issues/12#issuecomment-1116862020)—which kind of felt like I had built a house with empty rooms. So I spent a week adding [some content and style](https://github.com/cdcline/demo-website/issues/12#issuecomment-1120445080).
+
+Even with the added content and style, I still thought my website just looked ok. It had all the basics of a website, but I wanted more. I wanted something unique with animation and graphics. I knew much better designers, so I hired one to [help me architect my site map](https://github.com/cdcline/demo-website/issues/22#issuecomment-1133763883) and and create [designs for each page](https://github.com/cdcline/demo-website/issues/65).
+
+### The Result
+The final design required [a lot of changes,](https://github.com/cdcline/demo-website/issues/83) but in [the end,](https://github.com/cdcline/demo-website/issues/105) I've got a cool sandbox to play in! I had a lot of fun coding the animations on this page. (Try clicking [my profile picture](#welcome-header-container).)
 EOT
          ],
          ['type' => self::WORK_TYPE,
           'theme' => self::GREY_THEME,
+          'nav_text' => self::NAV_TEXT,
           'pageid' => 2,
-          'page_title' => 'Work - My Website Demo',
+          'page_title' => 'Work - Website Demo',
           'page_header' => 'Work',
          ],
-         ['type' => self::DEFAULT_TYPE,
+         ['type' => self::ROBOTS_TYPE,
           'theme' => self::BLACK_THEME,
+          'nav_text' => self::NAV_TEXT,
           'pageid' => 3,
-          'page_title' => 'Test 3 - Website Demo',
-          'page_header' => 'Test Page 3',
-          'main_article' => <<<EOT
-## Robots
-
-### Franky ![Franky](src/images/site/fun-robot.png)
-
-Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
-EOT
+          'page_title' => 'Robots - Website Demo',
+          'page_header' => 'Robots',
          ],
          ['type' => self::DEFAULT_TYPE,
           'theme' => self::GREEN_THEME,
+          'nav_text' => self::NAV_TEXT,
           'pageid' => 4,
           'page_title' => 'Life - Website Demo',
           'page_header' => 'Life',
@@ -231,46 +235,6 @@ EOT
    }
 
    private static function getLiveStaticRows(): array {
-      return [
-         ['type' => self::HOMEPAGE_TYPE,
-          'theme' => self::ORANGE_THEME,
-          'pageid' => 1,
-          'page_title' => 'About Me - Website Demo',
-          'page_header' => 'About Me',
-          'nav_text' => 'You might also enjoy...',
-          'main_article' => <<<EOT
-## This is the About Me Article!
-
-I write code and don't have _any_ coding examples. I hope this will serve both as my personal website and an example of how I write code!
-EOT
-         ],
-         ['type' => self::WORK_TYPE,
-          'theme' => self::GREY_THEME,
-          'pageid' => 2,
-          'page_title' => 'Work - Website Demo',
-          'page_header' => 'Work',
-         ],
-         ['type' => self::DEFAULT_TYPE,
-          'theme' => self::BLACK_THEME,
-          'pageid' => 3,
-          'page_title' => 'Robots - Website Demo',
-          'page_header' => 'Robots',
-          'main_article' => <<<EOT
-## Robots
-
-### Franky ![Franky](https://storage.googleapis.com/burnished-flare-348022.appspot.com/images/site/c2d2.png)
-
-Franky was our first attempt at an autonomous digging robot. He got his name as more parts were grafted onto the body as the "features" evolved.
-EOT
-         ],
-         ['type' => self::DEFAULT_TYPE,
-          'theme' => self::GREEN_THEME,
-          'pageid' => 4,
-          'page_title' => 'Life - Website Demo',
-          'page_header' => 'Life',
-          'hide_main_nav' => true,
-          'main_article' => ''
-         ],
-      ];
+      return self::getDevStaticRows();
    }
 }

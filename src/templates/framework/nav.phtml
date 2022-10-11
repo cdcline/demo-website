@@ -4,7 +4,7 @@
          <?php foreach ($this->packet->getNavSections() as $navSection) : ?>
             <?php $isImageLayout = $navSection['title'] === 'Contact' ?>
             <div class="nav-section">
-               <h5><?= $navSection['title'] ?></h5>
+               <h2><?= $navSection['title'] ?></h2>
                <?php if ($isImageLayout) : ?>
                   <div class="image-link-container">
                      <?php foreach ($navSection['entries'] as $navEntry) : ?>

@@ -1,27 +1,36 @@
 /** Vars **/
 @sectionGap: 10px;
-@minWidth: 320px;
+@minWidth: 375px;
 @minBreakpoint: 480px;
 @pageBreakpoint: 745px;
-@maxWidth: 1920px;
+@maxWidth: 1280px;
 @contentSidePadding: 14px;
+@sectionContentPadding: 50px;
 @footerCircleSize: 84px;
 @footerCircleVisitingSize: 50px;
+@maxPageHeaderHeight: 500px;
+@standardPageHeaderHeight: 550px;
 
-@defaultFontFamily: Arial, Helvetica, sans-serif;
-@generalFontFamily: "Helvetica Neue, Regular";
-@headerFontFamily: "Helvetica Neue, Bold";
+@roboto: "Roboto";
+@robotoFlex: "'Roboto Flex'";
+@generalFontFamily: "'Open Sans', sans-serif";
+@headerFontFamily: "'Helvetica Neue', Bold";
 
 /** Global **/
 * {
    box-sizing: border-box;
 }
 
-body {
-   font-family: @defaultFontFamily;
-   background-color: @bodyBackgroundColor;
+html, body {
+   height: fit-content;
+   width: 100%;
    display: flex;
-   flex-direction: column;
+}
+
+body {
+   font-family: @generalFontFamily;
+   background-color: @bodyBackgroundColor;
+   justify-content: center;
    margin: 0;
    padding: 0;
 
@@ -29,6 +38,11 @@ body {
       min-width: @minWidth;
       max-width: @maxWidth;
       padding: 0 @contentSidePadding;
+
+      @media (max-width: @minBreakpoint) {
+         padding: 0;
+      }
+
       margin: 0px auto;
       display: flex;
       flex-direction: column;
@@ -38,6 +52,21 @@ body {
 
    .copyright-container {
       color: @copyrightContainerTextColor;
+   }
+}
+
+.page-background-container {
+   height: fit-content;
+   position: relative;
+   width: 100%;
+
+   .background-container {
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      bottom: 0%;
+      width: 100%;
+      z-index: -1;
    }
 }
 
@@ -121,24 +150,34 @@ header {
    }
 }
 
+.fun {
+   transition: color .3s ease
+}
+
 /* Container for flexboxes */
 section {
    display: flex;
-   display: -webkit-flex;
    margin: 0 auto;
    background-color: @articleBackgroundColor;
-   padding: 20px;
+   padding: @sectionContentPadding;
    color: @articleTextColor;
    border-radius: 22px;
    width: 100%;
+
+   @media (max-width: @pageBreakpoint) {
+      padding: 25px;
+   }
 
    .article-nav-container {
       display: flex;
       flex-direction: row;
       width: 100%;
+      gap: @sectionContentPadding;
+      overflow-wrap: anywhere;
 
       /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
       @media (max-width: @pageBreakpoint) {
+         gap: @sectionGap;
          -webkit-flex-direction: column;
          flex-direction: column;
       }
@@ -147,17 +186,34 @@ section {
 
 /* Style the content */
 article {
-   -webkit-flex: 5;
-   -ms-flex: 5;
-   flex: 5;
+   flex: 8;
    @media (max-width: @pageBreakpoint) {
-      -webkit-flex: 0;
-      -ms-flex: 0;
       flex: 0;
+      gap: 0;
    }
 
    img {
       float: right;
+   }
+
+   p, h2, h3, ul {
+      margin: 0;
+   }
+   p, h2, h3 {
+      padding: 0;
+   }
+
+}
+
+#page-type-template-container {
+   gap: @textGap;
+
+   h2 {
+      margin-bottom: @textGap;
+   }
+
+   h3 {
+      margin-top: @textGap;
    }
 }
 
@@ -165,25 +221,26 @@ article {
 nav {
    background: @navBackgroundColor;
    color: @navTextColor;
-   -webkit-flex: 2;
-   -ms-flex: 2;
-   flex: 2;
+   font-size: 1.2em;
+   font-family: @roboto;
+   text-align: left;
 
+   flex: 2;
    @media (max-width: @pageBreakpoint) {
-      -webkit-flex: 0;
-      -ms-flex: 0;
+      text-align: center;
       flex: 0;
+
+      @media (max-width: @minBreakpoint) {
+         text-align: left;
+      }
    }
 
-   text-align: left;
-   font-family: @generalFontFamily;
-   font-size: 20px;
+
 
    .nav-links-container {
-      padding: 18px;
       display: flex;
       flex-wrap: nowrap;
-      gap: 55px 30px;
+      gap: 50px 25px;
       justify-content: left;
       flex-direction: column;
 
@@ -195,16 +252,16 @@ nav {
       @media (max-width: @minBreakpoint) {
          flex-direction: column;
          justify-content: left;
+         gap: 25px;
       }
 
       .nav-section {
          flex: 1;
 
-         h5 {
+         h2 {
             margin: 0 0 6px 0;
             padding: 0px;
-            font-family: @headerFontFamily;
-            font-size: 24px;
+            font-family: @roboto;
          }
 
          .image-link-container {
@@ -212,11 +269,15 @@ nav {
             flex-direction: row;
             justify-content: left;
             align-items: center;
+            margin-top: 15px;
             gap: 10px;
 
-            img {
-               width: 76px;
-               height: auto;
+            @media (max-width: @pageBreakpoint) {
+               justify-content: center;
+
+               @media (max-width: @minBreakpoint) {
+                  justify-content: left;
+               }
             }
          }
 
@@ -232,6 +293,8 @@ nav {
             }
 
             a {
+               font-family: @roboto;
+
                color: @navTextColor;
                &:visited {
                   color: @navTextColor;
@@ -290,11 +353,15 @@ nav {
                width: 200px;
                height: auto;
                border-radius: 50%;
-               filter: brightness(50%);
                position: absolute;
                top: 50%;
                left: 50%;
                transform: translate(-50%, -50%);
+               filter: brightness(50%);
+
+               &:hover {
+                  filter: brightness(100%);
+               }
             }
 
             span {
@@ -302,6 +369,7 @@ nav {
                width: 100%;
                display: block;
                position: absolute;
+               pointer-events: none;
                top: 50%;
                left: 50%;
                transform: translate(-50%, -50%);
@@ -324,7 +392,7 @@ footer {
       bottom: 0;
 
       @media only screen and (max-width: @minBreakpoint)  {
-         z-index: 1;
+         z-index: 10;
          display: block;
       }
    }

@@ -1,12 +1,17 @@
 <body>
-   <div class="body-content-container">
-      <?= $this->printHeader() ?>
-      <?= $this->printSection() ?>
+   <div class="page-background-container">
+      <div id="background-container" class="background-container"></div>
+      <div class="page-container">
+         <div class="body-content-container">
+            <?= $this->printHeader() ?>
+            <?= $this->printSection() ?>
 
-      <?= $this->printPageFooter() ?>
+            <?= $this->printPageFooter() ?>
+         </div>
+         <div class="copyright-container">
+            <div>©2022 C.D.CLINE</div>
+         </div>
+         <?= $this->printMobileFooter() ?>
+      </div>
    </div>
-   <div class="copyright-container">
-      <div>©2022 C.D.CLINE</div>
-   </div>
-   <?= $this->printMobileFooter() ?>
 </body>

@@ -10,48 +10,25 @@ use Utils\HtmlUtils;
 //  <div><a>{$toggleBackHtml}</a></div>
 // </div>
 $rawMainArticleTxtDiv = HtmlUtils::makeDivElement("<code>{$this->getData('escapedMainArticleTxt')}</code>");
-$toggleHtmlTxt = 'View Parsed Text';
+$toggleHtmlTxt = '[Click Here To View Parsed Text]';
 $toggleHtmlBtn = "<a href=\"#toggleParser\">{$toggleHtmlTxt}</a>";
 $toggleContainer = HtmlUtils::makeDivElement($toggleHtmlBtn, ['id' => 'view-parse-toggle-btn']);
 $rawMainArticleTxtContainer = HtmlUtils::makeDivElement($rawMainArticleTxtDiv . $toggleContainer,['id' => 'raw-text-main-article-container', 'class' => 'hidden']);
 
-// <h1 class="fun">{$funText}</fun>
-$fs1 = HtmlUtils::makeFunSpan('\'');
-$fs2 = HtmlUtils::makeFunSpan('s');
-$fs3 = HtmlUtils::makeFunSpan('this');
-$fs4 = HtmlUtils::makeFunSpan('part');
-$fs5 = HtmlUtils::makeFunSpan('for');
-$h1Text = "That{$fs1}{$fs2} what {$fs3} {$fs4} is {$fs5}!";
-$h1El = HtmlUtils::makeH1Element($h1Text, 'fun');
+$fP1 = HtmlUtils::makePElement("Each page has unique elements, however, there is common code across them all.");
 
-// <p>{$funParagraph}</p>
-$inA = ['i','n'];
-$inSpan = HtmlUtils::makeFunSpanFromArray($inA, '');
-$sSpan = HtmlUtils::makeFunSpan('serious');
-$lSpan = HtmlUtils::makeFunSpan('limitations');
-$fP1 = HtmlUtils::makePElement("The <a href=\"https://parsedown.org/\">parsedown</a> text above doesn't give f{$inSpan}e control and has serious technical {$sSpan}");
-
-// <p>{$funParagraph}</p>
-$drt = ['random', 'html', 'things'];
-$drtFineSpan = HtmlUtils::makeFunSpanFromArray($drt);
-$fP2 = HtmlUtils::makePElement("This is a file in code where we can just do {$drtFineSpan}");
-
-$fP3 = HtmlUtils::makePElement("The rest of this page is a \"Widget\", a collection of HTML, CS & JS that can be placed in any template. Try clicking the image below.");
 ?>
 
 <!-- This is the Welcome Page "template" & you can write any random HTML or PHP logic you want -->
 <?= $rawMainArticleTxtContainer ?>
-<?= $h1El ?>
 <?= $fP1 ?>
-<?= $fP2 ?>
-<?= $fP3 ?>
 
 <div class="robot-fun-container">
    <div class="robot-fun-img-container fun-btn">
       <img src="/src/images/site/fun-robot.png" />
    </div>
    <div class="robot-fun-txt-container" >
-      <h5>Try clicking the circle.</h5>
-      <p>This is your basic block of fun</p>
+      <h3 class="fun">Try clicking the robot.</h3>
+      <p>Can you figure out how to do <span class="fun">this</span> on <span class="fun">any page</span><span class="fun">?</span></p>
    </div>
 </div>

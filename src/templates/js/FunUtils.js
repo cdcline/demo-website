@@ -8,7 +8,7 @@ class FunUtils {
    // Number to increment to increase color change frequency
    static funMeter = 0;
    // Number to check against to "hide" secret
-   static funLimit = 3;
+   static funLimit = 1;
    // We could stack loops on top but it looks better to stop one interval before you start another
    static funLoop;
    static minSpeed = 1;
@@ -18,22 +18,17 @@ class FunUtils {
    static setup = false;
 
    static setupFun(callbackFnc) {
-      if (!JSServerUtils) {
-         PageUtils.loadClass('JSServerUtils', null, true);
+      this.setupOGColors();
+      this.setupNoFun();
+      // Change some colors
+      this.randomColorFun(10)
+      // Change colors after we've loaded resources. (lol js)
+      JSServerUtils.addOnLoadFunction(e => this.randomColorFun(3));
+      // Start building fun with the 'fun-button'
+      JSServerUtils.addClickFunctionOnClasses('fun-btn', this.addFun.bind(this));
+      if (callbackFnc) {
+         callbackFnc();
       }
-      PageUtils.loadClass('MathUtils', function() {
-         this.setupOGColors();
-         this.setupNoFun();
-         // Change some colors
-         this.randomColorFun(10)
-         // Change colors after we've loaded resources. (lol js)
-         JSServerUtils.addOnLoadFunction(e => this.randomColorFun(3));
-         // Start building fun with the 'fun-button'
-         JSServerUtils.addClickFunctionOnClasses('fun-btn', this.addFun.bind(this));
-         if (callbackFnc) {
-            callbackFnc();
-         }
-      }.bind(this), true);
    }
 
    // We'd like to use some js array logic so we'll convert from HTML Collection to an array

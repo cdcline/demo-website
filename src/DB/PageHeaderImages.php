@@ -3,11 +3,11 @@
 namespace DB;
 
 use DB\DBTrait;
-use Exception;
+//use Exception;
 use HtmlFramework\Packet\HeaderPacket;
 //use Utils\FirestoreUtils;
 use Utils\HtmlUtils;
-//use Utils\ServerUtils;
+use Utils\ServerUtils;
 
 class PageHeaderImages {
    use DBTrait;
@@ -86,47 +86,53 @@ class PageHeaderImages {
    }
 
    private static function getLiveStaticData(): array {
+      $getLifeHeaderImage = function($orderby) {
+         return self::getHostedImage("life_header/life_{$orderby}.jpeg");
+      };
+      $getMobileLifeHeaderImage = function($orderby) {
+         return self::getHostedImage("life_header/life_mobile_{$orderby}.jpeg");
+      };
       return [
          1 => [
-            ['full_src' => self::getHostedImagePath('welcome.png'),
-             'mobile_src' => self::getHostedImagePath('welcome_mobile.png'),
+            ['full_src' => self::getHostedImage('welcome.png'),
+             'mobile_src' => self::getHostedImage('welcome_mobile.png'),
              'orderby' => 1,
             ],
          ],
          2 => [
-            ['full_src' => self::getHostedImagePath('work.png'),
-             'mobile_src' => self::getHostedImagePath('work_mobile.png'),
+            ['full_src' => self::getHostedImage('work.png'),
+             'mobile_src' => self::getHostedImage('work_mobile.png'),
              'orderby' => 1,
             ],
          ],
          3 => [
-            ['full_src' => self::getHostedImagePath('robots.png'),
-             'mobile_src' => self::getHostedImagePath('robots_mobile.png'),
+            ['full_src' => self::getHostedImage('robots.png'),
+             'mobile_src' => self::getHostedImage('robots_mobile.png'),
              'orderby' => 1,
             ],
          ],
          4 => [
-            ['full_src' => self::getHostedImagePath('life.png'),
-             'mobile_src' => self::getHostedImagePath('life_mobile.png'),
+            ['full_src' => self::getHostedImage('life.png'),
+             'mobile_src' => self::getHostedImage('life_mobile.png'),
              'orderby' => 1,
             ],
          ],
          4 => [
-            ['full_src' => self::getHostedImagePath('welcome.png'),
-             'mobile_src' => self::getHostedImagePath('welcome_mobile.png'),
+            ['full_src' => $getLifeHeaderImage(1),
+             'mobile_src' => $getMobileLifeHeaderImage(1),
+             'orderby' => 1,
+            ],
+            ['full_src' => $getLifeHeaderImage(2),
+             'mobile_src' => $getMobileLifeHeaderImage(2),
              'orderby' => 2,
             ],
-            ['full_src' => self::getHostedImagePath('work.png'),
-             'mobile_src' => self::getHostedImagePath('work_mobile.png'),
+            ['full_src' => $getLifeHeaderImage(3),
+             'mobile_src' => $getMobileLifeHeaderImage(3),
              'orderby' => 3,
             ],
-            ['full_src' => self::getHostedImagePath('robots.png'),
-             'mobile_src' => self::getHostedImagePath('robots_mobile.png'),
+            ['full_src' => $getLifeHeaderImage(4),
+             'mobile_src' => $getMobileLifeHeaderImage(4),
              'orderby' => 4,
-            ],
-            ['full_src' => self::getHostedImagePath('life.png'),
-             'mobile_src' => self::getHostedImagePath('life_mobile.png'),
-             'orderby' => 1,
             ]
          ]
       ];
@@ -166,10 +172,8 @@ class PageHeaderImages {
       ];
    }
 
-   private static function getHostedImagePath($imageName): string {
-      $siteName = getenv('GOOGLE_CLOUD_PROJECT');
-      $path = "https://storage.googleapis.com/{$siteName}.appspot.com/images/site/";
-      return $path . $imageName;
+   private static function getHostedImage($imageName): string {
+      return ServerUtils::getHostedImagePath() . $imageName;
    }
 
    private static function getRandomFullHeaderImgSrc(): string {

@@ -17,8 +17,8 @@ class Header extends HtmlElement {
 
    private const FRAMEWORK_FILE = 'header.phtml';
 
-   public static function fromValues(string $headerText, array $headerImages): self {
-      $packet = new HeaderPacket($headerText, $headerImages);
+   public static function fromValues(string $pageType, string $headerText, array $headerImages): self {
+      $packet = new HeaderPacket($pageType, $headerText, $headerImages);
       return new self($packet);
    }
 
@@ -38,6 +38,14 @@ class Header extends HtmlElement {
     *    </div>
     */
    protected function getHeaderContentHtml(): string {
+      $headerTemplatePath = $this->packet->getHeaderTemplate();
+      if ($headerTemplatePath) {
+         ob_start();
+         require $headerTemplatePath;
+         $templateHtml = ob_get_contents();
+         ob_end_clean();
+         return $templateHtml;
+      }
       $containerClasses = ['header-main-title-container'];
       $headerContentEls = [];
       if ($this->packet->hasImages()) {

@@ -51,7 +51,7 @@ abstract class BasePage {
    public function printHtml(): void {
       $this->ranHTMLPrint = true;
       $htmlHead = HtmlHead::fromValues($this->getTheme(), $this->getPageTitle());
-      $htmlHeader = HtmlHeader::fromValues($this->getPageHeader(), $this->getPageHeaderImages());
+      $htmlHeader = HtmlHeader::fromValues($this->getPageType(), $this->getPageHeader(), $this->getPageHeaderImages());
       $htmlNav = HtmlNav::fromValues($this->hideMainNav());
       $htmlArticle = HtmlArticle::fromValues($this->getPageType(), $this->getPageid(), $this->getPageTemplatePath(), $this->pageData, $this->getMainArticle());
       $htmlFooter = HtmlFooter::fromValues($this->getNavText());
@@ -63,6 +63,8 @@ abstract class BasePage {
 
    public static function getClassNameFromPageType(string $pageType): string {
       switch ($pageType) {
+         case PageIndex::ROBOTS_TYPE:
+            return RobotsPage::class;
          case PageIndex::WORK_TYPE:
             return WorkPage::class;
          case PageIndex::HOMEPAGE_TYPE:

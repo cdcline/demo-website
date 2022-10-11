@@ -50,7 +50,7 @@ class Head extends HtmlElement {
    }
 
    protected function getLinks(): string {
-      return implode(' ', array_merge([$this->cssLink()], $this->favLinks()));
+      return implode(' ', array_merge([$this->fontLink()], [$this->cssLink()], $this->favLinks()));
    }
 
    private function cssLink(): string {
@@ -58,6 +58,18 @@ class Head extends HtmlElement {
          'rel' => 'stylesheet',
          'href' => $this->packet->getStyleSheetPath()
       ]);
+   }
+
+   private function fontLink(): string {
+      $googleFonts = [
+         'Open+Sans:wght@400;700', // Regular and Bold
+         'Roboto+Flex:wght@200;400;900',   //
+         'Roboto:wght@400;700',   //
+      ];
+      $gApiData = array_map(fn($fontString) => "family={$fontString}", $googleFonts);
+      $gApiData[] = 'display=swap';
+      $gLinkUrl = "https://fonts.googleapis.com/css2?" . implode('&', $gApiData);
+      return HtmlUtils::makeLinkElement(['rel' => 'stylesheet', 'href' => $gLinkUrl]);
    }
 
    private function favLinks(): array {

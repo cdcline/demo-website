@@ -65,15 +65,38 @@ class PageUtils {
                HomePage.setupEvents();
             }.bind(this));
          }
+
+         this.loadClass('MathUtils', function() {
+            // Check for Welcome Header
+            if (document.getElementById('welcome-header-container')) {
+               PageUtils.loadClass('WelcomeHeader', function() {
+                  WelcomeHeader.init();
+               });
+            }
+
+            // Check for Robots Header
+            if (document.getElementById('robots-header-container')) {
+               PageUtils.loadClass('RobotsHeader', function() {
+                  RobotsHeader.init();
+               });
+            }
+
+            // Check for Work Header
+            if (document.getElementById('work-header-container')) {
+               PageUtils.loadClass('WorkHeader', function() {
+                  WorkHeader.init();
+               });
+            }
+
+            // Check for Block'O'Fun
+            if (document.getElementsByClassName('fun-btn').length) {
+               PageUtils.loadClass('FunUtils', function() {
+                  FunUtils.setupFun();
+               });
+            }
+         });
       }.bind(this));
 
-      // Widget JS loading
-      // Check for Block'O'Fun
-      if (document.getElementsByClassName('fun-btn').length) {
-         PageUtils.loadClass('FunUtils', function() {
-            FunUtils.setupFun();
-         });
-      }
       // Check for MiniArticleList
       if (document.getElementById('mini-article-list')) {
          PageUtils.loadClass('MiniArticleList', function() {

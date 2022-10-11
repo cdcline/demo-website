@@ -1,0 +1,70 @@
+<div class="svg-container">
+   <svg class="svg-defs">
+      <defs>
+         <clipPath id="myCurve" clipPathUnits="objectBoundingBox">
+            <path d="M .36,0
+                     C .40,.40, .60,.50, .71,.20
+                     C .80,.00, .90,.12, .80,.25
+                     S .8,1, .56,.80
+                     S .2,.50, .3,1
+                     L 0,1
+                     L 0,0
+                     Z" />
+         </clipPath>
+      </defs>
+   </svg>
+</div>
+
+<?php
+   $useVideo = Utils\ServerUtils::onGoogleCloudProject();
+   $imgUrl = 'src/images/site/robots/c2d2.png';
+   $imgHtml = "<img class=\"header-video\" src=\"{$imgUrl}\" />";
+   $videoUrl = Utils\ServerUtils::getHostedImagePath('work_header/work_700.mp4');
+   $videoHtml = <<<EOT
+      <video class="header-video" playsinline autoplay muted loop>
+         <source src="{$videoUrl}" type="video/mp4">
+         Your browser does not support the video tag.
+      </video>
+EOT;
+   $mediaHtml = $useVideo ? $videoHtml : $imgHtml;
+   $tags = [
+      'System Design',
+      'PHP',
+      'HTML',
+      'JS',
+      'Agile'
+   ];
+   $tagsHtml = implode(' ', array_map(fn($tag) => <<<EOT
+   <tag class="header-tag ma-tag" data-value="{$tag}" header-tag>{$tag}</tag>
+   EOT, $tags));
+?>
+
+<div id="work-header-container">
+   <div class="js-background-shape-container work-header-content-background work-header-mobile-background">
+      <shape class="shape shader"></shape>
+      <shape class="shape curve"></shape>
+   </div>
+   <div class="work-header-content-container">
+      <div class="video-container">
+         <div class="header-video-container">
+            <?= $mediaHtml ?>
+         </div>
+      </div>
+      <div class="mobile-header-video-container">
+         <div class="mobile-video-container">
+            <?= $mediaHtml ?>
+         </div>
+      </div>
+      <div class="text-container">
+         <div class="js-background-shape-container work-header-content-background work-header-page-background">
+            <shape class="shape shader"></shape>
+            <shape class="shape curve"></shape>
+         </div>
+         <a href="<?= Utils\SiteUrl::getResume() ?>"><h1>RESUME</h1></a>
+         <p>Christopher Dean Cline</p>
+         <div class="header-tags">
+            <?= $tagsHtml ?>
+         </div>
+      </div>
+   </div>
+</div>
