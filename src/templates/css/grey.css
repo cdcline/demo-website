@@ -846,7 +846,7 @@ footer div.links-container .circle-container .color-4 {
 }
 .robot-article-img {
   height: 180px;
-  width: fit-content;
+  width: auto;
 }
 .robot-article-img.left-side {
   float: left;
@@ -1331,4 +1331,9 @@ footer div.links-container .circle-container .color-4 {
   fill: #FF0000;
   stroke: #018037;
   stroke-width: 4;
+}
+.image-link-container img {
+  background-color: white;
+  border-radius: 50%;
+  padding: 2px;
 }
