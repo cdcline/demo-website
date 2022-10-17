@@ -181,7 +181,7 @@ class PageIndex {
           'main_article' => <<<EOT
 ## Welcome to My Website!
 
-I'm a Web Developer who enjoys creating order from chaos and I've been [writing code](https://github.com/cdcline) since [elementary school](https://en.wikipedia.org/wiki/Logo_(programming_language))
+I'm a Web Developer who enjoys creating order from chaos, and I've been [writing code](https://github.com/cdcline) since [elementary school](https://en.wikipedia.org/wiki/Logo_(programming_language)).
 
 This is [my demo website](https://github.com/cdcline/demo-website), which I wrote to be fun and interactive. I wrote each component so I could play with (and learn) how all the website pieces worked together. While I knew this was going to be a [large undertaking](https://github.com/cdcline/demo-website/issues/12), I had the summer off (and this is my idea of a good time).
 
@@ -202,7 +202,7 @@ I had originally intended "something simple":
 ### The Evolution
 By the time my "simple" website was ready, it took 2 weeks of development. I had a [functional but empty website](https://github.com/cdcline/demo-website/issues/12#issuecomment-1116862020)—which kind of felt like I had built a house with empty rooms. So I spent a week adding [some content and style](https://github.com/cdcline/demo-website/issues/12#issuecomment-1120445080).
 
-Even with the added content and style, I still thought my website just looked ok. It had all the basics of a website, but I wanted more. I wanted something unique with animation and graphics. I knew much better designers, so I hired one to [help me architect my site map](https://github.com/cdcline/demo-website/issues/22#issuecomment-1133763883) and and create [designs for each page](https://github.com/cdcline/demo-website/issues/65).
+Even with the added content and style, I still thought my website just looked ok. It had all the basics of a website, but I wanted more. I wanted something unique with animation and graphics. I knew much better designers, so I hired one to [help me architect my site map](https://github.com/cdcline/demo-website/issues/22#issuecomment-1133763883) and create [designs for each page](https://github.com/cdcline/demo-website/issues/65).
 
 ### The Result
 The final design required [a lot of changes,](https://github.com/cdcline/demo-website/issues/83) but in [the end,](https://github.com/cdcline/demo-website/issues/105) I've got a cool sandbox to play in! I had a lot of fun coding the animations on this page. (Try clicking [my profile picture](#welcome-header-container).)

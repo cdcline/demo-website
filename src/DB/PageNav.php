@@ -293,7 +293,7 @@ class PageNav {
           'type' => self::FOOTER_TYPE,
           'slug' => 'welcome',
           'img_src' => 'src/images/site/nav/welcome.png',
-          'nav_string' => 'Home',
+          'nav_string' => 'Welcome',
           'pageid' => 1,
           'orderby' => 1
          ],
@@ -303,7 +303,7 @@ class PageNav {
           'img_src' => 'src/images/site/nav/work.png',
           'nav_string' => 'Work',
           'pageid' => 2,
-          'orderby' => 2
+          'orderby' => 3
          ],
          ['navid' => 8,
           'type' => self::FOOTER_TYPE,
@@ -311,7 +311,7 @@ class PageNav {
           'img_src' => 'src/images/site/nav/robots.png',
           'nav_string' => 'Robots',
           'pageid' => 3,
-          'orderby' => 3
+          'orderby' => 2
          ],
          ['navid' => 9,
           'type' => self::FOOTER_TYPE,
