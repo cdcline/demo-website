@@ -47,4 +47,16 @@ class ServerUtils {
       return self::getHostedBase("images/site/$file");
    }
 
+   public static function printRedirect(string $url, int $timeout = 0) {
+      $metaHtml = HtmlUtils::makeMetaElement([
+         'http-equiv' => 'Refresh',
+         'content' => "{$timeout}, url='{$url}'"
+      ]);
+      echo <<<EOT
+<!DOCTYPE html>
+<html>
+      {$metaHtml}
+</html>
+EOT;
+   }
 }

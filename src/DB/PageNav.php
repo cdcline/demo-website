@@ -8,6 +8,7 @@ use Utils\StringUtils;
 use Pages\BasePage;
 //use Utils\FirestoreUtils;
 use Utils\SiteRunner;
+use Utils\SiteUrl;
 
 class PageNav {
    use DBTrait;
@@ -30,6 +31,17 @@ class PageNav {
       // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
       $pageNav = StringUtils::isInt($slug) ? PageIndex::getPageFromPageid((int)$slug) : self::getPageNavFromSlug($slug);
       return PageIndex::getPageFromPageid($pageNav->getPageid());
+   }
+
+   public static function getRedirectFromSlug(string $slug): ?string {
+      foreach (self::getRedirects() as $rInfo) {
+         foreach ($rInfo['slugs'] as $redirectSlug) {
+            if (StringUtils::iMatch($slug, $redirectSlug)) {
+               return $rInfo['url'];
+            }
+         }
+      }
+      return null;
    }
 
    public static function getDefaultNav(): self {
@@ -188,6 +200,14 @@ class PageNav {
 
    private static function getLiveStaticData(): array {
       return self::getHardcodedRows();
+   }
+
+   private static function getRedirects(): array {
+      return [
+         ['slugs' => ['resume', 'résumé'],
+          'url' => SiteUrl::getResume(/*hostedFile*/true)
+         ],
+      ];
    }
 
    // NOTE: Order of the data matters, should match `fetchAllRows`
