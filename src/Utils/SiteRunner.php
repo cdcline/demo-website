@@ -10,8 +10,12 @@ class SiteRunner {
 
    public static function runPage(): void {
       $slug = self::getSlugFromUrl();
-      if ($redirect = PageNav::getRedirectFromSlug($slug)) {
-         ServerUtils::printRedirect($redirect);
+      if ($redirectData = PageNav::getRedirectDataFromSlug($slug)) {
+         ServerUtils::printRedirect(
+           $redirectData['url'],
+           $redirectData['timeout'] ?? 0,
+           $redirectData['title'] ?? null,
+           $redirectData['image'] ?? null);
          return;
       }
       $page = self::getPageFromUrl($slug);

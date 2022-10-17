@@ -33,15 +33,15 @@ class PageNav {
       return PageIndex::getPageFromPageid($pageNav->getPageid());
    }
 
-   public static function getRedirectFromSlug(string $slug): ?string {
+   public static function getRedirectDataFromSlug(string $slug): array {
       foreach (self::getRedirects() as $rInfo) {
          foreach ($rInfo['slugs'] as $redirectSlug) {
             if (StringUtils::iMatch($slug, $redirectSlug)) {
-               return $rInfo['url'];
+               return $rInfo;
             }
          }
       }
-      return null;
+      return [];
    }
 
    public static function getDefaultNav(): self {
@@ -205,7 +205,9 @@ class PageNav {
    private static function getRedirects(): array {
       return [
          ['slugs' => ['resume', 'résumé'],
-          'url' => SiteUrl::getResume(/*hostedFile*/true)
+          'url' => SiteUrl::getResume(/*hostedFile*/true),
+          'title' => 'Christopher Cline\'s Résumé',
+          'image' => 'src/images/site/welcome/chris_circle.png'
          ],
       ];
    }
