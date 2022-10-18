@@ -257,7 +257,7 @@ class ContactInfo extends WelcomeHeaderElement {
       $contactEmail= 'cdcline+demo+contact@gmail.com';
       $webLinkHtml = HtmlUtils::makeWebLinkElement($githubUrl, 'www.github.com/cdcline');
       $emailLinkHtml = HtmlUtils::makeWebLinkElement('mailto:' . $contactEmail, 'cdcline@gmail.com');
-      $resumeHtml = HtmlUtils::makeWebLinkElement(SiteUrl::getResume(), 'My Resume');
+      $resumeHtml = HtmlUtils::makeWebLinkElement(SiteUrl::getResume(/*hostedFile*/false), 'My Resume');
 
       // Messed around with this logic a bit so made some common names to use
       $gridOne = $phone;

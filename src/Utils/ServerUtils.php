@@ -47,4 +47,28 @@ class ServerUtils {
       return self::getHostedBase("images/site/$file");
    }
 
+   public static function printRedirect(string $url, int $timeout = 0, $metaTitle = null, $metaImage = null) {
+      $metaRedirectHtml = HtmlUtils::makeMetaElement([
+         'http-equiv' => 'Refresh',
+         'content' => "{$timeout}, url='{$url}'"
+      ]);
+      $metaTitleHtml = $metaTitle ?  HtmlUtils::makeMetaElement([
+         'property' => 'og:title',
+         'content' => $metaTitle
+      ]) : null;
+      $metaImageHtml = $metaImage ?  HtmlUtils::makeMetaElement([
+         'property' => 'og:image',
+         'content' => $metaImage
+      ]) : null;
+      echo <<<EOT
+<!DOCTYPE html>
+<html>
+      <head>
+         {$metaTitleHtml}
+         {$metaImageHtml}
+         {$metaRedirectHtml}
+      </head>
+</html>
+EOT;
+   }
 }

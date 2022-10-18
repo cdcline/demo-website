@@ -8,6 +8,7 @@ use Utils\StringUtils;
 use Pages\BasePage;
 //use Utils\FirestoreUtils;
 use Utils\SiteRunner;
+use Utils\SiteUrl;
 
 class PageNav {
    use DBTrait;
@@ -30,6 +31,17 @@ class PageNav {
       // If it's an int looking string, assume we want to load by pageid else lookup a pageid from page_nav.slug
       $pageNav = StringUtils::isInt($slug) ? PageIndex::getPageFromPageid((int)$slug) : self::getPageNavFromSlug($slug);
       return PageIndex::getPageFromPageid($pageNav->getPageid());
+   }
+
+   public static function getRedirectDataFromSlug(string $slug): array {
+      foreach (self::getRedirects() as $rInfo) {
+         foreach ($rInfo['slugs'] as $redirectSlug) {
+            if (StringUtils::iMatch($slug, $redirectSlug)) {
+               return $rInfo;
+            }
+         }
+      }
+      return [];
    }
 
    public static function getDefaultNav(): self {
@@ -190,6 +202,16 @@ class PageNav {
       return self::getHardcodedRows();
    }
 
+   private static function getRedirects(): array {
+      return [
+         ['slugs' => ['resume', 'résumé'],
+          'url' => SiteUrl::getResume(/*hostedFile*/true),
+          'title' => 'Christopher Cline\'s Résumé',
+          'image' => 'src/images/site/welcome/chris_circle.png'
+         ],
+      ];
+   }
+
    // NOTE: Order of the data matters, should match `fetchAllRows`
    private static function getHardcodedRows(): array {
       $values = [
@@ -271,7 +293,7 @@ class PageNav {
           'type' => self::FOOTER_TYPE,
           'slug' => 'welcome',
           'img_src' => 'src/images/site/nav/welcome.png',
-          'nav_string' => 'Home',
+          'nav_string' => 'Welcome',
           'pageid' => 1,
           'orderby' => 1
          ],
@@ -281,7 +303,7 @@ class PageNav {
           'img_src' => 'src/images/site/nav/work.png',
           'nav_string' => 'Work',
           'pageid' => 2,
-          'orderby' => 2
+          'orderby' => 3
          ],
          ['navid' => 8,
           'type' => self::FOOTER_TYPE,
@@ -289,7 +311,7 @@ class PageNav {
           'img_src' => 'src/images/site/nav/robots.png',
           'nav_string' => 'Robots',
           'pageid' => 3,
-          'orderby' => 3
+          'orderby' => 2
          ],
          ['navid' => 9,
           'type' => self::FOOTER_TYPE,

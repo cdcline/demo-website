@@ -278,7 +278,7 @@ My first task as a Software Developer was testing a newly implimented shopping c
 
 It had all the wizbangs and featured AJAX requests! Finally, you didn't have to load an entire page to add a new item to the cart. Just update a small section instead!
 
-Over time, our custom homegrown shopping cart became overly complicated—and I had to manage those changes.
+Over time, our custom homegrown shopping cart became overly complicated, and I had to manage those changes.
 
 I built cart pages, checkout experiences, user address management, and product navigation.
 
@@ -292,7 +292,7 @@ This ended up being a backend CMS that aggregated, tracked, and managed customer
 It was generally used by Customer Service to manage order issues.
 EOT;
          case 3: return <<<EOT
-In addition to working on The Cart, I also maintained a lot of various backend pages.
+In addition to working on the cart, I also maintained a lot of various backend pages.
 
 For Example:
    * New/Used Inventory Input
@@ -334,11 +334,11 @@ I also implemented logins from external sources:
    * Apple
 EOT;
          case 6: return <<<EOT
-I was the only programmer on a team tasked with designing and building a robot that woke up in an unknown position, dug out "regolith",  dumped it in a box, and navigated around obstacles.
+I was the only programmer on a team tasked with designing and building a robot that woke up in an unknown position, dug out "regolith,"  dumped it in a box, and navigated around obstacles.
 
 We won second place but no one completed the core challenge of digging a specific amount of regolith.
 
-The second time we were self funded but had a much better machine. We completed the challenge weeks before the competition—and well past the minimum dig amount.
+The second time we were self funded but had a much better machine. We completed the challenge weeks before the competition — and well past the minimum dig amount.
 
 (However, our dig motor blew out on our final run.)
 EOT;
@@ -354,7 +354,7 @@ I planned sprint objectives and participated in Retrospectives to give direction
 The final student team created a business from this project and even received funding.
 EOT;
          case 8: return <<<EOT
-We often hired students who worked for a few years then move after they graduate. I often worked with them to explain our deploy pipline and complex logic.
+We often hired students who worked for a few years then moved on after they graduate. I often worked with them to explain our deploy pipline and complex logic.
 
 I kept an eye on "Project Scopes" so I could help break them up into known chunks of effort we could estimate in a sprint.
 EOT;
