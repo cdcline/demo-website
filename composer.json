@@ -12,6 +12,9 @@
       "php": ">=8.1",
       "google/cloud-secret-manager": "^1.8",
       "ext-bcmath": "*",
-      "erusev/parsedown": "^1.7"
+      "erusev/parsedown": "^1.7",
+      "spatie/laravel-google-cloud-storage": "^2.0",
+      "grpc/grpc": "^1.38",
+      "google/protobuf": "^3.17"
    }
 }
